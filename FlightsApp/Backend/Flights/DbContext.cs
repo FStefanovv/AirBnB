@@ -13,7 +13,6 @@ namespace Flights
 {
     public class DbContext : IDbContext
     {
-        private readonly IConfiguration _configuration;
         private IMongoDatabase _db { get; set; }
         private MongoClient _mongoClient { get; set; }
         public DbContext(IConfiguration configuration)

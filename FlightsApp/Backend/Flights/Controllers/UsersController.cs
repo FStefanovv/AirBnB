@@ -1,5 +1,6 @@
 ﻿using Flights.Model;
 using Flights.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,19 @@ namespace Flights.Controllers
         public UsersController(UsersService usersService)
         {
             _usersService = usersService;
+        }
+
+        [AllowAnonymous]
+        [Route("login")]
+        [HttpPost]
+        public ActionResult Login([FromBody] User user)
+        {
+            var token = _usersService.Authenticate(user.Username, user.Password);
+
+            if (token == null)
+                return Unauthorized();
+
+            return Ok(token);
         }
 
         [HttpGet]

@@ -48,8 +48,6 @@ namespace Flights
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Flights", Version = "v1" });
             });
 
-
-
             services.AddAuthentication(x =>
                 {
                     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -68,6 +66,11 @@ namespace Flights
                     };
                 }
             );
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("ElevatedRights",
+                     policy => policy.RequireRole("Administrator", "RegularUser"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -79,7 +82,6 @@ namespace Flights
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Flights v1"));
             }
-
 
             app.UseHttpsRedirection();
 

@@ -22,7 +22,10 @@ namespace Flights.Model
         public string Username { get; set; }
         [BsonRequired]
         public string EMail { get; set; }
-        
+        [BsonRequired]
+        public string Password { get; set; }
+        [BsonRequired]
+        public Role Role { get; set; }
 
     }
 }
