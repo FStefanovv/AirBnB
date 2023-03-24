@@ -25,7 +25,22 @@ namespace Flights.Controllers
             return _flightsService.GetAll();
         }
 
-       
+        [HttpPost]
+        public  ActionResult Post(Flight flight)
+        {
+
+            _flightsService.Create(flight);
+            return CreatedAtAction("Post", flight);
+
+        }
+        
+        [HttpDelete]
+        public ActionResult Delete(String id)
+        {
+            Flight flight=_flightsService.GetById(id);
+            _flightsService.Delete(flight);
+            return Ok();
+        }
     }
 
 }
