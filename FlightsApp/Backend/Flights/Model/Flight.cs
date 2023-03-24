@@ -22,9 +22,11 @@ namespace Flights.Model
         public int RemainingTickets { get; set; }
         public FlightStatus Status { get; set; }
 
+        public Flight() { }
+
 
         public Flight(string departurePoint, string arrivalPoint, DateTime departureTime, 
-                        int duraiton, float ticketPrice, int numOfPassengers)
+                        int duraiton, float ticketPrice, int numOfPassengers, int remainingTickets)
         {
             DeparturePoint = departurePoint;
             ArrivalPoint = arrivalPoint;
@@ -32,7 +34,7 @@ namespace Flights.Model
             Duration = duraiton;
             TicketPrice = ticketPrice;
             NumberOfPassengers = numOfPassengers;
-            RemainingTickets = NumberOfPassengers;
+            RemainingTickets = remainingTickets;
             Status = FlightStatus.SCHEDULED;
         }
 

@@ -1,4 +1,5 @@
 ﻿using Flights.Model;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,32 @@ namespace Flights.Repository
         public List<Flight> GetAll()
         {
             return _flights.Find(book => true).ToList();
+        }
+
+        public void Create(Flight flight)
+        {
+            _flights.InsertOneAsync(flight);
+
+
+        }
+
+        public void Delete(Flight flight)
+        {
+            var filter = Builders<Flight>.Filter.Eq("Id", flight.Id) ;
+            var update = Builders<Flight>.Update.Set("Status", Enums.FlightStatus.CANCELLED);
+
+          
+
+            _flights.UpdateOne(filter, update);
+
+        }
+
+
+        public Flight GetById(String id)
+        {
+            var filter = Builders<Flight>.Filter.Eq(a =>a.Id, id);
+
+            return _flights.Find(filter).FirstOrDefault();
         }
     }
 }
