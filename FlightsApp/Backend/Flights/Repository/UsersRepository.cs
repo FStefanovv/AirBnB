@@ -7,20 +7,19 @@ using System.Threading.Tasks;
 
 namespace Flights.Repository
 {
-    public class FlightsRepository
+    public class UsersRepository
     {
         private readonly IDbContext _context;
-        private IMongoCollection<Flight> _flights;
-
-        public FlightsRepository(IDbContext context)
+        private IMongoCollection<User> _users;
+        public UsersRepository(IDbContext context)
         {
             _context = context;
-            _flights = _context.GetCollection<Flight>("flights");
+            _users = _context.GetCollection<User>("users");
         }
 
-        public List<Flight> GetAll()
+        public List<User> GetAll()
         {
-            return _flights.Find(book => true).ToList();
+            return _users.Find(user => true).ToList();
         }
     }
 }

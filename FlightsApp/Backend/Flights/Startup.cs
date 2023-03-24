@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -34,14 +35,12 @@ namespace Flights
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<XWSDatabaseSettings>(
-                Configuration.GetSection("XWSDatabase"));
-
-            services.AddSingleton<IXWSDatabaseSettings>(sp =>
-                sp.GetRequiredService<IOptions<XWSDatabaseSettings>>().Value);
+            services.AddSingleton<IDbContext, DbContext>();
 
             services.AddSingleton<FlightsRepository>();
             services.AddSingleton<FlightsService>();
+            services.AddSingleton<UsersRepository>();
+            services.AddSingleton<UsersService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

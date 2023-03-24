@@ -16,6 +16,7 @@ namespace Flights.Model
         public string FirstName { get; set; }
         [BsonRequired]
         public string LastName { get; set; }
+        [BsonIgnore]
         public string FullName { get { return FirstName + " " + LastName;  } }
         [BsonRequired]
         public string Username { get; set; }
