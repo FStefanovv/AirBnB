@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -68,8 +69,10 @@ namespace Flights
             );
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("ElevatedRights",
-                     policy => policy.RequireRole("Administrator", "RegularUser"));
+                options.AddPolicy("Admin",
+                     policy => policy.RequireClaim(ClaimTypes.Role, "ADMIN"));
+                options.AddPolicy("LoggedInUser",
+                     policy => policy.RequireClaim(ClaimTypes.Role, "REGULAR_USER"));
             });
         }
 

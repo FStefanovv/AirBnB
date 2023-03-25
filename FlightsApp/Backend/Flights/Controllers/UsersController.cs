@@ -1,10 +1,13 @@
-﻿using Flights.Model;
+﻿using Flights.DTOs;
+using Flights.Model;
 using Flights.Service;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
 
 namespace Flights.Controllers
@@ -23,16 +26,31 @@ namespace Flights.Controllers
         [AllowAnonymous]
         [Route("login")]
         [HttpPost]
-        public ActionResult Login([FromBody] User user)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public ActionResult Login([FromBody] LoginCredentialsDTO credentials)
         {
-            var token = _usersService.Authenticate(user.Username, user.Password);
+            var token = _usersService.Authenticate(credentials);
 
             if (token == null)
-                return Unauthorized();
+                return StatusCode(401, "Wrong username or password");
 
             return Ok(token);
         }
 
+        [AllowAnonymous]
+        [Route("register")]
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+
+        public ActionResult Register([FromBody] User user)
+        {
+            _usersService.Register(user);
+
+            return Ok();
+        }
+
+        [Authorize(Policy = "Admin")]
         [HttpGet]
         public ActionResult<List<User>> GetAll()
         {

@@ -25,7 +25,20 @@ namespace Flights.Model
         [BsonRequired]
         public string Password { get; set; }
         [BsonRequired]
-        public Role Role { get; set; }
+        public string Role { get; set; }
 
+
+
+        public User(User user)
+        {
+            FirstName = user.FirstName;
+            LastName = user.LastName;
+            Username = user.Username;
+            EMail = user.EMail;
+            Password = user.Password;
+            Role = "REGULAR_USER";
+        }
+
+        public User() { }
     }
 }

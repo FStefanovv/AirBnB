@@ -1,5 +1,7 @@
-﻿using Flights.Model;
+﻿using Flights.DTOs;
+using Flights.Model;
 using Flights.Repository;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -21,6 +23,7 @@ namespace Flights.Service
         {
             _usersRepository = usersRepository;
             key = configuration.GetSection("JwtKey").ToString();
+           
         }
 
         public List<User> GetAll()
@@ -28,9 +31,9 @@ namespace Flights.Service
             return _usersRepository.GetAll();
         }
 
-        public string Authenticate(string username, string password)
+        public string Authenticate(LoginCredentialsDTO credentials)
         {
-            var user = _usersRepository.GetAll().Find(x => x.Username == username && x.Password == password);
+            var user = _usersRepository.GetAll().Find(x => x.Username == credentials.Username && x.Password == credentials.Password);
 
             if (user == null) return null;
 
@@ -38,7 +41,8 @@ namespace Flights.Service
             var tokenKey = Encoding.ASCII.GetBytes(key);
             var tokenDescriptor = new SecurityTokenDescriptor( ){
                 Subject = new ClaimsIdentity(new Claim[]{
-                    new Claim(ClaimTypes.Email, username)
+                    new Claim(ClaimTypes.Name, user.Username),
+                    new Claim(ClaimTypes.Role, user.Role)
                 }),
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(
@@ -50,6 +54,11 @@ namespace Flights.Service
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
             return tokenHandler.WriteToken(token);
+        }
+
+        public void Register(User user)
+        {
+            _usersRepository.AddUser(user);
         }
     }
 }

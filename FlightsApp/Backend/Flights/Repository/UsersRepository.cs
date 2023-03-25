@@ -21,5 +21,10 @@ namespace Flights.Repository
         {
             return _users.Find(user => true).ToList();
         }
+
+        public void AddUser(User user)
+        {
+            _users.InsertOne(user);
+        }
     }
 }
