@@ -1,4 +1,5 @@
-﻿using Flights.Enums;
+﻿using Flights.DTOs;
+using Flights.Enums;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
@@ -36,6 +37,13 @@ namespace Flights.Model
             NumberOfPassengers = numOfPassengers;
             RemainingTickets = remainingTickets;
             Status = FlightStatus.SCHEDULED;
+        }
+
+        public Ticket IssueTicket(PurchaseDTO purchaseData)
+        {
+            
+            
+            return null;
         }
 
 

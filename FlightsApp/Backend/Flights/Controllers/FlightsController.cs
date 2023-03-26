@@ -1,4 +1,5 @@
-﻿using Flights.Model;
+﻿using Flights.DTOs;
+using Flights.Model;
 using Flights.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -42,6 +43,15 @@ namespace Flights.Controllers
         {
             Flight flight=_flightsService.GetById(id);
             _flightsService.Delete(flight);
+            return Ok();
+        }
+
+
+        [Authorize(Policy = "REGULAR_USER")]
+        [HttpPost]
+        public ActionResult PurchaseTickets(PurchaseDTO purchaseData)
+        {
+
             return Ok();
         }
     }
