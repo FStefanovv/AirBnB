@@ -1,5 +1,6 @@
 ﻿using Flights.Model;
 using Flights.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,7 @@ namespace Flights.Controllers
             return _flightsService.GetAll();
         }
 
+        [Authorize(Policy = "ADMIN")]
         [HttpPost]
         public  ActionResult Post(Flight flight)
         {
@@ -33,7 +35,8 @@ namespace Flights.Controllers
             return CreatedAtAction("Post", flight);
 
         }
-        
+
+        [Authorize(Policy = "ADMIN")]
         [HttpDelete]
         public ActionResult Delete(String id)
         {

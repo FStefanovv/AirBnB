@@ -13,10 +13,12 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -34,22 +36,18 @@ namespace Flights
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<XWSDatabaseSettings>(
-                Configuration.GetSection("XWSDatabase"));
-
-            services.AddSingleton<IXWSDatabaseSettings>(sp =>
-                sp.GetRequiredService<IOptions<XWSDatabaseSettings>>().Value);
+            services.AddSingleton<IDbContext, DbContext>();
 
             services.AddSingleton<FlightsRepository>();
             services.AddSingleton<FlightsService>();
+            services.AddSingleton<UsersRepository>();
+            services.AddSingleton<UsersService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Flights", Version = "v1" });
             });
-
-
 
             services.AddAuthentication(x =>
                 {
@@ -69,6 +67,13 @@ namespace Flights
                     };
                 }
             );
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Admin",
+                     policy => policy.RequireClaim(ClaimTypes.Role, "ADMIN"));
+                options.AddPolicy("LoggedInUser",
+                     policy => policy.RequireClaim(ClaimTypes.Role, "REGULAR_USER"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -80,7 +85,6 @@ namespace Flights
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Flights v1"));
             }
-
 
             app.UseHttpsRedirection();
 
