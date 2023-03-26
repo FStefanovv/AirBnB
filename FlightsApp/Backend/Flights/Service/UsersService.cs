@@ -23,17 +23,11 @@ namespace Flights.Service
         {
             _usersRepository = usersRepository;
             key = configuration.GetSection("JwtKey").ToString();
-           
-        }
-
-        public List<User> GetAll()
-        {
-            return _usersRepository.GetAll();
         }
 
         public string Authenticate(LoginCredentialsDTO credentials)
         {
-            var user = _usersRepository.GetAll().Find(x => x.Username == credentials.Username && x.Password == credentials.Password);
+            var user = _usersRepository.GetUserWithCredentials(credentials);
 
             if (user == null) return null;
 
@@ -56,9 +50,30 @@ namespace Flights.Service
             return tokenHandler.WriteToken(token);
         }
 
-        public void Register(User user)
+        public void Register(RegistrationDTO registrationData) 
         {
-            _usersRepository.AddUser(user);
+            try
+            {
+                Validate(registrationData);
+                User user = new User(registrationData);
+                _usersRepository.Create(user);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        private void Validate(RegistrationDTO registrationData)
+        {
+            if (_usersRepository.CheckIfUsernameInUse(registrationData.Username))
+                throw new Exception("The entered username already in use");
+            else if (_usersRepository.CheckIfEMailInUse(registrationData.EMail))
+                throw new Exception("The entered email already in use");
+            else if (registrationData.Password != registrationData.ConfirmPassword)
+                throw new Exception("Passwords don't match");
+            else if (registrationData.Password.Length <= 8)
+                throw new Exception("Password is too short");     
         }
     }
 }

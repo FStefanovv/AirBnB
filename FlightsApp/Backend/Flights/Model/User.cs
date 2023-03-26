@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using Flights.DTOs;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
@@ -28,17 +29,16 @@ namespace Flights.Model
         public string Role { get; set; }
 
 
-
-        public User(User user)
-        {
-            FirstName = user.FirstName;
-            LastName = user.LastName;
-            Username = user.Username;
-            EMail = user.EMail;
-            Password = user.Password;
-            Role = "REGULAR_USER";
-        }
-
         public User() { }
+
+        public User(RegistrationDTO userData)
+        {
+            FirstName = userData.FirstName;
+            LastName = userData.LastName;
+            Username = userData.Username;
+            EMail = userData.EMail;
+            Password = userData.Password;
+            Role = "REGULAR_USER";
+        }       
     }
 }

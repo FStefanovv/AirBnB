@@ -1,4 +1,5 @@
-﻿using Flights.Model;
+﻿using Flights.DTOs;
+using Flights.Model;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -11,20 +12,31 @@ namespace Flights.Repository
     {
         private readonly IDbContext _context;
         private IMongoCollection<User> _users;
+
         public UsersRepository(IDbContext context)
         {
             _context = context;
             _users = _context.GetCollection<User>("users");
         }
 
-        public List<User> GetAll()
-        {
-            return _users.Find(user => true).ToList();
-        }
-
-        public void AddUser(User user)
+        public void Create(User user)
         {
             _users.InsertOne(user);
+        }
+
+        public User GetUserWithCredentials(LoginCredentialsDTO credentials)
+        {
+            return _users.Find(user => user.Username == credentials.Username && user.Password == credentials.Password).FirstOrDefault();
+        }
+
+        public bool CheckIfUsernameInUse(string username)
+        {
+            return _users.Find(user => user.Username == username).FirstOrDefault()!=null? true : false;
+        }
+
+        public bool CheckIfEMailInUse(string email)
+        {
+            return _users.Find(user => user.EMail == email).FirstOrDefault() != null ? true : false;
         }
     }
 }

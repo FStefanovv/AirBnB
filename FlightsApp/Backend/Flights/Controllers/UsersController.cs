@@ -28,7 +28,7 @@ namespace Flights.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public ActionResult Login([FromBody] LoginCredentialsDTO credentials)
+        public ActionResult Login(LoginCredentialsDTO credentials)
         {
             var token = _usersService.Authenticate(credentials);
 
@@ -42,19 +42,25 @@ namespace Flights.Controllers
         [Route("register")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
-
-        public ActionResult Register([FromBody] User user)
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult RegisterUser(RegistrationDTO registrationData)
         {
-            _usersService.Register(user);
-
-            return Ok();
+            try
+            {
+                _usersService.Register(registrationData);
+                return StatusCode(201, "Successful registration");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(400, ex.Message);
+            }
         }
 
-        [Authorize(Policy = "Admin")]
+        /*[Authorize(Policy = "Admin")]
         [HttpGet]
         public ActionResult<List<User>> GetAll()
         {
             return _usersService.GetAll();
-        }
+        }*/
     }
 }
