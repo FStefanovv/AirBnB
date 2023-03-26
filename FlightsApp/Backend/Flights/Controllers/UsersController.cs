@@ -27,9 +27,9 @@ namespace Flights.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("login")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public ActionResult Login(LoginCredentialsDTO credentials)
+        public ActionResult<string> Login(LoginCredentialsDTO credentials)
         {
             var token = _usersService.Authenticate(credentials);
 

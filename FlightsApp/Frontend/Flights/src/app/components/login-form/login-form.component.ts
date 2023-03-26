@@ -21,15 +21,8 @@ export class LoginFormComponent implements OnInit {
 
   logIn() :  void {
    if(this.credentials){
-    this.userService.LogIn(this.credentials).subscribe(res => {
-     console.log(res);
-   });
-   /*
-      this.userService.LogIn(this.credentials).subscribe({
-       next: (token) => { console.log(token)},
-       error: (err: HttpStatusCode.Unauthorized) => { this.showWrongCredentialsMessage = true;}
-      });
-   } */  
+    this.userService.LogIn(this.credentials).subscribe();
+   
    } 
   }
 }
