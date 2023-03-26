@@ -27,8 +27,8 @@ namespace Flights.Controllers
             return _flightsService.GetAll();
         }
 
-        [Authorize(Policy = "ADMIN")]
         [HttpPost]
+        [Authorize(Policy = "ADMIN")]
         public  ActionResult Post(Flight flight)
         {
 
@@ -37,8 +37,9 @@ namespace Flights.Controllers
 
         }
 
-        [Authorize(Policy = "ADMIN")]
+
         [HttpDelete]
+        [Authorize(Policy = "ADMIN")]
         public ActionResult Delete(String id)
         {
             Flight flight=_flightsService.GetById(id);
@@ -47,13 +48,14 @@ namespace Flights.Controllers
         }
 
 
-        [Authorize(Policy = "REGULAR_USER")]
+        /*
         [HttpPost]
+        [Authorize(Policy = "REGULAR_USER")]
         public ActionResult PurchaseTickets(PurchaseDTO purchaseData)
         {
 
             return Ok();
-        }
+        }*/
     }
 
 }

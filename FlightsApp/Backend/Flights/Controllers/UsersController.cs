@@ -23,9 +23,10 @@ namespace Flights.Controllers
             _usersService = usersService;
         }
 
+
+        [HttpPost]
         [AllowAnonymous]
         [Route("login")]
-        [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public ActionResult Login(LoginCredentialsDTO credentials)
@@ -38,9 +39,10 @@ namespace Flights.Controllers
             return Ok(token);
         }
 
+
+        [HttpPost]
         [AllowAnonymous]
         [Route("register")]
-        [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult RegisterUser(RegistrationDTO registrationData)
