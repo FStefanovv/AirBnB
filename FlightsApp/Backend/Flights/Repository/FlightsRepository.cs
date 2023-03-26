@@ -1,4 +1,5 @@
-﻿using Flights.Model;
+﻿using Flights.DTOs;
+using Flights.Model;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
@@ -22,6 +23,14 @@ namespace Flights.Repository
         public List<Flight> GetAll()
         {
             return _flights.Find(flight => true).ToList();
+        }
+
+        public List<Flight> GetSearched(SearchFlightsDTO flightDTO)
+        {
+            return _flights.Find(filteredFlight => filteredFlight.RemainingTickets >= flightDTO.NumberOfPassangers &&
+                                                    filteredFlight.DeparturePoint == flightDTO.DeparturePoint &&
+                                                    filteredFlight.ArrivalPoint == flightDTO.ArrivalPoint &&
+                                                    filteredFlight.DepartureTime.Date == flightDTO.DepartureTime.Date).ToList();
         }
 
         public void Create(Flight flight)

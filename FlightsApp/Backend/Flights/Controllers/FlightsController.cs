@@ -1,4 +1,5 @@
-﻿using Flights.Model;
+﻿using Flights.DTOs;
+using Flights.Model;
 using Flights.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +26,13 @@ namespace Flights.Controllers
         {
             return _flightsService.GetAll();
         }
+
+        [HttpGet]
+        public ActionResult<List<Flight>> GetSearchedFlights(SearchFlightsDTO flightDTO)
+        {
+            return _flightsService.GetSearchedFlights(flightDTO);
+        }
+
 
         [Authorize(Policy = "ADMIN")]
         [HttpPost]

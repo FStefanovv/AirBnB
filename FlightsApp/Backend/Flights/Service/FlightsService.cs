@@ -1,4 +1,5 @@
-﻿using Flights.Model;
+﻿using Flights.DTOs;
+using Flights.Model;
 using Flights.Repository;
 using System;
 using System.Collections.Generic;
@@ -36,6 +37,11 @@ namespace Flights.Service
         public Flight GetById(String id)
         {
           return  _flightsRepository.GetById(id);
+        }
+
+        public List<Flight> GetSearchedFlights(SearchFlightsDTO flightDTO)
+        {
+            return _flightsRepository.GetSearched(flightDTO);
         }
     }
 }
