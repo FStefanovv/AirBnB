@@ -13,7 +13,7 @@ import { TokenDTO } from '../model/tokenDto';
 })
 export class UserService {
 
-  private usersUrl = 'https://localhost:44368/api/Users/';
+  private usersUrl = 'http://localhost:5000/api/Users/';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -27,7 +27,4 @@ export class UserService {
     
     return this.http.post<TokenDTO>(this.usersUrl + 'login', credentials, this.httpOptions);
   }
-
-
-  
 }

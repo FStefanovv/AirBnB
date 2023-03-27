@@ -11,6 +11,7 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import { AuthGuard } from './guards/auth.guard';
 import { PurchaseTicketsComponent } from './components/purchase-tickets/purchase-tickets.component';
+import { HomeComponent } from './components/home/home.component';
 
 export function tokenGetter() { 
   return localStorage.getItem("jwt"); 
@@ -21,6 +22,7 @@ export function tokenGetter() {
     AppComponent,
     LoginFormComponent,
     PurchaseTicketsComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
@@ -30,7 +32,7 @@ export function tokenGetter() {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        allowedDomains: ["localhost:44368"],
+        allowedDomains: ["localhost:5000"],
         disallowedRoutes: []
       }
     })

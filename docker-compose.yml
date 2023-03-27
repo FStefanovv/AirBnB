@@ -8,6 +8,7 @@ services:
     hostname: "flights-server"   
     ports:
       - 5000:80  
+      - 5001:430
     environment:
       - PORT=5000
       - MONGO_DB_URI=mongodb://root:pass@mongo:27017
@@ -15,7 +16,18 @@ services:
       mongo:
         condition: service_healthy
 
-
+  front:
+    build:
+      context: ./FlightsApp/Frontend/Flights
+      dockerfile: Dockerfile.txt
+    restart: always
+    container_name: "flights-front"
+    hostname: "flights-front"   
+    ports:
+      - 4200:4200        
+    environment:
+      - PORT=4200
+  
   mongo:
     image: mongo
     restart: always
@@ -33,5 +45,24 @@ services:
     volumes:
       - mongo_store:/data/db
 
+  mongo-express:
+    image: mongo-express
+    restart: always
+    environment:
+      # hostname of mongo databse
+      - ME_CONFIG_MONGODB_SERVER=mongo
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=root
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=pass
+      - ME_CONFIG_BASICAUTH_USERNAME=admin
+      - ME_CONFIG_BASICAUTH_PASSWORD=admin
+      - ME_CONFIG_MONGODB_URL=mongodb://mongo:27017/
+    depends_on:
+      - mongo
+    ports:
+      - "8081:8081"
+    volumes:
+      - mongo_express_data:/data/db
+
 volumes:
   mongo_store:
+  mongo_express_data:

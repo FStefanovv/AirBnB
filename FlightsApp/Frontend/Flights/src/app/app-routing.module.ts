@@ -1,12 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import { PurchaseTicketsComponent } from './components/purchase-tickets/purchase-tickets.component';
+import { HomeComponent } from './components/home/home.component';
+
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
-  {path: 'login', component: LoginFormComponent},
-  {path: 'purchase-tickets', component: PurchaseTicketsComponent, canActivate:[AuthGuard]}
+  { path: '', redirectTo: 'home', pathMatch:'full'},
+  { path: 'home', component: HomeComponent},
+  { path: 'login', component: LoginFormComponent},
+  { path: 'purchase-tickets-regular', component: PurchaseTicketsComponent, canActivate:[AuthGuard], data: {roles: ['REGULAR_USER']}}
 ];
 
 @NgModule({
