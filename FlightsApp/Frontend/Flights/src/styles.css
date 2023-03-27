@@ -1,1 +1,39 @@
-/* You can add global styles to this file, and also import other style files */
+* {
+    font-family: "Arial", monospace;
+
+}
+
+.errorMessage {
+    color: red;
+    font-weight: 300;
+}
+
+.inputRegular {
+    height: 25px;
+    border-radius: 4px;
+    border: 2px solid #D5DBDB;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+
+.inputRegular:focus {
+    border-color: #3377ff;
+}
+
+.regularButton {
+    padding: 8px 18px;
+    border-radius: 5px;
+    transition: all 0.2s ease;
+    color:#3377ff;
+    border-color: #3377ff;
+    background-color: white;
+    box-shadow: none;
+    border: 2px solid #3377ff;
+}
+
+.regularButton:hover{
+    cursor: pointer;
+    color:white;
+    background-color: #3377ff;
+}

@@ -25,20 +25,23 @@ namespace Flights.Service
             key = configuration.GetSection("JwtKey").ToString();
         }
 
-        public string Authenticate(LoginCredentialsDTO credentials)
+        public TokenDTO Authenticate(LoginCredentialsDTO credentials)
         {
             var user = _usersRepository.GetUserWithCredentials(credentials);
 
             if (user == null) return null;
 
+            DateTime expires = DateTime.Now.AddHours(1);
+
             var tokenHandler = new JwtSecurityTokenHandler();
             var tokenKey = Encoding.ASCII.GetBytes(key);
             var tokenDescriptor = new SecurityTokenDescriptor( ){
                 Subject = new ClaimsIdentity(new Claim[]{
+                    new Claim(ClaimTypes.NameIdentifier, user.Id),
                     new Claim(ClaimTypes.Name, user.Username),
                     new Claim(ClaimTypes.Role, user.Role)
                 }),
-                Expires = DateTime.UtcNow.AddHours(1),
+                Expires = expires,
                 SigningCredentials = new SigningCredentials(
                         new SymmetricSecurityKey(tokenKey),
                         SecurityAlgorithms.HmacSha256Signature
@@ -47,7 +50,7 @@ namespace Flights.Service
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            return tokenHandler.WriteToken(token);
+            return new TokenDTO(tokenHandler.WriteToken(token));
         }
 
         public void Register(RegistrationDTO registrationData) 

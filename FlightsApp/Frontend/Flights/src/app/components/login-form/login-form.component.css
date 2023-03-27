@@ -1,0 +1,31 @@
+#mainDiv {
+    width: 30%;
+    margin: 80px auto;
+    border-radius: 8px;
+    border: 1px solid #D5DBDB;
+    padding: 50px;
+}
+
+input {
+    margin: auto;
+    display: block;
+    width: 50%;
+}
+
+label {
+    text-align: center;
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 6px;
+}
+
+p {
+    text-align: center;
+    margin-bottom: 50px;
+    margin-top: 20px;
+}
+
+button {
+    display: block;
+    margin: auto;
+}

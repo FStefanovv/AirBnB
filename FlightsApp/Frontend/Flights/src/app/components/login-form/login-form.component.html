@@ -1,8 +1,8 @@
-<div>
+<div id="mainDiv">
     <label>Username: </label>
-    <input type="text" [(ngModel)]="credentials.username"/>
+    <input type="text" [(ngModel)]="credentials.username" class="inputRegular"/>
     <label>Password: </label>
-    <input type="password" [(ngModel)]="credentials.password" />
-    <button (click)="logIn()">Log In</button>
-    <p *ngIf="showWrongCredentialsMessage">Wrong username or password</p>
+    <input type="password" [(ngModel)]="credentials.password" class="inputRegular"/>
+    <p [style.visibility]="showWrongCredentialsMessage? 'visible' : 'hidden'" class="errorMessage">Wrong username or password</p>
+    <button class="regularButton" (click)="logIn()">Log In</button>   
 </div>
