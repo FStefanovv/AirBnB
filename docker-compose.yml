@@ -15,18 +15,6 @@ services:
     depends_on:
       mongo:
         condition: service_healthy
-
-  front:
-    build:
-      context: ./FlightsApp/Frontend/Flights
-      dockerfile: Dockerfile.txt
-    restart: always
-    container_name: "flights-front"
-    hostname: "flights-front"   
-    ports:
-      - 4200:4200        
-    environment:
-      - PORT=4200
   
   mongo:
     image: mongo
