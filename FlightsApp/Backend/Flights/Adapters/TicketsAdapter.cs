@@ -27,5 +27,19 @@ namespace Flights.Adapters
             ticket.Valid = true;
             return ticket;
         }
+
+        public ViewTicketDTO TicketToViewTicketDTO(Ticket ticket)
+        {
+            ViewTicketDTO dto = new ViewTicketDTO();
+            dto.Id = ticket.Id;
+            dto.UserId = ticket.UserId;
+            dto.Quantity = ticket.Quantity;
+            dto.SummedPrice = ticket.SummedPrice;
+            dto.DeparturePoint = ticket.FlightInfo.DeparturePoint;
+            dto.ArrivalPoint = ticket.FlightInfo.ArrivalPoint;
+            dto.DepartureTime = ticket.FlightInfo.DepartureTime.ToString();
+            dto.Duration = ticket.FlightInfo.Duration;
+            return dto;
+        }
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Flights.Model;
 using MongoDB.Driver;
 
@@ -13,6 +14,11 @@ namespace Flights.Repository
         {
             _context = context;
             _tickets = _context.GetCollection<Ticket>("tickets");
+        }
+
+        public List<Ticket> GetAll()
+        {
+            return _tickets.Find(ticket => true).ToList();
         }
 
         public void Create(Ticket ticket)

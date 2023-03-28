@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using Flights.Adapters;
 using Flights.DTOs;
 using Flights.Model;
@@ -48,6 +50,20 @@ namespace Flights.Service
             }
 
             return false;
+        }
+
+        public List<ViewTicketDTO> GetTicketsForUser(string userId)
+        {
+            List<ViewTicketDTO> tickets = new List<ViewTicketDTO>();
+            foreach (var ticket in _ticketsRepository.GetAll())
+            {
+                if (ticket.UserId == userId)
+                {
+                    tickets.Add(_adapter.TicketToViewTicketDTO(ticket));
+                }
+            }
+
+            return tickets;
         }
     }
 }

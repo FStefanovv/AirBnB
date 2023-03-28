@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Flights.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -27,6 +28,14 @@ namespace Flights.Controllers
             _ticketsService.BuyTicket(dto);
             return CreatedAtAction("Post", dto);
 
+        }
+        
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult<List<ViewTicketDTO>> GetTicketsForUser(string userId)
+        {
+            
+            return _ticketsService.GetTicketsForUser(userId);
         }
     }
 
