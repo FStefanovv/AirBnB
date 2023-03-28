@@ -21,8 +21,12 @@ namespace Flights.Model
         [BsonRequired]
         public bool Valid { get; set; }
         [BsonIgnore]
-        public float SummedPrice { get { return Quantity * FlightInfo.TicketPrice;  } }
-        
+        public float SummedPrice { get; set; }
+
+        public Ticket()
+        {
+        }
+
         public Ticket(FlightInfo info, int quantity)
         {   
             FlightInfo = info;

@@ -16,6 +16,10 @@ namespace Flights.Model
         public float TicketPrice { get; set; }
         public FlightStatus Status { get; set; }
 
+        public FlightInfo()
+        {
+        }
+
         public FlightInfo(string id, string departurePoint, string arrivalPoint, DateTime departureTime,
                         int duraiton, float ticketPrice)
         {
