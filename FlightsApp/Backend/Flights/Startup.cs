@@ -44,6 +44,8 @@ namespace Flights
             services.AddSingleton<FlightsService>();
             services.AddSingleton<UsersRepository>();
             services.AddSingleton<UsersService>();
+            services.AddSingleton<TicketsRepository>();
+            services.AddSingleton<TicketsService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

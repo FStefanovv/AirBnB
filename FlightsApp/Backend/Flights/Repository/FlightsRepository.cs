@@ -44,5 +44,12 @@ namespace Flights.Repository
 
             return _flights.Find(filter).FirstOrDefault();
         }
+
+        public void UpdateNumberOfTickets(Flight flight)
+        {
+            var filter = Builders<Flight>.Filter.Eq("Id", flight.Id);
+            var update = Builders<Flight>.Update.Set("RemainingTickets",flight.RemainingTickets);
+            _flights.UpdateOne(filter,update);
+        }
     }
 }
