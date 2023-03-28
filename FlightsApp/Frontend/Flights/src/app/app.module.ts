@@ -12,6 +12,8 @@ import { LoginFormComponent } from './components/login-form/login-form.component
 import { AuthGuard } from './guards/auth.guard';
 import { PurchaseTicketsComponent } from './components/purchase-tickets/purchase-tickets.component';
 import { HomeComponent } from './components/home/home.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { RegistrationComponent } from './components/registration/registration.component';
 
 export function tokenGetter() { 
   return localStorage.getItem("jwt"); 
@@ -23,6 +25,8 @@ export function tokenGetter() {
     LoginFormComponent,
     PurchaseTicketsComponent,
     HomeComponent,
+    SidebarComponent,
+    RegistrationComponent
   ],
   imports: [
     BrowserModule,

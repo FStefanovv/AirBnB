@@ -1,1 +1,15 @@
-<p>home works!</p>
+<sidebar></sidebar>
+<div class="main-content">
+    <header>
+        <h1>Welcome to Zika Airlines!</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac magna lacinia, volutpat ligula in, malesuada odio. Sed porttitor enim sapien, blandit facilisis sem sollicitudin vel. Cras ac massa ante. In ut arcu arcu. Ut leo lectus, bibendum sit amet fringilla eu, sagittis eu tellus. </p>
+    </header>
+    <div id="flights">
+        <h2>Flights</h2>
+        <div *ngFor="let flight of flightsToShow" class="flight-card">
+            <span>{{flight.departurePoint}}</span><br>
+            <span>{{flight.arrivalPoint}}</span><br>
+            <span>{{flight.departureTime | date:'short'}}</span>
+        </div>
+    </div>
+</div>

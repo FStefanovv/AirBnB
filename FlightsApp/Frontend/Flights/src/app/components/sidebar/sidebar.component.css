@@ -1,0 +1,25 @@
+#sidebar {
+    height: 100%;
+    width: 20%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    border-right: 3px solid var(--theme);
+    color: var(--theme);
+}
+
+button {
+    display: block;
+    margin: 0 auto;
+}
+
+
+#logout {
+    position: relative;
+    top: 65%;
+}
+
+p {
+    text-align: center;
+    margin-top: 50px;
+}

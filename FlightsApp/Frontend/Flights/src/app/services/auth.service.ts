@@ -33,12 +33,15 @@ export class AuthService {
     return decodedToken.unique_name;
   }
 
-
   getToken(){
     return localStorage.getItem("jwt");
   }
 
   storeToken(token: string){
     localStorage.setItem("jwt", token); 
+  }
+
+  logOut(){
+    localStorage.removeItem("jwt");
   }
 }

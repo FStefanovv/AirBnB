@@ -1,0 +1,11 @@
+<div id="sidebar">
+    <p [style.visibility]="loggedIn? 'visible' : 'hidden'">
+        Welcome, {{username}}!
+    </p>
+    <button (click)="logIn()" class="regularButton"  [style.visibility]="loggedIn? 'hidden' : 'visible'">
+        Log In
+    </button>
+    <button (click)="logOut()" id="logout" class="regularButton" [style.visibility]="loggedIn? 'visible' : 'hidden'">
+        Log Out
+    </button>
+</div>
