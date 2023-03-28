@@ -13,10 +13,21 @@ button {
     margin: 0 auto;
 }
 
+#create-account {
+    font-size: 14px;
+}
+
+#create-account-span {
+    transition: 0.2s all;
+}
+
+#create-account-span:hover {
+    cursor: pointer;
+    color: #61A7E7;
+}
 
 #logout {
-    position: relative;
-    top: 65%;
+    margin-top: 10%
 }
 
 p {
