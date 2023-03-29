@@ -27,6 +27,12 @@ namespace Flights.Controllers
             return _flightsService.GetAll();
         }
 
+        [HttpGet]
+        public ActionResult<List<Flight>> GetSearchedFlights(SearchFlightsDTO flightDTO)
+        {
+            return _flightsService.GetSearchedFlights(flightDTO);
+        }
+
         [HttpPost]
         [Authorize(Policy = "ADMIN")]
         public  ActionResult Post(Flight flight)
