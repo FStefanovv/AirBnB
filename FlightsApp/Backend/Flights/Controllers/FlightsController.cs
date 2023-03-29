@@ -46,16 +46,6 @@ namespace Flights.Controllers
             _flightsService.Delete(flight);
             return Ok();
         }
-
-
-        /*
-        [HttpPost]
-        [Authorize(Policy = "REGULAR_USER")]
-        public ActionResult PurchaseTickets(PurchaseDTO purchaseData)
-        {
-
-            return Ok();
-        }*/
     }
 
 }

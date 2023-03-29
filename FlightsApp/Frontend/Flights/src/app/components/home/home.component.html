@@ -7,9 +7,12 @@
     <div id="flights">
         <h2>Flights</h2>
         <div *ngFor="let flight of flightsToShow" class="flight-card">
-            <span>{{flight.departurePoint}}</span><br>
-            <span>{{flight.arrivalPoint}}</span><br>
-            <span>{{flight.departureTime | date:'short'}}</span>
+            <span>From: {{flight.departurePoint}}</span><br>
+            <span>Departure time: {{flight.departureTime | date:'short'}}</span><br>
+            <span>To: {{flight.arrivalPoint}}</span><br>
+            <span>Flight Duration: {{flight.duration}}min.</span><br>
+            <span [style.color]="flight.status==0?'green':'red'">Flight status: {{flight.status==1? 'Cancelled':'Scheduled'}}</span><br>
+            <span [style.visibility]="flight.status==0?'visible':'hidden'" [style.color]="flight?.remainingTickets==0?'red':'black'">{{ flight?.remainingTickets ? ('Number of remaining tickets: ' + flight?.remainingTickets) : 'No more tickets remaining'}}</span>      
         </div>
     </div>
 </div>
