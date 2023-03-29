@@ -26,7 +26,7 @@ export function tokenGetter() {
     PurchaseTicketsComponent,
     HomeComponent,
     SidebarComponent,
-    RegistrationComponent
+    RegistrationComponent,
   ],
   imports: [
     BrowserModule,

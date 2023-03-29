@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Flight } from 'src/app/model/flight';
+import { SearchedFlightDTO } from 'src/app/model/searchedFlightDto';
 import { FlightsService } from 'src/app/services/flights.service';
 
 @Component({
@@ -16,6 +17,7 @@ export class HomeComponent implements OnInit {
   loggedIn?: boolean;
   allFlights: Flight[] = [];
   flightsToShow: Flight[] = [];
+  searchedFlight : SearchedFlightDTO = new SearchedFlightDTO;
 
   ngOnInit(): void {
      this.getAllFlights();
@@ -29,6 +31,18 @@ export class HomeComponent implements OnInit {
       },
       error: (error: HttpErrorResponse) => {
         console.log(error.message);
+      }
+    });
+  }
+
+  getSearchedFlights(searchedFlight: SearchedFlightDTO){
+    this.flightService.getSearchedFlights(searchedFlight).subscribe({
+      next: (response : Flight[]) => {
+        this.flightsToShow = response
+        console.log(this.flightsToShow)
+      },
+      error: (error : HttpErrorResponse) => {
+        console.log(error.message)
       }
     });
   }
