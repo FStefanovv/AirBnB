@@ -27,9 +27,10 @@ export class FlightsService {
     return this.http.get<Flight[]>(this.flightsUrl, this.httpOptions);
   }
 
-  getSearchedFlights(flight : SearchedFlightDTO) : Observable<Flight[]> {
-    return this.http.get<Flight[]>(this.flightsUrl,this.httpOptions)
+  getSearchedFlights(departurePoint : string, arrivalPoint : string, numberOfPassengers : number, departureTime : string) : Observable<Flight[]> {
+    return this.http.get<Flight[]>(this.flightsUrl + 'GetSearchedFlights?departurePoint=' + departurePoint +
+                                    '&arrivalPoint=' + arrivalPoint +
+                                    '&numberOfPassenger=' + numberOfPassengers +
+                                    '&dateOfDeparture=' + departureTime,this.httpOptions)
   }
-
-  
 }

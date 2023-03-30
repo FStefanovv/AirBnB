@@ -2,6 +2,7 @@
 using Flights.Model;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,12 +26,20 @@ namespace Flights.Repository
             return _flights.Find(flight => true).ToList();
         }
 
-        public List<Flight> GetSearched(SearchFlightsDTO flightDTO)
+        public List<Flight> GetSearched(string departurePoint, string arrivalPoint,int numberOfPassenger,string dateOfDeparture)
         {
-            return _flights.Find(filteredFlight => filteredFlight.RemainingTickets >= flightDTO.NumberOfPassangers &&
-                                                    filteredFlight.DeparturePoint == flightDTO.DeparturePoint &&
-                                                    filteredFlight.ArrivalPoint == flightDTO.ArrivalPoint &&
-                                                    filteredFlight.DepartureTime.Date == flightDTO.DepartureTime.Date).ToList();
+            string[] splited = dateOfDeparture.Split('-');
+            int year,month, day;
+            int.TryParse(splited[0], out year);
+            int.TryParse(splited[1], out month);
+            int.TryParse(splited[2], out day);
+            return _flights.Find(filteredFlight => filteredFlight.DeparturePoint == departurePoint &&
+                                                   filteredFlight.ArrivalPoint == arrivalPoint &&
+                                                   filteredFlight.RemainingTickets > numberOfPassenger &&
+                                                   filteredFlight.DepartureTime.Year == year &&
+                                                   filteredFlight.DepartureTime.Month == month &&
+                                                   filteredFlight.DepartureTime.Day == day).ToList();
+            
         }
 
         public void Create(Flight flight)

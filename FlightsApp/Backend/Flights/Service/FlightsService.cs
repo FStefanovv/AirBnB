@@ -39,9 +39,9 @@ namespace Flights.Service
           return  _flightsRepository.GetById(id);
         }
 
-        public List<Flight> GetSearchedFlights(SearchFlightsDTO flightDTO)
+        public List<Flight> GetSearchedFlights(string departurePoint, string arrivalPoint, int numberOfPassenger, string dateOfDeparture)
         {
-            return _flightsRepository.GetSearched(flightDTO);
+            return _flightsRepository.GetSearched(departurePoint,arrivalPoint,numberOfPassenger,dateOfDeparture);
         }
     }
 }

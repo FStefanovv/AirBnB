@@ -1,6 +1,6 @@
 export class SearchedFlightDTO {
-    departureTime?: Date;
-    departurePoint?: string;
-    arrivalPoint?: string;
-    numberOfPassengers?: number;
+    departureTime : string = '';
+    departurePoint: string = '';
+    arrivalPoint: string = '';
+    numberOfPassengers : number = 1;
 }

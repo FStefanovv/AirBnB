@@ -14,7 +14,7 @@
             <input type="text" [(ngModel)]="searchedFlight.arrivalPoint" id="arrivalPoint" name="arrivalPoint">
             <label for="numOfPassengers">Number of passangers: </label>
             <input type="number" [(ngModel)]="searchedFlight.numberOfPassengers" id="numOfPassengers" name="numOfPassengers" min="1">
-            <button (click)="getSearchedFlights(searchedFlight)">Search</button>
+            <button type='submit'(click)="getSearchedFlights()">Search</button>
             <button (click)="getAllFlights()">Show all</button>
         </div>
         <h2>Flights</h2>

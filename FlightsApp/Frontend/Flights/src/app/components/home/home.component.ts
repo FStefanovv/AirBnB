@@ -35,16 +35,17 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  getSearchedFlights(searchedFlight: SearchedFlightDTO){
-    this.flightService.getSearchedFlights(searchedFlight).subscribe({
+  getSearchedFlights(){
+    this.flightService.getSearchedFlights(this.searchedFlight.departurePoint,this.searchedFlight.arrivalPoint,this.searchedFlight.numberOfPassengers,this.searchedFlight.departureTime).subscribe({
       next: (response : Flight[]) => {
         this.flightsToShow = response
-        console.log(this.flightsToShow)
       },
       error: (error : HttpErrorResponse) => {
         console.log(error.message)
       }
     });
+
+    console.log(this.searchedFlight.departurePoint,this.searchedFlight.arrivalPoint,this.searchedFlight.numberOfPassengers,this.searchedFlight.departureTime)
   }
 
 }

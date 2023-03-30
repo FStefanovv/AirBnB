@@ -28,9 +28,10 @@ namespace Flights.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<Flight>> GetSearchedFlights(SearchFlightsDTO flightDTO)
+        [Route("[action]")]
+        public ActionResult<List<Flight>> GetSearchedFlights(string departurePoint,string arrivalPoint,int numberOfPassenger,string dateOfDeparture)
         {
-            return _flightsService.GetSearchedFlights(flightDTO);
+            return _flightsService.GetSearchedFlights(departurePoint,arrivalPoint,numberOfPassenger,dateOfDeparture);
         }
 
         [HttpPost]
