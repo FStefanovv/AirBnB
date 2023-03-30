@@ -1,1 +1,16 @@
-<p>registration works!</p>
+<div class="main-content">
+    <label>First Name: </label>
+    <input class="inputRegular" type="text" [(ngModel)]="registrationData.firstName"><br>
+    <label>Last Name: </label>
+    <input class="inputRegular" type="text" [(ngModel)]="registrationData.lastName"><br>
+    <label>E-Mail Address: </label>
+    <input class="inputRegular" type="text" [(ngModel)]="registrationData.eMail"><br>
+    <label>Username: </label>
+    <input class="inputRegular" type="text" [(ngModel)]="registrationData.username"><br>
+    <label>Password: </label>
+    <input class="inputRegular" type="password" [(ngModel)]="registrationData.password"><br>
+    <label>Confirm Password: </label>
+    <input class="inputRegular" type="password" [(ngModel)]="registrationData.confirmPassword"><br>
+    <p [style.visibility]="registrationFailed? 'visible':'hidden'">{{registrationError}}</p>
+    <button (click)="register()" class="regularButton">Create account</button>
+</div>
