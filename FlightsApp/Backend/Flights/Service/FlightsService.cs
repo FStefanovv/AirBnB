@@ -1,4 +1,6 @@
-﻿using Flights.Model;
+﻿using Flights.Adapters;
+using Flights.DTOs;
+using Flights.Model;
 using Flights.Repository;
 using System;
 using System.Collections.Generic;
@@ -10,6 +12,7 @@ namespace Flights.Service
     public class FlightsService
     {
         private readonly FlightsRepository _flightsRepository;
+       
        
 
 
@@ -24,8 +27,9 @@ namespace Flights.Service
             return _flightsRepository.GetAll();
         }
 
-        public void Create(Flight flight)
+        public void Create(NewFlightDTO dto)
         {
+            Flight flight = FlightAdapter.NewFlightDTOToFlight(dto);
             _flightsRepository.Create(flight);
         }
 
