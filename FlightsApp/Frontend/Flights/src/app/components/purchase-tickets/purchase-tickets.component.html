@@ -1,1 +1,7 @@
-<p>purchase-tickets works!</p>
+<div>
+  <div *ngFor="let flight of flights" id="flight" >
+      {{flight.departurePoint}} {{flight.arrivalPoint}} 
+      <button id="buy-ticket-button" (click)="bouTicket(flight.id,flight.ticketPrice)">Buy</button>
+      <input [(ngModel)]="numberOfTickets" type="number">
+  </div>
+</div>

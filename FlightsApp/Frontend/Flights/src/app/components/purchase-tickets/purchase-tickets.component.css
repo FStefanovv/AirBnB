@@ -1,0 +1,10 @@
+#flight {
+  font-size: x-large;
+  display: flex;
+  margin-bottom: 30px;
+  padding: 30px;
+}
+#buy-ticket-button {
+  margin-left: 10px;
+  background-color: cyan;
+}

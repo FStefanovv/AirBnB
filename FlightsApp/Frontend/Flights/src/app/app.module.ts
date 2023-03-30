@@ -1,3 +1,4 @@
+import { ViewBoughtTickets } from './components/view-tickets/view-bought-tickets.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -27,6 +28,7 @@ export function tokenGetter() {
     AppComponent,
     LoginFormComponent,
     PurchaseTicketsComponent,
+    ViewBoughtTickets,
     HomeComponent,
     SidebarComponent,
     RegistrationComponent,
