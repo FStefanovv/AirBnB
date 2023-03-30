@@ -1,4 +1,3 @@
-import { NewFlightComponent } from "../components/new-flight/new-flight.component";
 export class NewFlightDto {
     
     departurePoint?: string;
