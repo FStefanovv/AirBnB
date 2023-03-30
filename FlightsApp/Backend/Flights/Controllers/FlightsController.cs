@@ -35,12 +35,12 @@ namespace Flights.Controllers
         }
 
         [HttpPost]
-        [Authorize(Policy = "ADMIN")]
-        public  ActionResult Post(Flight flight)
+       //[Authorize(Policy = "ADMIN")]
+        public  ActionResult Post(NewFlightDTO dto)
         {
 
-            _flightsService.Create(flight);
-            return CreatedAtAction("Post", flight);
+            _flightsService.Create(dto);
+            return CreatedAtAction("Post", dto);
 
         }
 

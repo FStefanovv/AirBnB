@@ -5,7 +5,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { catchError, Observable, throwError } from 'rxjs';
 import { Flight } from '../model/flight';
 import { SearchedFlightDTO } from '../model/searchedFlightDto';
-
+import { NewFlightDto } from '../model/newFlightDto';
 
 
 @Injectable({
@@ -23,7 +23,6 @@ export class FlightsService {
   constructor(private http: HttpClient) { }
 
   getAll() : Observable<Flight[]> {
-
     return this.http.get<Flight[]>(this.flightsUrl, this.httpOptions);
   }
 
@@ -32,5 +31,13 @@ export class FlightsService {
                                     '&arrivalPoint=' + arrivalPoint +
                                     '&numberOfPassenger=' + numberOfPassengers +
                                     '&dateOfDeparture=' + departureTime,this.httpOptions)
+  }
+
+  new(newFlight: NewFlightDto) : Observable<NewFlightDto> {
+    console.log(newFlight.departurePoint)
+    console.log(newFlight.remainingTickets)
+    console.log(newFlight.departureTime)
+    console.log(newFlight)
+    return this.http.post<NewFlightDto>(this.flightsUrl, newFlight, this.httpOptions);
   }
 }

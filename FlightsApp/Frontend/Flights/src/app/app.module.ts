@@ -14,6 +14,9 @@ import { PurchaseTicketsComponent } from './components/purchase-tickets/purchase
 import { HomeComponent } from './components/home/home.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { RegistrationComponent } from './components/registration/registration.component';
+import { NewFlightComponent } from './components/new-flight/new-flight.component';
+
+import { DatePipe } from '@angular/common';
 
 export function tokenGetter() { 
   return localStorage.getItem("jwt"); 
@@ -27,6 +30,7 @@ export function tokenGetter() {
     HomeComponent,
     SidebarComponent,
     RegistrationComponent,
+    NewFlightComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +45,7 @@ export function tokenGetter() {
       }
     })
   ],
-  providers: [AuthGuard],
+  providers: [AuthGuard,DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

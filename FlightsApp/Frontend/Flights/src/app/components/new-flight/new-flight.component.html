@@ -1,0 +1,73 @@
+<div id="newFlight" BORDER=1 RULES=NONE FRAME=BOX >
+    <h1 id="title">Make new flight</h1>
+<table id="table" >
+<tr>
+    <td> 
+        <label>Departure point: </label>
+    </td>
+    <td>
+        <input type="text" matInput [(ngModel)]="newFlight.departurePoint">
+    </td>
+</tr>
+<tr>
+    <td> 
+        <label>Arrival point: </label>
+    </td>
+    <td>
+        <input type="text" matInput [(ngModel)]="newFlight.arrivalPoint">
+    </td>
+</tr>
+<tr>
+    <td> 
+        <label>Departure time: </label>
+    </td>
+    <td >
+        <input type="datetime-local" matInput [(ngModel)]="newFlight.departureTime" placeholder="dd-MM-yyyy HH:mm" min="{{dateNow}}" value="{{datetime-local}">
+
+    </td>
+</tr>
+<tr>
+    <td> 
+        <label>Duration: </label>
+    </td>
+    <td>
+        <input type="number" matInput [(ngModel)]="newFlight.duration">
+    </td>
+</tr>
+<tr>
+    <td> 
+        <label>Ticket price: </label>
+    </td>
+    <td>
+        <input type="number" matInput [(ngModel)]="newFlight.ticketPrice">
+    </td>
+</tr>
+<tr>
+    <td> 
+        <label>Number of passengers: </label>
+    </td>
+    <td>
+        <input type="number" matInput [(ngModel)]="newFlight.numberOfPassengers">
+    </td>
+</tr>
+<tr>
+    <td> 
+        <label>Remaining ticket: </label>
+    </td>
+    <td>
+        <input type="number" matInput [(ngModel)]="newFlight.remainingTickets" >
+    </td>
+</tr>
+<tr>
+    <td>
+
+    </td>
+    <td>
+        <button type="submit" (click)="newFlightSubmit()" >
+            Submit
+        </button>
+    </td>
+</tr>
+</table>
+</div>
+
