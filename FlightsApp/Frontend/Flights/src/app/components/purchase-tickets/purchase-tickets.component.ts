@@ -4,6 +4,7 @@ import { BuyTicketDto } from './../../model/buyTicketDto';
 import { Component, OnInit } from '@angular/core';
 import { Flight } from 'src/app/model/flight';
 import { FlightsService } from 'src/app/services/flights.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'purchase-tickets-regular',
@@ -13,7 +14,7 @@ import { FlightsService } from 'src/app/services/flights.service';
 export class PurchaseTicketsComponent implements OnInit {
   public flights: Flight[] | undefined
   public numberOfTickets: number = 1
-  constructor(private flightService: FlightsService,private authService:AuthService,private ticketService:TicketsService) { }
+  constructor(private flightService: FlightsService,private authService:AuthService,private ticketService:TicketsService,private router: Router) { }
   
   ngOnInit(): void {
     this.flightService.getAll().subscribe(res =>{
@@ -29,8 +30,8 @@ export class PurchaseTicketsComponent implements OnInit {
     dto.price= price
     this.ticketService.buyTicket(dto).subscribe(res=>{
       console.log(res)
+      this.router.navigate(['view-bought-tickets'])
     })
-
   }
 
 
