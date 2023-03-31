@@ -10,7 +10,7 @@ import { NewFlightDto } from '../model/newFlightDto';
 
 @Injectable({
   providedIn: 'root'
-})
+}) 
 export class FlightsService {
 
   private flightsUrl = 'http://localhost:5000/api/Flights/';

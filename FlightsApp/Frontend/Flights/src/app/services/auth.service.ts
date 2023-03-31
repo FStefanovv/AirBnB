@@ -33,6 +33,11 @@ export class AuthService {
     return decodedToken.unique_name;
   }
 
+  getId(){
+    const decodedToken = this.decodeToken()
+    return decodedToken.nameid
+  }
+
   getToken(){
     return localStorage.getItem("jwt");
   }
