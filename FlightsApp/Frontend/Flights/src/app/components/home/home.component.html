@@ -7,13 +7,13 @@
     <div id="flights">
         <div id="search">
             <label for="departureTime">Departure time: </label>
-            <input type="date" [(ngModel)]="searchedFlight.departureTime" id="departureTime" name="departureTime">
+            <input type="date" class="inputRegular" [(ngModel)]="searchedFlight.departureTime" id="departureTime" name="departureTime">
             <label for="departurePoint">Departure point: </label>
-            <input type="text" [(ngModel)]="searchedFlight.departurePoint" id="departurePoint" name="departurePoint">
+            <input type="text" class="inputRegular" [(ngModel)]="searchedFlight.departurePoint" id="departurePoint" name="departurePoint">
             <label for="arrivalPoint">Arrival point: </label>
-            <input type="text" [(ngModel)]="searchedFlight.arrivalPoint" id="arrivalPoint" name="arrivalPoint">
+            <input type="text" class="inputRegular" [(ngModel)]="searchedFlight.arrivalPoint" id="arrivalPoint" name="arrivalPoint">
             <label for="numOfPassengers">Number of passangers: </label>
-            <input type="number" [(ngModel)]="searchedFlight.numberOfPassengers" id="numOfPassengers" name="numOfPassengers" min="1">
+            <input type="number" class="inputRegular" [(ngModel)]="searchedFlight.numberOfPassengers" id="numOfPassengers" name="numOfPassengers" min="1">
             <button type='submit'(click)="getSearchedFlights()">Search</button>
             <button (click)="getAllFlights()">Show all</button>
         </div>

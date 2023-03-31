@@ -40,4 +40,8 @@ export class FlightsService {
     console.log(newFlight)
     return this.http.post<NewFlightDto>(this.flightsUrl, newFlight, this.httpOptions);
   }
+
+  delete(id: any): Observable<any> {
+    return this.http.delete<any>(this.flightsUrl + id,  this.httpOptions );
+  }
 }
