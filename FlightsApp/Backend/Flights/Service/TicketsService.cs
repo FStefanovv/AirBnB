@@ -44,7 +44,7 @@ namespace Flights.Service
         private Boolean CheckIfThereAreAvailableTickets(string flightId, int numOfTickets)
         {
             Flight flight = _flightsRepository.GetById(flightId);
-            if (flight.RemainingTickets - numOfTickets > 0)
+            if (flight.RemainingTickets - numOfTickets >= 0)
             {
                 return true;
             }
