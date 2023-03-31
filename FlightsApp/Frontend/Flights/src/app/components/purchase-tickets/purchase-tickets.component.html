@@ -1,7 +1,7 @@
 <div id="view-flights-to-buy">
   <div *ngFor="let flight of flights" id="flight" >
       <div id="ticket-line-bt-1"><div style="margin-right: 8px;">{{flight.departurePoint}}</div>-<div style="margin-left: 8px;">{{flight.arrivalPoint}}</div></div>
-      <div id="ticket-line-bt-2"><div>Departure time:{{flight.departureTime}}</div>
+      <div id="ticket-line-bt-2"><div>Departure time:{{flight.departureTime | date:'short'}}</div>
       <div >|</div>
       <div>Duration:{{flight.duration}}</div></div>
       <div id="ticket-line-bt-3">

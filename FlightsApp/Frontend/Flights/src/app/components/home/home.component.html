@@ -2,20 +2,21 @@
 <div class="main-content">
     <h1>XWS Airlines</h1>
     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac magna lacinia, volutpat ligula in, malesuada odio. Sed porttitor enim sapien, blandit facilisis sem sollicitudin vel. Cras ac massa ante. In ut arcu arcu. Ut leo lectus, bibendum sit amet fringilla eu, sagittis eu tellus. </p>
-    <p>Donec eu justo purus. Sed id sapien finibus, egestas dolor et, egestas enim. Curabitur vitae porta enim. Praesent volutpat fermentum leo, eget malesuada felis lobortis nec.</p>
-    <p>Pellentesque ac aliquet est, a eleifend ante. Nam lacinia sapien at scelerisque placerat. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
+    <p id="secondPara">Pellentesque ac aliquet est, a eleifend ante. Nam lacinia sapien at scelerisque placerat. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
     <div id="flights">
         <div id="search">
-            <label for="departureTime">Departure time: </label>
-            <input type="date" class="inputRegular" [(ngModel)]="searchedFlight.departureTime" id="departureTime" name="departureTime">
+            
             <label for="departurePoint">Departure point: </label>
-            <input type="text" class="inputRegular" [(ngModel)]="searchedFlight.departurePoint" id="departurePoint" name="departurePoint">
-            <label for="arrivalPoint">Arrival point: </label>
-            <input type="text" class="inputRegular" [(ngModel)]="searchedFlight.arrivalPoint" id="arrivalPoint" name="arrivalPoint">
+            <input id="departurePoint" type="text" class="inputRegular" [(ngModel)]="searchedFlight.departurePoint" id="departurePoint" name="departurePoint">
+            <label id="arrivalLabel" for="arrivalPoint">Arrival point: </label>
+            <input type="text" class="inputRegular" [(ngModel)]="searchedFlight.arrivalPoint" id="arrivalPoint" name="arrivalPoint"><br>
+            
+            <label for="departureTime">Departure time: </label>
+            <input id="departureTime" type="date" class="inputRegular" [(ngModel)]="searchedFlight.departureTime" id="departureTime" name="departureTime"><br>
             <label for="numOfPassengers">Number of passangers: </label>
             <input type="number" class="inputRegular" [(ngModel)]="searchedFlight.numberOfPassengers" id="numOfPassengers" name="numOfPassengers" min="1">
-            <button type='submit'(click)="getSearchedFlights()">Search</button>
-            <button (click)="getAllFlights()">Show all</button>
+            <button class='regularButton' id="searchButton" type='submit'(click)="getSearchedFlights()">Search</button>
+            <button class='regularButton' (click)="getAllFlights()">Show all</button>
         </div>
         <h2>Our Flights</h2>
         <flight-card *ngFor="let flight of flightsToShow" [flight]="flight" (cancelFlight)="cancelFlight($event)"></flight-card>         

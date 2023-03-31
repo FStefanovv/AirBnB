@@ -42,6 +42,6 @@ export class FlightsService {
   }
 
   delete(id: any): Observable<any> {
-    return this.http.delete<any>(this.flightsUrl + id,  this.httpOptions );
+    return this.http.delete<any>(this.flightsUrl+ 'Delete/' + id,  this.httpOptions);
   }
 }

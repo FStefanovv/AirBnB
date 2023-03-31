@@ -20,7 +20,7 @@ namespace Flights.Controllers
             _flightsService = flightsService;
         }
 
-        [AllowAnonymous]
+        [Authorize(Policy = "LoggedInUser")]
         [HttpPost]
         public ActionResult Post(BuyTicketDTO dto)
         {
@@ -30,7 +30,7 @@ namespace Flights.Controllers
 
         }
         
-        [AllowAnonymous]
+        [Authorize(Policy = "LoggedInUser")]
         [HttpGet]
         public ActionResult<List<ViewTicketDTO>> GetTicketsForUser(string userId)
         {

@@ -12,4 +12,13 @@
     
 }
 
+h1 {
+    color:var(--theme);
+}
+
+label {
+    color: var(--theme);
+    font-weight: 400;
+}
+
     

@@ -36,7 +36,7 @@ namespace Flights.Controllers
 
 
         [HttpPost]
-        [Authorize(Policy = "ADMIN")]
+        [Authorize(Policy = "Admin")]
         public  ActionResult Post(NewFlightDTO dto)
         {
             _flightsService.Create(dto);
@@ -45,10 +45,11 @@ namespace Flights.Controllers
 
         
         [HttpDelete]
-        [Authorize(Policy = "ADMIN")]
+        [Route("[action]/{id}")]
+        [Authorize(Policy = "Admin")]
         public ActionResult Delete(String id)
         {
-            Flight flight=_flightsService.GetById(id);
+            Flight flight = _flightsService.GetById(id);
             _flightsService.Delete(flight);
             return Ok();
         }

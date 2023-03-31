@@ -5,10 +5,41 @@ h1 {
     border-bottom: 2px solid var(--theme);
 }
 
+#secondPara {
+    border-bottom: 2px solid var(--theme);
+    padding-bottom: 30px;
+}
+
 #flights {
-    margin-top: 10%;
+    margin-top: 5%;
 }
 
 #flights > h2 {
     color: var(--theme);
 }
+
+label { 
+    color: var(--theme);
+    font-weight: 400;
+    margin-right: 14px;
+}
+
+#departureTime {
+    margin-left: 56px;
+    margin-top: 10px;
+    margin-bottom: 8px;
+}
+
+#arrivalLabel {
+    margin-left: 20px;
+}
+
+#departurePoint {
+    margin-left: 51px;
+}
+
+#searchButton {
+    margin-left: 24px;
+    margin-right: 12px;
+}
+
