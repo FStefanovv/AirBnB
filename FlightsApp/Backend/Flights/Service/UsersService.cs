@@ -53,13 +53,14 @@ namespace Flights.Service
             return new TokenDTO(tokenHandler.WriteToken(token));
         }
 
-        public void Register(RegistrationDTO registrationData) 
+        public SuccessfulRegistrationDTO Register(RegistrationDTO registrationData) 
         {
             try
             {
                 Validate(registrationData);
                 User user = new User(registrationData);
                 _usersRepository.Create(user);
+                return new SuccessfulRegistrationDTO(registrationData.Username);
             }
             catch (Exception ex)
             {

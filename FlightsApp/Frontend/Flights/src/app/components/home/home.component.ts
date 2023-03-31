@@ -3,7 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Flight } from 'src/app/model/flight';
 import { SearchedFlightDTO } from 'src/app/model/searchedFlightDto';
+import { AuthService } from 'src/app/services/auth.service';
 import { FlightsService } from 'src/app/services/flights.service';
+import { FlightCardComponent } from '../flight-card/flight-card.component';
 
 @Component({
   selector: 'home',
@@ -12,15 +14,18 @@ import { FlightsService } from 'src/app/services/flights.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private flightService:FlightsService, private router: Router) { }
+  constructor(private flightService:FlightsService, private authService: AuthService, private router: Router) { }
 
   loggedIn?: boolean;
   allFlights: Flight[] = [];
   flightsToShow: Flight[] = [];
   searchedFlight : SearchedFlightDTO = new SearchedFlightDTO;
+  role: string = "UNREGISTERED";
 
   ngOnInit(): void {
      this.getAllFlights();
+      if(this.authService.isLoggedIn())
+        this.role = this.authService.getRole();
   }
 
   getAllFlights() {
@@ -44,8 +49,10 @@ export class HomeComponent implements OnInit {
         console.log(error.message)
       }
     });
+  }
 
-    console.log(this.searchedFlight.departurePoint,this.searchedFlight.arrivalPoint,this.searchedFlight.numberOfPassengers,this.searchedFlight.departureTime)
+  cancelFlight(id: string) {
+    console.log('cancelling ', id);
   }
 
 }

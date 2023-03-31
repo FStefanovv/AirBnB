@@ -1,0 +1,41 @@
+#createAccount {
+    margin: 0 auto;
+    width: 50%;
+    padding: 0 2% 2% 2%;
+    border: 1px solid #D5DBDB;
+    border-radius: 6px;
+}
+
+#registrationForm {
+    display: inline-block;
+    width: 50%;
+}
+p{   
+    padding-bottom: 10px;
+    height: 12px;
+    transition: 0.4s ease;
+}
+
+input {
+    width: 95%;
+    margin-bottom: 10px;
+}
+
+#successfulRegistration {
+    background-color: #97FC97;
+    width: 60%;
+    margin: 10% auto;
+    border-radius: 3px;
+    padding: 10px;
+    height: 90px;
+}
+#successfulRegistration p {
+    color: #0C6F0C;
+    text-align: center;
+}
+
+#successfulRegistration span:hover {
+    cursor: pointer;
+    color: #42C442;
+    transition: 0.3s ease;
+}

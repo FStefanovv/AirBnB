@@ -49,8 +49,8 @@ namespace Flights.Controllers
         {
             try
             {
-                _usersService.Register(registrationData);
-                return StatusCode(201, "Successful registration");
+                SuccessfulRegistrationDTO dto  = _usersService.Register(registrationData);
+                return Ok(dto);
             }
             catch (Exception ex)
             {

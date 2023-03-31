@@ -1,22 +1,14 @@
-header {
-    background-color: white;
-    color: black;
-    width: 100%;
+h1 {
+    color: var(--theme);
+    padding-bottom: 30px;
+    padding-top: 10px;
+    border-bottom: 2px solid var(--theme);
 }
 
 #flights {
-
+    margin-top: 10%;
 }
 
 #flights > h2 {
-    color: black;
-}
-
-.flight-card {
-    width: 30%;
-    height: 200px;
-    border: 1px solid var(--theme);
-    border-radius: 3px;
-    display: inline-block;
-    margin-left: 20px;
+    color: var(--theme);
 }

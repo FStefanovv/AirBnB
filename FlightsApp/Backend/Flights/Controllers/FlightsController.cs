@@ -34,17 +34,16 @@ namespace Flights.Controllers
             return _flightsService.GetSearchedFlights(departurePoint,arrivalPoint,numberOfPassenger,dateOfDeparture);
         }
 
+
         [HttpPost]
-       //[Authorize(Policy = "ADMIN")]
+        [Authorize(Policy = "ADMIN")]
         public  ActionResult Post(NewFlightDTO dto)
         {
-
             _flightsService.Create(dto);
             return CreatedAtAction("Post", dto);
-
         }
 
-
+        
         [HttpDelete]
         [Authorize(Policy = "ADMIN")]
         public ActionResult Delete(String id)
@@ -53,16 +52,6 @@ namespace Flights.Controllers
             _flightsService.Delete(flight);
             return Ok();
         }
-
-
-        /*
-        [HttpPost]
-        [Authorize(Policy = "REGULAR_USER")]
-        public ActionResult PurchaseTickets(PurchaseDTO purchaseData)
-        {
-
-            return Ok();
-        }*/
     }
 
 }

@@ -1,0 +1,38 @@
+.flight-card {
+    width: 33%;
+    height: 200px;
+    border: 2px solid var(--theme);
+    border-radius: 6px;
+    display: inline-block;
+    margin-left: 20px;
+    padding: 2%;
+}
+
+.label {
+    color: var(--theme)
+}
+
+.past-flight {
+    opacity: 0.7;
+}
+
+.cancel-button {
+    color:white;
+    background-color: red;
+    transition: 0.3s ease;
+    border: 1px solid red;
+    border-radius: 5px;
+    padding: 7px 14px;
+}
+
+.cancel-button:hover {
+    cursor: pointer;
+    background-color: white;
+    color:red
+}
+
+button {
+    position: relative;
+    top: 10%;
+    left: 70%;
+}
