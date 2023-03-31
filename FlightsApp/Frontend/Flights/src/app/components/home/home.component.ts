@@ -37,4 +37,8 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  cancelFlight(id: string) {
+    console.log('cancelling ', id);
+  }
+
 }

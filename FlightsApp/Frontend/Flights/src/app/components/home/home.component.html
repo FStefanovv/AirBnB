@@ -1,18 +1,11 @@
 <sidebar></sidebar>
 <div class="main-content">
-    <header>
-        <h1>Welcome to Zika Airlines!</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac magna lacinia, volutpat ligula in, malesuada odio. Sed porttitor enim sapien, blandit facilisis sem sollicitudin vel. Cras ac massa ante. In ut arcu arcu. Ut leo lectus, bibendum sit amet fringilla eu, sagittis eu tellus. </p>
-    </header>
+    <h1>XWS Airlines</h1>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac magna lacinia, volutpat ligula in, malesuada odio. Sed porttitor enim sapien, blandit facilisis sem sollicitudin vel. Cras ac massa ante. In ut arcu arcu. Ut leo lectus, bibendum sit amet fringilla eu, sagittis eu tellus. </p>
+    <p>Donec eu justo purus. Sed id sapien finibus, egestas dolor et, egestas enim. Curabitur vitae porta enim. Praesent volutpat fermentum leo, eget malesuada felis lobortis nec.</p>
+    <p>Pellentesque ac aliquet est, a eleifend ante. Nam lacinia sapien at scelerisque placerat. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
     <div id="flights">
-        <h2>Flights</h2>
-        <div *ngFor="let flight of flightsToShow" class="flight-card">
-            <span>From: {{flight.departurePoint}}</span><br>
-            <span>To: {{flight.arrivalPoint}}</span><br>
-            <span>Departure time: {{flight.departureTime | date:'short'}}</span><br>
-            <span>Flight Duration: {{flight.duration}}min.</span><br>
-            <span [style.color]="flight.status==0?'green':'red'">Flight status: {{flight.status==1? 'Cancelled':'Scheduled'}}</span><br>
-            <span [style.visibility]="flight.status==0?'visible':'hidden'" [style.color]="flight?.remainingTickets==0?'red':'black'">{{ flight?.remainingTickets ? ('Number of remaining tickets: ' + flight?.remainingTickets) : 'No more tickets remaining'}}</span>      
-        </div>
+        <h2>Our Flights</h2>
+        <flight-card *ngFor="let flight of flightsToShow" [flight]="flight" (cancelFlight)="cancelFlight($event)"></flight-card>         
     </div>
 </div>

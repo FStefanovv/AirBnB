@@ -12,7 +12,7 @@ namespace Flights.Repository
     {
         private readonly IDbContext _context;
         private IMongoCollection<Flight> _flights;
-
+       
         public FlightsRepository(IDbContext context)
         {
             _context = context;
@@ -26,6 +26,7 @@ namespace Flights.Repository
 
         public void Create(Flight flight)
         {
+           
             _flights.InsertOneAsync(flight);
         }
 

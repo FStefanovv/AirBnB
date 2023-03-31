@@ -1,0 +1,10 @@
+<div class="flight-card" [ngClass]="{'past-flight': flight?.status==2}">
+    <span><span class="label">From:</span> {{flight?.departurePoint}}</span><br>
+    <span><span class="label">To:</span> {{flight?.arrivalPoint}}</span><br><hr>
+    <span><span class="label">Departure time:</span> {{flight?.departureTime | date:'short'}}</span><br>
+    <span><span class="label">Flight Duration:</span> {{flight?.duration}}min.</span><br><hr>
+    <span [style.color]="flight?.status==0?'var(--theme)':'red'">{{flight?.status==2?'Past flight':(flight?.status==1? 'Cancelled':'Scheduled')}}</span><br>
+    <span [style.color]="flight?.status==2? 'white' : (flight?.remainingTickets==0?'red':'var(--theme)')">{{ flight?.remainingTickets ? ('Number of remaining tickets: ' + flight?.remainingTickets) : 'No more tickets remaining'}}</span><br>
+    <button class="cancel-button" (click)='cancel()' [disabled]="flight?.status==2">Cancel</button>
+
+</div>   

@@ -26,18 +26,16 @@ namespace Flights.Controllers
         {
             return _flightsService.GetAll();
         }
-
+        
         [HttpPost]
         [Authorize(Policy = "ADMIN")]
         public  ActionResult Post(Flight flight)
         {
-
             _flightsService.Create(flight);
             return CreatedAtAction("Post", flight);
-
         }
 
-
+        
         [HttpDelete]
         [Authorize(Policy = "ADMIN")]
         public ActionResult Delete(String id)

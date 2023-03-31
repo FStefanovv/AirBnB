@@ -1,16 +1,24 @@
-<div class="main-content">
-    <label>First Name: </label>
-    <input class="inputRegular" type="text" [(ngModel)]="registrationData.firstName"><br>
-    <label>Last Name: </label>
-    <input class="inputRegular" type="text" [(ngModel)]="registrationData.lastName"><br>
-    <label>E-Mail Address: </label>
-    <input class="inputRegular" type="text" [(ngModel)]="registrationData.eMail"><br>
-    <label>Username: </label>
-    <input class="inputRegular" type="text" [(ngModel)]="registrationData.username"><br>
-    <label>Password: </label>
-    <input class="inputRegular" type="password" [(ngModel)]="registrationData.password"><br>
-    <label>Confirm Password: </label>
-    <input class="inputRegular" type="password" [(ngModel)]="registrationData.confirmPassword"><br>
-    <p [style.visibility]="registrationFailed? 'visible':'hidden'">{{registrationError}}</p>
+<div *ngIf='not_registered' id="createAccount">
+    <h2>Create a new account</h2>
+    <div id="registrationForm">
+        <label>First Name: </label><br>
+        <input class="inputRegular" type="text" [(ngModel)]="registrationData.firstName"><br>
+        <label>Last Name: </label><br>
+        <input class="inputRegular" type="text" [(ngModel)]="registrationData.lastName"><br>
+        <label>E-Mail Address: </label><br>
+        <input class="inputRegular" type="text" [(ngModel)]="registrationData.eMail"><br>
+        <label>Username: </label><br>
+        <input class="inputRegular" type="text" [(ngModel)]="registrationData.username"><br>
+        <label>Password: </label><br>
+        <input class="inputRegular" type="password" [(ngModel)]="registrationData.password"><br>
+        <label>Confirm Password: </label><br>
+        <input class="inputRegular" type="password" [(ngModel)]="registrationData.confirmPassword"><br>
+    </div>
+    <p [style.color]="registrationFailed? 'red':'white'">{{registrationError}}</p>
     <button (click)="register()" class="regularButton">Create account</button>
+</div>
+
+
+<div id="successfulRegistration" *ngIf="!not_registered">
+    <p>Your account <u>{{successfulRegistrationDTO?.username}}</u> has been successfully created!<br><br><span (click)="goToLogin()"><u>Click here</u></span> to log in.</p>
 </div>

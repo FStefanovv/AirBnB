@@ -1,6 +1,7 @@
 import { NumberValueAccessor } from "@angular/forms";
 
 export class Flight {
+    id?: string;
     departurePoint?: string;
     arrivalPoint?: string;
     departureTime?: Date;

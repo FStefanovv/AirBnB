@@ -8,5 +8,11 @@ export class RegistrationData {
     confirmPassword?: string;
 
     constructor(){
+        this.firstName = '';
+        this.lastName = '';
+        this.username = '';
+        this.eMail = '';
+        this.password = '';
+        this.confirmPassword = '';
     }
 }
