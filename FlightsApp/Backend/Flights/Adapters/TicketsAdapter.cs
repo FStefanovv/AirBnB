@@ -34,7 +34,7 @@ namespace Flights.Adapters
             dto.Id = ticket.Id;
             dto.UserId = ticket.UserId;
             dto.Quantity = ticket.Quantity;
-            dto.SummedPrice = ticket.SummedPrice;
+            dto.SummedPrice = ticket.FlightInfo.TicketPrice * ticket.Quantity;
             dto.DeparturePoint = ticket.FlightInfo.DeparturePoint;
             dto.ArrivalPoint = ticket.FlightInfo.ArrivalPoint;
             dto.DepartureTime = ticket.FlightInfo.DepartureTime.ToString();
