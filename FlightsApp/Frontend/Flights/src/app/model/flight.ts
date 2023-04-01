@@ -10,4 +10,5 @@ export class Flight {
     numberOfPassengers?: number;
     remainingTickets?: number;
     status?:number;
+    numberOfTickets:number = 1
 }

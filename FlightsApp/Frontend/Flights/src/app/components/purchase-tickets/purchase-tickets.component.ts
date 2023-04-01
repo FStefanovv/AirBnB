@@ -13,7 +13,6 @@ import { Router } from '@angular/router';
 })
 export class PurchaseTicketsComponent implements OnInit {
   public flights: Flight[] | undefined
-  public numberOfTickets: number = 1
   constructor(private flightService: FlightsService,private authService:AuthService,private ticketService:TicketsService,private router: Router) { }
   
   ngOnInit(): void {
@@ -22,10 +21,10 @@ export class PurchaseTicketsComponent implements OnInit {
     })
   }
 
-  bouTicket(flighId:string|undefined,price: number|undefined){
+  bouTicket(flighId:string|undefined,price: number|undefined,numberOfTickets:number){
     let dto = new BuyTicketDto()
     dto.flightId = flighId
-    dto.numberOfTickets = this.numberOfTickets.toString()
+    dto.numberOfTickets = numberOfTickets.toString()
     dto.userId = this.authService.getId()
     dto.price= price
     this.ticketService.buyTicket(dto).subscribe(res=>{
