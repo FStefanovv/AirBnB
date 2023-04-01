@@ -2,6 +2,12 @@
     <p [style.visibility]="loggedIn? 'visible' : 'hidden'">
         Welcome, {{username}}!
     </p>
+    <div id="sidebar-options">
+        <div id="sidebar-option" *ngIf="loggedIn" (click)="changeRoute('/home')">Home</div>
+        <div id="sidebar-option" *ngIf="loggedIn && userRole == 'ADMIN'" (click)="changeRoute('/new-flight')">New flight</div>
+        <div id="sidebar-option" *ngIf="loggedIn && userRole == 'REGULAR_USER'" (click)="changeRoute('/purchase-tickets-regular')" >Purchse ticket</div>
+        <div id="sidebar-option" *ngIf="loggedIn && userRole == 'REGULAR_USER'" (click)="changeRoute('/view-bought-tickets')">View tickets</div>
+    </div>
     <button (click)="logIn()" class="regularButton"  [style.visibility]="loggedIn? 'hidden' : 'visible'">
         Log In
     </button>
