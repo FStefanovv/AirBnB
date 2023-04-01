@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Flights.Model;
 using MongoDB.Driver;
@@ -24,6 +25,18 @@ namespace Flights.Repository
         public void Create(Ticket ticket)
         {
             _tickets.InsertOneAsync(ticket);
+        }
+
+        public void InvalidateTickets(string id)
+        {
+            List<Ticket> flightsTickets = _tickets.Find(ticket => ticket.FlightInfo.Id == id).ToList();
+            foreach(Ticket t in flightsTickets)
+            {
+                var filter = Builders<Ticket>.Filter.Eq("FlightInfo.Id", id);
+                var update = Builders<Ticket>.Update.Set("Valid", false);
+                _tickets.UpdateOne(filter, update);
+            }
+           
         }
     }
 }

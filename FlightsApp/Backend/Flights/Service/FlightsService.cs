@@ -14,14 +14,12 @@ namespace Flights.Service
     public class FlightsService
     {
         private readonly FlightsRepository _flightsRepository;
-       
-       
+        private readonly TicketsRepository _ticketsRepository;
 
-
-        public FlightsService(FlightsRepository flightsRepository)
+        public FlightsService(FlightsRepository flightsRepository, TicketsRepository ticketsRepository)
         {
             _flightsRepository = flightsRepository;
-           
+            _ticketsRepository = ticketsRepository;
         }
 
         public List<Flight> GetAll()
@@ -37,6 +35,7 @@ namespace Flights.Service
 
         public void Delete(Flight flight)
         {
+            _ticketsRepository.InvalidateTickets(flight.Id);
             _flightsRepository.Delete(flight);
         }
         public Flight GetById(String id)
