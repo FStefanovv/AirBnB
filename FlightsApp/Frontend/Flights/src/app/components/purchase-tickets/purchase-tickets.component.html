@@ -12,8 +12,8 @@
             <div>Remaining seats:{{flight.remainingTickets}}</div>
           <div style="margin-left: 10px;">Price:{{flight.ticketPrice}} EUR</div></div>
           <div *ngIf="flight.remainingTickets != 0" style="display:flex; justify-self: end;">
-            <div id="buy-ticket-button" (click)="bouTicket(flight.id,flight.ticketPrice)">Buy</div>
-            <input [(ngModel)]="numberOfTickets" type="number" id="number-of-tickets" min="1" max={{flight.remainingTickets}}>
+            <div id="buy-ticket-button" (click)="bouTicket(flight.id,flight.ticketPrice,flight.numberOfTickets)">Buy</div>
+            <input [(ngModel)]="flight.numberOfTickets" type="number" id="number-of-tickets" min="1" max={{flight.remainingTickets}}>
           </div>
           <div *ngIf="flight.remainingTickets == 0" style="display:flex; justify-self: end;">
             <div style="color:crimson">No tickets available</div>
