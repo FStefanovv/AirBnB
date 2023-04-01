@@ -34,3 +34,27 @@ p {
     text-align: center;
     margin-top: 50px;
 }
+#sidebar-options{
+    display: flex;
+    flex-direction: column;
+    
+}
+#sidebar-option{
+    text-align: left;
+    margin-bottom: 8px;
+    width: 50%;
+    place-self: center;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+#sidebar-option:hover{
+    text-align: left;
+    margin-bottom: 8px;
+    width: 50%;
+    place-self: center;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    cursor: pointer;
+    background-color: var(--theme);
+    color:white
+}

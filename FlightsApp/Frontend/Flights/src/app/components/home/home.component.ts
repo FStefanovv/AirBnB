@@ -52,8 +52,12 @@ export class HomeComponent implements OnInit {
   }
 
   cancelFlight(id: string) {
-    this.flightService.delete(id).subscribe({});
-    window.location.reload();
+    this.flightService.delete(id).subscribe(res=>{
+      window.location.reload();
+    },error=>{
+      console.log(error)
+    });
+    
   }
 
 }

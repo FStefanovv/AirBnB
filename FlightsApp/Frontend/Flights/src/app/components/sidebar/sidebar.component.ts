@@ -13,11 +13,13 @@ export class SidebarComponent implements OnInit {
 
   loggedIn?: boolean;
   username?: string;
+  userRole?: string;
 
   ngOnInit(): void {
     this.loggedIn = this.authService.isLoggedIn();
     if(this.loggedIn)
       this.username = this.authService.getUsername();
+    this.userRole = this.authService.getRole();
   }
 
   logIn(){
@@ -31,6 +33,10 @@ export class SidebarComponent implements OnInit {
 
   goToRegistration(){
     this.router.navigate(['register']);
+  }
+
+  changeRoute(url:string){
+    this.router.navigate([url])
   }
 
 }

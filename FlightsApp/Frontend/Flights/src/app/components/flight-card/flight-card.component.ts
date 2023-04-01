@@ -1,3 +1,4 @@
+import { AuthService } from './../../services/auth.service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Flight } from 'src/app/model/flight';
 
@@ -8,13 +9,17 @@ import { Flight } from 'src/app/model/flight';
 })
 export class FlightCardComponent implements OnInit {
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   @Input() flight?: Flight;
   @Output() cancelFlight = new EventEmitter<string>();
 
+  loggedIn?: Boolean
+  userRole?: string
+
   ngOnInit(): void {
-   
+    this.userRole = this.authService.getRole()
+    this.loggedIn = this.authService.isLoggedIn()
   }
   
   cancel (){
