@@ -1,15 +1,17 @@
 <sidebar></sidebar>
 <div class="main-content">
+  <h1>Tickets you have purchased</h1>
   <div id="bought-tickets">
     <div *ngFor="let aa of tickets" id="ticket">
       <div id="ticket-line-1"><div style="margin-right: 8px;">{{aa.departurePoint}}</div>-<div style="margin-left: 8px;">{{aa.arrivalPoint}}</div></div>
-      <div id="ticket-line-2"><div>Departure time:{{aa.departureTime}}</div>
+      <div id="ticket-line-2"><div>Departure time:{{aa.departureTime | date:'short'}}</div>
       <div>|</div>
       <div>Duration:{{aa.duration}}</div></div>
       <div id="ticket-line-3">
         <div style="font-size: 14px; color: gray;">Number of tickets: {{aa.quantity}}</div>
         <div style="margin-left: 10px;font-size: 14px; color: gray;">Total price: {{aa.summedPrice}}</div>
       </div>
+      <div [style.visibility]="aa.valid? 'hidden':'visible'" class="invalid-ticket">Flight cancelled</div>
     </div>
   </div>
 </div>

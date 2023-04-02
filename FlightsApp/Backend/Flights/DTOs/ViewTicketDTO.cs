@@ -11,11 +11,13 @@ namespace Flights.DTOs
         public string DepartureTime { get; set; }
         public int Duration { get; set; }
 
+        public bool Valid { get; set; }
+
         public ViewTicketDTO()
         {
         }
 
-        public ViewTicketDTO(string id, string userId, int quantity, float summedPrice, string departurePoint, string arrivalPoint, string departureTime, int duration)
+        public ViewTicketDTO(string id, string userId, int quantity, float summedPrice, string departurePoint, string arrivalPoint, string departureTime, int duration, bool valid)
         {
             Id = id;
             UserId = userId;
@@ -25,6 +27,7 @@ namespace Flights.DTOs
             ArrivalPoint = arrivalPoint;
             DepartureTime = departureTime;
             Duration = duration;
+            Valid = valid;
         }
     }
 }

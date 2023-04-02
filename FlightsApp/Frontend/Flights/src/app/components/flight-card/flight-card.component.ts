@@ -18,8 +18,10 @@ export class FlightCardComponent implements OnInit {
   userRole?: string
 
   ngOnInit(): void {
-    this.userRole = this.authService.getRole()
     this.loggedIn = this.authService.isLoggedIn()
+    if(this.loggedIn){
+      this.userRole = this.authService.getRole()
+    }
   }
   
   cancel (){

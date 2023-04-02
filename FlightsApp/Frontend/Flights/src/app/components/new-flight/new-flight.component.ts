@@ -2,6 +2,7 @@ import { Component, OnInit,VERSION } from '@angular/core';
 import { NewFlightDto } from 'src/app/model/newFlightDto';
 import { FlightsService } from 'src/app/services/flights.service';
 import { DatePipe } from '@angular/common';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -22,11 +23,7 @@ export class NewFlightComponent implements OnInit {
   public durationValid: boolean = true
   public dateValid:boolean =true
     
-  
-  
- 
-
-  constructor(private flightService: FlightsService,private date: DatePipe) { }
+  constructor(private flightService: FlightsService,private date: DatePipe, private router: Router) { }
 
   ngOnInit(): void {    
   this.dateNow=this.date.transform((new Date),"yyyy-MM-ddTHH:mm")
@@ -69,6 +66,8 @@ export class NewFlightComponent implements OnInit {
   
   public newFlightSubmit(){
 
+    this.newFlight.remainingTickets = this.newFlight.numberOfPassengers;
+
     console.log("date: ",this.newFlight.departureTime)
     console.log(this.newFlight.departurePoint)
     console.log(this.newFlight.remainingTickets)
@@ -102,13 +101,9 @@ export class NewFlightComponent implements OnInit {
     console.log("dateValid: ",this.dateValid)
     if(this.arrivalPointValid==false || this.departurePointValid==false || this.durationValid==false || this.reamainingTicketValid==false || this.numberOfPassengerValid==false || this.ticketPriceValid==false || this.dateValid==false) return alert("You must correctly fill all fields")
     this.flightService.new(this.newFlight).subscribe((res: any)=>{
-      alert("Successfully!")
-      },
-      (error:any)=>{alert("Bad request!")})
-        
       
+      this.router.navigate(['home']);
+      },
+      (error:any)=>{alert("Bad request!")})  
   }
-
- 
-
 }

@@ -26,7 +26,7 @@
     border-radius: 4px;
     border: 2px solid #D5DBDB;
     outline: none;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
 }
 
 .inputRegular:focus {

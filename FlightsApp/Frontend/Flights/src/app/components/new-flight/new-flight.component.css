@@ -1,10 +1,10 @@
 #newFlight{
-    margin-left: 16px;
-    margin-top: 16px;
+    margin-left:15%;
+    margin-top: 8%;
     max-width: 50%;
 }
 #new-flight-td-one{
-    font-size: 24px;
+    font-size: 18px;
 }
 #new-flight-td-two{
     width: 60%;
@@ -16,28 +16,29 @@
     border-bottom: 1px solid;
     border-color: #000000;
     width: 100%;
-    font-size: 24px;
+    font-size: 18px;
 }
 #new-flight-submit-div{
     padding-left: 16px;
     padding-right: 16px;
     padding-bottom: 8px;
     padding-top: 8px;
-    font-size: 20px;
+    font-size: 16px;
+    margin-top: 14px;
+    color: var(--theme);
     background-color: white;
-    border-color: blue;
-    border: 2px solid; 
-    cursor: pointer;
+    border: 2px solid var(--theme); 
+    transition: 0.2s ease;
+    border-radius: 3px;
 }
 #new-flight-submit-div:hover{
     padding-left: 16px;
     padding-right: 16px;
     padding-bottom: 8px;
     padding-top: 8px;
-    font-size: 20px;
+    font-size: 16px;
     background-color: var(--theme);
-    border-color: var(--theme);
-    border: 2px solid; 
+    border: 2px solid var(--theme); 
     cursor: pointer;
     color: white;
 }
@@ -54,6 +55,15 @@ h1 {
 label {
     color: var(--theme);
     font-weight: 400;
+}
+
+#table {
+    border-collapse: separate;
+    border-spacing: 0 15px;
+}
+
+#title {
+    margin-bottom: 32px;
 }
 
     

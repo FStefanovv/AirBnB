@@ -1,16 +1,17 @@
 <sidebar></sidebar>
 <div class="main-content">
+  <h1>Purchase a ticket</h1>
   <div id="view-flights-to-buy">
     <div *ngFor="let flight of flights" id="flight" [style.display]="flight.status == 1 ? 'none': 'block'" >
       <div>
         <div id="ticket-line-bt-1"><div style="margin-right: 8px;">{{flight.departurePoint}}</div>-<div style="margin-left: 8px;">{{flight.arrivalPoint}}</div></div>
-        <div id="ticket-line-bt-2"><div>Departure time:{{flight.departureTime}}</div>
-        <div >|</div>
-        <div>Duration:{{flight.duration}}</div></div>
+        <div id="ticket-line-bt-2"><div>Departure time: {{flight.departureTime | date:'short'}}</div>
+        <div>|</div>
+        <div>Duration: {{flight.duration}}min.</div></div>
         <div id="ticket-line-bt-3">
           <div style="display:flex; justify-content: center;">
-            <div>Remaining seats:{{flight.remainingTickets}}</div>
-          <div style="margin-left: 10px;">Price:{{flight.ticketPrice}} EUR</div></div>
+            <div>Remaining seats: {{flight.remainingTickets}}</div>
+          <div style="margin-left: 10px;">Price: {{flight.ticketPrice}} EUR</div></div>
           <div *ngIf="flight.remainingTickets != 0" style="display:flex; justify-self: end;">
             <div id="buy-ticket-button" (click)="bouTicket(flight.id,flight.ticketPrice,flight.numberOfTickets)">Buy</div>
             <input [(ngModel)]="flight.numberOfTickets" type="number" id="number-of-tickets" min="1" max={{flight.remainingTickets}}>
@@ -19,7 +20,7 @@
             <div style="color:crimson">No tickets available</div>
           </div>
         </div>
-        <div style="font-size: 14px; color: gray;">Number of seats: {{flight.numberOfPassengers}}</div>
+        <div style="font-size: 16px; color: gray;">Number of seats: {{flight.numberOfPassengers}}</div>
       </div>
     </div>
   </div>

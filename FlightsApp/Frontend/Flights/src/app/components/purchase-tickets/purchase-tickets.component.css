@@ -1,3 +1,8 @@
+h1 {
+  color: var(--theme);
+  margin-top: 5%;
+  margin-bottom: 8%;
+}
 #flight {
   padding: 16px;
   box-shadow: 2px 2px 12px 1px rgba(0, 0, 0, 0.2);
@@ -13,6 +18,10 @@
   cursor: pointer;
   display: flex;
   justify-content: center;
+  transition: 0.3s ease;
+  margin-right: 4px;
+  color: var(--theme);
+  border-radius: 3px;
 }
 #buy-ticket-button:hover {
   margin-left: 10px;

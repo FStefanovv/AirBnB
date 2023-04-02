@@ -39,6 +39,7 @@ namespace Flights.Adapters
             dto.ArrivalPoint = ticket.FlightInfo.ArrivalPoint;
             dto.DepartureTime = ticket.FlightInfo.DepartureTime.ToString();
             dto.Duration = ticket.FlightInfo.Duration;
+            dto.Valid = ticket.Valid;
             return dto;
         }
     }

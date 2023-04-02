@@ -5,5 +5,5 @@
     <span><span class="label">Flight Duration:</span> {{flight?.duration}}min.</span><br><hr>
     <span [style.color]="flight?.status==0?'var(--theme)':'red'">{{flight?.status==2?'Past flight':(flight?.status==1? 'Cancelled':'Scheduled')}}</span><br>
     <span [style.color]="flight?.status!=0? 'white' : (flight?.remainingTickets==0?'red':'var(--theme)')">{{ flight?.remainingTickets ? ('Number of remaining tickets: ' + flight?.remainingTickets) : 'No more tickets remaining'}}</span><br>
-    <button class="cancel-button" (click)='cancel()' [disabled]="flight?.status!=0" *ngIf="loggedIn && userRole=='ADMIN'">Cancel</button>
+    <button [style.visibility]="(loggedIn && userRole=='ADMIN' && flight?.status==0)? 'visible':'hidden'" class="cancel-button" (click)='cancel()'>Cancel</button>
 </div>   

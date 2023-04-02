@@ -7,6 +7,7 @@ export class ViewTicketDto{
   ArrivalPoint?:string
   DepartureTime?:string
   Duration?:number
+  Valid?:boolean
   public constructor(obj?:any){
     if(obj){
       this.Id = obj.id
@@ -17,6 +18,7 @@ export class ViewTicketDto{
       this.ArrivalPoint = obj.arrivalPoint
       this.DepartureTime = obj.departureTime
       this.Duration = obj.duration
+      this.Valid = obj.valid;
     }
   }
 }

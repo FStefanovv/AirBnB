@@ -1,3 +1,14 @@
+h1 {
+  color: var(--theme);
+  margin-top: 5%;
+  margin-bottom: 8%;
+}
+
+.invalid-ticket {
+  color:red;
+  margin-top: 10px;
+}
+
 #ticket{
  padding: 16px;
  box-shadow: 2px 2px 12px 1px rgba(0, 0, 0, 0.2);

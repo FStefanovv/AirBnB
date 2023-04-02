@@ -5,7 +5,6 @@ using MongoDB.Driver;
 
 namespace Flights.Repository
 {
-    // ReSharper disable once ClassNeverInstantiated.Global
     public class TicketsRepository
     {
         private readonly IDbContext _context;
@@ -28,15 +27,10 @@ namespace Flights.Repository
         }
 
         public void InvalidateTickets(string id)
-        {
-            List<Ticket> flightsTickets = _tickets.Find(ticket => ticket.FlightInfo.Id == id).ToList();
-            foreach(Ticket t in flightsTickets)
-            {
-                var filter = Builders<Ticket>.Filter.Eq("FlightInfo.Id", id);
-                var update = Builders<Ticket>.Update.Set("Valid", false);
-                _tickets.UpdateOne(filter, update);
-            }
-           
+        {         
+            var filter = Builders<Ticket>.Filter.Eq("FlightInfo.Id", id);
+            var update = Builders<Ticket>.Update.Set("Valid", false);
+            _tickets.UpdateMany(filter, update);
         }
     }
 }

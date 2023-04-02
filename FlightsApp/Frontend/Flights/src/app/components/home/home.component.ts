@@ -19,13 +19,15 @@ export class HomeComponent implements OnInit {
   loggedIn?: boolean;
   allFlights: Flight[] = [];
   flightsToShow: Flight[] = [];
-  searchedFlight : SearchedFlightDTO = new SearchedFlightDTO;
+  searchedFlight : SearchedFlightDTO = new SearchedFlightDTO();
   role: string = "UNREGISTERED";
 
   ngOnInit(): void {
-     this.getAllFlights();
-      if(this.authService.isLoggedIn())
-        this.role = this.authService.getRole();
+    this.getAllFlights();
+    if(this.authService.isLoggedIn()){
+      console.log('entered');
+      this.role = this.authService.getRole();
+    }
   }
 
   getAllFlights() {
@@ -41,6 +43,9 @@ export class HomeComponent implements OnInit {
   }
 
   getSearchedFlights(){
+    if(this.searchedFlight.arrivalPoint=='' || this.searchedFlight.departurePoint=='' || 
+    this.searchedFlight.departureTime=='')
+      return;
     this.flightService.getSearchedFlights(this.searchedFlight.departurePoint,this.searchedFlight.arrivalPoint,this.searchedFlight.numberOfPassengers,this.searchedFlight.departureTime).subscribe({
       next: (response : Flight[]) => {
         this.flightsToShow = response
@@ -58,6 +63,14 @@ export class HomeComponent implements OnInit {
       console.log(error)
     });
     
+  }
+
+  resetSearch() {
+    this.getAllFlights();
+    this.searchedFlight.arrivalPoint = '';
+    this.searchedFlight.departurePoint = '';
+    this.searchedFlight.departureTime = '';
+    this.searchedFlight.numberOfPassengers = 1;
   }
 
 }

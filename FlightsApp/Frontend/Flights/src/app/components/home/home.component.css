@@ -3,6 +3,7 @@ h1 {
     padding-bottom: 30px;
     padding-top: 10px;
     border-bottom: 2px solid var(--theme);
+    font-size: 46px;
 }
 
 #secondPara {
@@ -11,11 +12,14 @@ h1 {
 }
 
 #flights {
-    margin-top: 5%;
+    margin-top: 3.5%;
 }
 
 #flights > h2 {
     color: var(--theme);
+    margin-top: 4%;
+    margin-bottom: 3%;
+    font-size: 32px;
 }
 
 label { 
@@ -25,7 +29,7 @@ label {
 }
 
 #departureTime {
-    margin-left: 56px;
+    margin-left: 70px;
     margin-top: 10px;
     margin-bottom: 8px;
 }
@@ -35,7 +39,7 @@ label {
 }
 
 #departurePoint {
-    margin-left: 51px;
+    margin-left: 65px;
 }
 
 #searchButton {
@@ -43,3 +47,6 @@ label {
     margin-right: 12px;
 }
 
+#flight-cards-wrapper {
+    padding-left: 12%;
+}

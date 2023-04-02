@@ -16,9 +16,11 @@
             <label for="numOfPassengers">Number of passangers: </label>
             <input type="number" class="inputRegular" [(ngModel)]="searchedFlight.numberOfPassengers" id="numOfPassengers" name="numOfPassengers" min="1">
             <button class='regularButton' id="searchButton" type='submit'(click)="getSearchedFlights()">Search</button>
-            <button class='regularButton' (click)="getAllFlights()">Show all</button>
+            <button class='regularButton' (click)="resetSearch()">Show all</button>
         </div>
         <h2>Our Flights</h2>
-        <flight-card *ngFor="let flight of flightsToShow" [flight]="flight" (cancelFlight)="cancelFlight($event)"></flight-card>         
+        <div id="flight-cards-wrapper">
+            <flight-card *ngFor="let flight of flightsToShow" [flight]="flight" (cancelFlight)="cancelFlight($event)"></flight-card>         
+        </div>
     </div>
 </div>
