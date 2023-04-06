@@ -1,4 +1,5 @@
 ﻿using Flights.DTOs;
+using Flights.Enums;
 using Flights.Model;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -41,6 +42,20 @@ namespace Flights.Repository
                                                    filteredFlight.DepartureTime.Day == day).ToList();
             
         }
+
+        public void UpdatePastFlights()
+        {
+            DateTime currentTime = DateTime.Now;
+            List<Flight> pastFlights = _flights.Find(flight => currentTime > flight.DepartureTime.AddMinutes(flight.Duration) && flight.Status==FlightStatus.SCHEDULED).ToList();
+            foreach(Flight flight in pastFlights)
+            {
+                var filter = Builders<Flight>.Filter.Eq("Id", flight.Id);
+                var update = Builders<Flight>.Update.Set("Status", FlightStatus.PAST);
+                _flights.UpdateOne(filter, update);
+            }
+        }
+
+        
 
         public void Create(Flight flight)
         {

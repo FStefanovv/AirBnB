@@ -17,7 +17,8 @@ namespace Flights
         private MongoClient _mongoClient { get; set; }
         public DbContext(IConfiguration configuration)
         {
-            // var _mongoClient = new MongoClient(ConfigurationManager.ConnectionStrings["MongoConnectionString"].ConnectionString);
+            //_mongoClient = new MongoClient(Environment.GetEnvironmentVariable("MONGO_DB_URI"));
+            //_db = _mongoClient.GetDatabase(Environment.GetEnvironmentVariable("MONGO_DB_NAME"));
             _mongoClient = new MongoClient(configuration.GetValue<string>("XWSDatabase:ConnectionString"));
             _db = _mongoClient.GetDatabase(configuration.GetValue<string>("XWSDatabase:DatabaseName"));
         }

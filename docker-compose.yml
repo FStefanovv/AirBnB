@@ -8,10 +8,9 @@ services:
     hostname: "flights-server"   
     ports:
       - 5000:80  
-      - 5001:430
     environment:
-      - PORT=5000
       - MONGO_DB_URI=mongodb://root:pass@mongo:27017
+      - MONGO_DB_NAME=XWS_Projekat     
     depends_on:
       mongo:
         condition: service_healthy
@@ -48,9 +47,6 @@ services:
       - mongo
     ports:
       - "8081:8081"
-    volumes:
-      - mongo_express_data:/data/db
 
 volumes:
   mongo_store:
-  mongo_express_data:

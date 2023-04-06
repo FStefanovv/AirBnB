@@ -8,7 +8,7 @@
         <div id="sidebar-option" *ngIf="loggedIn && userRole == 'REGULAR_USER'" (click)="changeRoute('/purchase-tickets-regular')" >Purchse a ticket</div>
         <div id="sidebar-option" *ngIf="loggedIn && userRole == 'REGULAR_USER'" (click)="changeRoute('/view-bought-tickets')">View tickets</div>
     </div>
-    <button (click)="logIn()" class="regularButton"  [style.visibility]="loggedIn? 'hidden' : 'visible'">
+    <button (click)="logIn()" class="regularButton"  [style.visibility]="loggedIn? 'hidden' : 'visible'" id="login">
         Log In
     </button>
     <p [style.visibility]="loggedIn? 'hidden' : 'visible'" id="create-account">Don't have an account?<br><span (click)="goToRegistration()" id="create-account-span"><u>Create one here!</u></span></p>

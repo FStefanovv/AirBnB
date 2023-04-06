@@ -1,3 +1,4 @@
+using Flights.BackgroundTasks;
 using Flights.Model;
 using Flights.Repository;
 using Flights.Service;
@@ -37,6 +38,8 @@ namespace Flights
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
+
+            services.AddHostedService<UpdateFlightStatus>();
 
             services.AddSingleton<IDbContext, DbContext>();
 

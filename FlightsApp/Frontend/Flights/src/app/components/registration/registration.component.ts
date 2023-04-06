@@ -64,7 +64,7 @@ export class RegistrationComponent implements OnInit {
     if(this.registrationData.password!=this.registrationData.confirmPassword)
       return "Passwords don't match";
     else if(this.registrationData.password && this.registrationData.password.length <= 8)
-      return "Password too short, needs to contain at least 9 characters";
+      return "Password too short, needs to contain at least 8 characters";
     return undefined;
   }
 

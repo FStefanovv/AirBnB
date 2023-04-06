@@ -11,12 +11,12 @@
             <label id="arrivalLabel" for="arrivalPoint">Arrival point: </label>
             <input type="text" class="inputRegular" [(ngModel)]="searchedFlight.arrivalPoint" id="arrivalPoint" name="arrivalPoint"><br>
             
-            <label for="departureTime">Departure time: </label>
+            <label for="departureTime">Departure date: </label>
             <input id="departureTime" type="date" class="inputRegular" [(ngModel)]="searchedFlight.departureTime" id="departureTime" name="departureTime"><br>
             <label for="numOfPassengers">Number of passangers: </label>
             <input type="number" class="inputRegular" [(ngModel)]="searchedFlight.numberOfPassengers" id="numOfPassengers" name="numOfPassengers" min="1">
             <button class='regularButton' id="searchButton" type='submit'(click)="getSearchedFlights()">Search</button>
-            <button class='regularButton' (click)="resetSearch()">Show all</button>
+            <button class='regularButton' (click)="resetSearch()">Reset filter</button>
         </div>
         <h2>Our Flights</h2>
         <div id="flight-cards-wrapper">

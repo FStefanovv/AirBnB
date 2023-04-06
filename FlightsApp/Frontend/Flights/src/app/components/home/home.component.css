@@ -48,5 +48,9 @@ label {
 }
 
 #flight-cards-wrapper {
-    padding-left: 12%;
+    padding-left: 14%;
+}
+
+#numOfPassengers {
+    margin-left: 1.3%;
 }

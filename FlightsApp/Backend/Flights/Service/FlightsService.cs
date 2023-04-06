@@ -47,5 +47,10 @@ namespace Flights.Service
         {
             return _flightsRepository.GetSearched(departurePoint,arrivalPoint,numberOfPassenger,dateOfDeparture);
         }
+
+        public void UpdatePastFlights()
+        {
+            _flightsRepository.UpdatePastFlights();
+        }
     }
 }
