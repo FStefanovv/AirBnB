@@ -9,6 +9,8 @@ namespace Users.Repository
 {
     public interface IUserRepository
     {
+        void Create(User user);
         User GetUserWithCredentials(LoginCredentialsDTO credentials);
+        bool CheckIfEMailInUse(string email);
     }
 }

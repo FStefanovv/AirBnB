@@ -23,13 +23,13 @@ namespace Users.Model
 
         public User() { }
 
-        public User(User user)
+        public User(string firstName, string lastName, string email, string password, string role)
         {
-            FirstName = user.FirstName;
-            LastName = user.LastName;
-            Email = user.Email;
-            Password = user.Password;
-            Role = user.Role;
+            FirstName = firstName;
+            LastName = lastName;
+            Email = email;
+            Password = password;
+            Role = role;
         }
     }
 }

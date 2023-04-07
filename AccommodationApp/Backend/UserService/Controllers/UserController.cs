@@ -14,9 +14,9 @@ namespace Users.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly UserService _userService;
+        private readonly IUserService _userService;
 
-        public UserController(UserService userService)
+        public UserController(IUserService userService)
         {
             _userService = userService;
         }
@@ -37,7 +37,7 @@ namespace Users.Controllers
             return Ok(token);
         }
 
-        /*
+        
         [HttpPost]
         [AllowAnonymous]
         [Route("register")]
@@ -47,13 +47,13 @@ namespace Users.Controllers
         {
             try
             {
-                SuccessfulRegistrationDTO dto = _usersService.Register(registrationData);
+                SuccessfulRegistrationDTO dto = _userService.Register(registrationData);
                 return Ok(dto);
             }
             catch (Exception ex)
             {
                 return StatusCode(400, ex.Message);
             }
-        }*/
+        }
     }
 }

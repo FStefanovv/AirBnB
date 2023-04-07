@@ -4,18 +4,19 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Users.Adapters;
 using Users.DTO;
 using Users.Model;
 using Users.Repository;
 
 namespace Users.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
-        private readonly UserRepositoryMongo _userRepository;
+        private readonly IUserRepository _userRepository;
         private readonly string key;
 
-        public UserService(UserRepositoryMongo userRepository, IConfiguration configuration)
+        public UserService(IUserRepository userRepository, IConfiguration configuration)
         {
             _userRepository = userRepository;
             key = configuration.GetSection("JwtKey").ToString();
@@ -50,15 +51,15 @@ namespace Users.Services
             return new TokenDTO(tokenHandler.WriteToken(token));
         }
 
-        /*
+
         public SuccessfulRegistrationDTO Register(RegistrationDTO registrationData)
         {
             try
             {
                 Validate(registrationData);
-                User user = new User(registrationData);
+                User user = UserAdapter.RegistrationDtoToUser(registrationData);
                 _userRepository.Create(user);
-                return new SuccessfulRegistrationDTO(registrationData.Username);
+                return new SuccessfulRegistrationDTO(user.Email);
             }
             catch (Exception ex)
             {
@@ -68,14 +69,12 @@ namespace Users.Services
 
         private void Validate(RegistrationDTO registrationData)
         {
-            if (_userRepository.CheckIfUsernameInUse(registrationData.Username))
-                throw new Exception("The entered username already in use");
-            else if (_userRepository.CheckIfEMailInUse(registrationData.EMail))
-                throw new Exception("The entered email already in use");
+            if (_userRepository.CheckIfEMailInUse(registrationData.Email))
+                throw new Exception("The entered email is already in use!");
             else if (registrationData.Password != registrationData.ConfirmPassword)
-                throw new Exception("Passwords don't match");
-            else if (registrationData.Password.Length <= 8)
+                throw new Exception("Password and confirmation password need to be the same!");
+            else if (registrationData.Password.Length <= 6)
                 throw new Exception("Password is too short");
-        }*/
+        }
     }
 }

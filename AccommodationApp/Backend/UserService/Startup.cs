@@ -34,10 +34,8 @@ namespace Users
         {
             services.AddSingleton<IDbContext, DbContext>();
 
-            //services.AddScoped<IUserRepository, UserRepositoryMongo>();
-            services.AddSingleton<UserRepositoryMongo>();
-
-            services.AddSingleton<UserService>();
+            services.AddScoped<IUserRepository, UserRepositoryMongo>();
+            services.AddScoped<IUserService, UserService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -45,6 +43,7 @@ namespace Users
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "UserService", Version = "v1" });
             });
 
+            /*
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -63,14 +62,16 @@ namespace Users
                    ValidateLifetime = true
                };
            }
-           );
-            services.AddAuthorization(options =>
+           );*/
+
+            //authorization will possibly be removed from this microservice and transferred to API Gateway
+            /*services.AddAuthorization(options =>
             {
                 options.AddPolicy("Host",
-                     policy => policy.RequireClaim(ClaimTypes.Role, "ADMIN"));
+                     policy => policy.RequireClaim(ClaimTypes.Role, "HOST"));
                 options.AddPolicy("RegularUser",
                      policy => policy.RequireClaim(ClaimTypes.Role, "REGULAR_USER"));
-            });
+            });*/
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -87,7 +88,7 @@ namespace Users
 
             app.UseRouting();
 
-            app.UseAuthentication();
+            //app.UseAuthentication();
 
             app.UseAuthorization();
 
