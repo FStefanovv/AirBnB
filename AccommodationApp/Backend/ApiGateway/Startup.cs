@@ -14,6 +14,7 @@ using Ocelot.Middleware;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -37,7 +38,7 @@ namespace ApiGateway
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ApiGateway", Version = "v1" });
             });
 
-            var authenticationProviderKey = "BearerToken";
+            var authenticationProviderKey = "AuthTokenFromUserService";
             services.AddAuthentication()
                 .AddJwtBearer(authenticationProviderKey, x =>
                 {
@@ -53,7 +54,14 @@ namespace ApiGateway
                     };
                 }
             );
-            services.AddAuthorization();
+            /*services.AddAuthorization(options =>
+            {
+                options.AddPolicy("HostOnly",
+                     policy => policy.RequireClaim(ClaimTypes.Role, "HOST"));
+                options.AddPolicy("RegularUser",
+                     policy => policy.RequireClaim(ClaimTypes.Role, "REGULAR_USER"));
+            });
+            */
             services.AddOcelot();
         }
 
@@ -68,17 +76,16 @@ namespace ApiGateway
             }
 
 
-
+            await app.UseOcelot();
 
             app.UseAuthentication();         
 
             app.UseHttpsRedirection();          
 
-            app.UseRouting();     
-
-            await app.UseOcelot();
+            app.UseRouting();
 
             app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

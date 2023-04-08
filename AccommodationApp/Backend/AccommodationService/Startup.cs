@@ -10,6 +10,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Accommodation
@@ -32,12 +33,6 @@ namespace Accommodation
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Accommodation", Version = "v1" });
             });
-
-            var authenticationProviderKey = "BearerToken";
-            services.AddAuthentication()
-                .AddJwtBearer(authenticationProviderKey, x =>
-                {
-                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,7 +49,6 @@ namespace Accommodation
 
             app.UseRouting();
 
-            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

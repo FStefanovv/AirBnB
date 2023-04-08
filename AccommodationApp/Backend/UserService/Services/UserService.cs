@@ -36,8 +36,8 @@ namespace Users.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]{
                     new Claim(ClaimTypes.NameIdentifier, user.Id as string),
-                    new Claim(ClaimTypes.Name, user.Email as string),
-                    new Claim(ClaimTypes.Role, user.Role as string)
+                    new Claim("Email", user.Email as string),
+                    new Claim("Role", user.Role as string)
                 }),
                 Expires = expires,
                 SigningCredentials = new SigningCredentials(

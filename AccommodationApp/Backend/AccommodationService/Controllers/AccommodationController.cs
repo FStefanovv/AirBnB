@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +16,13 @@ namespace Accommodation.Controllers
 
         [HttpPost]
         [Route("create")]
-        [AllowAnonymous]
         public ActionResult Create()
         {
+
+            const string HeaderKeyName = "HostEmail";
+            Request.Headers.TryGetValue(HeaderKeyName, out StringValues hostEmail);
+            
+
             return Ok();
         }
     }
