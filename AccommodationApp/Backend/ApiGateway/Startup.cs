@@ -54,14 +54,7 @@ namespace ApiGateway
                     };
                 }
             );
-            /*services.AddAuthorization(options =>
-            {
-                options.AddPolicy("HostOnly",
-                     policy => policy.RequireClaim(ClaimTypes.Role, "HOST"));
-                options.AddPolicy("RegularUser",
-                     policy => policy.RequireClaim(ClaimTypes.Role, "REGULAR_USER"));
-            });
-            */
+           
             services.AddOcelot();
         }
 

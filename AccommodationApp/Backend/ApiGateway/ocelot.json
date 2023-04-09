@@ -47,7 +47,7 @@
         "Role": "HOST"
       },
       "AddHeadersToRequest": {
-        "HostEmail": "Claims[Email] > value"
+        "HostUsername": "Claims[Username] > value"
       }
     }
   ]

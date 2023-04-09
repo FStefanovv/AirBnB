@@ -7,16 +7,17 @@ namespace Users.DTO
 {
     public class SuccessfulRegistrationDTO
     {
-        public string Email { get; set; }
+        public string Username { get; set; }
 
         public SuccessfulRegistrationDTO()
         {
 
         }
 
-        public SuccessfulRegistrationDTO(string email)
+        public SuccessfulRegistrationDTO(string username)
         {
-            Email = email;
+           
+            Username = username;
         }
     }
 }

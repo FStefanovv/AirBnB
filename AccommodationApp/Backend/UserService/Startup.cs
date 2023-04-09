@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -32,46 +33,21 @@ namespace Users
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IDbContext, DbContext>();
+            //services.AddSingleton<IDbContext, MongoDbContext>();
 
-            services.AddScoped<IUserRepository, UserRepositoryMongo>();
+            services.AddDbContext<PostgresDbContext>(opts =>
+                opts.UseNpgsql(Configuration.GetConnectionString("PostgresDatabaseConnectionString")));
+
+
+
+            services.AddScoped<IUserRepository, UserRepositoryPostgres>();
             services.AddScoped<IUserService, UserService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "UserService", Version = "v1" });
-            });
-
-            /*
-            services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }
-           ).AddJwtBearer(x =>
-           {
-               x.RequireHttpsMetadata = false;
-               x.SaveToken = true;
-               x.TokenValidationParameters = new TokenValidationParameters
-               {
-                   ValidateIssuerSigningKey = true,
-                   IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("JwtKey").ToString())),
-                   ValidateIssuer = false,
-                   ValidateAudience = false,
-                   ValidateLifetime = true
-               };
-           }
-           );*/
-
-            //authorization will possibly be removed from this microservice and transferred to API Gateway
-            /*services.AddAuthorization(options =>
-            {
-                options.AddPolicy("Host",
-                     policy => policy.RequireClaim(ClaimTypes.Role, "HOST"));
-                options.AddPolicy("RegularUser",
-                     policy => policy.RequireClaim(ClaimTypes.Role, "REGULAR_USER"));
-            });*/
+            });  
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -87,8 +63,6 @@ namespace Users
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
-            //app.UseAuthentication();
 
             app.UseAuthorization();
 

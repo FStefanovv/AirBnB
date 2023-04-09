@@ -12,5 +12,6 @@ namespace Users.Repository
         void Create(User user);
         User GetUserWithCredentials(LoginCredentialsDTO credentials);
         bool CheckIfEMailInUse(string email);
+        bool CheckIfUsernameInUse(string username);
     }
 }

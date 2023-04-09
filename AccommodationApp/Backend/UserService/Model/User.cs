@@ -2,6 +2,7 @@
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,14 +10,14 @@ namespace Users.Model
 {
     public class User
     {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        //field should not be persisted in database
+        [NotMapped]
         public string FullName { get { return FirstName + " " + LastName; } }
         public string Email { get; set; }
+        public string Username { get; set; }
         public string Password { get; set; }
         public string Role { get; set; }
 

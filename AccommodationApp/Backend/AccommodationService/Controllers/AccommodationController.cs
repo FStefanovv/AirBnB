@@ -18,8 +18,10 @@ namespace Accommodation.Controllers
         [Route("create")]
         public ActionResult Create()
         {
-            const string HeaderKeyName = "HostEmail";
-            Request.Headers.TryGetValue(HeaderKeyName, out StringValues hostEmail);
+            const string HeaderKeyName = "HostUsername";
+            Request.Headers.TryGetValue(HeaderKeyName, out StringValues hostUsername);
+
+            Console.WriteLine(hostUsername);
             
 
             return Ok();

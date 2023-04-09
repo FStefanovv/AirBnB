@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Users
 {
-    public class DbContext : IDbContext
+    public class MongoDbContext : IDbContext
     {
         private IMongoDatabase _db { get; set; }
         private MongoClient _mongoClient { get; set; }
-        public DbContext(IConfiguration configuration)
+        public MongoDbContext(IConfiguration configuration)
         {
             _mongoClient = new MongoClient(configuration.GetValue<string>("XWSDatabase:ConnectionString"));
             _db = _mongoClient.GetDatabase(configuration.GetValue<string>("XWSDatabase:DatabaseName"));

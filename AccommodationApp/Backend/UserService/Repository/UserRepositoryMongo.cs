@@ -33,10 +33,16 @@ namespace Users.Repository
         {
            foreach(User user in _users.Find(user=>true).ToList())
             {
-                if (user.Email == credentials.Email && _hasher.VerifyHashedPassword(user, user.Password, credentials.Password) != 0)
+                if (user.Username == credentials.Username && _hasher.VerifyHashedPassword(user, user.Password, credentials.Password) != 0)
                     return user;
             }
             return null;
+        }
+
+
+        public bool CheckIfUsernameInUse(string username)
+        {
+            return _users.Find(user => user.Username == username).FirstOrDefault() != null;
         }
 
         public bool CheckIfEMailInUse(string email)

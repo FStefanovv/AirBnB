@@ -35,8 +35,9 @@ namespace Users.Services
             var tokenDescriptor = new SecurityTokenDescriptor()
             {
                 Subject = new ClaimsIdentity(new Claim[]{
-                    new Claim(ClaimTypes.NameIdentifier, user.Id as string),
+                    new Claim("UserId", user.Id as string),
                     new Claim("Email", user.Email as string),
+                    new Claim("Username", user.Username as string),
                     new Claim("Role", user.Role as string)
                 }),
                 Expires = expires,
@@ -71,6 +72,8 @@ namespace Users.Services
         {
             if (_userRepository.CheckIfEMailInUse(registrationData.Email))
                 throw new Exception("The entered email is already in use!");
+            else if(_userRepository.CheckIfUsernameInUse(registrationData.Username))
+                throw new Exception("The entered username is already in use!");
             else if (registrationData.Password != registrationData.ConfirmPassword)
                 throw new Exception("Password and confirmation password need to be the same!");
             else if (registrationData.Password.Length <= 6)
