@@ -38,7 +38,6 @@
           "Port": 5002
         }
       ],
-
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "AuthTokenFromUserService",
         "AllowedScopes": []
@@ -47,8 +46,21 @@
         "Role": "HOST"
       },
       "AddHeadersToRequest": {
-        "HostUsername": "Claims[Username] > value"
+        "HostUsername": "Claims[Username] > value",
+        "HostId": "Claims[UserId] > value"
       }
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/get-photos/{id}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/accommodation/get-photos/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
     }
   ]
 }

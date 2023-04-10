@@ -20,7 +20,8 @@ namespace Users.Adapters
                 LastName = dto.LastName,
                 Email = dto.Email,
                 Username = dto.Username,
-                Role = dto.Role
+                Role = dto.Role,
+                Address = dto.Address
             };
             user.Password = hasher.HashPassword(user, dto.Password);
 

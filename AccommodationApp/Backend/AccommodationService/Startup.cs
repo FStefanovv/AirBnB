@@ -1,3 +1,5 @@
+using Accommodation.Repository;
+using Accommodation.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,6 +30,11 @@ namespace Accommodation
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddSingleton<IDbContext, MongoDbContext>();
+            services.AddSingleton<AccommodationRepository>();
+            services.AddSingleton<AccommodationService>();
+
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -44,6 +51,8 @@ namespace Accommodation
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Accommodation v1"));
             }
+
+            app.UseStaticFiles();
 
             app.UseHttpsRedirection();
 

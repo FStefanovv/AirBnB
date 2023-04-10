@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Users.Model;
 
 namespace Users.DTO
 {
@@ -15,6 +16,8 @@ namespace Users.DTO
         public string Password { get; set; }
         public string ConfirmPassword { get; set; }
         public string Role { get; set; }
+
+        public Address Address { get; set; }
 
         public RegistrationDTO() { }
     }

@@ -45,28 +45,36 @@ namespace Users.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
 
-                    b.HasData(
-                        new
+            modelBuilder.Entity("Users.Model.User", b =>
+                {
+                    b.OwnsOne("Users.Model.Address", "Address", b1 =>
                         {
-                            Id = "1",
-                            Email = "imeprezime@gmail.com",
-                            FirstName = "Ime",
-                            LastName = "Prezime",
-                            Password = "sifra123",
-                            Role = "HOST",
-                            Username = "imeprezime"
-                        },
-                        new
-                        {
-                            Id = "2",
-                            Email = "imenkoprezimenko@gmail.com",
-                            FirstName = "Imenko",
-                            LastName = "Prezimenic",
-                            Password = "sifra123",
-                            Role = "HOST",
-                            Username = "imenkoprezimenko"
+                            b1.Property<string>("UserId")
+                                .HasColumnType("text");
+
+                            b1.Property<string>("City")
+                                .HasColumnType("text");
+
+                            b1.Property<string>("Country")
+                                .HasColumnType("text");
+
+                            b1.Property<int>("Number")
+                                .HasColumnType("integer");
+
+                            b1.Property<string>("Street")
+                                .HasColumnType("text");
+
+                            b1.HasKey("UserId");
+
+                            b1.ToTable("Users");
+
+                            b1.WithOwner()
+                                .HasForeignKey("UserId");
                         });
+
+                    b.Navigation("Address");
                 });
 #pragma warning restore 612, 618
         }
