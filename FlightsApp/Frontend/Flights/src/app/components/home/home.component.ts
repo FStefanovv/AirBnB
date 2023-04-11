@@ -25,7 +25,6 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.getAllFlights();
     if(this.authService.isLoggedIn()){
-      console.log('entered');
       this.role = this.authService.getRole();
     }
   }

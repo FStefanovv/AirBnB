@@ -1,0 +1,38 @@
+#main-div {
+    border: 1px solid #CCD1D1;
+    border-radius: 8px;
+    text-align: center;
+    padding: 2.5% 5% 0% 5%;
+    width: 30%;
+    margin: 60px auto;
+    color: #486A8A;
+}
+
+
+h1 {
+    font-size: 32px;
+    margin-bottom: 12%;
+}
+
+label {
+    margin-top: 8%;
+    display: block;
+    font-size: 20px;
+}
+
+input {
+    margin-top: 10px;
+    font-size: 20px;
+}
+
+button {
+    display: block;
+    margin: 0 auto 45px auto;
+}
+
+p {
+    color: red;
+    font-size: 20px;
+    margin-top: 30px;
+    margin-bottom: 40px;
+}
