@@ -1,0 +1,13 @@
+<div id="main-div">
+    <h1>AirBnB Your Accommodation</h1>
+    <label for="name">Name</label>
+    <input id="name" class="input-regular" type="text" >
+    <label>Address</label>
+    <input type="text" placeholder="Street" class="input-regular"/>
+    <input type="text" placeholder="No." class="input-regular"  id="street-no" />
+    <input type="text" placeholder="City" class="input-regular"/>
+    <input type="text" placeholder="Country" class="input-regular"/>
+    <ng-multiselect-dropdown [placeholder]="'Choose'" [settings]="dropdownSettings" [data]="dropdownList"[(ngModel)]="selectedItems">
+</ng-multiselect-dropdown>
+
+</div>
