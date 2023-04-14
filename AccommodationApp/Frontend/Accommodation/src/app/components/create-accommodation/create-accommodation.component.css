@@ -29,3 +29,13 @@ input {
 #street-no {
      width: 12%;
 }
+
+#offers-label {
+    margin-bottom: 20px;
+}
+
+button.button-regular {
+    display: block;
+    text-align: center;
+    margin: 50px auto;
+}

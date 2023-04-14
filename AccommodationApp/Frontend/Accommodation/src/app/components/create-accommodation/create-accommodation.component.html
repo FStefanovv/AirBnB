@@ -1,13 +1,27 @@
 <div id="main-div">
     <h1>AirBnB Your Accommodation</h1>
-    <label for="name">Name</label>
-    <input id="name" class="input-regular" type="text" >
-    <label>Address</label>
-    <input type="text" placeholder="Street" class="input-regular"/>
-    <input type="text" placeholder="No." class="input-regular"  id="street-no" />
-    <input type="text" placeholder="City" class="input-regular"/>
-    <input type="text" placeholder="Country" class="input-regular"/>
-    <ng-multiselect-dropdown [placeholder]="'Choose'" [settings]="dropdownSettings" [data]="dropdownList"[(ngModel)]="selectedItems">
-</ng-multiselect-dropdown>
 
+    <label for="name">Name</label>
+    <input [(ngModel)]='accommDto.name' id="name" class="input-regular" type="text" >
+
+    <label>Address</label>
+    <input [(ngModel)]='accommDto.address!.street'  type="text" placeholder="Street" class="input-regular"/>
+    <input [(ngModel)]='accommDto.address!.number' type="number" placeholder="No." class="input-regular"  id="street-no" />
+    <input [(ngModel)]='accommDto.address!.city' type="text" placeholder="City" class="input-regular"/>
+    <input [(ngModel)]='accommDto.address!.country' type="text" placeholder="Country" class="input-regular"/>
+
+    <label id="offers-label">What does your accommodation offer?</label>
+    <ng-multiselect-dropdown [placeholder]="'Select'" [settings]="dropdownSettings" [data]="dropdownList" [(ngModel)]="selectedItems"></ng-multiselect-dropdown>
+
+    
+    <label>Min. number of guests</label>
+    <input type="number" class='input-regular' [(ngModel)]="accommDto.minGuests"/>
+        
+    <label>Max. number of guests</label>
+    <input type="number" class='input-regular' [(ngModel)]="accommDto.maxGuests"/>
+
+    <label>Add photos</label>
+    <input type="file" accept="image/png, image/jpeg" multiple (change)="selectImages($event)">
+
+    <button class="button-regular" (click)="postAccommodation()">Post</button>
 </div>

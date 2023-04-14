@@ -26,6 +26,7 @@ namespace Accommodation.Controllers
 
         [HttpPost]
         [Route("create")]
+        [Consumes("multipart/form-data")]
         public ActionResult Create()
         {
             Request.Headers.TryGetValue("HostUsername", out StringValues hostUsername);
@@ -33,13 +34,14 @@ namespace Accommodation.Controllers
 
             var uploadedPhotos = Request.Form.Files.ToList();
 
-            var accommodationData = Request.Form["accommodationData"].ToList();
+            var accommodationData = Request.Form["accomm-data"].ToList();
             CreateAccommodationDTO dto = JsonConvert.DeserializeObject<CreateAccommodationDTO>(accommodationData[0]);
 
             _accommodationService.Create(dto, hostUsername, uploadedPhotos);
 
             return Ok();
         }
+
 
         [HttpGet]
         [Route("get-photos/{id}")]
