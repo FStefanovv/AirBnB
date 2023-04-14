@@ -8,7 +8,7 @@ namespace Accommodation.Adapters
 {
     public static class CreateAccommodationAdapter
     {
-        public static Model.Accommodation CreateAccommodaitonDtoToObject(CreateAccommodationDTO dto, string hostUsername)
+        public static Model.Accommodation CreateAccommodaitonDtoToObject(CreateAccommodationDTO dto, string hostId)
         {
             var accommodation = new Model.Accommodation()
             {
@@ -17,7 +17,8 @@ namespace Accommodation.Adapters
                 Offers = dto.Offers,
                 MaxGuests = dto.MaxGuests,
                 MinGuests = dto.MinGuests,
-                Host = hostUsername
+                HostId = hostId,
+                AutoApprove = dto.AutoApprove
             };
 
             return accommodation;

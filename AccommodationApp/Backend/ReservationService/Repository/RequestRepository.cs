@@ -18,13 +18,7 @@ namespace ReservationService.Repository
 
         public ReservationRequest GetById(string id)
         {
-            /*
-            foreach(ReservationRequest request in _context.Requests)
-            {
-                if (request.Id == id)
-                    return request;
-            }
-            return null; */
+         
             return _context.Requests.Where(req => req.Id == id).FirstOrDefault();
         }
 

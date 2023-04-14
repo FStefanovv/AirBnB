@@ -33,7 +33,5 @@ namespace ReservationService.Service
             }
 
         }
-        // throw new Exception("The entered email is already in use!");
-
     }
 }

@@ -19,6 +19,50 @@ namespace ReservationService.Migrations
                 .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+            modelBuilder.Entity("ReservationService.Model.Reservation", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("text");
+
+                    b.Property<string>("AccommodationId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("AccommodationName")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("From")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("NumberOfGuests")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("To")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Reservations");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            AccommodationId = "643455b8941a49684fb8cfc1",
+                            From = new DateTime(2023, 5, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NumberOfGuests = 10,
+                            Status = 0,
+                            To = new DateTime(2023, 5, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserId = "7bf59c03-17a6-49a9-92f1-4c251b0d0bd8"
+                        });
+                });
+
             modelBuilder.Entity("ReservationService.Model.ReservationRequest", b =>
                 {
                     b.Property<string>("Id")
@@ -26,6 +70,9 @@ namespace ReservationService.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("AccommodationId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("AccommodationName")
                         .HasColumnType("text");
 
                     b.Property<DateTime>("From")

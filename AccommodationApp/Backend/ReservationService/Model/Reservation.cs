@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ReservationService.Model
 {
-    public class ReservationRequest
+    public class Reservation
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string Id { get; set; }
@@ -17,6 +17,6 @@ namespace ReservationService.Model
         public string AccommodationId { get; set; }
         public string AccommodationName { get; set; }
         public int NumberOfGuests { get; set; }
-        public RequestStatus Status { get; set; }
+        public ReservationStatus Status { get; set; }
     }
 }

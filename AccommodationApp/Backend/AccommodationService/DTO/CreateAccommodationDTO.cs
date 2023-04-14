@@ -13,6 +13,7 @@ namespace Accommodation.DTO
         public string[] Offers { get; set; }
         public int MinGuests { get; set; }
         public int MaxGuests { get; set; }
+        public bool AutoApprove { get; set; }
 
         public CreateAccommodationDTO() { }
     }
