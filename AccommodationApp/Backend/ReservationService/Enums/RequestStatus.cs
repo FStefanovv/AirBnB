@@ -10,6 +10,7 @@ namespace ReservationService.Enums
         PENDING,
         DENIED,
         ACCEPTED,
-        CANCELLED
+        CANCELLED,
+        USER_DELETED
     }
 }

@@ -16,11 +16,13 @@ namespace ReservationService.Controllers
     [ApiController]
     public class ReservationController : ControllerBase
     {
-        private readonly IReservationService _service;
+        private readonly IReservationService _reservationService;
+        private readonly IRequestService _requestService;
 
-        public ReservationController(IReservationService service)
+        public ReservationController(IReservationService reservationService, IRequestService requestService)
         {
-            _service = service;
+            _reservationService = reservationService;
+            _requestService = requestService;
         }
 
         [HttpPut]
@@ -32,7 +34,7 @@ namespace ReservationService.Controllers
             try
             {
                 Request.Headers.TryGetValue("UserId", out StringValues userId);
-                _service.CancelReservation(id, userId);
+                _reservationService.CancelReservation(id, userId);
 
                 return StatusCode(200);
             }
@@ -53,7 +55,7 @@ namespace ReservationService.Controllers
             try
             {
                 Request.Headers.TryGetValue("UserId", out StringValues userId);
-                _service.CancelReservationRequest(id, userId);
+                _requestService.CancelReservationRequest(id, userId);
 
                 return StatusCode(200);
             }
@@ -68,13 +70,33 @@ namespace ReservationService.Controllers
         public ActionResult GetUserReservations()
         {
             Request.Headers.TryGetValue("UserId", out StringValues userId);
-            List<Reservation> reservations = _service.GetUserReservations(userId);
+            List<Reservation> reservations = _reservationService.GetUserReservations(userId);
 
-            //List<ReservationDTO> reservationDTOs = ReservationAdapter.ReservationsToDto(reservations);
-
+            
             return Ok(reservations);
         }
-       
+
+        [HttpGet]
+        [Route("get-pending-requests")]
+        public ActionResult GetPendingRequests()
+        {
+            Request.Headers.TryGetValue("UserId", out StringValues userId);
+            List<ReservationRequest> requests = _requestService.GetPendingRequestsByHost(userId);
+
+            return Ok(requests);
+        }
+
+        [HttpGet]
+        [Route("get-resolved-requests")]
+        public ActionResult GetHostReservations()
+        {
+            Request.Headers.TryGetValue("UserId", out StringValues userId);
+            List<ReservationRequest> requests = _requestService.GetResolvedRequestsByHost(userId);
+
+            return Ok(requests);
+        }
+
+
 
     }
 }

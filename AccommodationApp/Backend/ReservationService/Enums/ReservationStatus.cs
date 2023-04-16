@@ -8,6 +8,7 @@ namespace ReservationService.Enums
     public enum ReservationStatus
     {
         ACTIVE,
+        PAST,
         CANCELLED
     }
 }

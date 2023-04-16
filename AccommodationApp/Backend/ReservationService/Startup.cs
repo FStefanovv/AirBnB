@@ -36,6 +36,9 @@ namespace ReservationService
 
             services.AddScoped<IReservationRepository, ReservationRepository>();
             services.AddScoped<IReservationService, Service.ReservationService>();
+            services.AddScoped<IRequestRepository, RequestRepository>();
+            services.AddScoped<IRequestService, Service.RequestService>();
+
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

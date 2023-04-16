@@ -39,26 +39,21 @@ namespace ReservationService.Service
             }
         }
 
-        public void CancelReservationRequest(string requestId, StringValues userId)
-        {
-            ReservationRequest request = _repository.GetRequestById(requestId);
-            if (request == null)
-                throw new Exception();
-            else if (request.UserId != userId)
-                throw new Exception();
-            else if (request.Status != Enums.RequestStatus.PENDING)
-                throw new Exception();
-            else
-            {
-                request.Status = Enums.RequestStatus.CANCELLED;
-                _repository.UpdateRequest(request);
-            }
-
-        }
-
         public List<Reservation> GetUserReservations(StringValues userId)
         {
             return _repository.GetUserReservations(userId);
         }
+
+
+        //to be called from UserService via gRPC to check whether user account can be deleted or not
+        public bool GuestHasActiveReservations(string id)
+        {
+            List<Reservation> activeReservations = _repository.GetActiveUserReservations(id);
+
+
+            return activeReservations.Count != 0;
+        }
+
+       
     }
 }

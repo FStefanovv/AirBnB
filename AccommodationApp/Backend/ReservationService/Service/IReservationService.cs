@@ -9,8 +9,8 @@ namespace ReservationService.Service
 {
     public interface IReservationService
     {
-        void CancelReservationRequest(string requestId, StringValues userId);
         void CancelReservation(string reservationId, StringValues userId);
         List<Reservation> GetUserReservations(StringValues userId);
+        bool GuestHasActiveReservations(string id);
     }
 }

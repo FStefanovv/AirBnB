@@ -16,6 +16,7 @@ namespace ReservationService.Model
         public string UserId { get; set; }
         public string AccommodationId { get; set; }
         public string AccommodationName { get; set; }
+        public string HostId { get; set; }
         public int NumberOfGuests { get; set; }
         public RequestStatus Status { get; set; }
     }

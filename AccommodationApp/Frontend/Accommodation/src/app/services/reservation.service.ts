@@ -23,4 +23,8 @@ export class ReservationService {
   cancel(id: string) : any {
     return this.http.put<any>(this.gatewayUrl+'cancel-reservation/'+id, this.httpOptions);
   }
+
+  getPendingRequests() : Observable<Request[]> {
+    return this.http.get<Request[]>(this.gatewayUrl+'get-pending-requests', this.httpOptions)
+  }
 }

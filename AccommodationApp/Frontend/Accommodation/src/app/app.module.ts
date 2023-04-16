@@ -14,6 +14,7 @@ import { HomeComponent } from './components/home/home.component';
 
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { UserReservationsComponent } from './components/user-reservations/user-reservations.component';
+import { PendingRequestsComponent } from './components/pending-requests/pending-requests.component';
 
 export function tokenGetter() { 
   return localStorage.getItem("jwt"); 
@@ -26,7 +27,8 @@ export function tokenGetter() {
     LoginComponent,
     CreateAccommodationComponent,
     HomeComponent,
-    UserReservationsComponent
+    UserReservationsComponent,
+    PendingRequestsComponent
   ],
   imports: [
     BrowserModule,

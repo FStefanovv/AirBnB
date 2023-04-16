@@ -5,13 +5,16 @@ import { CreateAccommodationComponent } from './components/create-accommodation/
 import { AuthGuard } from './auth-guard/auth.guard';
 import { HomeComponent } from './components/home/home.component';
 import { UserReservationsComponent } from './components/user-reservations/user-reservations.component';
+import { PendingRequestsComponent } from './components/pending-requests/pending-requests.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch:'full' },
   { path: 'home', component: HomeComponent },
   { path:'login', component: LoginComponent },
   { path:'create-accommodation', component: CreateAccommodationComponent, canActivate:[AuthGuard], data: {roles: ['HOST']} },
-  { path:'my-reservations', component: UserReservationsComponent, canActivate:[AuthGuard], data: {roles: ['REGULAR_USER']} }
+  { path:'my-reservations', component: UserReservationsComponent, canActivate:[AuthGuard], data: {roles: ['REGULAR_USER']} },
+  { path:'pending-requests', component: PendingRequestsComponent, canActivate:[AuthGuard], data: {roles: ['HOST']} }
+
 
 ];
 

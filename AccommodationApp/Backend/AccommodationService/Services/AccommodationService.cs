@@ -22,9 +22,9 @@ namespace Accommodation.Services
             _repository = repository;
         }
 
-        public void Create(CreateAccommodationDTO dto, StringValues hostUsername, List<IFormFile> photos)
+        public void Create(CreateAccommodationDTO dto, StringValues hostId, List<IFormFile> photos)
         {
-            Model.Accommodation accommodation = CreateAccommodationAdapter.CreateAccommodaitonDtoToObject(dto, hostUsername);
+            Model.Accommodation accommodation = CreateAccommodationAdapter.CreateAccommodaitonDtoToObject(dto, hostId);
 
             _repository.Create(accommodation, photos);
         }

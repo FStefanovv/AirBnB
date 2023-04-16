@@ -34,6 +34,9 @@ namespace ReservationService.Migrations
                     b.Property<DateTime>("From")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<string>("HostId")
+                        .HasColumnType("text");
+
                     b.Property<int>("NumberOfGuests")
                         .HasColumnType("integer");
 
@@ -77,6 +80,9 @@ namespace ReservationService.Migrations
 
                     b.Property<DateTime>("From")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("HostId")
+                        .HasColumnType("text");
 
                     b.Property<int>("NumberOfGuests")
                         .HasColumnType("integer");

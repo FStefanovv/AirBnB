@@ -8,12 +8,10 @@ using System.Threading.Tasks;
 namespace ReservationService.Repository
 {
     public interface IReservationRepository
-    {
-        void UpdateRequest(ReservationRequest request);
+    {   
         void UpdateReservation(Reservation reservation);
-
-        ReservationRequest GetRequestById(string requestId);
         Reservation GetReservationById(string reservationId);
         List<Reservation> GetUserReservations(StringValues userId);
+        List<Reservation> GetActiveUserReservations(string id);
     }
 }

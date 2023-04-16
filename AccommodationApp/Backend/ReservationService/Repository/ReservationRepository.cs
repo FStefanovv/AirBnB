@@ -17,12 +17,6 @@ namespace ReservationService.Repository
             _context = context;
         }
 
-        public ReservationRequest GetRequestById(string requestId)
-        {
-         
-            return _context.Requests.Where(req => req.Id == requestId).FirstOrDefault();
-        }
-
         public Reservation GetReservationById(string reservationId)
         {
             return _context.Reservations.Where(res => res.Id == reservationId).FirstOrDefault();
@@ -31,20 +25,6 @@ namespace ReservationService.Repository
         public List<Reservation> GetUserReservations(StringValues userId)
         {
             return _context.Reservations.Where(res => res.UserId == userId[0]).ToList();
-        }
-
-        public void UpdateRequest(ReservationRequest request)
-        {
-            _context.Entry(request).State = EntityState.Modified;
-
-            try
-            {
-                _context.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                throw;
-            }
         }
 
         public void UpdateReservation(Reservation reservation)
@@ -59,6 +39,11 @@ namespace ReservationService.Repository
             {
                 throw;
             }
+        }
+
+        public List<Reservation> GetActiveUserReservations(string id)
+        {
+            return _context.Reservations.Where(res => res.UserId == id && res.Status==Enums.ReservationStatus.ACTIVE).ToList();
         }
     }
 }
