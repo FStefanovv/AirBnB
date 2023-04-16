@@ -39,3 +39,15 @@ button.button-regular {
     text-align: center;
     margin: 50px auto;
 }
+
+#auto-approve-div {
+    margin-top: 8%
+}
+
+#auto-approve-div input:hover {
+    cursor: pointer;
+}
+
+#auto-approve-span {
+    font-size: 20px;
+}

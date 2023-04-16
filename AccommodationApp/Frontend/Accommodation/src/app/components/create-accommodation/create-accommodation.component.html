@@ -20,8 +20,15 @@
     <label>Max. number of guests</label>
     <input type="number" class='input-regular' [(ngModel)]="accommDto.maxGuests"/>
 
+    <p [ngStyle]="{'color':'red', 'font-size':'20px'}" [style.visibility]="guestNumError? 'visible' : 'hidden'">Maximum number of guests cannot be lower than minimum number of guests</p>
+
     <label>Add photos</label>
     <input type="file" accept="image/png, image/jpeg" multiple (change)="selectImages($event)">
+
+    <br />
+    <div id="auto-approve-div">
+        <input type="checkbox"  [(ngModel)]="accommDto.autoApprove"/><span id="auto-approve-span">Auto approve reservation requests</span>
+    </div>
 
     <button class="button-regular" (click)="postAccommodation()">Post</button>
 </div>

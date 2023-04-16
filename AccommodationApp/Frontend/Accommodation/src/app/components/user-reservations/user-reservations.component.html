@@ -1,0 +1,31 @@
+<h1>Your reservations</h1>
+<table>
+    <tr>
+        <th>From</th>
+        <th>To</th>
+        <th>Accommodation</th>
+        <th>Number of guests</th>
+        <th>Status</th>
+        <th></th>
+    </tr>
+    <tr *ngFor="let reservation of reservations">
+        <td>
+            {{reservation.from | date:'mediumDate'}}
+        </td>
+        <td>
+            {{reservation.to |  date:'mediumDate'}}
+        </td>
+        <td>
+            {{reservation.accommodationName}}
+        </td>
+        <td>
+            {{reservation.numberOfGuests}}
+        </td>
+        <td>
+            {{reservation.status? 'cancelled' : 'active'}}
+        </td>
+        <td>
+            <button *ngIf="reservation.status==0" class="button-cancel" (click)="cancelReservation(reservation)">Cancel</button>
+        </td>
+    </tr>
+</table>

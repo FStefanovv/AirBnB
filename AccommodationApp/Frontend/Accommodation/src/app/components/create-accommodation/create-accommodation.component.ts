@@ -43,10 +43,15 @@ export class CreateAccommodationComponent implements OnInit {
   accommDto: CreateAccommodationDTO = new CreateAccommodationDTO();
   images: File[] = [];
 
+  guestNumError = false;
+
   ngOnInit(): void {    
   }
 
   postAccommodation() {
+    if(this.accommDto.maxGuests && this.accommDto.minGuests && this.accommDto.maxGuests < this.accommDto.minGuests){
+      this.guestNumError = true;
+    }
     for(let item of this.selectedItems){
       this.accommDto.offers?.push(item.item_text);
     }

@@ -34,6 +34,23 @@
     background-color: white;
 }
 
+.button-cancel {
+    background-color: red;
+    color:white;
+    border:1px solid red;
+    border-radius: 4px;
+    transition: 0.2s ease;
+    padding: 6px 12px;
+    font-weight: 500;
+    font-size: 20px;
+}
+
+.button-cancel:hover {
+    cursor: pointer;
+    color: red;
+    background-color: white;
+}
+
 .error-message {
     color: #FF3B3B;
 }

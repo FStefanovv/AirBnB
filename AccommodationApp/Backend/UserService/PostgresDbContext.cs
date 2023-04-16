@@ -15,7 +15,7 @@ namespace Users
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            /*
+            
             modelBuilder.Entity<User>()
                 .ToTable("Users");
 
@@ -40,7 +40,7 @@ namespace Users
                     Password = "sifra123",
                     Role = "HOST"
                 }
-                );*/
+                );
 
             modelBuilder.Entity<User>().OwnsOne(u => u.Address);
 

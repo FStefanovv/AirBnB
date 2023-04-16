@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
+using ReservationService.Adapter;
+using ReservationService.DTO;
+using ReservationService.Model;
 using ReservationService.Service;
 using System;
 using System.Collections.Generic;
@@ -13,12 +16,32 @@ namespace ReservationService.Controllers
     [ApiController]
     public class ReservationController : ControllerBase
     {
-        private readonly IRequestService _requestService;
+        private readonly IReservationService _service;
 
-        public ReservationController(IRequestService requestService)
+        public ReservationController(IReservationService service)
         {
-            _requestService = requestService;
+            _service = service;
         }
+
+        [HttpPut]
+        [Route("cancel-reservation/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult CancelReservation(string id)
+        {
+            try
+            {
+                Request.Headers.TryGetValue("UserId", out StringValues userId);
+                _service.CancelReservation(id, userId);
+
+                return StatusCode(200);
+            }
+            catch
+            {
+                return StatusCode(400);
+            }
+        }
+
 
 
         [HttpPut]
@@ -30,7 +53,7 @@ namespace ReservationService.Controllers
             try
             {
                 Request.Headers.TryGetValue("UserId", out StringValues userId);
-                _requestService.CancelReservationRequest(id, userId);
+                _service.CancelReservationRequest(id, userId);
 
                 return StatusCode(200);
             }
@@ -39,6 +62,19 @@ namespace ReservationService.Controllers
                 return StatusCode(400);
             }
         }
-        
+
+        [HttpGet]
+        [Route("get-user-reservations")]
+        public ActionResult GetUserReservations()
+        {
+            Request.Headers.TryGetValue("UserId", out StringValues userId);
+            List<Reservation> reservations = _service.GetUserReservations(userId);
+
+            //List<ReservationDTO> reservationDTOs = ReservationAdapter.ReservationsToDto(reservations);
+
+            return Ok(reservations);
+        }
+       
+
     }
 }

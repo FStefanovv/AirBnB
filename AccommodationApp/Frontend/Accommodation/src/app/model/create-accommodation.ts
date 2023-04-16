@@ -6,6 +6,7 @@ export class CreateAccommodationDTO {
     offers?: string[];
     minGuests?: number;
     maxGuests?: number;
+    autoApprove?: boolean;
 
     constructor(){
         this.name = '';
@@ -13,5 +14,6 @@ export class CreateAccommodationDTO {
         this.offers = [];
         this.minGuests = 0;
         this.maxGuests = 0;
+        this.autoApprove = false;
     }
 }

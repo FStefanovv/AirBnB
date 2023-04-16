@@ -34,8 +34,8 @@ namespace ReservationService
             services.AddDbContext<PostgresDbContext>(opts =>
                 opts.UseNpgsql(Configuration.GetConnectionString("PostgresDatabaseConnectionString")));
 
-            services.AddScoped<IRequestRepository, RequestRepository>();
-            services.AddScoped<IRequestService, RequestService>();
+            services.AddScoped<IReservationRepository, ReservationRepository>();
+            services.AddScoped<IReservationService, Service.ReservationService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
