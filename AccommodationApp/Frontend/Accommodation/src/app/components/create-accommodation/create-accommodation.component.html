@@ -1,0 +1,34 @@
+<div id="main-div">
+    <h1>AirBnB Your Accommodation</h1>
+
+    <label for="name">Name</label>
+    <input [(ngModel)]='accommDto.name' id="name" class="input-regular" type="text" >
+
+    <label>Address</label>
+    <input [(ngModel)]='accommDto.address!.street'  type="text" placeholder="Street" class="input-regular"/>
+    <input [(ngModel)]='accommDto.address!.number' type="number" placeholder="No." class="input-regular"  id="street-no" />
+    <input [(ngModel)]='accommDto.address!.city' type="text" placeholder="City" class="input-regular"/>
+    <input [(ngModel)]='accommDto.address!.country' type="text" placeholder="Country" class="input-regular"/>
+
+    <label id="offers-label">What does your accommodation offer?</label>
+    <ng-multiselect-dropdown [placeholder]="'Select'" [settings]="dropdownSettings" [data]="dropdownList" [(ngModel)]="selectedItems"></ng-multiselect-dropdown>
+
+    
+    <label>Min. number of guests</label>
+    <input type="number" class='input-regular' [(ngModel)]="accommDto.minGuests"/>
+        
+    <label>Max. number of guests</label>
+    <input type="number" class='input-regular' [(ngModel)]="accommDto.maxGuests"/>
+
+    <p [ngStyle]="{'color':'red', 'font-size':'20px'}" [style.visibility]="guestNumError? 'visible' : 'hidden'">Maximum number of guests cannot be lower than minimum number of guests</p>
+
+    <label>Add photos</label>
+    <input type="file" accept="image/png, image/jpeg" multiple (change)="selectImages($event)">
+
+    <br />
+    <div id="auto-approve-div">
+        <input type="checkbox"  [(ngModel)]="accommDto.autoApprove"/><span id="auto-approve-span">Auto approve reservation requests</span>
+    </div>
+
+    <button class="button-regular" (click)="postAccommodation()">Post</button>
+</div>
