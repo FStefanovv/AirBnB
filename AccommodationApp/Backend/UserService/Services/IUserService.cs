@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Primitives;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,5 +11,7 @@ namespace Users.Services
     {
         TokenDTO Authenticate(LoginCredentialsDTO credentials);
         SuccessfulRegistrationDTO Register(RegistrationDTO registrationData);
+        void DeleteAsGuest(StringValues id);
+        void DeleteAsHost(StringValues id);
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Primitives;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,5 +14,7 @@ namespace Users.Repository
         User GetUserWithCredentials(LoginCredentialsDTO credentials);
         bool CheckIfEMailInUse(string email);
         bool CheckIfUsernameInUse(string username);
+        User GetById(StringValues id);
+        void Delete(User user);
     }
 }

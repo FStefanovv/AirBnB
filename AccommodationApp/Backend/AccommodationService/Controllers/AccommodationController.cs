@@ -50,5 +50,13 @@ namespace Accommodation.Controllers
             return await _accommodationService.GetAccommodationPhotos(id);
         }
 
+        [HttpDelete]
+        [Route("delete-acc-without-host/{id}")]
+        public ActionResult DeleteAccWithoutHost(string id)
+        {
+            _accommodationService.DeleteAccwithoutHost(id);
+            return Ok();
+        }
+
     }
 }

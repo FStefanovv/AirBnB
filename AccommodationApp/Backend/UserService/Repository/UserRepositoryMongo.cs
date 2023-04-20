@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Primitives;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -48,6 +49,19 @@ namespace Users.Repository
         public bool CheckIfEMailInUse(string email)
         {
             return _users.Find(user => user.Email == email).FirstOrDefault() != null;
+        }
+
+        public void Delete(User user)
+        {
+
+            var filter = Builders<User>.Filter.Eq("Id", user.Id);
+
+            _users.DeleteOne(filter);
+        }
+
+        public User GetById(StringValues id)
+        {
+           return (User)_users.Find(user=>user.Id==id);
         }
     }
 }

@@ -16,6 +16,8 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { UserReservationsComponent } from './components/user-reservations/user-reservations.component';
 import { PendingRequestsComponent } from './components/pending-requests/pending-requests.component';
 
+import {MatToolbarModule} from '@angular/material/toolbar';
+
 export function tokenGetter() { 
   return localStorage.getItem("jwt"); 
 }
@@ -42,7 +44,9 @@ export function tokenGetter() {
         disallowedRoutes: []
       }
     }),
-    NgMultiSelectDropDownModule.forRoot()
+    NgMultiSelectDropDownModule.forRoot(),
+    MatToolbarModule,
+    
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]

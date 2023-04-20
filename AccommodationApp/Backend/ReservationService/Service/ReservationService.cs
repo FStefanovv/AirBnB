@@ -54,6 +54,14 @@ namespace ReservationService.Service
             return activeReservations.Count != 0;
         }
 
-       
+        public bool HostHasActiveReservations(string id)
+        {
+            List<Reservation> activeReservations = _repository.GetActiveHostReservations(id);
+
+
+            return activeReservations.Count != 0;
+        }
+
+
     }
 }

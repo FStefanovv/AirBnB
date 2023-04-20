@@ -45,5 +45,10 @@ namespace ReservationService.Repository
         {
             return _context.Reservations.Where(res => res.UserId == id && res.Status==Enums.ReservationStatus.ACTIVE).ToList();
         }
+
+        public List<Reservation> GetActiveHostReservations(string id)
+        {
+            return _context.Reservations.Where(res => res.HostId == id && res.Status == Enums.ReservationStatus.ACTIVE).ToList();
+        }
     }
 }

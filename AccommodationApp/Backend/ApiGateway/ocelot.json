@@ -28,6 +28,50 @@
       ]
     },
     {
+      "UpstreamPathTemplate": "/gateway/deleteAsGuest",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamPathTemplate": "/api/users/deleteAsGuest",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5001
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "AuthTokenFromUserService",
+        "AllowedScopes": []
+      },
+      "RouteClaimsRequirement": {
+        "Role": "REGULAR_USER"
+      },
+      "AddHeadersToRequest": {
+        "UserId": "Claims[UserId] > value"
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/deleteAsHost",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamPathTemplate": "/api/users/deleteAsHost",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5001
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "AuthTokenFromUserService",
+        "AllowedScopes": []
+      },
+      "RouteClaimsRequirement": {
+        "Role": "HOST"
+      },
+      "AddHeadersToRequest": {
+        "UserId": "Claims[UserId] > value"
+      }
+    },
+    {
       "UpstreamPathTemplate": "/gateway/create-accommodation",
       "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/accommodation/create",
