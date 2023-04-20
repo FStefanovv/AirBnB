@@ -96,6 +96,28 @@ namespace ReservationService.Controllers
             return Ok(requests);
         }
 
+        [HttpGet]
+        [Route("get-status/{id}")]
+        public bool GuestHasActiveReservations(string id)
+        {
+            
+            bool requests = _reservationService.GuestHasActiveReservations(id);
+
+            return requests;
+        }
+
+        [HttpGet]
+        [Route("get-status-host/{id}")]
+        public bool HostHasActiveReservations(string id)
+        {
+
+            bool requests = _reservationService.HostHasActiveReservations(id);
+
+            return requests;
+        }
+
+
+
 
 
     }

@@ -7,6 +7,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Users.DTO;
 using Users.Services;
+using Newtonsoft.Json;
+using System.Net.Http;
+using Microsoft.Extensions.Primitives;
 
 namespace Users.Controllers
 {
@@ -37,7 +40,7 @@ namespace Users.Controllers
             return Ok(token);
         }
 
-        
+
         [HttpPost]
         [AllowAnonymous]
         [Route("register")]
@@ -55,5 +58,65 @@ namespace Users.Controllers
                 return StatusCode(400, ex.Message);
             }
         }
+        [HttpDelete]
+        [AllowAnonymous]
+        [Route("deleteAsGuest")]
+        public async Task<IActionResult> DeleteAsGuest()
+        {
+            Request.Headers.TryGetValue("UserId", out StringValues userId);
+            using HttpClient client = new HttpClient();
+            HttpResponseMessage response = await client.GetAsync("http://localhost:5003/api/reservation/get-status/" + userId);
+            Console.WriteLine("Status: " + response.StatusCode.ToString());
+            string jsonContent = response.Content.ReadAsStringAsync().Result;
+            bool result = JsonConvert.DeserializeObject<bool>(jsonContent);
+
+            if (result == false)
+            {
+                _userService.DeleteAsGuest(userId);
+                using HttpClient client1 = new HttpClient();
+                HttpResponseMessage response1 = await client1.DeleteAsync("http://localhost:5003/api/request/update-request/" + userId);
+                Console.WriteLine("Status: " + response1.StatusCode.ToString());
+                string jsonContent1 = response1.Content.ReadAsStringAsync().Result;
+                bool result1 = JsonConvert.DeserializeObject<bool>(jsonContent1);
+                return Ok();
+            }
+            else
+            {
+                return BadRequest("Bad request, you have reservations on this account");
+            }
+        }
+
+
+        [HttpDelete]
+        [AllowAnonymous]
+        [Route("deleteAsHost")]
+        public async Task<IActionResult> DeleteAsHost()
+        {
+            Request.Headers.TryGetValue("UserId", out StringValues userId);
+            using HttpClient client = new HttpClient();
+            HttpResponseMessage response = await client.GetAsync("http://localhost:5003/api/reservation/get-status-host/" + userId);
+            Console.WriteLine("Status: " + response.StatusCode.ToString());
+            string jsonContent = response.Content.ReadAsStringAsync().Result;
+            bool result = JsonConvert.DeserializeObject<bool>(jsonContent);
+
+            if (result == false)
+            {
+                
+                using HttpClient client1 = new HttpClient();
+                HttpResponseMessage response1 = await client1.DeleteAsync("http://localhost:5002/api/accommodation/delete-acc-without-host/" + userId);
+                string jsonContent1 = response1.Content.ReadAsStringAsync().Result;
+                string result1 = JsonConvert.DeserializeObject<string>(jsonContent);
+                _userService.DeleteAsHost(userId);
+
+                return Ok(result1);
+            }
+            else
+            {
+                return BadRequest("Bad request, you have reservations on this account");
+            }
+        }
+
+
+
     }
 }

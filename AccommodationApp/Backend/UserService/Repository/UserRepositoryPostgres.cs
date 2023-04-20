@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,5 +48,18 @@ namespace Users.Repository
             }
             return null;
         }
+
+        public void Delete (User user)
+        {
+           
+            _context.Users.Remove(user);
+            _context.SaveChanges();
+        }
+
+        public User GetById(StringValues id)
+        {
+            return _context.Users.Find(id);
+        }
+
     }
 }

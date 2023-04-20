@@ -20,4 +20,12 @@ export class UserService {
   LogIn(credentials: LoginCredentials) : Observable<Token> {
       return this.http.post<Token>(this.usersUrl+'login', credentials, this.httpOptions);
   }
+
+  deleteAccAsGuest():Observable<any> {
+    return this.http.delete(this.usersUrl+'deleteAsGuest1',this.httpOptions);
+  }
+
+  deleteAccAsHost():Observable<any> {
+    return this.http.delete(this.usersUrl+'deleteAsHost',this.httpOptions);
+  }
 }

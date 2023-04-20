@@ -1,9 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { CreateAccommodationDTO } from 'src/app/model/create-accommodation';
 import { AccommodationService } from 'src/app/services/accommodation.service';
+import { UserService } from 'src/app/services/user.service';
 
 
 @Component({
@@ -13,7 +15,7 @@ import { AccommodationService } from 'src/app/services/accommodation.service';
 })
 export class CreateAccommodationComponent implements OnInit {
 
-  constructor(private accommodationService: AccommodationService) { }
+  constructor(private accommodationService: AccommodationService, private userService: UserService,private router: Router) { }
 
   dropdownList = [
       { item_id: 1, item_text: 'WiFi' },
@@ -67,6 +69,19 @@ export class CreateAccommodationComponent implements OnInit {
 
   selectImages(event: any) {
     this.images = event.target.files;
+  }
+
+  deleteAccAsHost(){
+    this.userService.deleteAccAsHost().subscribe({
+      next: (res: any) => {
+     console.log('success');
+     this.router.navigate(['login'])
+   },
+   error : (err: HttpErrorResponse) => {
+    console.log(err);
+   }
+ });
+    
   }
 
 }
