@@ -58,5 +58,15 @@ namespace Accommodation.Controllers
             return Ok();
         }
 
+        [HttpGet]
+        [Route("get-by-id/{id}")]
+
+        public ActionResult GetById(string id)
+        {
+            var accommodation = _accommodationService.GetById(id);
+            var accomodationDTO=Adapters.CreateAccommodationAdapter.ObjectToAccommodationDTO(accommodation);
+
+            return Ok(accomodationDTO);
+        }
     }
 }

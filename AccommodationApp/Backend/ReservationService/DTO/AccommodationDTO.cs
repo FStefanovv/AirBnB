@@ -1,19 +1,14 @@
-﻿using Accommodation.Model;
+﻿using ReservationService.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Accommodation.DTO
+namespace ReservationService.DTO
 {
-    public class CreateAccommodationDTO
+    public class AccommodationDTO
     {
         public string Name { get; set; }
-        public Address Address { get; set; }
-        public string[] Offers { get; set; }
-        public int MinGuests { get; set; }
-        public int MaxGuests { get; set; }
-        public bool AutoApprove { get; set; }
         public string StartSeason { get; set; }
         public string EndSeason { get; set; }
         public double Price { get; set; }
@@ -25,6 +20,6 @@ namespace Accommodation.DTO
 
 
 
-        public CreateAccommodationDTO() { }
+        public AccommodationDTO() { }
     }
 }

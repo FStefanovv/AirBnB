@@ -214,6 +214,53 @@
       "AddHeadersToRequest": {
         "UserId": "Claims[UserId] > value"
       }
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/create-reservation",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/reservation/create-reservations",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "AuthTokenFromUserService",
+        "AllowedScopes": []
+      },
+      "RouteClaimsRequirement": {
+        "Role": "REGULAR_USER"
+      },
+      "AddHeadersToRequest": {
+        "UserId": "Claims[UserId] > value"
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/get-reserved-start-dates/{accommodationId}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/reservation/get-reserved-start-dates/{accommodationId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/get-reserved-end-dates/{accommodationId}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/reservation/get-end-start-dates/{accommodationId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ]
     }
+
   ]
 }

@@ -50,5 +50,10 @@ namespace Accommodation.Repository
         {
             return _accommodation.Find(accomodation => accomodation.HostId == hostId).ToList();
         }
+
+        public Model.Accommodation GetById(string id)
+        {
+            return (Model.Accommodation)_accommodation.Find(user => user.Id == id);
+        }
     }
 }
