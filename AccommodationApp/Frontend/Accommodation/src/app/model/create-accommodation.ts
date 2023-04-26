@@ -7,6 +7,15 @@ export class CreateAccommodationDTO {
     minGuests?: number;
     maxGuests?: number;
     autoApprove?: boolean;
+    startSeason?: string;
+    endSeason?: string;
+    price: number;
+    pricePerGuest?: boolean;
+    pricePerAccomodation?: boolean;
+    holidayCost?: boolean;
+    weekendCost?: boolean;
+    summerCost?: boolean;
+
 
     constructor(){
         this.name = '';
@@ -15,5 +24,13 @@ export class CreateAccommodationDTO {
         this.minGuests = 0;
         this.maxGuests = 0;
         this.autoApprove = false;
+        this.startSeason = '';
+        this.endSeason = '';
+        this.price =0;
+        this.pricePerGuest=false;
+        this.pricePerAccomodation=false;
+        this.holidayCost=false;
+        this.weekendCost=false;
+        this.summerCost=false;
     }
 }

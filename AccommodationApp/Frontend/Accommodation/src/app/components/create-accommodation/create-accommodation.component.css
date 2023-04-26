@@ -52,3 +52,12 @@ button.button-regular {
     font-size: 20px;
 }
 
+#price-method-label{
+    padding:0;
+    margin:0;
+    
+}
+#price-method{
+    padding:0;
+    margin:0;
+}

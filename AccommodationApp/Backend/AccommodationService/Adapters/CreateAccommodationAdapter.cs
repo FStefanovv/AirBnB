@@ -21,8 +21,8 @@ namespace Accommodation.Adapters
                 MinGuests = dto.MinGuests,
                 HostId = hostId,
                 AutoApprove = dto.AutoApprove,
-                StartSeasonDate = DateTime.ParseExact(dto.StartSeason, "dd-MM-yyyy", culture),
-                EndSeasonDate = DateTime.ParseExact(dto.EndSeason, "dd-MM-yyyy", culture),
+                StartSeasonDate = DateTime.ParseExact(dto.StartSeason, "yyyy-MM-dd", culture),
+                EndSeasonDate = DateTime.ParseExact(dto.EndSeason, "yyyy-MM-dd", culture),
                 AccomodationPrice = new Model.Price()
                 {
                     FinalPrice = dto.Price,
@@ -42,8 +42,8 @@ namespace Accommodation.Adapters
             var accommodationDTO = new AccommodationDTO()
             {
                 Name = accommodation.Name,
-                StartSeason = accommodation.StartSeasonDate.ToString("dd-MM-yyyy"),
-                EndSeason = accommodation.EndSeasonDate.ToString("dd-MM-yyyy"),
+                StartSeason = accommodation.StartSeasonDate.ToString("yyyy-MM-dd"),
+                EndSeason = accommodation.EndSeasonDate.ToString("yyyy-MM-dd"),
                 Price = accommodation.AccomodationPrice.FinalPrice,
                 PricePerGuest = accommodation.AccomodationPrice.PricePerGuest,
                 PricePerAccomodation = accommodation.AccomodationPrice.PricePerAccomodation,
