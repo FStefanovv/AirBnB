@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
+using Newtonsoft.Json;
 using ReservationService.Adapter;
 using ReservationService.DTO;
 using ReservationService.Model;
@@ -8,6 +9,7 @@ using ReservationService.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace ReservationService.Controllers
@@ -116,6 +118,47 @@ namespace ReservationService.Controllers
             return requests;
         }
 
+        [HttpPost]
+        [Route("create-reservation")]
+
+        public async Task<ActionResult> CreateReservation(ReservationDTO dto)
+        {
+
+            Request.Headers.TryGetValue("UserId", out StringValues userId);
+
+            Reservation reservation= Adapter.ReservationAdapter.CreateReservationDtoToObject(dto, userId);
+
+            using HttpClient client = new HttpClient();
+            HttpResponseMessage response = await client.GetAsync("http://localhost:5003/api/accommodation/get-by-id/" + reservation.AccommodationId);
+            Console.WriteLine("Status: " + response.StatusCode.ToString());
+            string jsonContent = response.Content.ReadAsStringAsync().Result;
+            DTO.AccommodationDTO result = JsonConvert.DeserializeObject<DTO.AccommodationDTO>(jsonContent);
+
+            _reservationService.CreateReservation(reservation, result);
+
+            return Ok();
+
+        }
+
+
+        [HttpGet]
+        [Route("get-reserved-start-dates/{accommodationId}")]
+        public ActionResult GetReservedStartDates(string accommodationId)
+        {
+            var startDates = Adapter.DatesAdapter.ObjectToStartDateDTO(_reservationService.GetStartReservationDate(accommodationId));
+         
+            return Ok(startDates);
+        }
+
+
+        [HttpGet]
+        [Route("get-reserved-end-dates/{accommodationId}")]
+        public ActionResult GetReservedEndDates(string accommodationId)
+        {
+            var endDates = Adapter.DatesAdapter.ObjectToEndDateDTO(_reservationService.GetEndReservationDate(accommodationId));
+
+            return Ok(endDates);
+        }
 
 
 

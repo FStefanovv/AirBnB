@@ -39,7 +39,11 @@ namespace Accommodation.Services
            
             _repository.DeleteAccWithoutHost(id);
         }
-
+        
+        public Model.Accommodation GetById(string id)
+        {
+            return _repository.GetById(id);
+        }
        
     }
 }

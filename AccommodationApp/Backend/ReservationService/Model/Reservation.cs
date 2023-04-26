@@ -19,5 +19,6 @@ namespace ReservationService.Model
         public string HostId { get; set; }
         public int NumberOfGuests { get; set; }
         public ReservationStatus Status { get; set; }
+        public double Price { get; set; }
     }
 }

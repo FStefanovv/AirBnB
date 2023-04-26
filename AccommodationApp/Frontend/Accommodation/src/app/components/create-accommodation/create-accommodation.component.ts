@@ -46,6 +46,13 @@ export class CreateAccommodationComponent implements OnInit {
   images: File[] = [];
 
   guestNumError = false;
+  priceError = false;
+
+  public answer:string = 'guest';
+
+  price = 'guest';
+
+
 
   ngOnInit(): void {    
   }
@@ -57,14 +64,37 @@ export class CreateAccommodationComponent implements OnInit {
     for(let item of this.selectedItems){
       this.accommDto.offers?.push(item.item_text);
     }
-    this.accommodationService.Post(this.accommDto, this.images).subscribe({
-      next: (response: any) => {
-        console.log('success');
-      },
-      error : (err: HttpErrorResponse) => {
-       console.log(err);
+    if(this.answer=='guest'){
+      this.accommDto.pricePerGuest=true;
+      this.accommDto.pricePerAccomodation=false;
+    }
+    else if(this.answer=='accomm'){
+      this.accommDto.pricePerAccomodation=true;
+      this.accommDto.pricePerGuest=false;
+    }
+    if(this.accommDto.price<=0){
+      this.priceError=true;
+
+    }
+
+     if(this.guestNumError==false && this.priceError==false){
+        this.accommodationService.Post(this.accommDto, this.images).subscribe({
+          next: (response: any) => {
+            console.log('success');
+          },
+          error : (err: HttpErrorResponse) => {
+          console.log(err);
+          }
+        });
       }
-    });
+      else{ 
+        console.error("You must fill all fields correctlly");
+        setTimeout(()=>{
+          window.location.reload();
+        }, 1000);
+
+       }
+      
   }
 
   selectImages(event: any) {
