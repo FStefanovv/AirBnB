@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ReservationService.DTO;
 
 namespace ReservationService.Repository
 {
@@ -17,7 +18,12 @@ namespace ReservationService.Repository
             _context = context;
         }
 
-
+        public void Create(ReservationRequest resRequest)
+        {
+            _context.Requests.Add(resRequest);
+            _context.SaveChanges();
+        }
+        
         public ReservationRequest GetRequestById(string requestId)
         {
 

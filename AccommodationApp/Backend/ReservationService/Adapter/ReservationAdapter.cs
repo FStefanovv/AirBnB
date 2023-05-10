@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ReservationService.Enums;
 
 namespace ReservationService.Adapter
 {
@@ -22,6 +23,7 @@ namespace ReservationService.Adapter
             return dtos;
         }*/
 
+        private DatesAdapter datesAdapter = new DatesAdapter();
 
         public static Reservation CreateReservationDtoToObject(ReservationDTO dto,string userId)
         {
@@ -43,6 +45,19 @@ namespace ReservationService.Adapter
         
                 
 
+        }
+
+        public static ReservationRequest RequestReservationDtoToReservationRequest(RequestReservationDTO dto)
+        {
+            ReservationRequest resRequest = new ReservationRequest();
+            resRequest.HostId = dto.HostId;
+            resRequest.UserId = dto.UserId;
+            resRequest.AccommodationId = dto.AccomodationId;
+            resRequest.NumberOfGuests = dto.NumberOfGuests;
+            resRequest.From = Convert.ToDateTime(dto.StartDate);
+            resRequest.To = Convert.ToDateTime(dto.EndDate);
+            resRequest.Status = RequestStatus.PENDING;
+            return resRequest;
         }
     }
 }

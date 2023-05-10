@@ -318,7 +318,19 @@
     {
       "UpstreamPathTemplate": "/gateway/get-reserved-end-dates/{accommodationId}",
       "UpstreamHttpMethod": [ "Get" ],
-      "DownstreamPathTemplate": "/api/reservation/get-end-start-dates/{accommodationId}",
+      "DownstreamPathTemplate": "/api/request/get-end-start-dates/{accommodationId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/create-request",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/request/create-request",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {

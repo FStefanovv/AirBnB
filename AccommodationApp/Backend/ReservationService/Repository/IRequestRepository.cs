@@ -16,5 +16,6 @@ namespace ReservationService.Repository
         void UpdateRequestsPostUserDeletion(string id);
         List<ReservationRequest> GetPendingRequestsByHost(string userId);
         List<ReservationRequest> GetResolvedRequestsByHost(string userId);
+        void Create(ReservationRequest resRequest);
     }
 }
