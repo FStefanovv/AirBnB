@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
-<<<<<<< HEAD
 using Microsoft.EntityFrameworkCore;
-=======
->>>>>>> a62112660abe9c7d8f7d84434682dde57c4294cd
 using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
