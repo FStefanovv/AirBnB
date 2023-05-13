@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CreateAccommodationDTO } from '../model/create-accommodation';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -25,5 +26,10 @@ export class AccommodationService {
     form.append('accomm-data', JSON.stringify(accommDto));
 
     return this.http.post(this.accommUrl+'create-accommodation', form);
+  }
+
+  GetPhotos(id: string) : Observable<Blob> {
+    const headers = new HttpHeaders().set('Accept', 'application/octet-stream');
+    return this.http.get(this.accommUrl + 'get-photos/'+id, { responseType: 'blob', headers });
   }
 }
