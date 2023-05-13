@@ -14,6 +14,7 @@ namespace ReservationService.Service
     public class RequestService : IRequestService
     {
         private readonly IRequestRepository _repository;
+        private readonly IReservationService _reservation;
 
         public RequestService(IRequestRepository repository)
         {
@@ -53,19 +54,29 @@ namespace ReservationService.Service
             return _repository.GetResolvedRequestsByHost(userId);
         }
 
-        public void CreateReserervationRequest(RequestReservationDTO dto)
+        public void CreateReservationRequest(RequestReservationDTO dto)
         {
+            bool automaticBool = false;
             ReservationRequest resRequest = Adapter.ReservationAdapter.RequestReservationDtoToReservationRequest(dto);
+            if (automaticBool == true)
+            {
+                resRequest.Status = RequestStatus.PENDING;
+            }
+            else
+            {
+                resRequest.Status = RequestStatus.ACCEPTED;
+                _reservation.CreateReservationFromRequest(resRequest);
+            }
             _repository.Create(resRequest);
         }
 
-        public ReservationRequest AcceptRequest(string requestId,string accommodationId)
+        public void AcceptRequest(string requestId,string accommodationId)
         {
-            
             ReservationRequest request = _repository.GetRequestById(requestId);
             AcceptRequestDatabaseUpdate(request);
+            //fali grpc sa accomodationom
+            _reservation.CreateReservationFromRequest(request);
             CancelRequestsInTimeRange(accommodationId, request.From, request.To);
-            return request;
         }
 
         private void AcceptRequestDatabaseUpdate(ReservationRequest request)
@@ -85,6 +96,17 @@ namespace ReservationService.Service
                     _repository.UpdateRequest(request);
                 }
             }
+        }
+
+        public List<ShowRequestDTO> GetRequestsForHost(string hostId)
+        {
+            List<ShowRequestDTO> dtoList = new List<ShowRequestDTO>();
+            foreach (var request in _repository.GetRequestsForHost(hostId))
+            {
+                dtoList.Add(Adapter.ReservationAdapter.ReservationRequestToShowRequestDto(request));
+            }
+
+            return dtoList;
         }
         
         

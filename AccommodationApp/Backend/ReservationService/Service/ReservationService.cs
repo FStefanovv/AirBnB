@@ -221,6 +221,11 @@ namespace ReservationService.Service
             return dtoList;
         }
 
+        public void CreateReservationFromRequest(ReservationRequest request)
+        {
+            Reservation reservation = Adapter.ReservationAdapter.RequestToReservation(request);
+            _repository.Create(reservation);
+        }
 
     }
 }

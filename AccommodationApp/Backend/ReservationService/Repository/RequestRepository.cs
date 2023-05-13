@@ -89,5 +89,10 @@ namespace ReservationService.Repository
         {
             return _context.Requests.Where(req => req.AccommodationId == accommodationId).ToList();
         }
+
+        public List<ReservationRequest> GetRequestsForHost(string hostId)
+        {
+            return _context.Requests.Where(req => req.HostId == hostId).ToList();
+        }
     }
 }

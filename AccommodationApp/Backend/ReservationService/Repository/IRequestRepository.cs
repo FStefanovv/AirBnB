@@ -18,5 +18,6 @@ namespace ReservationService.Repository
         List<ReservationRequest> GetResolvedRequestsByHost(string userId);
         void Create(ReservationRequest resRequest);
         List<ReservationRequest> GetRequestsForCancelAfterAcceptingOne(string accommodationId);
+        List<ReservationRequest> GetRequestsForHost(string hostId);
     }
 }

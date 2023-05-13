@@ -14,6 +14,8 @@ namespace ReservationService.Service
         void UpdateRequestsPostUserDeletion(string id);
         List<ReservationRequest> GetPendingRequestsByHost(StringValues userId);
         List<ReservationRequest> GetResolvedRequestsByHost(StringValues userId);
-        void CreateReserervationRequest(RequestReservationDTO dto);
+        void CreateReservationRequest(RequestReservationDTO dto);
+        void AcceptRequest(string requestId, string accommodationId);
+        List<ShowRequestDTO> GetRequestsForHost(string hostId);
     }
 }

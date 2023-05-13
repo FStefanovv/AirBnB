@@ -69,5 +69,32 @@ namespace ReservationService.Adapter
             dto.To = reservation.To.ToString();
             return dto;
         }
+
+        public static Reservation RequestToReservation(ReservationRequest request)
+        {
+            Reservation reservation = new Reservation();
+            reservation.From = request.From;
+            reservation.To = request.To;
+            reservation.UserId = request.UserId;
+            reservation.AccommodationId = request.AccommodationId;
+            reservation.HostId = request.HostId;
+            reservation.Status = ReservationStatus.ACTIVE;
+            reservation.Price = request.NumberOfGuests * 100;//ovde ce ici price od accomodationa
+            reservation.NumberOfGuests = request.NumberOfGuests;
+            return reservation;
+        }
+
+        public static ShowRequestDTO ReservationRequestToShowRequestDto(ReservationRequest request)
+        {
+            ShowRequestDTO dto = new ShowRequestDTO();
+            dto.RequestId = request.Id;
+            dto.From = request.From.ToString();
+            dto.To = request.To.ToString();
+            dto.UserId = request.UserId;
+            dto.AccommodationId = request.AccommodationId;
+            dto.HostId = request.HostId;
+            dto.NumberOfGuests = request.NumberOfGuests;
+            return dto;
+        }
     }
 }
