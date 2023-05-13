@@ -84,5 +84,10 @@ namespace ReservationService.Repository
         {
             return _context.Requests.Where(req => req.HostId == userId && req.Status != Enums.RequestStatus.PENDING).ToList();
         }
+        
+        public List<ReservationRequest> GetRequestsForCancelAfterAcceptingOne(string accommodationId)
+        {
+            return _context.Requests.Where(req => req.AccommodationId == accommodationId).ToList();
+        }
     }
 }

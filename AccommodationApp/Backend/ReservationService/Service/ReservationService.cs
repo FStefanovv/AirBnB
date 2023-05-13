@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ReservationService.DTO;
 
 namespace ReservationService.Service
 {
@@ -209,7 +210,16 @@ namespace ReservationService.Service
             return endDates;
         }
 
+        public List<GetBusyDateForAccommodationDTO> GetBusyDatesForAccommodation(string accommodationId)
+        {
+            List<GetBusyDateForAccommodationDTO> dtoList = new List<GetBusyDateForAccommodationDTO>();
+            foreach (var reservation in _repository.GetReservationsForAccommodation(accommodationId))
+            {
+                dtoList.Add(Adapter.ReservationAdapter.ReservationToGetBusyDateForAccommodationDTO(reservation));
+            }
 
+            return dtoList;
+        }
 
 
     }

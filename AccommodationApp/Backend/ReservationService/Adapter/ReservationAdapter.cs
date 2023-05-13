@@ -59,5 +59,15 @@ namespace ReservationService.Adapter
             resRequest.Status = RequestStatus.PENDING;
             return resRequest;
         }
+
+        public static GetBusyDateForAccommodationDTO ReservationToGetBusyDateForAccommodationDTO(
+            Reservation reservation)
+        {
+            GetBusyDateForAccommodationDTO dto = new GetBusyDateForAccommodationDTO();
+            dto.AccommodationId = reservation.AccommodationId;
+            dto.From = reservation.From.ToString();
+            dto.To = reservation.To.ToString();
+            return dto;
+        }
     }
 }

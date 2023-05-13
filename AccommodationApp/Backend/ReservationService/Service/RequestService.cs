@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ReservationService.DTO;
 using ReservationService.Enums;
+using ReservationService.Helpers;
 
 namespace ReservationService.Service
 {
@@ -58,17 +59,34 @@ namespace ReservationService.Service
             _repository.Create(resRequest);
         }
 
-        public void AcceptRequest(string requestId,string accommodationId)
+        public ReservationRequest AcceptRequest(string requestId,string accommodationId)
         {
-            AcceptRequestDatabaseUpdate(requestId);
             
+            ReservationRequest request = _repository.GetRequestById(requestId);
+            AcceptRequestDatabaseUpdate(request);
+            CancelRequestsInTimeRange(accommodationId, request.From, request.To);
+            return request;
         }
 
-        private void AcceptRequestDatabaseUpdate(string requestId)
+        private void AcceptRequestDatabaseUpdate(ReservationRequest request)
         {
-            ReservationRequest reservationRequest = _repository.GetRequestById(requestId);
-            reservationRequest.Status = RequestStatus.ACCEPTED;
-            _repository.UpdateRequest(reservationRequest);
+            request.Status = RequestStatus.ACCEPTED;
+            _repository.UpdateRequest(request);
         }
+
+        private void CancelRequestsInTimeRange(string accommodationId, DateTime startDate, DateTime endDate)
+        {
+            List<ReservationRequest> requestList = _repository.GetRequestsForCancelAfterAcceptingOne(accommodationId);
+            foreach (var request in requestList)
+            {
+                if (startDate.InRange(request.From, request.To) || endDate.InRange(request.From, request.To))
+                {
+                    request.Status = RequestStatus.DENIED;
+                    _repository.UpdateRequest(request);
+                }
+            }
+        }
+        
+        
     }
 }
