@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,6 +48,22 @@ namespace Users.Repository
                     return user;
             }
             return null;
+        }
+
+        public User GetUser(StringValues userId)
+        {
+            foreach (User user in _context.Users.ToList())
+            {
+                if (user.Id == userId)
+                    return user;
+            }
+            return null;
+        }
+
+        public void UpdateUser(User user)
+        {
+            _context.Users.Update(user);
+            _context.SaveChanges();
         }
     }
 }

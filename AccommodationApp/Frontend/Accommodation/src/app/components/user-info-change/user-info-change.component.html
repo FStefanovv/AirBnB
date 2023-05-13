@@ -1,0 +1,35 @@
+<div id="main-div">
+    <h1> Your informations</h1>
+    <div>
+        <label>First name: </label>
+        <input type="text" class="input-regular" [(ngModel)]='user.firstName'/>
+    </div>
+    <div>
+        <label>Last name: </label>
+        <input type="text" class="input-regular" [(ngModel)]='user.lastName'/>
+    </div>
+    <div>
+        <label>Address: </label>
+        <input type="text" class="input-regular" [(ngModel)]='addressSTR'/>
+    </div>
+    <div>
+        <label>Email: </label>
+        <input type="text" class="input-regular" [(ngModel)]='user.email'/>
+    </div>
+    <div>
+        <label>Username: </label>
+        <input type="text" class="input-regular" [(ngModel)]='user.username'/>
+    </div>
+    <div>
+        <label>New password: </label>
+        <input type="password" class="input-regular" [(ngModel)]='password'/>
+    </div>
+    <div>
+        <label>Confirm new password: </label>
+        <input type="password" class="input-regular" [(ngModel)]='passwordConfirmation'/>
+    </div>
+    <p class='error-message' style="text-align: center;" [style.color]="greenMsg? 'green' : 'red'" [style.visibility]="showError? 'visible' : 'hidden'">{{errorMessage}}</p>
+    <div id="button-container">
+        <button class="button-regular" (click)="updateUser()">Update</button>
+    </div>  
+</div>

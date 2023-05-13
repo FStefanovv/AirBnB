@@ -3,6 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
 using Users.Adapters;
 using Users.DTO;
@@ -60,7 +61,7 @@ namespace Users.Services
                 Validate(registrationData);
                 User user = UserAdapter.RegistrationDtoToUser(registrationData);
                 _userRepository.Create(user);
-                return new SuccessfulRegistrationDTO(user.Email);
+                return new SuccessfulRegistrationDTO(user.Username);
             }
             catch (Exception ex)
             {
@@ -72,12 +73,37 @@ namespace Users.Services
         {
             if (_userRepository.CheckIfEMailInUse(registrationData.Email))
                 throw new Exception("The entered email is already in use!");
-            else if(_userRepository.CheckIfUsernameInUse(registrationData.Username))
+            else if (_userRepository.CheckIfUsernameInUse(registrationData.Username))
                 throw new Exception("The entered username is already in use!");
             else if (registrationData.Password != registrationData.ConfirmPassword)
                 throw new Exception("Password and confirmation password need to be the same!");
             else if (registrationData.Password.Length <= 6)
                 throw new Exception("Password is too short");
+            else if (registrationData.Role.Length == 0)
+                throw new Exception("Choose type");
+        }
+
+
+        public User GetUser(StringValues userId)
+        {
+            return _userRepository.GetUser(userId);
+        }
+
+        public User UpdateUser(StringValues userId,UserChangeInfoDTO changeData)
+        {
+            try
+            {
+                User user = _userRepository.GetUser(userId);
+                User changedUser = UserAdapter.UpdateUserDTOToUser(user,changeData);
+                _userRepository.UpdateUser(changedUser);
+                
+                return changedUser;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
         }
     }
 }

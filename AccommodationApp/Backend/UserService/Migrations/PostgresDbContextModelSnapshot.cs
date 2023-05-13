@@ -45,6 +45,28 @@ namespace Users.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            Email = "imeprezime@gmail.com",
+                            FirstName = "Ime",
+                            LastName = "Prezime",
+                            Password = "sifra123",
+                            Role = "HOST",
+                            Username = "imeprezime"
+                        },
+                        new
+                        {
+                            Id = "2",
+                            Email = "imenkoprezimenko@gmail.com",
+                            FirstName = "Imenko",
+                            LastName = "Prezimenic",
+                            Password = "sifra123",
+                            Role = "HOST",
+                            Username = "imenkoprezimenko"
+                        });
                 });
 
             modelBuilder.Entity("Users.Model.User", b =>

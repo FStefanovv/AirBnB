@@ -28,33 +28,7 @@ namespace ApiGateway
                 {
                  config.AddJsonFile("ocelot.json", optional: false, reloadOnChange: false);
                 })
-            /*
-                .ConfigureServices( s =>
-                {
-                    var authenticationProviderKey = "desistolekakosiseproveozapraznike";
-                    s.AddAuthentication(
-                            x =>
-                            {
-                                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                            }
-                        )
-                        .AddJwtBearer(authenticationProviderKey, x =>
-                        {
-                            x.RequireHttpsMetadata = false;
-                            x.SaveToken = true;
-                            x.TokenValidationParameters = new TokenValidationParameters
-                            {
-                                ValidateIssuerSigningKey = true,
-                                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("desistolekakosiseproveozapraznike")),
-                                ValidateIssuer = false,
-                                ValidateAudience = false,
-                                ValidateLifetime = true
-                            };
-                        }
-                    );
-                    s.AddOcelot();
-                })*/
+
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

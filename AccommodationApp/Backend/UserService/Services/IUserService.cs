@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Microsoft.Extensions.Primitives;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Users.DTO;
+using Users.Model;
 
 namespace Users.Services
 {
@@ -10,5 +12,8 @@ namespace Users.Services
     {
         TokenDTO Authenticate(LoginCredentialsDTO credentials);
         SuccessfulRegistrationDTO Register(RegistrationDTO registrationData);
+
+        User GetUser(StringValues userId);
+        User UpdateUser(StringValues userId,UserChangeInfoDTO changeData);
     }
 }

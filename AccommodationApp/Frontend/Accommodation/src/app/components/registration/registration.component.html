@@ -1,0 +1,47 @@
+<div id="main-div">
+    <h1>Registration</h1>
+    <div>
+        <label for="firstName">First name: </label>
+        <input type="text" class="input-regular" [(ngModel)]='user.firstName'/>
+    </div>
+    <div>
+        <label for="lastName">Last name: </label>
+        <input type="text" class="input-regular" [(ngModel)]='user.lastName'/>
+    </div>
+    <div>
+        <label for="address">Address: </label>
+        <input type="text" class="input-regular" placeholder="Street,Number,City,Country" [(ngModel)]='address'/>
+    </div>
+    <div>
+        <label for="email">Email: </label>
+        <input type="text" class="input-regular" [(ngModel)]='user.email'/>
+    </div>
+    <div>
+        <label for="username">Username: </label>
+        <input type="text" class="input-regular" [(ngModel)]='user.username'/>
+    </div>
+    <div>
+        <label for="password">Password: </label>
+        <input type="password" class="input-regular" [(ngModel)]='user.password'/>
+    </div>
+    <div>
+        <label>Confirm password: </label>
+        <input type="password" class="input-regular" [(ngModel)]='user.confirmPassword'/>
+    </div>
+    <div>
+        <label>Type of account: </label>
+        <select class="input-regular"  [(ngModel)]="user.role">
+            <option value="HOST">Host</option>
+            <option value="REGULAR_USER">Regular user</option>
+        </select>
+    </div>
+    <div id="error-container">
+        <p class='error-message' [style.color]="greenMsg? 'green' : 'red'" [style.visibility]="showMsg? 'visible' : 'hidden'">{{errorMsg}}</p>
+    </div>
+    <div id="button-container">
+        <button class="button-regular" (click)="register()">Register</button>
+    </div>
+    <div id="button-container">
+        <p>Already have an account? <a href="http://localhost:4200/login">Sign in</a>.</p>
+    </div>  
+</div>

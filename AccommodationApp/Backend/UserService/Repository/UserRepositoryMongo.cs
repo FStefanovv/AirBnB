@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Amazon.SecurityToken.Model;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Primitives;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -31,7 +33,7 @@ namespace Users.Repository
 
         public User GetUserWithCredentials(LoginCredentialsDTO credentials)
         {
-           foreach(User user in _users.Find(user=>true).ToList())
+            foreach (User user in _users.Find(user => true).ToList())
             {
                 if (user.Username == credentials.Username && _hasher.VerifyHashedPassword(user, user.Password, credentials.Password) != 0)
                     return user;
@@ -49,5 +51,16 @@ namespace Users.Repository
         {
             return _users.Find(user => user.Email == email).FirstOrDefault() != null;
         }
+
+        public User GetUser(StringValues userId)
+        {
+            return _users.Find(user => user.Id == userId).FirstOrDefault();
+        }
+
+        public void UpdateUser(User user)
+        {
+            _users.InsertOne(user);
+        }
     }
+
 }

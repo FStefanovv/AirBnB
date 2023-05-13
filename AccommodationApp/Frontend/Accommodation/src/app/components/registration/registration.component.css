@@ -1,0 +1,55 @@
+#main-div {
+    border: 1px solid #CCD1D1;
+    border-radius: 8px;
+    
+    padding: 2.5% 5% 0% 5%;
+    width: 50%;
+    margin: 60px auto;
+    color: #486A8A;
+}
+
+label {
+    margin-top: 8%;
+    display: block;
+    font-size: 20px;
+}
+
+input {
+    margin-top: 20px;
+    font-size: 20px;
+    margin-right: 5%;
+}
+
+#street-no {
+     width: 12%;
+}
+
+#offers-label {
+    margin-bottom: 20px;
+}
+
+#button-regular {
+    display: inline-block;
+    margin-right: 30px;
+}
+
+#button-container {
+    text-align: center;
+    margin: 30px auto;
+}
+
+#auto-approve-div {
+    margin-top: 8%
+}
+
+#auto-approve-div input:hover {
+    cursor: pointer;
+}
+
+#auto-approve-span {
+    font-size: 20px;
+}
+
+#error-container{
+    text-align: center;
+}
