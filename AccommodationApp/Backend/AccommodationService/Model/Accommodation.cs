@@ -19,6 +19,31 @@ namespace Accommodation.Model
         public int MaxGuests { get; set; }
         public string HostId { get; set; }
         public bool AutoApprove { get; set; }
-    
+        public DateTime StartSeasonDate { get; set; }
+        public DateTime EndSeasonDate { get; set; }
+        public List<DateTime> StartDatesReservations { get; set; }
+        public List<DateTime?> EndDatesReservations { get; set; }
+        public Price AccomodationPrice { get; set; }
+
+        public Accommodation( string name, Address address, string[] offers, int minGuests, int maxGuests, string hostId, bool autoApprove, DateTime startSeasonDate, DateTime endSeasonDate, List<DateTime> startDatesReservations, List<DateTime?> endDatesReservations, Price accomodationPrice)
+        {
+     
+            Name = name;
+            Address = address;
+            Offers = offers;
+            MinGuests = minGuests;
+            MaxGuests = maxGuests;
+            HostId = hostId;
+            AutoApprove = autoApprove;
+            StartSeasonDate = startSeasonDate;
+            EndSeasonDate = endSeasonDate;
+            StartDatesReservations = startDatesReservations;
+            EndDatesReservations = endDatesReservations;
+            AccomodationPrice = accomodationPrice;
+        }
+
+        public Accommodation()
+        {
+        }
     }
 }

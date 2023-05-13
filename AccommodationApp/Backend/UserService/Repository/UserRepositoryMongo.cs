@@ -1,5 +1,7 @@
+
 ﻿using Amazon.SecurityToken.Model;
 using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Primitives;
 using MongoDB.Driver;
 using System;
@@ -60,6 +62,19 @@ namespace Users.Repository
         public void UpdateUser(User user)
         {
             _users.InsertOne(user);
+        }
+
+        public void Delete(User user)
+        {
+
+            var filter = Builders<User>.Filter.Eq("Id", user.Id);
+
+            _users.DeleteOne(filter);
+        }
+
+        public User GetById(StringValues id)
+        {
+           return (User)_users.Find(user=>user.Id==id);
         }
     }
 

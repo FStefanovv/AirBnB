@@ -21,5 +21,28 @@ namespace ReservationService.Adapter
 
             return dtos;
         }*/
+
+
+        public static Reservation CreateReservationDtoToObject(ReservationDTO dto,string userId)
+        {
+
+            var reservation = new Reservation()
+            {
+                From = dto.From,
+                To = dto.To,
+                UserId = userId,
+                AccommodationId = dto.AccommodationId,
+                AccommodationName = dto.AccommodationName,
+                NumberOfGuests = dto.NumberOfGuests,
+                Status = Enums.ReservationStatus.ACTIVE,
+                Price = 0
+            };
+
+
+            return reservation;
+        
+                
+
+        }
     }
 }

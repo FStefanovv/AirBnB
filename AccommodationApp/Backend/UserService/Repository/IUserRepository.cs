@@ -16,6 +16,7 @@ namespace Users.Repository
         bool CheckIfUsernameInUse(string username);
         User GetUser(StringValues userId);
         void UpdateUser(User user);
-
+        User GetById(StringValues id);
+        void Delete(User user);
     }
 }

@@ -18,6 +18,8 @@ import { PendingRequestsComponent } from './components/pending-requests/pending-
 import { UserInfoChangeComponent } from './components/user-info-change/user-info-change.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 
+import {MatToolbarModule} from '@angular/material/toolbar';
+
 export function tokenGetter() { 
   return localStorage.getItem("jwt"); 
 }
@@ -46,7 +48,9 @@ export function tokenGetter() {
         disallowedRoutes: []
       }
     }),
-    NgMultiSelectDropDownModule.forRoot()
+    NgMultiSelectDropDownModule.forRoot(),
+    MatToolbarModule,
+    
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]

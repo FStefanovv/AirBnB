@@ -1,9 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { CreateAccommodationDTO } from 'src/app/model/create-accommodation';
 import { AccommodationService } from 'src/app/services/accommodation.service';
+import { UserService } from 'src/app/services/user.service';
 
 
 @Component({
@@ -13,7 +15,7 @@ import { AccommodationService } from 'src/app/services/accommodation.service';
 })
 export class CreateAccommodationComponent implements OnInit {
 
-  constructor(private accommodationService: AccommodationService) { }
+  constructor(private accommodationService: AccommodationService, private userService: UserService,private router: Router) { }
 
   dropdownList = [
       { item_id: 1, item_text: 'WiFi' },
@@ -44,6 +46,13 @@ export class CreateAccommodationComponent implements OnInit {
   images: File[] = [];
 
   guestNumError = false;
+  priceError = false;
+
+  public answer:string = 'guest';
+
+  price = 'guest';
+
+
 
   ngOnInit(): void {    
   }
@@ -55,18 +64,54 @@ export class CreateAccommodationComponent implements OnInit {
     for(let item of this.selectedItems){
       this.accommDto.offers?.push(item.item_text);
     }
-    this.accommodationService.Post(this.accommDto, this.images).subscribe({
-      next: (response: any) => {
-        console.log('success');
-      },
-      error : (err: HttpErrorResponse) => {
-       console.log(err);
+    if(this.answer=='guest'){
+      this.accommDto.pricePerGuest=true;
+      this.accommDto.pricePerAccomodation=false;
+    }
+    else if(this.answer=='accomm'){
+      this.accommDto.pricePerAccomodation=true;
+      this.accommDto.pricePerGuest=false;
+    }
+    if(this.accommDto.price<=0){
+      this.priceError=true;
+
+    }
+
+     if(this.guestNumError==false && this.priceError==false){
+        this.accommodationService.Post(this.accommDto, this.images).subscribe({
+          next: (response: any) => {
+            console.log('success');
+          },
+          error : (err: HttpErrorResponse) => {
+          console.log(err);
+          }
+        });
       }
-    });
+      else{ 
+        console.error("You must fill all fields correctlly");
+        setTimeout(()=>{
+          window.location.reload();
+        }, 1000);
+
+       }
+      
   }
 
   selectImages(event: any) {
     this.images = event.target.files;
+  }
+
+  deleteAccAsHost(){
+    this.userService.deleteAccAsHost().subscribe({
+      next: (res: any) => {
+     console.log('success');
+     this.router.navigate(['login'])
+   },
+   error : (err: HttpErrorResponse) => {
+    console.log(err);
+   }
+ });
+    
   }
 
 }

@@ -13,5 +13,9 @@ namespace ReservationService.Repository
         Reservation GetReservationById(string reservationId);
         List<Reservation> GetUserReservations(StringValues userId);
         List<Reservation> GetActiveUserReservations(string id);
+        List<Reservation> GetActiveHostReservations(string id);
+        void Create(Reservation reservation);
+        List<Reservation> GetReservationsForAccommodation(string accomodationId);
+
     }
 }

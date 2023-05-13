@@ -1,14 +1,24 @@
 ﻿using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
+
 using Users.Adapters;
 using Users.DTO;
 using Users.Model;
 using Users.Repository;
+
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Microsoft.Extensions.Primitives;
 
 namespace Users.Services
 {
@@ -103,6 +113,24 @@ namespace Users.Services
             {
                 throw new Exception(ex.Message);
             }
+
+        }
+
+        public void DeleteAsGuest(StringValues id)
+        {
+            
+            User user=_userRepository.GetById(id);
+ 
+            _userRepository.Delete(user);                              
+           
+        }
+
+        public void DeleteAsHost(StringValues id)
+        {
+
+            User user = _userRepository.GetById(id);
+
+            _userRepository.Delete(user);
 
         }
     }

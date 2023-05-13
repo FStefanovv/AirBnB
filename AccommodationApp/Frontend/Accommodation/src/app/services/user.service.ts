@@ -37,4 +37,12 @@ export class UserService {
   getRegular() : Observable<User>{
     return this.http.get<User>(this.usersUrl+'get-regular',this.httpOptions);
   }
+
+  deleteAccAsGuest():Observable<any> {
+    return this.http.delete(this.usersUrl+'deleteAsGuest1',this.httpOptions);
+  }
+
+  deleteAccAsHost():Observable<any> {
+    return this.http.delete(this.usersUrl+'deleteAsHost',this.httpOptions);
+  }
 }

@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
+<<<<<<< HEAD
 using Microsoft.EntityFrameworkCore;
+=======
+>>>>>>> a62112660abe9c7d8f7d84434682dde57c4294cd
 using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
@@ -64,6 +67,17 @@ namespace Users.Repository
         {
             _context.Users.Update(user);
             _context.SaveChanges();
+        }
+        public void Delete (User user)
+        {
+           
+            _context.Users.Remove(user);
+            _context.SaveChanges();
+        }
+
+        public User GetById(StringValues id)
+        {
+            return _context.Users.Find(id);
         }
     }
 }

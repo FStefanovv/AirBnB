@@ -50,5 +50,23 @@ namespace Accommodation.Controllers
             return await _accommodationService.GetAccommodationPhotos(id);
         }
 
+        [HttpDelete]
+        [Route("delete-acc-without-host/{id}")]
+        public ActionResult DeleteAccWithoutHost(string id)
+        {
+            _accommodationService.DeleteAccwithoutHost(id);
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("get-by-id/{id}")]
+
+        public ActionResult GetById(string id)
+        {
+            var accommodation = _accommodationService.GetById(id);
+            var accomodationDTO=Adapters.CreateAccommodationAdapter.ObjectToAccommodationDTO(accommodation);
+
+            return Ok(accomodationDTO);
+        }
     }
 }

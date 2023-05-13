@@ -34,6 +34,16 @@ namespace Accommodation.Services
             return await _repository.GetAccommodationPhotos(accommId);
         }
 
+        public void DeleteAccwithoutHost(string id)
+        {
+           
+            _repository.DeleteAccWithoutHost(id);
+        }
+        
+        public Model.Accommodation GetById(string id)
+        {
+            return _repository.GetById(id);
+        }
        
     }
 }

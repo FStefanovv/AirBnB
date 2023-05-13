@@ -37,5 +37,23 @@ namespace Accommodation.Repository
             var filter = Builders<GridFSFileInfo>.Filter.Eq(x => x.Metadata["AccommObjectId"], accommId);
             return await _context.GetAccommodationPhotos(accommId);
         }
+
+        public void DeleteAccWithoutHost(string id)
+        {
+            var filter = Builders<Model.Accommodation>.Filter.Eq("HostId", id);
+            _accommodation.DeleteMany(filter); 
+
+        }
+
+
+        public List<Model.Accommodation> GetByHostId(string hostId)
+        {
+            return _accommodation.Find(accomodation => accomodation.HostId == hostId).ToList();
+        }
+
+        public Model.Accommodation GetById(string id)
+        {
+            return (Model.Accommodation)_accommodation.Find(user => user.Id == id);
+        }
     }
 }
