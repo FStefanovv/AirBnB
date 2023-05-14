@@ -13,7 +13,16 @@
     <projectFile profileName="https">SlavkoGrpcService/SlavkoGrpcService.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0467373e-b258-45c1-a093-d0f9e12aac94" name="Changes" comment="" />
+    <list default="true" id="0467373e-b258-45c1-a093-d0f9e12aac94" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.AccommodationApp/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AccommodationApp/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ApiGateway/ocelot.json" beforeDir="false" afterPath="$PROJECT_DIR$/../ApiGateway/ocelot.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Frontend/Accommodation/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../Frontend/Accommodation/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Frontend/Accommodation/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../Frontend/Accommodation/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Frontend/Accommodation/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../Frontend/Accommodation/src/app/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Frontend/Accommodation/src/app/services/reservation.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../Frontend/Accommodation/src/app/services/reservation.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Frontend/Accommodation/tsconfig.app.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../Frontend/Accommodation/tsconfig.app.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Frontend/Accommodation/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../Frontend/Accommodation/tsconfig.json" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -36,6 +45,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.5049116&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;terminal&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
@@ -48,7 +58,7 @@
     ]
   }
 }</component>
-  <component name="RunManager" selected=".NET Launch Settings Profile.Accommodation">
+  <component name="RunManager" selected=".NET Launch Settings Profile.ReservationService">
     <configuration name="Accommodation" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/../AccommodationService/Accommodation.csproj" />
       <option name="LAUNCH_PROFILE_TFM" value="net5.0" />
@@ -231,6 +241,7 @@
       <workItem from="1683979892338" duration="14357000" />
       <workItem from="1684007406943" duration="5225000" />
       <workItem from="1684058886946" duration="15432000" />
+      <workItem from="1684097271251" duration="848000" />
     </task>
     <servers />
   </component>
