@@ -68,13 +68,15 @@ namespace Accommodation.Adapters
                 AccomodationPrice = new Model.Price()
                 {
                     FinalPrice = dto.Price,
-                 
+
                 }
 
 
             };
 
             return accommodation;
+        }
+
 
         public static AccommodationDTO ObjectToAccommodationDTOForSearch(Model.Accommodation accommodation)
         {
@@ -92,5 +94,7 @@ namespace Accommodation.Adapters
             return accommodationDto;
 
         }
+
     }
+
 }
