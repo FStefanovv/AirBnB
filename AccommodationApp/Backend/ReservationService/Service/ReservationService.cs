@@ -15,7 +15,7 @@ namespace ReservationService.Service
         private readonly IReservationRepository _repository;
 
         private readonly ILogger<ReservationService> _logger;
-        private readonly string _url = "http://localhost:5002";
+        private readonly string _url = "http://localhost:5002/Services.AccomodationService/GetAccommodationGRPC";
 
 
         public ReservationService(IReservationRepository repository, ILogger<ReservationService> logger)
@@ -217,15 +217,16 @@ namespace ReservationService.Service
         }
 
 
-        public void CreateReservationGRPC(Reservation reservation)
+        public async void CreateReservationGRPC(Reservation reservation)
         {
+            AppContext.SetSwitch(
+                "System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
             using var channel = GrpcChannel.ForAddress(_url);
             var client = new AccommodationGRPCService.AccommodationGRPCServiceClient(channel);
 
-
-            var reply = client.GetAccommodationGRPC(new AccommodationId
+            var reply = await client.GetAccommodationGRPCAsync(new AccommodationId
             {
-                Id = "64345c35782e3689729e953b"
+                Id = "64487697c915d0ae735042a6"
             });
             _logger.LogInformation("Greeting: {reply.Name} -- {DateTime.Now}");
         }
