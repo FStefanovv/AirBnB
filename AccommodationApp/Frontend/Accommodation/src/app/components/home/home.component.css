@@ -1,0 +1,62 @@
+#main-div {
+    border: 1px solid #CCD1D1;
+    border-radius: 10px;
+    padding: 2.5% 5% 0% 5%;
+    width: 70%;
+    height: 80%;
+    margin: 30px auto;
+    color: #486A8A;
+}
+
+label {
+    font-size: 15px;
+    margin-left: 25px;
+}
+
+input {
+    margin-top: 20px;
+    margin-right: 5px;
+}
+
+#button-regular {
+    display: inline-block;
+    margin : 30px;
+}
+
+#button-container {
+    text-align: center;
+    margin: 30px auto;
+}
+
+#main-div {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .card {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    margin: 10px;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    height: 200px;
+  }
+  
+  .container {
+    padding: 10px;
+  }
+  
+  h4 {
+    margin-top: 0;
+    margin-bottom: 5px;
+  }
+  
+  p {
+    margin-top: 0;
+    margin-bottom: 0;
+    color: #888;
+  }
+  
+  
