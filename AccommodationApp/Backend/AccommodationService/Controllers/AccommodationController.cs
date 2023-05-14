@@ -69,6 +69,22 @@ namespace Accommodation.Controllers
             return Ok(accomodationDTO);
         }
 
+
+
+       [HttpPost]
+       [Route("update-acc")]
+       public ActionResult Update(AccommodationDTO accommodationDTO)
+        {
+
+            Model.Accommodation accommodation = Adapters.CreateAccommodationAdapter.AccommodationDTOToObject(accommodationDTO);
+            
+            _accommodationService.Update(accommodation);
+
+            return Ok();
+        }
+
+
+
         [HttpPost]
         [Route("get-searched")]
         public ActionResult GetSearchedAccomodations(SearchDTO dto)
@@ -89,5 +105,6 @@ namespace Accommodation.Controllers
             }
             return Ok(accomodationDTOs);
         }
+
     }
 }
