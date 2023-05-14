@@ -123,10 +123,19 @@ namespace ReservationService.Controllers
 
         public async Task<ActionResult> CreateReservation(ReservationDTO dto)
         {
+            Request.Headers.TryGetValue("UserId", out StringValues userId);
 
+            Reservation reservation = Adapter.ReservationAdapter.CreateReservationDtoToObject(dto, userId);
+            _reservationService.CreateReservationGRPC(reservation);
+
+
+            return Ok();
+
+            /*
             Request.Headers.TryGetValue("UserId", out StringValues userId);
 
             Reservation reservation= Adapter.ReservationAdapter.CreateReservationDtoToObject(dto, userId);
+
 
             using HttpClient client = new HttpClient();
             HttpResponseMessage response = await client.GetAsync("http://localhost:5003/api/accommodation/get-by-id/" + reservation.AccommodationId);
@@ -136,7 +145,7 @@ namespace ReservationService.Controllers
 
             _reservationService.CreateReservation(reservation, result);
 
-            return Ok();
+            return Ok();*/
 
         }
 

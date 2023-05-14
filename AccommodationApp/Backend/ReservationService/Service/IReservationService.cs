@@ -16,10 +16,6 @@ namespace ReservationService.Service
         void CreateReservation(Reservation reservation, DTO.AccommodationDTO accommodation);
         List<DateTime> GetStartReservationDate(string accommodationId);
         List<DateTime> GetEndReservationDate(string accommodationId);
-
-
-
-
-
+        void CreateReservationGRPC(Reservation reservation);
     }
 }

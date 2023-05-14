@@ -9,7 +9,7 @@ namespace Accommodation.Adapters
 {
     public static class CreateAccommodationAdapter
     {
-        public static Model.Accommodation CreateAccommodaitonDtoToObject(CreateAccommodationDTO dto, string hostId)
+        public static Model.Accommodation CreateAccommodaitonDtoToObject(DTO.CreateAccommodationDTO dto, string hostId)
         {
             CultureInfo culture = CultureInfo.CreateSpecificCulture("sr-Cyrl-Rs");
             var accommodation = new Model.Accommodation()
@@ -37,9 +37,9 @@ namespace Accommodation.Adapters
             return accommodation;
         }
 
-        public static AccommodationDTO ObjectToAccommodationDTO(Model.Accommodation accommodation)
+        public static DTO.AccommodationDTO ObjectToAccommodationDTO(Model.Accommodation accommodation)
         {
-            var accommodationDTO = new AccommodationDTO()
+            var accommodationDTO = new DTO.AccommodationDTO()
             {
                 Name = accommodation.Name,
                 StartSeason = accommodation.StartSeasonDate.ToString("yyyy-MM-dd"),

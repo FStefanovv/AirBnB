@@ -36,6 +36,8 @@ namespace Accommodation
             services.AddSingleton<AccommodationService>();
 
 
+            services.AddGrpc();
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -71,6 +73,8 @@ namespace Accommodation
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+
+                endpoints.MapGrpcService<AccommodationService>();
             });
         }
     }

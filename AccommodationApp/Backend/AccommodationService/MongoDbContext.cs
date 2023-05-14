@@ -6,6 +6,7 @@ using MongoDB.Driver.GridFS;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -27,12 +28,13 @@ namespace Accommodation
         {
             using (var s = file.OpenReadStream())
             {
-                var t = Task.Run<ObjectId>(() => {
-                    return _gridFSBucket.UploadFromStreamAsync(file.FileName, s, 
+                var t = Task.Run<ObjectId>(() =>
+                {
+                    return _gridFSBucket.UploadFromStreamAsync(file.FileName, s,
                         new GridFSUploadOptions
-                    {
-                     Metadata = new BsonDocument { { "Type", "photo" }, { "AccommObjectId", accommObjectId} }
-                    });
+                        {
+                            Metadata = new BsonDocument { { "Type", "photo" }, { "AccommObjectId", accommObjectId } }
+                        });
                 });
 
                 return t.Result;
@@ -44,24 +46,41 @@ namespace Accommodation
             return _db.GetCollection<T>(name);
         }
 
-        public async Task<List<IFormFile>> GetAccommodationPhotos(string accommId)
+        public async Task<List<byte[]>> GetAccommodationPhotos(string accommId)
         {
-            var filter = Builders<GridFSFileInfo>.Filter.Eq(x => x.Metadata.GetValue("AccommObjectId"), accommId);
-            var results = await _gridFSBucket.FindAsync(filter);
+            var filter = Builders<GridFSFileInfo>.Filter.Eq(x => x.Metadata["AccommObjectId"], accommId);
 
-            Console.WriteLine(results);
+            var photos = new List<byte[]>();
 
-            return new List<IFormFile>();
+            using (var cursor = await _gridFSBucket.FindAsync(filter))
+            {
+                while (await cursor.MoveNextAsync())
+                {
+                    var batch = cursor.Current;
+
+                    foreach (var fileInfo in batch)
+                    {
+                        var fileId = fileInfo.Id;
+
+
+                        byte[] currentPhoto = await _gridFSBucket.DownloadAsBytesAsync(fileId);
+
+
+                        photos.Add(currentPhoto);
+                    }
+                }
+
+            }
+
+
+            return photos;
         }
     }
 
-
     public interface IDbContext
     {
-        Task<List<IFormFile>> GetAccommodationPhotos(string accommId);
+        Task<List<byte[]>> GetAccommodationPhotos(string accommId);
         IMongoCollection<T> GetCollection<T>(string name);
         ObjectId UploadImage(IFormFile file, string accommObjectId);
-
-
     }
 }

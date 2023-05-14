@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Primitives;
+﻿using Grpc.Net.Client;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Primitives;
 using ReservationService.Model;
 using ReservationService.Repository;
 using System;
@@ -12,9 +14,14 @@ namespace ReservationService.Service
     {
         private readonly IReservationRepository _repository;
 
-        public ReservationService(IReservationRepository repository)
+        private readonly ILogger<ReservationService> _logger;
+        private readonly string _url = "http://localhost:5002";
+
+
+        public ReservationService(IReservationRepository repository, ILogger<ReservationService> logger)
         {
             _repository = repository;
+            _logger = logger;
         }
 
         public void CancelReservation(string reservationId, StringValues userId)
@@ -210,7 +217,17 @@ namespace ReservationService.Service
         }
 
 
+        public void CreateReservationGRPC(Reservation reservation)
+        {
+            using var channel = GrpcChannel.ForAddress(_url);
+            var client = new AccommodationGRPCService.AccommodationGRPCServiceClient(channel);
 
 
+            var reply = client.GetAccommodationGRPC(new AccommodationId
+            {
+                Id = "64345c35782e3689729e953b"
+            });
+            _logger.LogInformation("Greeting: {reply.Name} -- {DateTime.Now}");
+        }
     }
 }
