@@ -123,20 +123,29 @@ namespace ReservationService.Controllers
 
         public async Task<ActionResult> CreateReservation(ReservationDTO dto)
         {
+            // Request.Headers.TryGetValue("UserId", out StringValues userId);
+            //
+            // Reservation reservation = Adapter.ReservationAdapter.CreateReservationDtoToObject(dto, userId);
+            // _reservationService.CreateReservationGRPC(reservation);
+            //
+            //
+            // return Ok();
 
-            Request.Headers.TryGetValue("UserId", out StringValues userId);
+              
+              Request.Headers.TryGetValue("UserId", out StringValues userId);
 
-            Reservation reservation= Adapter.ReservationAdapter.CreateReservationDtoToObject(dto, userId);
+              Reservation reservation= Adapter.ReservationAdapter.CreateReservationDtoToObject(dto, userId);
 
-            using HttpClient client = new HttpClient();
-            HttpResponseMessage response = await client.GetAsync("http://localhost:5003/api/accommodation/get-by-id/" + reservation.AccommodationId);
-            Console.WriteLine("Status: " + response.StatusCode.ToString());
-            string jsonContent = response.Content.ReadAsStringAsync().Result;
-            DTO.AccommodationDTO result = JsonConvert.DeserializeObject<DTO.AccommodationDTO>(jsonContent);
 
-            _reservationService.CreateReservation(reservation, result);
+              using HttpClient client = new HttpClient();
+              HttpResponseMessage response = await client.GetAsync("http://localhost:5003/api/accommodation/get-by-id/" + reservation.AccommodationId);
+              Console.WriteLine("Status: " + response.StatusCode.ToString());
+              string jsonContent = response.Content.ReadAsStringAsync().Result;
+              DTO.AccommodationDTO result = JsonConvert.DeserializeObject<DTO.AccommodationDTO>(jsonContent);
 
-            return Ok();
+              _reservationService.CreateReservation(reservation, result);
+
+              return Ok();
 
         }
 

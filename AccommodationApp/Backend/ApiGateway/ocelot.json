@@ -291,7 +291,7 @@
           "Host": "localhost",
           "Port": 5003
         }
-      ],
+      ]/*,
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "AuthTokenFromUserService",
         "AllowedScopes": []
@@ -301,7 +301,7 @@
       },
       "AddHeadersToRequest": {
         "UserId": "Claims[UserId] > value"
-      }
+      }*/
     },
     {
       "UpstreamPathTemplate": "/gateway/get-reserved-start-dates/{accommodationId}",

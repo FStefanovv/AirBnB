@@ -7,6 +7,7 @@ using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -44,7 +45,7 @@ namespace Accommodation.Controllers
 
         [HttpGet]
         [Route("get-photos/{id}")]
-        public async Task<List<IFormFile>> GetAccommPhotos(string id)
+        public async Task<List<byte[]>> GetAccommPhotos(string id)
         {
 
             return await _accommodationService.GetAccommodationPhotos(id);
