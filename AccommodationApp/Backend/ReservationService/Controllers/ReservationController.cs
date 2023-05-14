@@ -169,7 +169,13 @@ namespace ReservationService.Controllers
             return Ok(endDates);
         }
 
-
+        [HttpGet]
+        [Route("get-busy-dates-for-accommodation/{accommodationId}")]
+        public ActionResult GetReservationDatesForAccommodation(string accommodationId)
+        {
+            var dates = _reservationService.GetBusyDatesForAccommodation(accommodationId);
+            return Ok(dates);
+        }
 
 
     }

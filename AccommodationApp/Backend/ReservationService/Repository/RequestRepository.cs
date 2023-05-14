@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ReservationService.DTO;
 
 namespace ReservationService.Repository
 {
@@ -17,7 +18,12 @@ namespace ReservationService.Repository
             _context = context;
         }
 
-
+        public void Create(ReservationRequest resRequest)
+        {
+            _context.Requests.Add(resRequest);
+            _context.SaveChanges();
+        }
+        
         public ReservationRequest GetRequestById(string requestId)
         {
 
@@ -77,6 +83,16 @@ namespace ReservationService.Repository
         public List<ReservationRequest> GetResolvedRequestsByHost(string userId)
         {
             return _context.Requests.Where(req => req.HostId == userId && req.Status != Enums.RequestStatus.PENDING).ToList();
+        }
+        
+        public List<ReservationRequest> GetRequestsForCancelAfterAcceptingOne(string accommodationId)
+        {
+            return _context.Requests.Where(req => req.AccommodationId == accommodationId).ToList();
+        }
+
+        public List<ReservationRequest> GetRequestsForHost(string hostId)
+        {
+            return _context.Requests.Where(req => req.HostId == hostId).ToList();
         }
     }
 }

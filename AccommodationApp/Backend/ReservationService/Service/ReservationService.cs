@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ReservationService.DTO;
 
 namespace ReservationService.Service
 {
@@ -216,19 +217,35 @@ namespace ReservationService.Service
             return endDates;
         }
 
-
-        public async void CreateReservationGRPC(Reservation reservation)
+        public List<GetBusyDateForAccommodationDTO> GetBusyDatesForAccommodation(string accommodationId)
         {
-            AppContext.SetSwitch(
-                "System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
-            using var channel = GrpcChannel.ForAddress(_url);
-            var client = new AccommodationGRPCService.AccommodationGRPCServiceClient(channel);
-
-            var reply = await client.GetAccommodationGRPCAsync(new AccommodationId
+            List<GetBusyDateForAccommodationDTO> dtoList = new List<GetBusyDateForAccommodationDTO>();
+            foreach (var reservation in _repository.GetReservationsForAccommodation(accommodationId))
             {
-                Id = "64487697c915d0ae735042a6"
-            });
-            _logger.LogInformation("Greeting: {reply.Name} -- {DateTime.Now}");
+                dtoList.Add(Adapter.ReservationAdapter.ReservationToGetBusyDateForAccommodationDTO(reservation));
+            }
+
+            return dtoList;
         }
+
+        public void CreateReservationFromRequest(ReservationRequest request)
+        {
+            Reservation reservation = Adapter.ReservationAdapter.RequestToReservation(request);
+            _repository.Create(reservation);
+        }
+
+//         public async void CreateReservationGRPC(Reservation reservation)
+//         {
+//             AppContext.SetSwitch(
+//                 "System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
+//             using var channel = GrpcChannel.ForAddress(_url);
+//             var client = new AccommodationGRPCService.AccommodationGRPCServiceClient(channel);
+
+//             var reply = await client.GetAccommodationGRPCAsync(new AccommodationId
+//             {
+//                 Id = "64487697c915d0ae735042a6"
+//             });
+//             _logger.LogInformation("Greeting: {reply.Name} -- {DateTime.Now}");
+//         }
     }
 }

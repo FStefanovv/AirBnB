@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ReservationService.DTO;
 
 namespace ReservationService.Service
 {
@@ -15,7 +16,8 @@ namespace ReservationService.Service
         bool HostHasActiveReservations(string id);
         void CreateReservation(Reservation reservation, DTO.AccommodationDTO accommodation);
         List<DateTime> GetStartReservationDate(string accommodationId);
-        List<DateTime> GetEndReservationDate(string accommodationId);
-        void CreateReservationGRPC(Reservation reservation);
+        List<DateTime> GetEndReservationDate(string accommodationId;
+        void CreateReservationFromRequest(ReservationRequest request);
+        List<GetBusyDateForAccommodationDTO> GetBusyDatesForAccommodation(string accommodationId);
     }
 }
