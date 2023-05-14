@@ -4,6 +4,7 @@ import { CreateAccommodationDTO } from '../model/create-accommodation';
 import { SearchDTO } from '../model/search';
 import { Observable } from 'rxjs';
 import { AccommodationDTO } from '../model/accommodation';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +38,9 @@ export class AccommodationService {
   getAll() : Observable<AccommodationDTO[]>{
     return this.http.get<AccommodationDTO[]>(this.accommUrl + 'get-all',this.httpOptions)
   }
-
-
+  
+  GetPhotos(id: string) : Observable<Blob> {
+    const headers = new HttpHeaders().set('Accept', 'application/octet-stream');
+    return this.http.get(this.accommUrl + 'get-photos/'+id, { responseType: 'blob', headers });
+  }
 }

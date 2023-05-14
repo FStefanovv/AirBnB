@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ReservationService.DTO;
 using ReservationService.Service;
 
 namespace ReservationService.Controllers
@@ -19,6 +20,30 @@ namespace ReservationService.Controllers
         {
             _requestService.UpdateRequestsPostUserDeletion(id);
             return Ok();
+        }
+
+        [HttpPost]
+        [Route("create-request")]
+        public ActionResult CreateRequest(RequestReservationDTO dto)
+        {
+            _requestService.CreateReservationRequest(dto);
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("accept-request/{requestId}/{accommodationId}")]
+        public ActionResult AcceptRequest(string requestId, string accommodationId)
+        {
+            _requestService.AcceptRequest(requestId, accommodationId);
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("get-requests/{hostId}")]
+        public ActionResult GetRequests(string hostId)
+        {
+            var list = _requestService.GetRequestsForHost(hostId);
+            return Ok(list);
         }
     }
 }
