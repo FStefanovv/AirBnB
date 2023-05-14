@@ -75,6 +75,22 @@ namespace Accommodation.Adapters
             };
 
             return accommodation;
+
+        public static AccommodationDTO ObjectToAccommodationDTOForSearch(Model.Accommodation accommodation)
+        {
+            AccommodationDTO accommodationDto = new AccommodationDTO();
+            accommodationDto.Name = accommodation.Name;
+            accommodationDto.StartSeason = accommodation.StartSeasonDate.ToString("yyyy-MM-dd");
+            accommodationDto.EndSeason = accommodation.EndSeasonDate.ToString("yyyy-MM-dd");
+            accommodationDto.Price = accommodation.AccomodationPrice.FinalPrice;
+            accommodationDto.PricePerGuest = accommodation.AccomodationPrice.PricePerGuest;
+            accommodationDto.PricePerAccomodation = accommodation.AccomodationPrice.PricePerAccomodation;
+            accommodationDto.HolidayCost = accommodation.AccomodationPrice.HolidayCost;
+            accommodationDto.WeekendCost = accommodation.AccomodationPrice.WeekendCost;
+            accommodationDto.SummerCost = accommodation.AccomodationPrice.SummerCost;
+
+            return accommodationDto;
+
         }
     }
 }

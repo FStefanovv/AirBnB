@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ReservationService.DTO;
 
 namespace ReservationService.Service
 {
@@ -13,5 +14,8 @@ namespace ReservationService.Service
         void UpdateRequestsPostUserDeletion(string id);
         List<ReservationRequest> GetPendingRequestsByHost(StringValues userId);
         List<ReservationRequest> GetResolvedRequestsByHost(StringValues userId);
+        void CreateReservationRequest(RequestReservationDTO dto);
+        void AcceptRequest(string requestId, string accommodationId);
+        List<ShowRequestDTO> GetRequestsForHost(string hostId);
     }
 }

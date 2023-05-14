@@ -94,6 +94,30 @@
       }
     },
     {
+      "UpstreamPathTemplate": "/gateway/get-all",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/accommodation/get-all",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/search-accommodation",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/accommodation/get-searched",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    {
       "UpstreamPathTemplate": "/gateway/get-photos/{id}",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/accommodation/get-photos/{id}",
@@ -318,7 +342,55 @@
     {
       "UpstreamPathTemplate": "/gateway/get-reserved-end-dates/{accommodationId}",
       "UpstreamHttpMethod": [ "Get" ],
-      "DownstreamPathTemplate": "/api/reservation/get-end-start-dates/{accommodationId}",
+      "DownstreamPathTemplate": "/api/request/get-end-start-dates/{accommodationId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/create-request",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/request/create-request",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/get-busy-dates-for-accommodation/{accommodationId}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/reservation/get-busy-dates-for-accommodation/{accommodationId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/accept-request/{requestId}/{accommodationId}",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/request/accept-request/{requestId}/{accommodationId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/get-requests/{hostId}",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/request/get-requests/{hostId}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {

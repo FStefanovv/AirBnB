@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ReservationService.DTO;
 
 namespace ReservationService.Repository
 {
@@ -62,5 +63,6 @@ namespace ReservationService.Repository
         {
            return  _context.Reservations.Where(res=> res.AccommodationId == accomodationId).ToList();
         }
+
     }
 }
