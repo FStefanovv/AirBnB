@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Reservation } from '../model/reservation';
+import { CreateRequestDto } from '../model/createRequestDto';
 
 @Injectable({
   providedIn: 'root'
@@ -27,4 +28,9 @@ export class ReservationService {
   getPendingRequests() : Observable<Request[]> {
     return this.http.get<Request[]>(this.gatewayUrl+'get-pending-requests', this.httpOptions)
   }
+
+  createRequest(dto:CreateRequestDto): Observable<CreateRequestDto>{
+    return this.http.post<CreateRequestDto>(this.gatewayUrl+'create-request',this.httpOptions);
+  }
+
 }

@@ -19,6 +19,7 @@ import { UserInfoChangeComponent } from './components/user-info-change/user-info
 import { RegistrationComponent } from './components/registration/registration.component';
 
 import {MatToolbarModule} from '@angular/material/toolbar';
+import { CreateRequestComponent } from './components/create-request/create-request.component';
 
 export function tokenGetter() { 
   return localStorage.getItem("jwt"); 
@@ -34,7 +35,8 @@ export function tokenGetter() {
     UserReservationsComponent,
     PendingRequestsComponent,
     UserInfoChangeComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    CreateRequestComponent
   ],
   imports: [
     BrowserModule,
@@ -49,8 +51,7 @@ export function tokenGetter() {
       }
     }),
     NgMultiSelectDropDownModule.forRoot(),
-    MatToolbarModule,
-    
+    MatToolbarModule
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]

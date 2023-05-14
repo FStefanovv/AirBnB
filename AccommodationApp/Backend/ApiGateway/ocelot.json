@@ -398,6 +398,18 @@
           "Port": 5003
         }
       ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/get-by-id/{id}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/accommodation/get-by-id/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
     }
 
   ]
