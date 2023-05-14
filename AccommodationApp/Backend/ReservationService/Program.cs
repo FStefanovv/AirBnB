@@ -1,4 +1,4 @@
-using Grpc.Net.Client;
+//using Grpc.Net.Client;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

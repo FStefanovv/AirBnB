@@ -72,5 +72,14 @@ namespace Accommodation.Repository
                     SummerCost = accommodation.AccomodationPrice.SummerCost
                 };
         }
+
+        public void Update(Model.Accommodation accommodation)
+        {
+
+           _accommodation.ReplaceOne(acc => acc.Id==accommodation.Id,accommodation);
+
+
+        }
+
     }
 }

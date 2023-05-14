@@ -51,7 +51,13 @@ namespace Accommodation.Services
             AccommodationGRPC accommodation = _repository.GetByIdGRPC(id);
 
             return Task.FromResult(accommodation);
-        } 
+        }
 
+      
+        public void Update(Model.Accommodation accommodation)
+        {
+            _repository.Update(accommodation);
+
+        }
     }
 }

@@ -28,9 +28,9 @@ namespace Accommodation.Adapters
                     FinalPrice = dto.Price,
                     PricePerAccomodation = dto.PricePerAccomodation,
                     PricePerGuest = dto.PricePerGuest,
-                    HolidayCost=dto.HolidayCost,
-                    WeekendCost=dto.WeekendCost,
-                    SummerCost=dto.SummerCost,
+                    HolidayCost = dto.HolidayCost,
+                    WeekendCost = dto.WeekendCost,
+                    SummerCost = dto.SummerCost,
                 }
             };
 
@@ -54,6 +54,27 @@ namespace Accommodation.Adapters
             };
 
             return accommodationDTO;
+        }
+
+
+        public static Model.Accommodation AccommodationDTOToObject(DTO.AccommodationDTO dto)
+        {
+            CultureInfo culture = CultureInfo.CreateSpecificCulture("sr-Cyrl-Rs");
+            var accommodation = new Model.Accommodation()
+            {
+                Name = dto.Name,
+                StartSeasonDate = DateTime.ParseExact(dto.StartSeason, "yyyy-MM-dd", culture),
+                EndSeasonDate = DateTime.ParseExact(dto.EndSeason, "yyyy-MM-dd", culture),
+                AccomodationPrice = new Model.Price()
+                {
+                    FinalPrice = dto.Price,
+                 
+                }
+
+
+            };
+
+            return accommodation;
         }
     }
 }
