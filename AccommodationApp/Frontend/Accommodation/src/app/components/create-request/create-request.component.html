@@ -1,0 +1,14 @@
+<div>
+  <div class="display:flex;">
+    Start Date: <div><input [(ngModel)]="createRequestDto.startDate" type="date"/></div>
+  </div>
+  <div class="display:flex;">
+    End Date: <div><input [(ngModel)]="createRequestDto.endDate" type="date"/></div>
+  </div>
+  <div class="display:flex;">
+    Number of guests: <div><input [(ngModel)]="createRequestDto.numberOfGuest" type="date"/></div>
+  </div>
+  <div id="submit-create-request" (click)="createRequest()">
+    Submit
+  </div>
+</div>
