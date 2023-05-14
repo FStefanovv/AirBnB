@@ -1,6 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CreateAccommodationDTO } from '../model/create-accommodation';
+import { SearchDTO } from '../model/search';
+import { Observable } from 'rxjs';
+import { AccommodationDTO } from '../model/accommodation';
 
 @Injectable({
   providedIn: 'root'
@@ -26,4 +29,14 @@ export class AccommodationService {
 
     return this.http.post(this.accommUrl+'create-accommodation', form);
   }
+
+  search(searchDTO: SearchDTO) : Observable<AccommodationDTO[]> {
+    return this.http.post<AccommodationDTO[]>(this.accommUrl + 'search-accommodation',searchDTO,this.httpOptions)
+  }
+
+  getAll() : Observable<AccommodationDTO[]>{
+    return this.http.get<AccommodationDTO[]>(this.accommUrl + 'get-all',this.httpOptions)
+  }
+
+
 }

@@ -1,4 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { AccommodationDTO } from 'src/app/model/accommodation';
+import { Address } from 'src/app/model/address';
+import { CreateAccommodationDTO } from 'src/app/model/create-accommodation';
+import { SearchDTO } from 'src/app/model/search';
+import { AccommodationService } from 'src/app/services/accommodation.service';
 
 @Component({
   selector: 'app-home',
@@ -6,10 +13,39 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  searchDTO: SearchDTO = new SearchDTO();
+  address: string = '';
+  newAddress: Address = new Address();
+  accommodations: AccommodationDTO[] = [];
+  addressParts : string[] = []
 
-  constructor() { }
+  constructor(private accommodationService: AccommodationService, private router: Router) {}
 
   ngOnInit(): void {
+    this.showAll();
   }
 
+  search() {
+    this.addressParts = this.address.split(',');
+    this.newAddress.street = this.addressParts[0];
+    this.newAddress.number = Number(this.addressParts[1]);
+    this.newAddress.city = this.addressParts[2];
+    this.newAddress.country = this.addressParts[3];
+    this.searchDTO.location = this.newAddress;
+    console.log(this.searchDTO)
+    this.accommodationService.search(this.searchDTO).subscribe({
+      next: (res: any) => {
+        this.accommodations = res;
+      }
+    });
+  }
+
+  showAll() {
+    this.accommodationService.getAll().subscribe({
+      next : (res : any) => {
+        this.accommodations = res
+      }
+    })
+  }
 }
+

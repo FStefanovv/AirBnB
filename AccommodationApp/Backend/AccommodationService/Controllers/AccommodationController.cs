@@ -60,13 +60,33 @@ namespace Accommodation.Controllers
 
         [HttpGet]
         [Route("get-by-id/{id}")]
-
         public ActionResult GetById(string id)
         {
             var accommodation = _accommodationService.GetById(id);
             var accomodationDTO=Adapters.CreateAccommodationAdapter.ObjectToAccommodationDTO(accommodation);
 
             return Ok(accomodationDTO);
+        }
+
+        [HttpPost]
+        [Route("get-searched")]
+        public ActionResult GetSearchedAccomodations(SearchDTO dto)
+        {
+            List<Model.Accommodation> searchedAccomodations = _accommodationService.SearchAccomodation(dto);
+            return Ok(searchedAccomodations);
+        }
+
+        [HttpGet]
+        [Route("get-all")]
+        public ActionResult GetAll()
+        {
+            List<Model.Accommodation> accommodations = _accommodationService.GetAll();
+            List<AccommodationDTO> accomodationDTOs = new List<AccommodationDTO>();
+            foreach(Model.Accommodation accomm in accommodations)
+            {
+                accomodationDTOs.Add(Adapters.CreateAccommodationAdapter.ObjectToAccommodationDTOForSearch(accomm));
+            }
+            return Ok(accomodationDTOs);
         }
     }
 }

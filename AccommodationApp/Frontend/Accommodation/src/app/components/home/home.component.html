@@ -1,1 +1,24 @@
-<p>home works!</p>
+<div id="main-div">
+    <div>
+        <label for="location">Location: </label>
+        <input type="text" placeholder="Street,Number,City,Country" class="input-regular" [(ngModel)]='address'/>
+        <label for="guests">Number of guests: </label>
+        <input type="number" class="input-regular" [(ngModel)]="searchDTO.numberOfGuets"/>
+        <label for="checkIn">Check in: </label>
+        <input type="date" class="input-regular" [(ngModel)]="searchDTO.checkIn"/>
+        <label for="checkOut">Check out: </label>
+        <input type="date" class="input-regular" [(ngModel)]="searchDTO.checkOut"/>
+        <div id="button-container">
+            <button class="button-regular" (click)="search()">Search</button>
+            <button class="button-regular" (click)="showAll()">Show all</button>
+        </div>
+    </div>
+    <div *ngFor="let accomm of accommodations" class="card">
+        <div class="container">
+            <h4><b>{{accomm.name}}</b></h4>
+            <div *ngIf="accomm.pricePerGuest; then thenBlock else elseBlock"></div>
+                <ng-template #thenBlock>Price per guest:{{accomm.price}}</ng-template>
+                <ng-template #elseBlock>Price per accomodation:{{accomm.price}}</ng-template>
+        </div>
+    </div>
+</div>

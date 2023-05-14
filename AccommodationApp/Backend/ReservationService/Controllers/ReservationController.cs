@@ -129,7 +129,7 @@ namespace ReservationService.Controllers
             Reservation reservation= Adapter.ReservationAdapter.CreateReservationDtoToObject(dto, userId);
 
             using HttpClient client = new HttpClient();
-            HttpResponseMessage response = await client.GetAsync("http://localhost:5003/api/accommodation/get-by-id/" + reservation.AccommodationId);
+            HttpResponseMessage response = await client.GetAsync("http://localhost:5002/api/accommodation/get-by-id/" + reservation.AccommodationId);
             Console.WriteLine("Status: " + response.StatusCode.ToString());
             string jsonContent = response.Content.ReadAsStringAsync().Result;
             DTO.AccommodationDTO result = JsonConvert.DeserializeObject<DTO.AccommodationDTO>(jsonContent);

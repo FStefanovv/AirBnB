@@ -208,9 +208,5 @@ namespace ReservationService.Service
 
             return endDates;
         }
-
-
-
-
     }
 }
