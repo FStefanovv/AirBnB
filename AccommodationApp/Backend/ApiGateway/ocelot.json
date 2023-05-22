@@ -7,7 +7,7 @@
       "UpstreamPathTemplate": "/gateway/register-user",
       "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/users/register",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
@@ -19,7 +19,7 @@
       "UpstreamPathTemplate": "/gateway/login",
       "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/users/login",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
@@ -31,7 +31,7 @@
       "UpstreamPathTemplate": "/gateway/deleteAsGuest",
       "UpstreamHttpMethod": [ "Delete" ],
       "DownstreamPathTemplate": "/api/users/deleteAsGuest",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
@@ -53,7 +53,7 @@
       "UpstreamPathTemplate": "/gateway/deleteAsHost",
       "UpstreamHttpMethod": [ "Delete" ],
       "DownstreamPathTemplate": "/api/users/deleteAsHost",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
@@ -75,7 +75,7 @@
       "UpstreamPathTemplate": "/gateway/create-accommodation",
       "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/accommodation/create",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
@@ -97,7 +97,7 @@
       "UpstreamPathTemplate": "/gateway/get-all",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/accommodation/get-all",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
@@ -109,7 +109,7 @@
       "UpstreamPathTemplate": "/gateway/search-accommodation",
       "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/accommodation/get-searched",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
@@ -121,7 +121,7 @@
       "UpstreamPathTemplate": "/gateway/get-photos/{id}",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/accommodation/get-photos/{id}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
@@ -133,7 +133,7 @@
       "UpstreamPathTemplate": "/gateway/cancel-reservation-request/{id}",
       "UpstreamHttpMethod": [ "Put" ],
       "DownstreamPathTemplate": "/api/reservation/cancel-reservation-request/{id}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
@@ -155,7 +155,7 @@
       "UpstreamPathTemplate": "/gateway/cancel-reservation/{id}",
       "UpstreamHttpMethod": [ "Put" ],
       "DownstreamPathTemplate": "/api/reservation/cancel-reservation/{id}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
@@ -177,7 +177,7 @@
       "UpstreamPathTemplate": "/gateway/get-user-reservations",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/reservation/get-user-reservations",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
@@ -199,7 +199,7 @@
       "UpstreamPathTemplate": "/gateway/get-pending-requests",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/reservation/get-pending-requests",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
@@ -221,7 +221,7 @@
       "UpstreamPathTemplate": "/gateway/get-resolved-requests",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/reservation/get-resolved-requests",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
@@ -243,7 +243,7 @@
       "UpstreamPathTemplate": "/gateway/get-host",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/users/get-host",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
@@ -265,7 +265,7 @@
       "UpstreamPathTemplate": "/gateway/get-regular",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/users/get-regular",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
@@ -287,7 +287,7 @@
       "UpstreamPathTemplate": "/gateway/update-user",
       "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/users/update-user",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
@@ -309,13 +309,13 @@
       "UpstreamPathTemplate": "/gateway/create-reservation",
       "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/reservation/create-reservations",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
           "Port": 5003
         }
-      ]/*,
+      ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "AuthTokenFromUserService",
         "AllowedScopes": []
@@ -325,13 +325,13 @@
       },
       "AddHeadersToRequest": {
         "UserId": "Claims[UserId] > value"
-      }*/
+      }
     },
     {
       "UpstreamPathTemplate": "/gateway/get-reserved-start-dates/{accommodationId}",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/reservation/get-reserved-start-dates/{accommodationId}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
@@ -343,7 +343,7 @@
       "UpstreamPathTemplate": "/gateway/get-reserved-end-dates/{accommodationId}",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/request/get-end-start-dates/{accommodationId}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
@@ -355,7 +355,7 @@
       "UpstreamPathTemplate": "/gateway/create-request",
       "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/request/create-request",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
@@ -367,7 +367,7 @@
       "UpstreamPathTemplate": "/gateway/get-busy-dates-for-accommodation/{accommodationId}",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/reservation/get-busy-dates-for-accommodation/{accommodationId}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
@@ -379,7 +379,7 @@
       "UpstreamPathTemplate": "/gateway/accept-request/{requestId}/{accommodationId}",
       "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/request/accept-request/{requestId}/{accommodationId}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
@@ -391,7 +391,7 @@
       "UpstreamPathTemplate": "/gateway/get-requests/{hostId}",
       "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/request/get-requests/{hostId}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
@@ -403,7 +403,7 @@
       "UpstreamPathTemplate": "/gateway/get-by-id/{id}",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/accommodation/get-by-id/{id}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",

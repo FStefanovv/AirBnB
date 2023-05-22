@@ -66,15 +66,7 @@ namespace Accommodation.Repository
 
             return new AccommodationGRPC
                 {
-                    Name = accommodation.Name,
-                    StartSeason = accommodation.StartSeasonDate.ToString(),
-                    EndSeason = accommodation.EndSeasonDate.ToString(),
-                    Price = accommodation.AccomodationPrice.FinalPrice,
-                    PricePerGuest = accommodation.AccomodationPrice.PricePerGuest,
-                    PricePerAccomodation = accommodation.AccomodationPrice.PricePerAccomodation,
-                    HolidayCost = accommodation.AccomodationPrice.HolidayCost,
-                    WeekendCost = accommodation.AccomodationPrice.WeekendCost,
-                    SummerCost = accommodation.AccomodationPrice.SummerCost
+                    Name = accommodation.Name
                 };
         }
 

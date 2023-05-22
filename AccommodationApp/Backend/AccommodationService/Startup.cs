@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace Accommodation
 {
@@ -73,8 +74,8 @@ namespace Accommodation
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-
                 endpoints.MapGrpcService<AccommodationService>();
+                endpoints.MapGet("/", async context => { await context.Response.WriteAsync("Hello World!"); });
             });
         }
     }

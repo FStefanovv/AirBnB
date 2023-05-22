@@ -1,5 +1,8 @@
 ﻿syntax = "proto3";
 
+option csharp_namespace = "Accommodation";
+
+package accommodation;
 
 service AccommodationGRPCService {
   rpc GetAccommodationGRPC (AccommodationId) returns (AccommodationGRPC);
@@ -11,12 +14,4 @@ message AccommodationId {
 
 message AccommodationGRPC{
   string name = 1;
-  string startSeason = 2;
-  string endSeason = 3;
-  double price = 4;
-  bool pricePerGuest = 5;
-  bool PricePerAccomodation = 6;
-  bool holidayCost = 7;
-  bool weekendCost = 8;
-  bool summerCost = 9;
 }

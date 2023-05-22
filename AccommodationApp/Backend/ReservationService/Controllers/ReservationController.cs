@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Accommodation;
+using Grpc.Net.Client;
 
 namespace ReservationService.Controllers
 {
@@ -135,15 +137,22 @@ namespace ReservationService.Controllers
 
               Reservation reservation= Adapter.ReservationAdapter.CreateReservationDtoToObject(dto, userId);
 
-
-            using HttpClient client = new HttpClient();
-            HttpResponseMessage response = await client.GetAsync("http://localhost:5002/api/accommodation/get-by-id/" + reservation.AccommodationId);
-            Console.WriteLine("Status: " + response.StatusCode.ToString());
-            string jsonContent = response.Content.ReadAsStringAsync().Result;
-            DTO.AccommodationDTO result = JsonConvert.DeserializeObject<DTO.AccommodationDTO>(jsonContent);
+              var handler = new HttpClientHandler();
+              handler.ServerCertificateCustomValidationCallback = 
+                  HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+              using var channel = GrpcChannel.ForAddress("https://localhost:5002",
+                  new GrpcChannelOptions { HttpHandler = handler });
+              var client = new AccommodationGRPCService.AccommodationGRPCServiceClient(channel);
+              var reply = await client.GetAccommodationGRPCAsync(new AccommodationId
+              {
+                  Id = "64487697c915d0ae735042a6"
+              });
+            //     Console.WriteLine("Status: " + response.StatusCode.ToString());
+            //     string jsonContent = response.Content.ReadAsStringAsync().Result;
+            // DTO.AccommodationDTO result = JsonConvert.DeserializeObject<DTO.AccommodationDTO>(jsonContent);
              
 
-              _reservationService.CreateReservation(reservation, result);
+             // _reservationService.CreateReservation(reservation, result);
 
               return Ok();
 

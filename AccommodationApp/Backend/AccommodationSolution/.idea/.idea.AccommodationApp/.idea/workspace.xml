@@ -14,14 +14,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0467373e-b258-45c1-a093-d0f9e12aac94" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../AccommodationService/Properties/launchSettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../AccommodationService/Properties/launchSettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AccommodationService/Protos/accommodation.proto" beforeDir="false" afterPath="$PROJECT_DIR$/../AccommodationService/Protos/accommodation.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AccommodationService/Repository/AccommodationRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../AccommodationService/Repository/AccommodationRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AccommodationService/Services/AccommodationService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../AccommodationService/Services/AccommodationService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AccommodationService/Startup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../AccommodationService/Startup.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.AccommodationApp/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AccommodationApp/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ApiGateway/ocelot.json" beforeDir="false" afterPath="$PROJECT_DIR$/../ApiGateway/ocelot.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Frontend/Accommodation/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../Frontend/Accommodation/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Frontend/Accommodation/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../Frontend/Accommodation/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Frontend/Accommodation/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../Frontend/Accommodation/src/app/app.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Frontend/Accommodation/src/app/services/reservation.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../Frontend/Accommodation/src/app/services/reservation.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Frontend/Accommodation/tsconfig.app.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../Frontend/Accommodation/tsconfig.app.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Frontend/Accommodation/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../Frontend/Accommodation/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ReservationService/Controllers/ReservationController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ReservationService/Controllers/ReservationController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ReservationService/Properties/launchSettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../ReservationService/Properties/launchSettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ReservationService/Protos/accommodation.proto" beforeDir="false" afterPath="$PROJECT_DIR$/../ReservationService/Protos/accommodation.proto" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,6 +33,7 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/3d3d9b46a26b247088a6ee4c9e1778f2d4bd77ab/CallOptions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/697050deb22a2642d1f1311dc2abbff272e4d5575d8f69d97af9f902d985b27/ExceptionDispatchInfo.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/7d405d7a34b01f698770327836e633e6c63ebd5d2ccebf3bdd35b6f5c462c2/ParameterExtractingExpressionVisitor.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -242,6 +245,7 @@
       <workItem from="1684007406943" duration="5225000" />
       <workItem from="1684058886946" duration="15432000" />
       <workItem from="1684097271251" duration="848000" />
+      <workItem from="1684765945731" duration="574000" />
     </task>
     <servers />
   </component>
@@ -267,17 +271,17 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/../ReservationService/Service/ReservationService.cs</url>
-          <line>221</line>
-          <properties documentPath="D:\xml\XWS\AccommodationApp\Backend\ReservationService\Service\ReservationService.cs" initialLine="221" containingFunctionPresentation="method 'CreateReservationGRPC'">
+          <url>file://$PROJECT_DIR$/../ReservationService/Controllers/ReservationController.cs</url>
+          <line>135</line>
+          <properties documentPath="D:\xml\XWS\AccommodationApp\Backend\ReservationService\Controllers\ReservationController.cs" initialLine="133" containingFunctionPresentation="method 'CreateReservation'">
             <startOffsets>
-              <option value="7316" />
+              <option value="4132" />
             </startOffsets>
             <endOffsets>
-              <option value="7422" />
+              <option value="4195" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="2" />
+          <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
