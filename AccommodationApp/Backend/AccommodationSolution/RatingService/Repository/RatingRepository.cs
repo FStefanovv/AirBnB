@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using Microsoft.Extensions.Primitives;
+using MongoDB.Driver;
 using RatingService.Model;
 using System;
 using System.Collections.Generic;
@@ -30,7 +31,24 @@ namespace RatingService.Repository
             return entity;
         }
 
-        public void CreateRatingAsync(Rating rating, RatedEntity entity)
+        public Rating GetRatingByParams(StringValues userId, string ratedEntityId)
+        {
+            //Rating rating = _ratings.Find(rating => rating.UserId == userId && rating.RatedEntityId == ratedEntityId).FirstOrDefault();
+            //return rating;
+            
+            foreach(Rating r in _ratings.Find(res => true).ToList<Rating>())
+            {
+                if(r.UserId==userId && r.RatedEntityId == ratedEntityId)
+                {
+                    return r;
+                }
+            }
+            return null;
+        }
+
+        
+
+        public void CreateRating(Rating rating, RatedEntity entity)
         {        
             _ratings.InsertOne(rating);
             _entities.ReplaceOne(e => e.Id == entity.Id, entity);
@@ -42,9 +60,26 @@ namespace RatingService.Repository
             _entities.InsertOne(entity);
         }
 
+       public void UpdateRating(Rating rating, RatedEntity entity)
+        {
+            _ratings.ReplaceOne(r => r.Id == rating.Id, rating);
+            _entities.ReplaceOne(e => e.Id == entity.Id, entity);
+        }
+
         public List<Rating> GetEntityRatings(string id)
         {
             return _ratings.Find(rating => rating.RatedEntityId == id).ToList<Rating>();
+        }
+
+        public Rating GetRatingById(string id)
+        {
+            return _ratings.Find(rating => rating.Id == id).FirstOrDefault();
+        }
+
+        public void DeleteRating(RatedEntity entity, string id)
+        {
+            _ratings.DeleteOne(r => r.Id == id);
+            _entities.ReplaceOne(e => e.Id == entity.Id, entity);
         }
     }
 }

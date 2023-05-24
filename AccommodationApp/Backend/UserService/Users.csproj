@@ -34,13 +34,11 @@
 
   <ItemGroup>
     <Folder Include="Migrations" />
-    <Folder Include="Migrations\" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="Migrations\20230505100033_initialSetup.Designer.cs" />
     <Compile Remove="Migrations\20230505100600_initialSetup.cs" />
-    <Compile Remove="Migrations\20230505100600_initialSetup.Designer.cs" />
   </ItemGroup>
 
 </Project>

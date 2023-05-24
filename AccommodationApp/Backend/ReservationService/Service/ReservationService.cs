@@ -1,5 +1,4 @@
-﻿//using Grpc.Net.Client;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using ReservationService.Model;
 using ReservationService.Repository;
@@ -8,10 +7,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ReservationService.DTO;
+using Grpc.Core;
 
 namespace ReservationService.Service
 {
-    public class ReservationService : IReservationService
+    public class ReservationService : ReservationGRPCService.ReservationGRPCServiceBase, IReservationService
     {
         private readonly IReservationRepository _repository;
 
@@ -247,18 +247,27 @@ namespace ReservationService.Service
             _repository.Create(reservation);
         }
 
-//         public async void CreateReservationGRPC(Reservation reservation)
-//         {
-//             AppContext.SetSwitch(
-//                 "System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
-//             using var channel = GrpcChannel.ForAddress(_url);
-//             var client = new AccommodationGRPCService.AccommodationGRPCServiceClient(channel);
+        //         public async void CreateReservationGRPC(Reservation reservation)
+        //         {
+        //             AppContext.SetSwitch(
+        //                 "System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
+        //             using var channel = GrpcChannel.ForAddress(_url);
+        //             var client = new AccommodationGRPCService.AccommodationGRPCServiceClient(channel);
 
-//             var reply = await client.GetAccommodationGRPCAsync(new AccommodationId
-//             {
-//                 Id = "64487697c915d0ae735042a6"
-//             });
-//             _logger.LogInformation("Greeting: {reply.Name} -- {DateTime.Now}");
-//         }
+        //             var reply = await client.GetAccommodationGRPCAsync(new AccommodationId
+        //             {
+        //                 Id = "64487697c915d0ae735042a6"
+        //             });
+        //             _logger.LogInformation("Greeting: {reply.Name} -- {DateTime.Now}");
+        //         }
+
+        public override Task<CanRate> CheckIfUserCanRate(RatingData ratingData, ServerCallContext context)
+        {
+            bool userHasVisited = _repository.CheckIfUserHasUncancelledReservation(ratingData.UserId, ratingData.RatedEntityId);
+            return Task.FromResult(new CanRate
+            {
+                RatingAllowed = userHasVisited
+            });
+        }    
     }
 }

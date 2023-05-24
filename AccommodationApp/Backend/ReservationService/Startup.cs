@@ -39,6 +39,7 @@ namespace ReservationService
             services.AddScoped<IRequestRepository, RequestRepository>();
             services.AddScoped<IRequestService, Service.RequestService>();
 
+            services.AddGrpc();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -73,6 +74,7 @@ namespace ReservationService
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapGrpcService<ReservationService.Service.ReservationService>();
             });
         }
     }

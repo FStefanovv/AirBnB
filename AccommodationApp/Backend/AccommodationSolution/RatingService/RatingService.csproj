@@ -22,10 +22,8 @@
 		</PackageReference>
 	</ItemGroup>
 
-	<!--
-	<ItemGroup>
-		<Protobuf Include="Protos\reservation_check.proto" GrpcServices="Client" />
-	</ItemGroup>
-	-->
 
+	<ItemGroup>
+		<Protobuf Include="Protos\check_visits.proto" GrpcServices="Client" />
+	</ItemGroup>
 </Project>

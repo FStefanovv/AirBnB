@@ -50,6 +50,8 @@
 
 	<ItemGroup>
 		<Protobuf Include="Protos\accommodation.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\check_visits.proto" GrpcServices="Server" />
+
 	</ItemGroup>
 
 </Project>

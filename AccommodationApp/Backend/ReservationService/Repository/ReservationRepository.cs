@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ReservationService.DTO;
+using ReservationService.Enums;
 
 namespace ReservationService.Repository
 {
@@ -64,5 +65,11 @@ namespace ReservationService.Repository
            return  _context.Reservations.Where(res=> res.AccommodationId == accomodationId).ToList();
         }
 
+        public bool CheckIfUserHasUncancelledReservation(string userId, string ratedEntityId)
+        {
+            Reservation userReservation = _context.Reservations.Where(res => res.UserId == userId && (res.HostId==ratedEntityId || res.AccommodationId == ratedEntityId) && res.Status == ReservationStatus.PAST).FirstOrDefault();
+
+            return userReservation != null;
+        }
     }
 }

@@ -35,7 +35,6 @@ namespace RatingService
             services.AddSingleton<RatingRepository>();
             services.AddSingleton<RatingService.Service.RatingService>();
 
-            services.AddGrpc();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -70,7 +69,6 @@ namespace RatingService
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                //endpoints.MapGrpcService<AccommodationService>();
             });
         }
     }
