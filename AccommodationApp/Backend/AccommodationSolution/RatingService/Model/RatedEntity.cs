@@ -8,14 +8,14 @@ namespace RatingService.Model
     public class RatedEntity
     {
         public string Id { get; set; }
-        public float Rating { get; set; }
+        public float AverageRating { get; set; }
 
         public RatedEntity(){}
 
         public RatedEntity(string id)
         {
             Id = id;
-            Rating = 0;
+            AverageRating = 0;
         }
     }
 }

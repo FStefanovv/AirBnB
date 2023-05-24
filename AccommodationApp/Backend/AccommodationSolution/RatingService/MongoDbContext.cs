@@ -26,8 +26,6 @@ namespace RatingService
         {
             return _db.GetCollection<T>(name);
         }
-
-      
     }
 
     public interface IDbContext
