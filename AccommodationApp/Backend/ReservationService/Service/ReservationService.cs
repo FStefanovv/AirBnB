@@ -268,6 +268,11 @@ namespace ReservationService.Service
             {
                 RatingAllowed = userHasVisited
             });
-        }    
+        } 
+        
+        public void UpdatePastReservations()
+        {
+            _repository.UpdatePastReservations();
+        }
     }
 }

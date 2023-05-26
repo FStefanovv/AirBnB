@@ -71,5 +71,22 @@ namespace ReservationService.Repository
 
             return userReservation != null;
         }
+
+        public List<Reservation> GetPastReservations()
+        {
+            return _context.Reservations.Where(res => res.To < DateTime.Now && res.Status==Enums.ReservationStatus.ACTIVE).ToList();
+        }
+
+       
+
+        public void UpdatePastReservations()
+        {
+            List<Reservation> pastReservations = GetPastReservations();
+            foreach(Reservation res in pastReservations)
+            {
+                res.Status = Enums.ReservationStatus.PAST;
+            }
+            _context.SaveChanges();
+        }
     }
 }

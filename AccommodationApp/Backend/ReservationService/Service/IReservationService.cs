@@ -17,6 +17,7 @@ namespace ReservationService.Service
         void CreateReservation(Reservation reservation, DTO.AccommodationDTO accommodation);
         List<DateTime> GetStartReservationDate(string accommodationId);
         List<DateTime> GetEndReservationDate(string accommodationId);
+        void UpdatePastReservations();
         void CreateReservationFromRequest(ReservationRequest request);
         List<GetBusyDateForAccommodationDTO> GetBusyDatesForAccommodation(string accommodationId);
     }

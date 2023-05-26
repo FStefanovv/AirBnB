@@ -17,5 +17,7 @@ namespace ReservationService.Repository
         void Create(Reservation reservation);
         List<Reservation> GetReservationsForAccommodation(string accomodationId);
         bool CheckIfUserHasUncancelledReservation(string userId, string ratedEntityId);
+        List<Reservation> GetPastReservations();
+        void UpdatePastReservations();
     }
 }

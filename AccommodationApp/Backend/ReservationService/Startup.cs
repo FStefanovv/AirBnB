@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using ReservationService.BackgroundServices;
 using ReservationService.Repository;
 using ReservationService.Service;
 using System;
@@ -34,8 +35,10 @@ namespace ReservationService
             services.AddDbContext<PostgresDbContext>(opts =>
                 opts.UseNpgsql(Configuration.GetConnectionString("PostgresDatabaseConnectionString")));
 
-            services.AddScoped<IReservationRepository, ReservationRepository>();
-            services.AddScoped<IReservationService, Service.ReservationService>();
+            services.AddHostedService<UpdateReservationStatus>();
+
+            services.AddSingleton<IReservationRepository, ReservationRepository>();
+            services.AddSingleton<IReservationService, Service.ReservationService>();
             services.AddScoped<IRequestRepository, RequestRepository>();
             services.AddScoped<IRequestService, Service.RequestService>();
 
