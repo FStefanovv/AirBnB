@@ -19,6 +19,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Primitives;
+using Grpc.Net.Client;
+using System.Diagnostics.Contracts;
 
 namespace Users.Services
 {
@@ -116,14 +118,39 @@ namespace Users.Services
 
         }
 
-        public void DeleteAsGuest(StringValues id)
+        public async Task<bool> DeleteAsGuest(StringValues id)
         {
-            
-            User user=_userRepository.GetById(id);
- 
-            _userRepository.Delete(user);                              
-           
+            var handler = new HttpClientHandler();
+            handler.ServerCertificateCustomValidationCallback =
+                HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+            using var channel = GrpcChannel.ForAddress("https://localhost:5003",
+                new GrpcChannelOptions { HttpHandler = handler });
+            var client = new ReservationGRPCService.ReservationGRPCServiceClient(channel);
+            var reply = await client.CheckIfUserCanRateAsync(new UserData
+            {
+                Id = id,
+                
+            });
+
+            return reply.isReservationActive;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         }
+
+       
 
         public void DeleteAsHost(StringValues id)
         {

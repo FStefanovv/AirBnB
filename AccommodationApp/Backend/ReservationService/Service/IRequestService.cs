@@ -11,7 +11,7 @@ namespace ReservationService.Service
     public interface IRequestService
     {
         void CancelReservationRequest(string requestId, StringValues userId);
-        void UpdateRequestsPostUserDeletion(string id);
+       // void UpdateRequestsPostUserDeletion(string id);
         List<ReservationRequest> GetPendingRequestsByHost(StringValues userId);
         List<ReservationRequest> GetResolvedRequestsByHost(StringValues userId);
         void CreateReservationRequest(RequestReservationDTO dto);

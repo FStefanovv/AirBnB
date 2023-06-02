@@ -39,10 +39,10 @@ namespace ReservationService.Service
         }
 
         //to be called from UserService via gRPC to update status of all pending user requests to cancelled
-        public void UpdateRequestsPostUserDeletion(string id)
-        {
-            _repository.UpdateRequestsPostUserDeletion(id);
-        }
+        //public override Task<Updated> UpdateRequestsPostUserDeletion(StringValues id,ServletCon)
+        //{
+        //    _repository.UpdateRequestsPostUserDeletion(id);
+        //}
 
         public List<ReservationRequest> GetPendingRequestsByHost(StringValues userId)
         {

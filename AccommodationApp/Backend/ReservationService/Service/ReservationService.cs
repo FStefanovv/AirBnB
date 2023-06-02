@@ -8,6 +8,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using ReservationService.DTO;
 using Grpc.Core;
+using Microsoft.Extensions.Configuration.UserSecrets;
+
 
 namespace ReservationService.Service
 {
@@ -54,13 +56,20 @@ namespace ReservationService.Service
 
 
         //to be called from UserService via gRPC to check whether user account can be deleted or not
-        public bool GuestHasActiveReservations(string id)
+        public override Task<ActiveReservation> GuestHasActiveReservations(UserData userData, ServerCallContext context)
+
         {
-            List<Reservation> activeReservations = _repository.GetActiveUserReservations(id);
+            List<Reservation> activeReservations = _repository.GetActiveUserReservations(userData.Id);
 
+            return Task.FromResult(new ActiveReservation
+           {
+                IsReservationActive = (activeReservations.Count != 0)
+            });
 
-            return activeReservations.Count != 0;
         }
+
+
+
 
         public bool HostHasActiveReservations(string id)
         {

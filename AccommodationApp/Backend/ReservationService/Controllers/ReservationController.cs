@@ -105,9 +105,9 @@ namespace ReservationService.Controllers
         public bool GuestHasActiveReservations(string id)
         {
             
-            bool requests = _reservationService.GuestHasActiveReservations(id);
+          //  bool requests = _reservationService.GuestHasActiveReservations(id);
 
-            return requests;
+            return true;
         }
 
         [HttpGet]

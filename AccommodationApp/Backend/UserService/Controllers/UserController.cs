@@ -109,15 +109,15 @@ namespace Users.Controllers
         public async Task<IActionResult> DeleteAsGuest()
         {
             Request.Headers.TryGetValue("UserId", out StringValues userId);
-            using HttpClient client = new HttpClient();
-            HttpResponseMessage response = await client.GetAsync("http://localhost:5003/api/reservation/get-status/" + userId);
-            Console.WriteLine("Status: " + response.StatusCode.ToString());
-            string jsonContent = response.Content.ReadAsStringAsync().Result;
-            bool result = JsonConvert.DeserializeObject<bool>(jsonContent);
+            //using HttpClient client = new HttpClient();
+            //HttpResponseMessage response = await client.GetAsync("http://localhost:5003/api/reservation/get-status/" + userId);
+            //Console.WriteLine("Status: " + response.StatusCode.ToString());
+            //string jsonContent = response.Content.ReadAsStringAsync().Result;
+            //bool result = JsonConvert.DeserializeObject<bool>(jsonContent);
 
-            if (result == false)
+            if (false)
             {
-                _userService.DeleteAsGuest(userId);
+                //_userService.DeleteAsGuest(userId);
                 using HttpClient client1 = new HttpClient();
                 HttpResponseMessage response1 = await client1.DeleteAsync("http://localhost:5003/api/request/update-request/" + userId);
                 Console.WriteLine("Status: " + response1.StatusCode.ToString());

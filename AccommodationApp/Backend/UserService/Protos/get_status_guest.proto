@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option csharp_namespace = "Users";
+
+package user;
+
+service ReservationGRPCService {
+  rpc GuestHasActiveReservations (UserData) returns (ActiveReservation);
+}
+
+message UserData {
+  string id = 1; 
+
+}
+
+message  ActiveReservation {
+  bool isReservationActive = 1;
+}
+
