@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 using ReservationService.DTO;
 using Grpc.Core;
 using Microsoft.Extensions.Configuration.UserSecrets;
-
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Accommodation;
 
 namespace ReservationService.Service
 {
@@ -62,42 +63,47 @@ namespace ReservationService.Service
             List<Reservation> activeReservations = _repository.GetActiveUserReservations(userData.Id);
 
             return Task.FromResult(new ActiveReservation
-           {
+            {
                 IsReservationActive = (activeReservations.Count != 0)
             });
 
+
         }
 
 
 
 
-        public bool HostHasActiveReservations(string id)
+        public override Task<ActiveReservation> HostHasActiveReservations(UserData userData, ServerCallContext context)
         {
-            List<Reservation> activeReservations = _repository.GetActiveHostReservations(id);
+            List<Reservation> activeReservations = _repository.GetActiveHostReservations(userData.Id);
 
 
-            return activeReservations.Count != 0;
+            return Task.FromResult(new ActiveReservation
+            {
+                IsReservationActive = (activeReservations.Count != 0)
+            });
         }
 
 
-        public void CreateReservation(Reservation reservation, DTO.AccommodationDTO accommodation)
+        public double GetCost(ReservationCostDTO reservation,AccommodationGRPC accommodation)
         {
             int numberOfDays = (reservation.To - reservation.From).Days;
             int weekends = 0;
             int holidays = 0;
             int summerDays = 0;
+            double price = 0;
 
             if (accommodation.WeekendCost == false && accommodation.HolidayCost == false && accommodation.SummerCost == false)
             {
                 if (accommodation.PricePerAccomodation)
                 {
-                    reservation.Price = accommodation.Price * (numberOfDays - 1);
-                    _repository.Create(reservation);
+                    return price = accommodation.Price * (numberOfDays - 1);
+                    
                 }
                 else if (accommodation.PricePerGuest)
                 {
-                    reservation.Price = (accommodation.Price * reservation.NumberOfGuests) * (numberOfDays - 1);
-                    _repository.Create(reservation);
+                    return price = (accommodation.Price * reservation.NumberOfGuests) * (numberOfDays - 1);
+                    
                 }
             }
 
@@ -181,15 +187,16 @@ namespace ReservationService.Service
 
                 if (accommodation.PricePerAccomodation)
                 {
-                    reservation.Price = accommodation.Price * (numberOfDays - 1) + (accommodation.Price * 0.2) * (weekends+holidays+summerDays);
-                    _repository.Create(reservation);
+                    return  price = accommodation.Price * (numberOfDays - 1) + (accommodation.Price * 0.2) * (weekends+holidays+summerDays);
+                    
                 }
                 else if (accommodation.PricePerGuest)
                 {
-                    reservation.Price = (accommodation.Price * reservation.NumberOfGuests) * (numberOfDays - 1) + (accommodation.Price * 0.2 * reservation.NumberOfGuests) * (weekends + holidays + summerDays);
-                    _repository.Create(reservation);
+                    return  price = (accommodation.Price * reservation.NumberOfGuests) * (numberOfDays - 1) + (accommodation.Price * 0.2 * reservation.NumberOfGuests) * (weekends + holidays + summerDays);
+                    
                 }
             }
+            return price;
         }
 
 
@@ -282,6 +289,15 @@ namespace ReservationService.Service
         public void UpdatePastReservations()
         {
             _repository.UpdatePastReservations();
+        }
+
+        public override Task<HasReservation> AccommodatioHasReservation(AccId id, ServerCallContext context)
+        {
+            List<Reservation> reservationsPerAcc = _repository.GetReservationsForAccommodation(id.Id);
+            return Task.FromResult(new HasReservation
+            {
+                Reservation = reservationsPerAcc.Count!=0
+            });
         }
     }
 }

@@ -102,40 +102,17 @@ namespace ReservationService.Controllers
 
         [HttpGet]
         [Route("get-status/{id}")]
-        public bool GuestHasActiveReservations(string id)
-        {
-            
-          //  bool requests = _reservationService.GuestHasActiveReservations(id);
 
-            return true;
-        }
-
-        [HttpGet]
-        [Route("get-status-host/{id}")]
-        public bool HostHasActiveReservations(string id)
-        {
-
-            bool requests = _reservationService.HostHasActiveReservations(id);
-
-            return requests;
-        }
 
         [HttpPost]
-        [Route("create-reservation")]
-        public async Task<ActionResult> CreateReservation(ReservationDTO dto)
+        [Route("get-cost")]
+        public async Task<ActionResult> GetCost(ReservationCostDTO dto)
         {
-            // Request.Headers.TryGetValue("UserId", out StringValues userId);
-            //
-            // Reservation reservation = Adapter.ReservationAdapter.CreateReservationDtoToObject(dto, userId);
-            // _reservationService.CreateReservationGRPC(reservation);
-            //
-            //
-            // return Ok();
-
+  
               
               Request.Headers.TryGetValue("UserId", out StringValues userId);
 
-              Reservation reservation= Adapter.ReservationAdapter.CreateReservationDtoToObject(dto, userId);
+              
 
               var handler = new HttpClientHandler();
               handler.ServerCertificateCustomValidationCallback = 
@@ -143,16 +120,12 @@ namespace ReservationService.Controllers
               using var channel = GrpcChannel.ForAddress("https://localhost:5002",
                   new GrpcChannelOptions { HttpHandler = handler });
               var client = new AccommodationGRPCService.AccommodationGRPCServiceClient(channel);
-              var reply = await client.GetAccommodationGRPCAsync(new AccommodationId
-              {
-                  Id = "64487697c915d0ae735042a6"
-              });
-            //     Console.WriteLine("Status: " + response.StatusCode.ToString());
-            //     string jsonContent = response.Content.ReadAsStringAsync().Result;
-            // DTO.AccommodationDTO result = JsonConvert.DeserializeObject<DTO.AccommodationDTO>(jsonContent);
-             
-
-             // _reservationService.CreateReservation(reservation, result);
+            var reply = await client.GetAccommodationGRPCAsync(new AccommodationId
+            {
+                Id = dto.AccommodationId
+            }); 
+                    
+            _reservationService.GetCost(dto,reply);
 
               return Ok();
 

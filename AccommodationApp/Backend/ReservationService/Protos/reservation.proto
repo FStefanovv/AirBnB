@@ -7,7 +7,9 @@ package rating;
 service ReservationGRPCService {
   rpc CheckIfUserCanRate (RatingData) returns (CanRate);
   rpc GuestHasActiveReservations (UserData) returns (ActiveReservation);
-
+  rpc UpdateRequestsPostUserDeletion (UserData) returns (Updated);
+  rpc HostHasActiveReservations (UserData) returns (ActiveReservation);
+  rpc AccommodatioHasReservation (AccId) returns (HasReservation);
 }
 
 message RatingData {
@@ -27,4 +29,16 @@ message UserData {
 
 message  ActiveReservation {
   bool isReservationActive = 1;
+}
+
+message Updated {
+  bool isUpdated = 1;
+}
+
+message AccId{
+	string id = 1;
+}
+
+message HasReservation{
+	bool reservation=1;
 }

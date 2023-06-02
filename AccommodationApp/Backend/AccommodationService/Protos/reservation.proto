@@ -1,6 +1,6 @@
 ﻿syntax = "proto3";
 
-option csharp_namespace = "Users";
+option csharp_namespace = "Accommodation";
 
 package rating;
 
@@ -9,7 +9,9 @@ service ReservationGRPCService {
   rpc GuestHasActiveReservations (UserData) returns (ActiveReservation);
   rpc UpdateRequestsPostUserDeletion (UserData) returns (Updated);
   rpc HostHasActiveReservations (UserData) returns (ActiveReservation);
+  rpc AccommodatioHasReservation (AccId) returns (HasReservation);
 }
+
 
 message RatingData {
   string UserId = 1; 
@@ -32,4 +34,12 @@ message  ActiveReservation {
 
 message Updated {
   bool isUpdated = 1;
+}
+
+message AccId{
+	string id = 1;
+}
+
+message HasReservation{
+	bool reservation=1;
 }

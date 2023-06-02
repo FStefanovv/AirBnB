@@ -21,6 +21,7 @@ using Newtonsoft.Json;
 using Microsoft.Extensions.Primitives;
 using Grpc.Net.Client;
 using System.Diagnostics.Contracts;
+using System.Diagnostics.Eventing.Reader;
 
 namespace Users.Services
 {
@@ -101,14 +102,14 @@ namespace Users.Services
             return _userRepository.GetUser(userId);
         }
 
-        public User UpdateUser(StringValues userId,UserChangeInfoDTO changeData)
+        public User UpdateUser(StringValues userId, UserChangeInfoDTO changeData)
         {
             try
             {
                 User user = _userRepository.GetUser(userId);
-                User changedUser = UserAdapter.UpdateUserDTOToUser(user,changeData);
+                User changedUser = UserAdapter.UpdateUserDTOToUser(user, changeData);
                 _userRepository.UpdateUser(changedUser);
-                
+
                 return changedUser;
             }
             catch (Exception ex)
@@ -129,21 +130,94 @@ namespace Users.Services
             var reply = await client.GuestHasActiveReservationsAsync(new UserData
             {
                 Id = id,
-                
+
             });
 
-            return reply.IsReservationActive;
+            if (reply.IsReservationActive == false)
+            {
+                User user = _userRepository.GetById(id);
+                _userRepository.Delete(user);
+                bool isUpdated = await UpdateRequestsPostUserDeletion(id);
+                return isUpdated;
+            }
+            else
+            {
+                throw new Exception("You have active reservation");
+            }
+            
         }
 
-       
+        public async Task<bool> UpdateRequestsPostUserDeletion(StringValues id)
+        {
+            var handler = new HttpClientHandler();
+            handler.ServerCertificateCustomValidationCallback =
+                HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+            using var channel = GrpcChannel.ForAddress("https://localhost:5003",
+                new GrpcChannelOptions { HttpHandler = handler });
+            var client = new ReservationGRPCService.ReservationGRPCServiceClient(channel);
+            var reply = await client.UpdateRequestsPostUserDeletionAsync(new UserData
+            {
+                Id = id,
 
-        public void DeleteAsHost(StringValues id)
+            });
+            return reply.IsUpdated;
+
+        }
+
+
+
+
+
+
+
+        public async Task<bool> DeleteAsHost(StringValues id)
+        {
+            var handler = new HttpClientHandler();
+            handler.ServerCertificateCustomValidationCallback =
+                HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+            using var channel = GrpcChannel.ForAddress("https://localhost:5003",
+                new GrpcChannelOptions { HttpHandler = handler });
+            var client = new ReservationGRPCService.ReservationGRPCServiceClient(channel);
+            var reply = await client.HostHasActiveReservationsAsync(new UserData
+            {
+                Id = id,
+
+            });
+          
+            if (reply.IsReservationActive == false)
+            {
+                User user = _userRepository.GetById(id);
+
+                bool isDeletedAccomodation = await DeleteAccWithoutHost(id);
+                _userRepository.Delete(user);
+               
+
+                return isDeletedAccomodation;
+            }
+            else
+            {
+                throw new Exception("You have active reservation");
+            }
+
+
+        }
+
+        public async Task<bool> DeleteAccWithoutHost(StringValues id)
         {
 
-            User user = _userRepository.GetById(id);
+            var handler = new HttpClientHandler();
+            handler.ServerCertificateCustomValidationCallback =
+                HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+            using var channel = GrpcChannel.ForAddress("https://localhost:5002",
+                new GrpcChannelOptions { HttpHandler = handler });
+            var client = new AccommodationGRPCService.AccommodationGRPCServiceClient(channel);
+            var reply = await client.DeleteAccwithoutHostAsync(new UserId
+            {
+                Id = id,
 
-            _userRepository.Delete(user);
+            });
 
+            return reply.IsDeleted;
         }
     }
 }

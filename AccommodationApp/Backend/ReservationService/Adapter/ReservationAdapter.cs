@@ -25,7 +25,7 @@ namespace ReservationService.Adapter
 
         private DatesAdapter datesAdapter = new DatesAdapter();
 
-        public static Reservation CreateReservationDtoToObject(ReservationDTO dto,string userId)
+        public static Reservation CreateReservationDtoToObject(ReservationCostDTO dto,string userId)
         {
 
             var reservation = new Reservation()

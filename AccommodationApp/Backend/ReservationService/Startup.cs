@@ -78,6 +78,7 @@ namespace ReservationService
             {
                 endpoints.MapControllers();
                 endpoints.MapGrpcService<ReservationService.Service.ReservationService>();
+                endpoints.MapGrpcService<ReservationService.Service.RequestService>();
             });
         }
     }

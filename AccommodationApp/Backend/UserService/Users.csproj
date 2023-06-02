@@ -40,6 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Protos\accommodation.proto" />
     <None Remove="Protos\reservation.proto" />
   </ItemGroup>
 
@@ -54,6 +55,7 @@
 	</ItemGroup>
 
   <ItemGroup>
+    <Protobuf Include="Protos\accommodation.proto" GrpcServices="Client" />
     <Protobuf Include="Protos\reservation.proto" GrpcServices="Client" />
   </ItemGroup>
 

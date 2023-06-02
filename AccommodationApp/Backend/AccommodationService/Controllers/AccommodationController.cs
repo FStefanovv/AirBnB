@@ -51,13 +51,7 @@ namespace Accommodation.Controllers
             return await _accommodationService.GetAccommodationPhotos(id);
         }
 
-        [HttpDelete]
-        [Route("delete-acc-without-host/{id}")]
-        public ActionResult DeleteAccWithoutHost(string id)
-        {
-            _accommodationService.DeleteAccwithoutHost(id);
-            return Ok();
-        }
+      
 
         [HttpGet]
         [Route("get-by-id/{id}")]
@@ -73,12 +67,9 @@ namespace Accommodation.Controllers
 
        [HttpPost]
        [Route("update-acc")]
-       public ActionResult Update(AccommodationDTO accommodationDTO)
-        {
-
-            Model.Accommodation accommodation = Adapters.CreateAccommodationAdapter.AccommodationDTOToObject(accommodationDTO);
-            
-            _accommodationService.Update(accommodation);
+       public ActionResult Update(UpdateAccommodationDTO updateAccommodationDTO)
+        {           
+           _accommodationService.Update(updateAccommodationDTO);
 
             return Ok();
         }

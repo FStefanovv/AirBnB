@@ -12,7 +12,13 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Accommodation.Model;
-
+using System.Net.Sockets;
+using System.Xml.Linq;
+using MongoDB.Driver.Linq;
+using System.Text.RegularExpressions;
+using System.Globalization;
+using Grpc.Net.Client;
+using System.Net.Http;
 
 namespace Accommodation.Services
 {
@@ -37,10 +43,14 @@ namespace Accommodation.Services
             return await _repository.GetAccommodationPhotos(accommId);
         }
 
-        public void DeleteAccwithoutHost(string id)
+        public override Task<Deleted>   DeleteAccwithoutHost(UserId userId, ServerCallContext context)
         {
            
-            _repository.DeleteAccWithoutHost(id);
+            _repository.DeleteAccWithoutHost(userId.Id);
+            return Task.FromResult(new Deleted
+            {
+                IsDeleted = true
+            });
         }
         
         public Model.Accommodation GetById(string id)
@@ -75,26 +85,60 @@ namespace Accommodation.Services
             return _repository.GetAll();
         }
        
-        public override Task<AccommodationGRPC> GetAccommodationGRPC(AccommodationId id, ServerCallContext context) {
-            //AccommodationGRPC accommodation = _repository.GetByIdGRPC(id);
+        public override Task<AccommodationGRPC> GetAccommodationGRPC(AccommodationId id, ServerCallContext context)
+        {
+            Model.Accommodation accommodation = _repository.GetById(id.Id);
 
             return Task.FromResult(new AccommodationGRPC
-                {
-                    Name = "ajde prika vise"
-                    
-                }
-                );
+            {
+                Name = accommodation.Name,
+                StartSeason = accommodation.StartSeasonDate.ToString(),
+                EndSeason = accommodation.EndSeasonDate.ToString(),
+                Price = accommodation.AccomodationPrice.FinalPrice,
+                PricePerGuest = accommodation.AccomodationPrice.PricePerGuest,
+                PricePerAccomodation = accommodation.AccomodationPrice.PricePerAccomodation,
+                HolidayCost = accommodation.AccomodationPrice.HolidayCost,
+                WeekendCost = accommodation.AccomodationPrice.WeekendCost,
+                SummerCost = accommodation.AccomodationPrice.SummerCost
+            }) ;
+                
 
         }
 
       
-        public void Update(Model.Accommodation accommodation)
+        public async void Update( UpdateAccommodationDTO updateAccommodationDTO)
         {
+            bool hasReservation = await AccommodatioHasReservation(updateAccommodationDTO.Id);
+            if (hasReservation == true) throw new Exception("You have reservation for that period");
+            CultureInfo culture = CultureInfo.CreateSpecificCulture("sr-Cyrl-Rs");
+            Model.Accommodation accommodation = GetById(updateAccommodationDTO.Id);
+            accommodation.AccomodationPrice.FinalPrice = updateAccommodationDTO.Price;
+            accommodation.StartSeasonDate = DateTime.ParseExact(updateAccommodationDTO.StartSeason, "yyyy-MM-dd", culture);
+            accommodation.EndSeasonDate = DateTime.ParseExact (updateAccommodationDTO.EndSeason, "yyyy-MM-dd", culture);
+
             _repository.Update(accommodation);
 
         }
 
-         
+        public async Task<bool> AccommodatioHasReservation(string id)
+        {
+            var handler = new HttpClientHandler();
+            handler.ServerCertificateCustomValidationCallback =
+                HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+            using var channel = GrpcChannel.ForAddress("https://localhost:5003",
+                new GrpcChannelOptions { HttpHandler = handler });
+            var client = new ReservationGRPCService.ReservationGRPCServiceClient(channel);
+            var reply = await client.AccommodatioHasReservationAsync(new AccId
+            {
+                Id = id,
+
+            });
+
+            return reply.Reservation;
+        }
+
+
+
 
     }
 }
