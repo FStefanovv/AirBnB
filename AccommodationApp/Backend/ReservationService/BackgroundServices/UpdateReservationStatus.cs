@@ -11,18 +11,25 @@ namespace ReservationService.BackgroundServices
 {
     public class UpdateReservationStatus : BackgroundService
     {
-        private readonly IReservationService _reservationService;
+        private IReservationService _reservationService;
+        private readonly IServiceScopeFactory _serviceScopeFactory;
 
-        public UpdateReservationStatus(IReservationService reservationService)
+        public UpdateReservationStatus(IReservationService reservationService, IServiceScopeFactory serviceScopeFactory)
         {
-            _reservationService = reservationService;
+            _serviceScopeFactory = serviceScopeFactory;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                _reservationService.UpdatePastReservations();
+                using (var scope = _serviceScopeFactory.CreateScope())
+                {
+                    var scopedService = scope.ServiceProvider.GetRequiredService<IReservationService>();
+
+                     _reservationService.UpdatePastReservations();
+
+                }
                 await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
             }
         }

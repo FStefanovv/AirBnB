@@ -14,11 +14,12 @@ namespace ReservationService.Controllers
         {       
             _requestService = requestService;
         }
+
         [HttpDelete]
         [Route("update-request/{id}")]
         public ActionResult UpdateRequestsPostUserDeletion(string id)
         {
-            _requestService.UpdateRequestsPostUserDeletion(id);
+            //_requestService.UpdateRequestsPostUserDeletion(id);
             return Ok();
         }
 

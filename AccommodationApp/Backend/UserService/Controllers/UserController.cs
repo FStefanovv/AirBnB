@@ -109,12 +109,16 @@ namespace Users.Controllers
         public async Task<IActionResult> DeleteAsGuest()
         {
             Request.Headers.TryGetValue("UserId", out StringValues userId);
+            bool canBeDeleted = await _userService.DeleteAsGuest(userId);
+            return Ok(canBeDeleted);
+
             //using HttpClient client = new HttpClient();
             //HttpResponseMessage response = await client.GetAsync("http://localhost:5003/api/reservation/get-status/" + userId);
             //Console.WriteLine("Status: " + response.StatusCode.ToString());
             //string jsonContent = response.Content.ReadAsStringAsync().Result;
             //bool result = JsonConvert.DeserializeObject<bool>(jsonContent);
 
+            /*
             if (false)
             {
                 //_userService.DeleteAsGuest(userId);
@@ -128,7 +132,7 @@ namespace Users.Controllers
             else
             {
                 return BadRequest("Bad request, you have reservations on this account");
-            }
+            }*/
         }
 
 

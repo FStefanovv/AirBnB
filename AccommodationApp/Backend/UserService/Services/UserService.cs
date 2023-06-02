@@ -126,28 +126,13 @@ namespace Users.Services
             using var channel = GrpcChannel.ForAddress("https://localhost:5003",
                 new GrpcChannelOptions { HttpHandler = handler });
             var client = new ReservationGRPCService.ReservationGRPCServiceClient(channel);
-            var reply = await client.CheckIfUserCanRateAsync(new UserData
+            var reply = await client.GuestHasActiveReservationsAsync(new UserData
             {
                 Id = id,
                 
             });
 
-            return reply.isReservationActive;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            return reply.IsReservationActive;
         }
 
        

@@ -9,12 +9,6 @@
 
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
-    <PackageReference Include="Google.Protobuf" Version="3.15.5" />
-    <PackageReference Include="Grpc.Net.Client" Version="2.35.0" />
-    <PackageReference Include="Grpc.Tools" Version="2.54.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.17">
@@ -46,11 +40,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Protos\get_status_guest.proto" />
+    <None Remove="Protos\reservation.proto" />
   </ItemGroup>
 
+ <ItemGroup>
+		<PackageReference Include="Google.Protobuf" Version="3.15.5" />
+		<PackageReference Include="Grpc.AspNetCore" Version="2.35.0" />
+		<PackageReference Include="Grpc.Net.Client" Version="2.35.0" />
+		<PackageReference Include="Grpc.Tools" Version="2.36.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
   <ItemGroup>
-    <Protobuf Include="Protos\get_status_guest.proto" GrpcServices="Client" />
+    <Protobuf Include="Protos\reservation.proto" GrpcServices="Client" />
   </ItemGroup>
 
 <!---->

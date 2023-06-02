@@ -1,11 +1,23 @@
-syntax = "proto3";
+﻿syntax = "proto3";
 
 option csharp_namespace = "ReservationService";
 
-package user;
+package rating;
 
 service ReservationGRPCService {
+  rpc CheckIfUserCanRate (RatingData) returns (CanRate);
   rpc GuestHasActiveReservations (UserData) returns (ActiveReservation);
+
+}
+
+message RatingData {
+  string UserId = 1; 
+  string RatedEntityId = 2;
+  int32 RatedEntityType = 3;
+}
+
+message CanRate {
+  bool ratingAllowed = 1;
 }
 
 message UserData {
@@ -16,4 +28,3 @@ message UserData {
 message  ActiveReservation {
   bool isReservationActive = 1;
 }
-
