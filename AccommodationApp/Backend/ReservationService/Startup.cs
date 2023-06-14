@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using ReservationService.BackgroundServices;
+//using ReservationService.BackgroundServices;
 using ReservationService.Repository;
 using ReservationService.Service;
 using System;
@@ -78,7 +78,7 @@ namespace ReservationService
             {
                 endpoints.MapControllers();
                 endpoints.MapGrpcService<ReservationService.Service.ReservationService>();
-                endpoints.MapGrpcService<ReservationService.Service.RequestService>();
+               // endpoints.MapGrpcService<ReservationService.Service.RequestService>();
             });
         }
     }

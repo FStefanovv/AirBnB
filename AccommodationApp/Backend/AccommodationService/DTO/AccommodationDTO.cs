@@ -2,7 +2,7 @@
 {
     public class AccommodationDTO
     {
-
+        public string Id { get; set; }
         public string Name { get; set; }
         public string StartSeason { get; set; }
         public string EndSeason { get; set; }

@@ -10,7 +10,8 @@ using ReservationService.DTO;
 using Grpc.Core;
 using Microsoft.Extensions.Configuration.UserSecrets;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
-using Accommodation;
+using Grpc.Net.Client;
+using System.Net.Http;
 
 namespace ReservationService.Service
 {
@@ -18,14 +19,26 @@ namespace ReservationService.Service
     {
         private readonly IReservationRepository _repository;
 
+        private readonly IRequestRepository _requestRepository;
+
         private readonly ILogger<ReservationService> _logger;
         private readonly string _url = "http://localhost:5002/Services.AccomodationService/GetAccommodationGRPC";
 
 
-        public ReservationService(IReservationRepository repository, ILogger<ReservationService> logger)
+        public ReservationService(IReservationRepository repository, ILogger<ReservationService> logger, IRequestRepository requestRepository)
         {
             _repository = repository;
             _logger = logger;
+            _requestRepository = requestRepository;
+        }
+
+        public override Task<Updated> UpdateRequestsPostUserDeletion(UserData userData, ServerCallContext context)
+        {
+            _requestRepository.UpdateRequestsPostUserDeletion(userData.Id);
+            return Task.FromResult(new Updated
+            {
+                IsUpdated = true
+            });
         }
 
         public void CancelReservation(string reservationId, StringValues userId)
@@ -85,8 +98,10 @@ namespace ReservationService.Service
         }
 
 
-        public double GetCost(ReservationCostDTO reservation,AccommodationGRPC accommodation)
+        public async Task<double> GetCost(ReservationCostDTO reservation)
         {
+
+            AccommodationGRPC accommodation = await getAccommodation(reservation);
             int numberOfDays = (reservation.To - reservation.From).Days;
             int weekends = 0;
             int holidays = 0;
@@ -98,12 +113,12 @@ namespace ReservationService.Service
                 if (accommodation.PricePerAccomodation)
                 {
                     return price = accommodation.Price * (numberOfDays - 1);
-                    
+
                 }
                 else if (accommodation.PricePerGuest)
                 {
                     return price = (accommodation.Price * reservation.NumberOfGuests) * (numberOfDays - 1);
-                    
+
                 }
             }
 
@@ -126,7 +141,7 @@ namespace ReservationService.Service
 
             if (accommodation.HolidayCost)
             {
-                
+
                 var listHolidays = new List<DateTime>
                 {
                   new DateTime(2023, 12, 31),
@@ -187,16 +202,35 @@ namespace ReservationService.Service
 
                 if (accommodation.PricePerAccomodation)
                 {
-                    return  price = accommodation.Price * (numberOfDays - 1) + (accommodation.Price * 0.2) * (weekends+holidays+summerDays);
-                    
+                    return price = accommodation.Price * (numberOfDays - 1) + (accommodation.Price * 0.2) * (weekends + holidays + summerDays);
+
                 }
                 else if (accommodation.PricePerGuest)
                 {
-                    return  price = (accommodation.Price * reservation.NumberOfGuests) * (numberOfDays - 1) + (accommodation.Price * 0.2 * reservation.NumberOfGuests) * (weekends + holidays + summerDays);
-                    
+                    return price = (accommodation.Price * reservation.NumberOfGuests) * (numberOfDays - 1) + (accommodation.Price * 0.2 * reservation.NumberOfGuests) * (weekends + holidays + summerDays);
+
                 }
             }
             return price;
+        }
+
+        public async Task<AccommodationGRPC> getAccommodation(ReservationCostDTO dto)
+        {
+            var handler = new HttpClientHandler();
+            handler.ServerCertificateCustomValidationCallback =
+                HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+            using var channel = GrpcChannel.ForAddress("https://localhost:5002",
+                new GrpcChannelOptions { HttpHandler = handler });
+            var client = new AccommodationGRPCService.AccommodationGRPCServiceClient(channel);
+            var reply = await client.GetAccommodationGRPCAsync(new AccommodationId
+            {
+                Id = dto.AccommodationId
+            });
+
+            return reply;
+
+            
+
         }
 
 

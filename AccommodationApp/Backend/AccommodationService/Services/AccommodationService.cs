@@ -105,18 +105,25 @@ namespace Accommodation.Services
 
         }
 
-      
-        public async void Update( UpdateAccommodationDTO updateAccommodationDTO)
+
+        public async Task<bool> Update(UpdateAccommodationDTO updateAccommodationDTO)
         {
             bool hasReservation = await AccommodatioHasReservation(updateAccommodationDTO.Id);
-            if (hasReservation == true) throw new Exception("You have reservation for that period");
-            CultureInfo culture = CultureInfo.CreateSpecificCulture("sr-Cyrl-Rs");
-            Model.Accommodation accommodation = GetById(updateAccommodationDTO.Id);
-            accommodation.AccomodationPrice.FinalPrice = updateAccommodationDTO.Price;
-            accommodation.StartSeasonDate = DateTime.ParseExact(updateAccommodationDTO.StartSeason, "yyyy-MM-dd", culture);
-            accommodation.EndSeasonDate = DateTime.ParseExact (updateAccommodationDTO.EndSeason, "yyyy-MM-dd", culture);
+            if (hasReservation == false)
+            {
+                CultureInfo culture = CultureInfo.CreateSpecificCulture("sr-Cyrl-Rs");
+                Model.Accommodation accommodation = GetById(updateAccommodationDTO.Id);
+                accommodation.AccomodationPrice.FinalPrice = updateAccommodationDTO.Price;
+                accommodation.StartSeasonDate = DateTime.ParseExact(updateAccommodationDTO.StartSeason, "yyyy-MM-dd", culture);
+                accommodation.EndSeasonDate = DateTime.ParseExact(updateAccommodationDTO.EndSeason, "yyyy-MM-dd", culture);
 
-            _repository.Update(accommodation);
+                _repository.Update(accommodation);
+                return true;
+            }
+            else         
+            { 
+                throw new Exception("You have reservation for that period"); 
+            }
 
         }
 

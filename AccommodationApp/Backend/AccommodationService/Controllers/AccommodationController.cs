@@ -66,12 +66,12 @@ namespace Accommodation.Controllers
 
 
        [HttpPost]
-       [Route("update-acc")]
-       public ActionResult Update(UpdateAccommodationDTO updateAccommodationDTO)
+       [Route("update")]
+       public async Task<IActionResult> Update(UpdateAccommodationDTO updateAccommodationDTO)
         {           
-           _accommodationService.Update(updateAccommodationDTO);
+          bool canBeUpdate= await _accommodationService.Update(updateAccommodationDTO);
 
-            return Ok();
+            return Ok(canBeUpdate);
         }
 
 

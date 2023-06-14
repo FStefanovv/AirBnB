@@ -12,9 +12,7 @@ namespace ReservationService.Service
     {
         void CancelReservation(string reservationId, StringValues userId);
         List<Reservation> GetUserReservations(StringValues userId);
-  
-       // bool HostHasActiveReservations(string id);
-        double GetCost(ReservationCostDTO reservation, Accommodation.AccommodationGRPC accommodation);
+        Task<double> GetCost(ReservationCostDTO reservation);
         List<DateTime> GetStartReservationDate(string accommodationId);
         List<DateTime> GetEndReservationDate(string accommodationId);
         void UpdatePastReservations();

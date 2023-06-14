@@ -13,7 +13,7 @@ using Grpc.Core;
 
 namespace ReservationService.Service
 {
-    public class RequestService : ReservationGRPCService.ReservationGRPCServiceBase, IRequestService
+    public class RequestService : /*ReservationGRPCService.ReservationGRPCServiceBase,*/ IRequestService
     {
         private readonly IRequestRepository _repository;
         private readonly IReservationService _reservation;
@@ -40,15 +40,8 @@ namespace ReservationService.Service
 
         }
 
-        //to be called from UserService via gRPC to update status of all pending user requests to cancelled
-        public override Task<Updated> UpdateRequestsPostUserDeletion(UserData userData, ServerCallContext context)
-        {
-           _repository.UpdateRequestsPostUserDeletion(userData.Id);
-            return Task.FromResult(new Updated
-            {
-                IsUpdated = true
-            }) ;
-        }
+       // to be called from UserService via gRPC to update status of all pending user requests to cancelled
+      
 
         public List<ReservationRequest> GetPendingRequestsByHost(StringValues userId)
         {

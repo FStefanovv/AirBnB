@@ -1,6 +1,6 @@
 ﻿syntax = "proto3";
 
-option csharp_namespace = "Accommodation";
+option csharp_namespace = "ReservationService";
 
 package accommodation;
 

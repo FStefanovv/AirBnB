@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Accommodation;
+
 using Grpc.Net.Client;
 
 namespace ReservationService.Controllers
@@ -100,34 +100,14 @@ namespace ReservationService.Controllers
             return Ok(requests);
         }
 
-        [HttpGet]
-        [Route("get-status/{id}")]
-
-
         [HttpPost]
         [Route("get-cost")]
         public async Task<ActionResult> GetCost(ReservationCostDTO dto)
         {
-  
-              
-              Request.Headers.TryGetValue("UserId", out StringValues userId);
 
-              
+            double cost= await _reservationService.GetCost(dto);
 
-              var handler = new HttpClientHandler();
-              handler.ServerCertificateCustomValidationCallback = 
-                  HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
-              using var channel = GrpcChannel.ForAddress("https://localhost:5002",
-                  new GrpcChannelOptions { HttpHandler = handler });
-              var client = new AccommodationGRPCService.AccommodationGRPCServiceClient(channel);
-            var reply = await client.GetAccommodationGRPCAsync(new AccommodationId
-            {
-                Id = dto.AccommodationId
-            }); 
-                    
-            _reservationService.GetCost(dto,reply);
-
-              return Ok();
+            return Ok(cost);
 
         }
 
