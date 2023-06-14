@@ -1,5 +1,3 @@
-using Accommodation.Repository;
-using Accommodation.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -12,11 +10,9 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 
-namespace Accommodation
+namespace FlightRecommendationService
 {
     public class Startup
     {
@@ -30,19 +26,13 @@ namespace Accommodation
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors();
 
-            services.AddSingleton<IDbContext, MongoDbContext>();
-            services.AddSingleton<AccommodationRepository>();
-            services.AddSingleton<AccommodationService>();
-
-
-            services.AddGrpc();
+            services.AddScoped<FlightRecommendationService.Service.FlightRecommendationService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Accommodation", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "FlightRecommendationService", Version = "v1" });
             });
         }
 
@@ -53,28 +43,18 @@ namespace Accommodation
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Accommodation v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "FlightRecommendationService v1"));
             }
-
-            app.UseStaticFiles();
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
-            app.UseCors(builder =>
-            {
-                builder.AllowAnyOrigin()
-                       .AllowAnyMethod()
-                       .AllowAnyHeader();
-            });
 
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapGrpcService<AccommodationService>();
             });
         }
     }

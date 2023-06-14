@@ -60,6 +60,7 @@ namespace Accommodation.Repository
             return _accommodation.Find(accomodation => true).ToList();
         }
       
+        /*
         public AccommodationGRPC GetByIdGRPC(AccommodationId id)
         {
             Model.Accommodation accommodation = GetById(id.Id);
@@ -68,7 +69,7 @@ namespace Accommodation.Repository
                 {
                     Name = accommodation.Name
                 };
-        }
+        }*/
 
         public void Update(Model.Accommodation accommodation)
         {

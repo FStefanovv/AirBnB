@@ -16,6 +16,7 @@ namespace Flights.Model
         public string Id { get; set; }
         public string DeparturePoint { get; set; }
         public string ArrivalPoint { get; set; }
+        [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
         public DateTime DepartureTime { get; set; }
         public int Duration { get; set; }
         public float TicketPrice { get; set; }

@@ -55,7 +55,11 @@ namespace Flights.Repository
             }
         }
 
-        
+        public List<Flight> GetMatchingFlights(FlightRequirements requirements)
+        {
+          
+            return _flights.Find(flight => flight.DeparturePoint == requirements.DeparturePoint && flight.DepartureTime.Date == requirements.DepartureDate.Date && flight.RemainingTickets!=0 && flight.Status==FlightStatus.SCHEDULED).ToList();
+        }
 
         public void Create(Flight flight)
         {

@@ -14,6 +14,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -55,6 +57,10 @@ namespace Flights
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Flights", Version = "v1" });
             });
+
+            BsonSerializer.RegisterSerializer(new DateTimeSerializer(DateTimeKind.Utc));
+
+            services.AddGrpc();
 
             services.AddAuthentication(x =>
                 {
@@ -112,6 +118,7 @@ namespace Flights
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapGrpcService<FlightsService>();
             });
         }
     }

@@ -74,27 +74,12 @@ namespace Accommodation.Services
         {
             return _repository.GetAll();
         }
-       
-        public override Task<AccommodationGRPC> GetAccommodationGRPC(AccommodationId id, ServerCallContext context) {
-            //AccommodationGRPC accommodation = _repository.GetByIdGRPC(id);
-
-            return Task.FromResult(new AccommodationGRPC
-                {
-                    Name = "ajde prika vise"
-                    
-                }
-                );
-
-        }
-
+     
       
         public void Update(Model.Accommodation accommodation)
         {
             _repository.Update(accommodation);
 
         }
-
-         
-
     }
 }

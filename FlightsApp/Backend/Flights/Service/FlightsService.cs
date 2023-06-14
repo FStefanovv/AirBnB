@@ -8,10 +8,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Grpc.Core;
+using Google.Protobuf.WellKnownTypes;
 
 namespace Flights.Service
 {
-    public class FlightsService
+    public class FlightsService : FlightGRPCService.FlightGRPCServiceBase
     {
         private readonly FlightsRepository _flightsRepository;
         private readonly TicketsRepository _ticketsRepository;
@@ -51,6 +53,32 @@ namespace Flights.Service
         public void UpdatePastFlights()
         {
             _flightsRepository.UpdatePastFlights();
+        }
+
+        public override Task<Recommendations> GetRecommendations(FlightRequirementsGrpc requirementsGrpc, ServerCallContext context)
+        {
+            
+            FlightRequirements requirements = new FlightRequirements(requirementsGrpc.DeparturePoint, requirementsGrpc.DepartureDate.ToDateTime());
+            List<Flight> matchingFlights = _flightsRepository.GetMatchingFlights(requirements);
+
+            List<Recommendation> recommendationsList = new List<Recommendation>();
+
+            foreach(Flight flight in matchingFlights)
+            {
+                Recommendation temp = new Recommendation
+                {
+                    FlightId = flight.Id,
+                    DepartureTime = Timestamp.FromDateTime(flight.DepartureTime),
+                    Duration = flight.Duration,
+                    TicketPrice = flight.TicketPrice
+                };
+                recommendationsList.Add(temp);
+            }
+            Recommendations response = new Recommendations();
+
+            response.Recommendations_.AddRange(recommendationsList);
+
+            return Task.FromResult(response);
         }
     }
 }

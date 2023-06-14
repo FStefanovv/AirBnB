@@ -9,9 +9,9 @@ service ReservationGRPCService {
 }
 
 message RatingData {
-  string UserId = 1; 
-  string RatedEntityId = 2;
-  int32 RatedEntityType = 3;
+  string userId = 1; 
+  string ratedEntityId = 2;
+  int32 ratedEntityType = 3;
 }
 
 message CanRate {

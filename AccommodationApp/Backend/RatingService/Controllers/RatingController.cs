@@ -34,9 +34,9 @@ namespace RatingService.Controllers
                 await _ratingService.CreateAsync(dto, username, userId);
                 return Ok();
             }
-            catch
+            catch(Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 

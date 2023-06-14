@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Accommodation;
 using Grpc.Net.Client;
 
 namespace ReservationService.Controllers
@@ -120,6 +119,7 @@ namespace ReservationService.Controllers
             return requests;
         }
 
+        /*
         [HttpPost]
         [Route("create-reservation")]
         public async Task<ActionResult> CreateReservation(ReservationDTO dto)
@@ -155,8 +155,7 @@ namespace ReservationService.Controllers
              // _reservationService.CreateReservation(reservation, result);
 
               return Ok();
-
-        }
+        }*/
 
 
         [HttpGet]
