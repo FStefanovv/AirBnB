@@ -8,10 +8,12 @@ using System.Threading.Tasks;
 using ReservationService.DTO;
 using ReservationService.Enums;
 using ReservationService.Helpers;
+using Grpc.Core;
+
 
 namespace ReservationService.Service
 {
-    public class RequestService : IRequestService
+    public class RequestService : /*ReservationGRPCService.ReservationGRPCServiceBase,*/ IRequestService
     {
         private readonly IRequestRepository _repository;
         private readonly IReservationService _reservation;
@@ -38,11 +40,8 @@ namespace ReservationService.Service
 
         }
 
-        //to be called from UserService via gRPC to update status of all pending user requests to cancelled
-        public void UpdateRequestsPostUserDeletion(string id)
-        {
-            _repository.UpdateRequestsPostUserDeletion(id);
-        }
+       // to be called from UserService via gRPC to update status of all pending user requests to cancelled
+      
 
         public List<ReservationRequest> GetPendingRequestsByHost(StringValues userId)
         {

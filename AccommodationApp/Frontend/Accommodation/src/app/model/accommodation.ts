@@ -1,6 +1,7 @@
 import { Address } from "./address";
 
 export class AccommodationDTO {
+    id?:string;
     name?: string
     startSeason?: string;
     endSeason?: string;
@@ -12,6 +13,7 @@ export class AccommodationDTO {
     summerCost?: boolean;
 
     constructor(){
+        this.id='';
         this.name = '';
         this.startSeason = '';
         this.endSeason = '';

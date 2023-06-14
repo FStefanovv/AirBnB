@@ -8,6 +8,7 @@ using MongoDB.Bson;
 using System.IO;
 using Microsoft.AspNetCore.Http;
 using MongoDB.Driver.GridFS;
+using Microsoft.Extensions.Hosting;
 
 namespace Accommodation.Repository
 {
@@ -52,7 +53,8 @@ namespace Accommodation.Repository
 
         public Model.Accommodation GetById(string id)
         {
-            return (Model.Accommodation)_accommodation.Find(user => user.Id == id);
+            return _accommodation.Find(Builders<Model.Accommodation>.Filter.Eq("_id", ObjectId.Parse(id))).FirstOrDefault();
+
         }
 
         public List<Model.Accommodation> GetAll()

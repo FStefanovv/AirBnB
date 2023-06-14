@@ -15,7 +15,9 @@ namespace Users.Services
 
         User GetUser(StringValues userId);
         User UpdateUser(StringValues userId,UserChangeInfoDTO changeData);
-        void DeleteAsGuest(StringValues id);
-        void DeleteAsHost(StringValues id);
+
+        Task<bool> DeleteAsHost(StringValues id);
+
+        Task<bool> DeleteAsGuest(StringValues id);
     }
 }

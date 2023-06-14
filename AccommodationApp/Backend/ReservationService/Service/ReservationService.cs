@@ -8,6 +8,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using ReservationService.DTO;
 using Grpc.Core;
+using Microsoft.Extensions.Configuration.UserSecrets;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Grpc.Net.Client;
+using System.Net.Http;
 
 namespace ReservationService.Service
 {
@@ -15,14 +19,26 @@ namespace ReservationService.Service
     {
         private readonly IReservationRepository _repository;
 
+        private readonly IRequestRepository _requestRepository;
+
         private readonly ILogger<ReservationService> _logger;
         private readonly string _url = "http://localhost:5002/Services.AccomodationService/GetAccommodationGRPC";
 
 
-        public ReservationService(IReservationRepository repository, ILogger<ReservationService> logger)
+        public ReservationService(IReservationRepository repository, ILogger<ReservationService> logger, IRequestRepository requestRepository)
         {
             _repository = repository;
             _logger = logger;
+            _requestRepository = requestRepository;
+        }
+
+        public override Task<Updated> UpdateRequestsPostUserDeletion(UserData userData, ServerCallContext context)
+        {
+            _requestRepository.UpdateRequestsPostUserDeletion(userData.Id);
+            return Task.FromResult(new Updated
+            {
+                IsUpdated = true
+            });
         }
 
         public void CancelReservation(string reservationId, StringValues userId)
@@ -54,41 +70,55 @@ namespace ReservationService.Service
 
 
         //to be called from UserService via gRPC to check whether user account can be deleted or not
-        public bool GuestHasActiveReservations(string id)
+        public override Task<ActiveReservation> GuestHasActiveReservations(UserData userData, ServerCallContext context)
+
         {
-            List<Reservation> activeReservations = _repository.GetActiveUserReservations(id);
+            List<Reservation> activeReservations = _repository.GetActiveUserReservations(userData.Id);
+
+            return Task.FromResult(new ActiveReservation
+            {
+                IsReservationActive = (activeReservations.Count != 0)
+            });
 
 
-            return activeReservations.Count != 0;
-        }
-
-        public bool HostHasActiveReservations(string id)
-        {
-            List<Reservation> activeReservations = _repository.GetActiveHostReservations(id);
-
-
-            return activeReservations.Count != 0;
         }
 
 
-        public void CreateReservation(Reservation reservation, DTO.AccommodationDTO accommodation)
+
+
+        public override Task<ActiveReservation> HostHasActiveReservations(UserData userData, ServerCallContext context)
         {
+            List<Reservation> activeReservations = _repository.GetActiveHostReservations(userData.Id);
+
+
+            return Task.FromResult(new ActiveReservation
+            {
+                IsReservationActive = (activeReservations.Count != 0)
+            });
+        }
+
+
+        public async Task<double> GetCost(ReservationCostDTO reservation)
+        {
+
+            AccommodationGRPC accommodation = await getAccommodation(reservation);
             int numberOfDays = (reservation.To - reservation.From).Days;
             int weekends = 0;
             int holidays = 0;
             int summerDays = 0;
+            double price = 0;
 
             if (accommodation.WeekendCost == false && accommodation.HolidayCost == false && accommodation.SummerCost == false)
             {
                 if (accommodation.PricePerAccomodation)
                 {
-                    reservation.Price = accommodation.Price * (numberOfDays - 1);
-                    _repository.Create(reservation);
+                    return price = accommodation.Price * (numberOfDays - 1);
+
                 }
                 else if (accommodation.PricePerGuest)
                 {
-                    reservation.Price = (accommodation.Price * reservation.NumberOfGuests) * (numberOfDays - 1);
-                    _repository.Create(reservation);
+                    return price = (accommodation.Price * reservation.NumberOfGuests) * (numberOfDays - 1);
+
                 }
             }
 
@@ -111,7 +141,7 @@ namespace ReservationService.Service
 
             if (accommodation.HolidayCost)
             {
-                
+
                 var listHolidays = new List<DateTime>
                 {
                   new DateTime(2023, 12, 31),
@@ -172,15 +202,35 @@ namespace ReservationService.Service
 
                 if (accommodation.PricePerAccomodation)
                 {
-                    reservation.Price = accommodation.Price * (numberOfDays - 1) + (accommodation.Price * 0.2) * (weekends+holidays+summerDays);
-                    _repository.Create(reservation);
+                    return price = accommodation.Price * (numberOfDays - 1) + (accommodation.Price * 0.2) * (weekends + holidays + summerDays);
+
                 }
                 else if (accommodation.PricePerGuest)
                 {
-                    reservation.Price = (accommodation.Price * reservation.NumberOfGuests) * (numberOfDays - 1) + (accommodation.Price * 0.2 * reservation.NumberOfGuests) * (weekends + holidays + summerDays);
-                    _repository.Create(reservation);
+                    return price = (accommodation.Price * reservation.NumberOfGuests) * (numberOfDays - 1) + (accommodation.Price * 0.2 * reservation.NumberOfGuests) * (weekends + holidays + summerDays);
+
                 }
             }
+            return price;
+        }
+
+        public async Task<AccommodationGRPC> getAccommodation(ReservationCostDTO dto)
+        {
+            var handler = new HttpClientHandler();
+            handler.ServerCertificateCustomValidationCallback =
+                HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+            using var channel = GrpcChannel.ForAddress("https://localhost:5002",
+                new GrpcChannelOptions { HttpHandler = handler });
+            var client = new AccommodationGRPCService.AccommodationGRPCServiceClient(channel);
+            var reply = await client.GetAccommodationGRPCAsync(new AccommodationId
+            {
+                Id = dto.AccommodationId
+            });
+
+            return reply;
+
+            
+
         }
 
 
@@ -273,6 +323,15 @@ namespace ReservationService.Service
         public void UpdatePastReservations()
         {
             _repository.UpdatePastReservations();
+        }
+
+        public override Task<HasReservation> AccommodatioHasReservation(AccId id, ServerCallContext context)
+        {
+            List<Reservation> reservationsPerAcc = _repository.GetReservationsForAccommodation(id.Id);
+            return Task.FromResult(new HasReservation
+            {
+                Reservation = reservationsPerAcc.Count!=0
+            });
         }
     }
 }

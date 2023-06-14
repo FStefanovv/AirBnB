@@ -4,7 +4,8 @@ import { CreateAccommodationDTO } from '../model/create-accommodation';
 import { SearchDTO } from '../model/search';
 import { Observable } from 'rxjs';
 import { AccommodationDTO } from '../model/accommodation';
-import { Observable } from 'rxjs';
+import { UpdateAccommodation } from '../model/update-accommodation';
+
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,10 @@ export class AccommodationService {
   
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'multipart/form-data' })
+  };
+
+  httpOptions1 = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
   constructor(private http: HttpClient) { }
@@ -42,5 +47,13 @@ export class AccommodationService {
   GetPhotos(id: string) : Observable<Blob> {
     const headers = new HttpHeaders().set('Accept', 'application/octet-stream');
     return this.http.get(this.accommUrl + 'get-photos/'+id, { responseType: 'blob', headers });
+  }
+
+  updateAccommodation(updateAccommodation:UpdateAccommodation):Observable<UpdateAccommodation>
+  {
+    console.log(this.accommUrl+'update')
+    console.log(this.updateAccommodation)
+
+    return this.http.post(this.accommUrl+'update',updateAccommodation,this.httpOptions1)
   }
 }

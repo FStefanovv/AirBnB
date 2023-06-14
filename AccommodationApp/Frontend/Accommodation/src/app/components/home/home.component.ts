@@ -50,7 +50,7 @@ export class HomeComponent implements OnInit {
   }
 
   downloadFiles() {
-  this.accommService.GetPhotos('64345c35782e3689729e953b').subscribe({
+  this.accommodationService.GetPhotos('64345c35782e3689729e953b').subscribe({
     next: (response: any) => {
       /*
       console.log(response)
@@ -65,8 +65,18 @@ export class HomeComponent implements OnInit {
     error : (err: HttpErrorResponse) => {
      console.log('jebigica')
     }
-  });
+   });
+  }
+
+  update(id?:string,startSeason?:string,endSeason?:string,price?:number){
+
+    this.router.navigate(
+      ['/update-accommodation',id,startSeason,endSeason,price] ); 
+
+  }
+
+    
 }
 
-}
+
 

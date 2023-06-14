@@ -41,6 +41,7 @@ namespace Accommodation.Adapters
         {
             var accommodationDTO = new DTO.AccommodationDTO()
             {
+                Id = accommodation.Id,
                 Name = accommodation.Name,
                 StartSeason = accommodation.StartSeasonDate.ToString("yyyy-MM-dd"),
                 EndSeason = accommodation.EndSeasonDate.ToString("yyyy-MM-dd"),
@@ -81,6 +82,7 @@ namespace Accommodation.Adapters
         public static AccommodationDTO ObjectToAccommodationDTOForSearch(Model.Accommodation accommodation)
         {
             AccommodationDTO accommodationDto = new AccommodationDTO();
+            accommodationDto.Id = accommodation.Id;
             accommodationDto.Name = accommodation.Name;
             accommodationDto.StartSeason = accommodation.StartSeasonDate.ToString("yyyy-MM-dd");
             accommodationDto.EndSeason = accommodation.EndSeasonDate.ToString("yyyy-MM-dd");

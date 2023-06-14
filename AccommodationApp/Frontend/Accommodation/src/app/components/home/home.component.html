@@ -19,7 +19,8 @@
             <div *ngIf="accomm.pricePerGuest; then thenBlock else elseBlock"></div>
                 <ng-template #thenBlock>Price per guest:{{accomm.price}}</ng-template>
                 <ng-template #elseBlock>Price per accomodation:{{accomm.price}}</ng-template>
-        </div>
+            </div>
+            <button class="button-regular" (click)="update(accomm.id,accomm.startSeason,accomm.endSeason,accomm.price)">Update</button>
     </div>
 </div>
 

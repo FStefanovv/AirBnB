@@ -130,6 +130,18 @@
       ]
     },
     {
+      "UpstreamPathTemplate": "/gateway/update",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/accommodation/update",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    {
       "UpstreamPathTemplate": "/gateway/cancel-reservation-request/{id}",
       "UpstreamHttpMethod": [ "Put" ],
       "DownstreamPathTemplate": "/api/reservation/cancel-reservation-request/{id}",
@@ -465,7 +477,8 @@
         "Role": "REGULAR_USER"
       },
       "AddHeadersToRequest": {
-        "UserId": "Claims[UserId] > value"      }
+        "UserId": "Claims[UserId] > value"
+      }
     }
   ]
 }
