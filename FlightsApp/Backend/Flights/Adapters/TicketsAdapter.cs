@@ -28,7 +28,7 @@ namespace Flights.Adapters
             return ticket;
         }
 
-        public Ticket BuyTicketApiKeyDtoToTicket(string userId, BuyWithApiKeyDTO dto, Flight flight)
+        public static Ticket BuyTicketApiKeyDtoToTicket(string userId, BuyWithApiKeyDTO dto, Flight flight)
         {
             Ticket ticket = new Ticket();
 
