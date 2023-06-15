@@ -4,7 +4,6 @@ import { CreateAccommodationDTO } from '../model/create-accommodation';
 import { SearchDTO } from '../model/search';
 import { Observable } from 'rxjs';
 import { AccommodationDTO } from '../model/accommodation';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'

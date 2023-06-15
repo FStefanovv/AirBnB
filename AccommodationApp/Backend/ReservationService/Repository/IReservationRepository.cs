@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Primitives;
+using ReservationService.DTO;
 using ReservationService.Model;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace ReservationService.Repository
     {   
         void UpdateReservation(Reservation reservation);
         Reservation GetReservationById(string reservationId);
-        List<Reservation> GetUserReservations(StringValues userId);
+        List<ShowReservationDTO> GetUserReservations(StringValues userId);
         List<Reservation> GetActiveUserReservations(string id);
         List<Reservation> GetActiveHostReservations(string id);
         void Create(Reservation reservation);

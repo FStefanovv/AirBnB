@@ -28,6 +28,9 @@ namespace ReservationService.Migrations
                     b.Property<string>("AccommodationId")
                         .HasColumnType("text");
 
+                    b.Property<string>("AccommodationLocaiton")
+                        .HasColumnType("text");
+
                     b.Property<string>("AccommodationName")
                         .HasColumnType("text");
 

@@ -47,7 +47,7 @@ namespace ReservationService.Service
             }
         }
 
-        public List<Reservation> GetUserReservations(StringValues userId)
+        public List<ShowReservationDTO> GetUserReservations(StringValues userId)
         {
             return _repository.GetUserReservations(userId);
         }
@@ -273,6 +273,22 @@ namespace ReservationService.Service
         public void UpdatePastReservations()
         {
             _repository.UpdatePastReservations();
+        }
+
+        public ShowReservationDTO GetEndReservation(string id)
+        {
+            Reservation res = _repository.GetReservationById(id);
+
+            return new ShowReservationDTO {
+                Id = res.Id,
+                From = res.From,
+                To = res.To,
+                AccommodationName = res.AccommodationName,
+                AccommodationLocation = res.AccommodationLocaiton,
+                NumberOfGuests = res.NumberOfGuests,
+                Status = res.Status,
+                Price = res.Price
+            };
         }
     }
 }

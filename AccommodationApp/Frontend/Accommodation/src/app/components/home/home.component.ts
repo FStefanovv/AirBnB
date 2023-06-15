@@ -50,7 +50,7 @@ export class HomeComponent implements OnInit {
   }
 
   downloadFiles() {
-  this.accommService.GetPhotos('64345c35782e3689729e953b').subscribe({
+  this.accommodationService.GetPhotos('64345c35782e3689729e953b').subscribe({
     next: (response: any) => {
       /*
       console.log(response)

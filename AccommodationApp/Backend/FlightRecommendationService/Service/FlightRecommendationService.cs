@@ -7,6 +7,8 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
+using FlightRecommendationService.DTO;
+using Microsoft.Extensions.Primitives;
 
 namespace FlightRecommendationService.Service
 {
@@ -30,8 +32,10 @@ namespace FlightRecommendationService.Service
             var client = new FlightGRPCService.FlightGRPCServiceClient(channel);
             var reply = await client.GetRecommendationsAsync(new FlightRequirementsGrpc
             {
-                DeparturePoint = requirements.DeparturePoint,
-                DepartureDate = Timestamp.FromDateTime(requirements.DepartureDate)
+                AirportLocation = requirements.AirportLocation,
+                DepartureDate = Timestamp.FromDateTime(requirements.DepartureDate),
+                AccommodationLocation = requirements.AccommodationLocation,
+                Direction = requirements.Direction
             });
 
             return ConvertToFlightRecommendations(reply.Recommendations_);
@@ -48,5 +52,25 @@ namespace FlightRecommendationService.Service
             }
             return recommendations;
         }
+
+        public async void PurchaseTickets(TicketPurchaseDTO dto, StringValues email)
+        {
+            var handler = new HttpClientHandler();
+            handler.ServerCertificateCustomValidationCallback =
+                HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+            using var channel = GrpcChannel.ForAddress("https://localhost:5010",
+                new GrpcChannelOptions { HttpHandler = handler });
+            var client = new FlightGRPCService.FlightGRPCServiceClient(channel);
+            var reply = await client.PurchaseTicketsAsync(new TicketInfo
+            {
+                FlightId = dto.FlightId,
+                NumberOfTickets = dto.NumberOfTickets,
+                Email = email
+            });
+
+            if (!reply.Successful)
+                throw new Exception();
+        }
+            
     }
 }

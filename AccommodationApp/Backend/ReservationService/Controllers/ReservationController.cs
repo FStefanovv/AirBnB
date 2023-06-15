@@ -73,7 +73,7 @@ namespace ReservationService.Controllers
         public ActionResult GetUserReservations()
         {
             Request.Headers.TryGetValue("UserId", out StringValues userId);
-            List<Reservation> reservations = _reservationService.GetUserReservations(userId);
+            List<ShowReservationDTO> reservations = _reservationService.GetUserReservations(userId);
 
             
             return Ok(reservations);
@@ -183,6 +183,13 @@ namespace ReservationService.Controllers
         {
             var dates = _reservationService.GetBusyDatesForAccommodation(accommodationId);
             return Ok(dates);
+        }
+
+        [HttpGet]
+        [Route("get-reservation/{id}")]
+        public ActionResult GetReservation(string id)
+        {
+            return Ok(_reservationService.GetEndReservation(id));
         }
 
 

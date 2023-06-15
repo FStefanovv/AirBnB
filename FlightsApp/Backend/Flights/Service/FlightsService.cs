@@ -58,7 +58,7 @@ namespace Flights.Service
         public override Task<Recommendations> GetRecommendations(FlightRequirementsGrpc requirementsGrpc, ServerCallContext context)
         {
             
-            FlightRequirements requirements = new FlightRequirements(requirementsGrpc.DeparturePoint, requirementsGrpc.DepartureDate.ToDateTime());
+            FlightRequirements requirements = new FlightRequirements(requirementsGrpc.AirportLocation, requirementsGrpc.DepartureDate.ToDateTime(), requirementsGrpc.AccommodationLocation, requirementsGrpc.Direction);
             List<Flight> matchingFlights = _flightsRepository.GetMatchingFlights(requirements);
 
             List<Recommendation> recommendationsList = new List<Recommendation>();

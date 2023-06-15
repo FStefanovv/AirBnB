@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Reservation } from '../model/reservation';
+import { ShowReservation } from '../model/show-reservation';
 import { CreateRequestDto } from '../model/createRequestDto';
 
 @Injectable({
@@ -17,8 +17,9 @@ export class ReservationService {
 
   constructor(private http: HttpClient) { }
 
-  getUsersReservations() : Observable<Reservation[]> {
-    return this.http.get<Reservation[]>(this.gatewayUrl+'get-user-reservations', this.httpOptions);
+  getUsersReservations() : Observable<ShowReservation[]> {
+    console.log('uso');
+    return this.http.get<ShowReservation[]>(this.gatewayUrl+'get-user-reservations', this.httpOptions);
   }
 
   cancel(id: string) : any {
@@ -31,6 +32,10 @@ export class ReservationService {
 
   createRequest(dto:CreateRequestDto): Observable<CreateRequestDto>{
     return this.http.post<CreateRequestDto>(this.gatewayUrl+'create-request',this.httpOptions);
+  }
+
+  getReservation(id: string) : Observable<ShowReservation> {
+    return this.http.get<ShowReservation>(this.gatewayUrl+'get-reservation/'+id,this.httpOptions);
   }
 
 }

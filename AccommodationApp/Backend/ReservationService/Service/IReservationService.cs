@@ -11,7 +11,7 @@ namespace ReservationService.Service
     public interface IReservationService
     {
         void CancelReservation(string reservationId, StringValues userId);
-        List<Reservation> GetUserReservations(StringValues userId);
+        List<ShowReservationDTO> GetUserReservations(StringValues userId);
         bool GuestHasActiveReservations(string id);
         bool HostHasActiveReservations(string id);
         void CreateReservation(Reservation reservation, DTO.AccommodationDTO accommodation);
@@ -20,5 +20,7 @@ namespace ReservationService.Service
         void UpdatePastReservations();
         void CreateReservationFromRequest(ReservationRequest request);
         List<GetBusyDateForAccommodationDTO> GetBusyDatesForAccommodation(string accommodationId);
+
+        ShowReservationDTO GetEndReservation(string id);
     }
 }

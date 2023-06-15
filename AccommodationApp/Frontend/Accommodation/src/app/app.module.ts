@@ -20,6 +20,7 @@ import { RegistrationComponent } from './components/registration/registration.co
 
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { CreateRequestComponent } from './components/create-request/create-request.component';
+import { FlightRecommendationsComponent } from './components/flight-recommendations/flight-recommendations.component';
 
 export function tokenGetter() { 
   return localStorage.getItem("jwt"); 
@@ -36,7 +37,8 @@ export function tokenGetter() {
     PendingRequestsComponent,
     UserInfoChangeComponent,
     RegistrationComponent,
-    CreateRequestComponent
+    CreateRequestComponent,
+    FlightRecommendationsComponent
   ],
   imports: [
     BrowserModule,

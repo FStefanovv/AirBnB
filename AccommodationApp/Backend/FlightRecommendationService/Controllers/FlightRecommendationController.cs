@@ -1,4 +1,5 @@
-﻿using FlightRecommendationService.Model;
+﻿using FlightRecommendationService.DTO;
+using FlightRecommendationService.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using System;
@@ -33,7 +34,24 @@ namespace FlightRecommendationService.Controllers
             {
                 return NotFound(ex.Message);
             }
-            
+        }
+
+        [HttpPost]
+        [Route("purchase-tickets")]
+        public async Task<ActionResult> PurchaseTickets(TicketPurchaseDTO dto)
+        {
+            Request.Headers.TryGetValue("Email", out StringValues email);
+            try
+            {
+                await _service.PurchaseTickets(dto, email);
+
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                return BadRequest("Could not purchase tickets");
+            }
+
         }
     }
 }

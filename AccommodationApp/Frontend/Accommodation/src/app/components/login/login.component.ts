@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
           const token = response.token;
           if(token){
             this.authService.storeToken(token);            
-            this.router.navigate(['create-accommodation']);
+            this.router.navigate(['my-reservations']);
           } 
         },
         error : (err: HttpErrorResponse) => {
