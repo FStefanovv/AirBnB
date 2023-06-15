@@ -1,4 +1,5 @@
 ﻿using Accommodation.DTO;
+using Accommodation.Model;
 using Accommodation.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -69,11 +70,17 @@ namespace Accommodation.Controllers
         }
 
         [HttpPost]
-        [Route("get-searched")]
-        public ActionResult GetSearchedAccomodations(SearchDTO dto)
+        [Route("get-searchedAccommodations")]
+        public async Task<ActionResult> GetSearchedAccomodations(SearchDTO dto)
         {
-            List<Model.Accommodation> searchedAccomodations = _accommodationService.SearchAccomodation(dto);
-            return Ok(searchedAccomodations);
+            Task<List<Model.Accommodation>> searchedAccomodationsTask = _accommodationService.SearchAccomodation(dto);
+            List<Model.Accommodation> searchedAccomodations = await searchedAccomodationsTask;
+            List<AccommodationDTO> searhedAccomodationDTOs = new List<AccommodationDTO>();
+            foreach (Model.Accommodation accomm in searchedAccomodations)
+            {
+                searhedAccomodationDTOs.Add(Adapters.CreateAccommodationAdapter.ObjectToAccommodationDTOForSearch(accomm));
+            }
+            return Ok(searhedAccomodationDTOs);
         }
 
         [HttpGet]

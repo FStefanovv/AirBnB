@@ -62,5 +62,6 @@ namespace ReservationService.Repository
         {
            return  _context.Reservations.Where(res=> res.AccommodationId == accomodationId).ToList();
         }
+
     }
 }

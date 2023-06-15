@@ -5,10 +5,10 @@ namespace Accommodation.DTO
 {
     public class SearchDTO
     {
-        public Address Location { get; set; }
+        public String Location { get; set; }
         public int numberOfGuests { get; set; }
-        public DateTime CheckIn { get; set; }
-        public DateTime CheckOut { get; set; }
+        public String CheckIn { get; set; }
+        public String CheckOut { get; set; }
         public SearchDTO() { }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Primitives;
+﻿using Grpc.Core;
+using Microsoft.Extensions.Primitives;
 using ReservationService.Model;
 using ReservationService.Repository;
 using System;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ReservationService.Service
 {
-    public class ReservationService : IReservationService
+    public class ReservationService :  NoReservationGRPCService.NoReservationGRPCServiceBase,IReservationService
     {
         private readonly IReservationRepository _repository;
 
@@ -207,6 +208,43 @@ namespace ReservationService.Service
             }
 
             return endDates;
+        }
+
+        public override Task<IsAvailable> CheckIfAccommodationIsAvailable(AvailabilityPeriod availabilityPeriod, ServerCallContext context)
+        {
+            List<Reservation> AccomodationReservations = _repository.GetReservationsForAccommodation(availabilityPeriod.AccommodationId);
+            if (AccomodationReservations.Count == 0)
+            {
+                return Task.FromResult(new IsAvailable
+                {
+                    Available = true
+                });
+            }
+            else
+            {
+                foreach (Reservation reservation in AccomodationReservations)
+                {
+                    if (DateTime.Parse(availabilityPeriod.StartDate) <= reservation.From && DateTime.Parse(availabilityPeriod.EndDate) <= reservation.From)
+                    {
+                        return Task.FromResult(new IsAvailable
+                        {
+                            Available = true
+                        });
+                    }
+                    else if (DateTime.Parse(availabilityPeriod.StartDate) >= reservation.To && DateTime.Parse(availabilityPeriod.EndDate) >= reservation.To)
+                    {
+                        return Task.FromResult(new IsAvailable
+                        {
+                            Available = true
+                        });
+                    }
+                }
+
+                return Task.FromResult(new IsAvailable
+                {
+                    Available = false
+                });
+            }
         }
     }
 }

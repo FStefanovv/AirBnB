@@ -25,6 +25,21 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="Protos\" />
   </ItemGroup>
+  <ItemGroup>
+		<PackageReference Include="Google.Protobuf" Version="3.15.5" />
+		<PackageReference Include="Grpc.AspNetCore" Version="2.35.0" />
+		<PackageReference Include="Grpc.Net.Client" Version="2.35.0" />
+		<PackageReference Include="Grpc.Tools" Version="2.36.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Protobuf Include="Protos\reservationGRPC.proto" GrpcServices="Server" />
+       
+	</ItemGroup>
 
 </Project>
