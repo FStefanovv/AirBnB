@@ -19,6 +19,7 @@ using System.Text.RegularExpressions;
 using System.Globalization;
 using Grpc.Net.Client;
 using System.Net.Http;
+using MongoDB.Driver.Core.WireProtocol.Messages;
 
 namespace Accommodation.Services
 {
@@ -144,7 +145,19 @@ namespace Accommodation.Services
             return reply.Reservation;
         }
 
+        public override Task<UserId> UpdateDistinguishedHostAppointments(HostIdAndDistinguishedStatus hostIdAndDistinguishedStatus, ServerCallContext context)
+        {
+            List<Model.Accommodation> hostAccommodations = _repository.GetByHostId(hostIdAndDistinguishedStatus.Id);
+            foreach(Model.Accommodation accommodation in hostAccommodations)
+            {
+                accommodation.IsDistinguishedHost = hostIdAndDistinguishedStatus.HostStatus;
+            }
 
+            return Task.FromResult(new UserId
+            {
+                Id = hostIdAndDistinguishedStatus.Id
+            });
+        }
 
 
     }

@@ -217,7 +217,7 @@ namespace Users.Services
         }
 
 
-        public override Task<Updated> IsDistinguishedHost(ReservationSatisfied reservationSatisfied, ServerCallContext context)
+        public override  Task<Updated> IsDistinguishedHost(ReservationSatisfied reservationSatisfied, ServerCallContext context)
         {
             User host = _userRepository.GetUserById(reservationSatisfied.Id);
             if(host.Role == "HOST")
@@ -229,6 +229,7 @@ namespace Users.Services
                     {
                         host.IsDistinguishedHost = true;
                     }
+                    Task<string> a = UpdateAccomodationsByDistinguishedHost(reservationSatisfied.Id, true);
                     return Task.FromResult(new Updated
                     {
                         IsUpdated = true
@@ -238,6 +239,7 @@ namespace Users.Services
                 {
                     host.IsReservationPartSatisfied = false;
                     host.IsDistinguishedHost = false;
+                    Task<string> a = UpdateAccomodationsByDistinguishedHost(reservationSatisfied.Id, false);
                     return Task.FromResult(new Updated
                     {
                         IsUpdated = false
@@ -245,10 +247,27 @@ namespace Users.Services
                 }
             }
 
+            Task<string> b = UpdateAccomodationsByDistinguishedHost(reservationSatisfied.Id, false);
             return Task.FromResult(new Updated
             {
                 IsUpdated = false
             });
+        }
+
+        private async Task<string> UpdateAccomodationsByDistinguishedHost(String id, bool change)
+        {
+            var handler = new HttpClientHandler();
+            handler.ServerCertificateCustomValidationCallback =
+                HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+            using var channel = GrpcChannel.ForAddress("https://localhost:5002",
+                new GrpcChannelOptions { HttpHandler = handler });
+            var client = new AccommodationGRPCService.AccommodationGRPCServiceClient(channel);
+            var reply = await client.UpdateDistinguishedHostAppointmentsAsync(new HostIdAndDistinguishedStatus
+            {
+                Id = id,
+                HostStatus = change
+            });
+            return reply.Id;
         }
     }
 }

@@ -24,8 +24,9 @@ namespace Accommodation.Model
         public List<DateTime> StartDatesReservations { get; set; }
         public List<DateTime?> EndDatesReservations { get; set; }
         public Price AccomodationPrice { get; set; }
+        public bool IsDistinguishedHost { get; set; }
 
-        public Accommodation( string name, Address address, string[] offers, int minGuests, int maxGuests, string hostId, bool autoApprove, DateTime startSeasonDate, DateTime endSeasonDate, List<DateTime> startDatesReservations, List<DateTime?> endDatesReservations, Price accomodationPrice)
+        public Accommodation( string name, Address address, string[] offers, int minGuests, int maxGuests, string hostId, bool autoApprove, DateTime startSeasonDate, DateTime endSeasonDate, List<DateTime> startDatesReservations, List<DateTime?> endDatesReservations, Price accomodationPrice, bool isDistinguishedHost)
         {
      
             Name = name;
@@ -40,6 +41,7 @@ namespace Accommodation.Model
             StartDatesReservations = startDatesReservations;
             EndDatesReservations = endDatesReservations;
             AccomodationPrice = accomodationPrice;
+            IsDistinguishedHost = isDistinguishedHost;
         }
 
         public Accommodation()

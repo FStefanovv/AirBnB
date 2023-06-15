@@ -58,7 +58,7 @@
    <ProjectReference Include="..\AccommodationSolution\RatingService\RatingService.csproj" />
  </ItemGroup>
 	<ItemGroup>
-		<Protobuf Include="Protos\accommodation.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\accommodation.proto" GrpcServices="Client,Server" />
 		<Protobuf Include="Protos\reservation.proto" GrpcServices="Client,Server" />
 	</ItemGroup>
 
