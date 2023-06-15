@@ -106,9 +106,9 @@
       ]
     },
     {
-      "UpstreamPathTemplate": "/gateway/search-accommodation",
+      "UpstreamPathTemplate": "/gateway/get-searchedAccommodations",
       "UpstreamHttpMethod": [ "Post" ],
-      "DownstreamPathTemplate": "/api/accommodation/get-searched",
+      "DownstreamPathTemplate": "/api/accommodation/get-searchedAccommodations",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {

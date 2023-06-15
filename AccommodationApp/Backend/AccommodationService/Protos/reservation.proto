@@ -9,7 +9,7 @@ service ReservationGRPCService {
   rpc GuestHasActiveReservations (UserData) returns (ActiveReservation);
   rpc UpdateRequestsPostUserDeletion (UserData) returns (Updated);
   rpc HostHasActiveReservations (UserData) returns (ActiveReservation);
-  rpc AccommodatioHasReservation (AccId) returns (HasReservation);
+  rpc AccommodationHasReservation (AccId) returns (HasReservation);
 }
 
 

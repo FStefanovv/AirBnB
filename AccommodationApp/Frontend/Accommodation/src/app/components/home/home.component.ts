@@ -16,9 +16,7 @@ import { AccommodationService } from 'src/app/services/accommodation.service';
 export class HomeComponent implements OnInit {
   searchDTO: SearchDTO = new SearchDTO();
   address: string = '';
-  newAddress: Address = new Address();
   accommodations: AccommodationDTO[] = [];
-  addressParts : string[] = []
 
   constructor(private accommodationService: AccommodationService, private router: Router) {}
 
@@ -27,15 +25,10 @@ export class HomeComponent implements OnInit {
   }
 
   search() {
-    this.addressParts = this.address.split(',');
-    this.newAddress.street = this.addressParts[0];
-    this.newAddress.number = Number(this.addressParts[1]);
-    this.newAddress.city = this.addressParts[2];
-    this.newAddress.country = this.addressParts[3];
-    this.searchDTO.location = this.newAddress;
+    this.searchDTO.location = this.address; 
     console.log(this.searchDTO)
     this.accommodationService.search(this.searchDTO).subscribe({
-      next: (res: any) => {
+      next : (res : any) => {
         this.accommodations = res;
       }
     });

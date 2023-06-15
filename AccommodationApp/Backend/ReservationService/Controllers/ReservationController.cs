@@ -104,6 +104,25 @@ namespace ReservationService.Controllers
         [Route("get-cost")]
         public async Task<ActionResult> GetCost(ReservationCostDTO dto)
         {
+            // Request.Headers.TryGetValue("UserId", out StringValues userId);
+            //
+            // Reservation reservation = Adapter.ReservationAdapter.CreateReservationDtoToObject(dto, userId);
+            // _reservationService.CreateReservationGRPC(reservation);
+            //
+            //
+            // return Ok();
+
+              
+              Request.Headers.TryGetValue("UserId", out StringValues userId);
+
+              Reservation reservation= Adapter.ReservationAdapter.CreateReservationDtoToObject(dto, userId);
+
+
+            using HttpClient client = new HttpClient();
+            HttpResponseMessage response = await client.GetAsync("http://localhost:5002/api/accommodation/get-by-id/" + reservation.AccommodationId);
+            Console.WriteLine("Status: " + response.StatusCode.ToString());
+            string jsonContent = response.Content.ReadAsStringAsync().Result;
+            DTO.AccommodationDTO result = JsonConvert.DeserializeObject<DTO.AccommodationDTO>(jsonContent);
 
             double cost= await _reservationService.GetCost(dto);
 
