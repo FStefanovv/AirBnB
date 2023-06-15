@@ -26,11 +26,19 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.10" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0" />
+    <PackageReference Include="PackageManager" Version="1.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Migrations" />
     <Folder Include="Migrations\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20230505100033_initialSetup.Designer.cs" />
+    <Compile Remove="Migrations\20230505100600_initialSetup.cs" />
+    <Compile Remove="Migrations\20230505100600_initialSetup.Designer.cs" />
   </ItemGroup>
 
 </Project>

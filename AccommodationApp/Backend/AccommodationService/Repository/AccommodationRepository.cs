@@ -32,9 +32,8 @@ namespace Accommodation.Repository
             }
         }
 
-        public async Task<List<IFormFile>> GetAccommodationPhotos(string accommId)
+        public async Task<List<byte[]>> GetAccommodationPhotos(string accommId)
         {
-            var filter = Builders<GridFSFileInfo>.Filter.Eq(x => x.Metadata["AccommObjectId"], accommId);
             return await _context.GetAccommodationPhotos(accommId);
         }
 
@@ -58,7 +57,25 @@ namespace Accommodation.Repository
 
         public List<Model.Accommodation> GetAll()
         {
-            return _accommodation.Find(accomodation => true).ToList();
+            return _accommodation.Find(accomodation => true).ToList()
+        }
+      
+        public AccommodationGRPC GetByIdGRPC(AccommodationId id)
+        {
+            Model.Accommodation accommodation = GetById(id.Id);
+
+            return new AccommodationGRPC
+                {
+                    Name = accommodation.Name,
+                    StartSeason = accommodation.StartSeasonDate.ToString(),
+                    EndSeason = accommodation.EndSeasonDate.ToString(),
+                    Price = accommodation.AccomodationPrice.FinalPrice,
+                    PricePerGuest = accommodation.AccomodationPrice.PricePerGuest,
+                    PricePerAccomodation = accommodation.AccomodationPrice.PricePerAccomodation,
+                    HolidayCost = accommodation.AccomodationPrice.HolidayCost,
+                    WeekendCost = accommodation.AccomodationPrice.WeekendCost,
+                    SummerCost = accommodation.AccomodationPrice.SummerCost
+                };
         }
     }
 }
