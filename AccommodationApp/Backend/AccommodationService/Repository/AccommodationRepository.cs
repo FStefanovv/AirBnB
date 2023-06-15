@@ -57,7 +57,7 @@ namespace Accommodation.Repository
 
         public List<Model.Accommodation> GetAll()
         {
-            return _accommodation.Find(accomodation => true).ToList()
+            return _accommodation.Find(accomodation => true).ToList();
         }
       
         public AccommodationGRPC GetByIdGRPC(AccommodationId id)

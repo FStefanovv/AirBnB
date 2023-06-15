@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ReservationService.DTO;
+using Microsoft.Extensions.Logging;
+using Grpc.Core;
 
 namespace ReservationService.Service
 {
