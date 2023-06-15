@@ -1,0 +1,510 @@
+[33mcommit 3944408bd7f86a435bd968cdb6779e650b7ad139[m[33m ([m[1;36mHEAD -> [m[1;32mdevelopment[m[33m, [m[1;31morigin/development[m[33m)[m
+Author: FStefanovv <filipficastefanov22@gmail.com>
+Date:   Sat May 27 01:56:23 2023 +0200
+
+    added hosted service for updating reservation status
+
+[33mcommit 402137843c25117459be35e14da0f9f3ed57a921[m
+Author: FStefanovv <filipficastefanov22@gmail.com>
+Date:   Wed May 24 20:14:49 2023 +0200
+
+    rating finished, automatic update of reservation status needs to be added as a background process
+
+[33mcommit 8b7c8ff3cafc5603f562fe5beceffbe9b2b91760[m
+Author: FStefanovv <filipficastefanov22@gmail.com>
+Date:   Wed May 24 02:32:18 2023 +0200
+
+    rating backend mostly finished, needs grpc
+
+[33mcommit 60ce88836d7579b3dd009b4229449cd4ff0339a7[m
+Author: FStefanovv <filipficastefanov22@gmail.com>
+Date:   Tue May 23 21:08:36 2023 +0200
+
+    started rating service
+
+[33mcommit c0d551178bafe7ccfbe09c2fc253834fcf4b77f3[m
+Author: slavko024 <icex024@gmail.com>
+Date:   Mon May 22 16:49:44 2023 +0200
+
+    grpc works
+
+[33mcommit d1d9c31a129619d0ec28fe2180c5c57ab1acfa74[m
+Merge: a0f7f8e 3fa64f6
+Author: Slavko Jevtic <93682867+icex024@users.noreply.github.com>
+Date:   Sun May 14 23:31:34 2023 +0200
+
+    Merge pull request #13 from FStefanovv/feature/test
+    
+    Feature/test
+
+[33mcommit a0f7f8e58e3f7d3aa2bd6125852745b13fe30a2e[m
+Author: Milos Adnadjevic <adnadjevic.ra77.2019@uns.ac.rs>
+Date:   Sun May 14 23:23:02 2023 +0200
+
+    fix
+
+[33mcommit 3fa64f6343ce3ba0fced979cf14992adbaa870f0[m[33m ([m[1;31morigin/feature/test[m[33m)[m
+Author: slavko024 <icex024@gmail.com>
+Date:   Sun May 14 23:19:41 2023 +0200
+
+    finished
+
+[33mcommit 78caf4e1a36f179a5438d72fa04782bf505d80de[m
+Author: slavko024 <icex024@gmail.com>
+Date:   Sun May 14 23:18:07 2023 +0200
+
+    finished
+
+[33mcommit 96b7612aa71a0189dbf81f2fd42937ebfc8b6b84[m
+Merge: 3fe32e2 a2c44c5
+Author: milos-adnadjevic <94315400+milos-adnadjevic@users.noreply.github.com>
+Date:   Sun May 14 23:19:29 2023 +0200
+
+    Merge pull request #12 from FStefanovv/feature/update-accommodation
+    
+     update accommodation
+
+[33mcommit a2c44c5c025027a75602cdd3f0bdbbf390f395e3[m[33m ([m[1;31morigin/feature/update-accommodation[m[33m)[m
+Merge: a19b075 3fe32e2
+Author: milos-adnadjevic <94315400+milos-adnadjevic@users.noreply.github.com>
+Date:   Sun May 14 23:19:20 2023 +0200
+
+    Merge branch 'development' into feature/update-accommodation
+
+[33mcommit a19b075033c37e73fe2ad0a29c19092b151e4fe9[m
+Author: Milos Adnadjevic <adnadjevic.ra77.2019@uns.ac.rs>
+Date:   Sun May 14 23:16:18 2023 +0200
+
+     update accommodation
+
+[33mcommit 3fe32e2a081b025e344cf87ed383e77a96280da1[m
+Merge: cd54172 f646e82
+Author: Andrej132 <93214115+Andrej132@users.noreply.github.com>
+Date:   Sun May 14 23:12:21 2023 +0200
+
+    Merge pull request #11 from FStefanovv/search-accomodation
+    
+    all is done
+
+[33mcommit f646e8224fdd2ce6627e2f81e212fed9c7b4cc21[m[33m ([m[1;31morigin/search-accomodation[m[33m)[m
+Merge: 6235ada cd54172
+Author: Andrej132 <93214115+Andrej132@users.noreply.github.com>
+Date:   Sun May 14 23:12:14 2023 +0200
+
+    Merge branch 'development' into search-accomodation
+
+[33mcommit 6235adac174a3650dbd5d21d0b43a2ca7a1ba652[m
+Author: Andrej Ruzic <ruzicandrej9@gmail.com>
+Date:   Sun May 14 23:05:09 2023 +0200
+
+    all is done
+
+[33mcommit cd54172fc92de8131dc2e7edc50bd09df60e6918[m
+Merge: 39ac34b 2c3754f
+Author: Slavko Jevtic <93682867+icex024@users.noreply.github.com>
+Date:   Sun May 14 21:29:56 2023 +0200
+
+    Merge pull request #10 from FStefanovv/feature/1-8-zahtevi-za-rezervaciju-smestaja
+    
+    Feature/1 8 zahtevi za rezervaciju smestaja
+
+[33mcommit 2c3754fb3783e49e28132c6a8f2e351a09d20501[m[33m ([m[1;31morigin/feature/1-8-zahtevi-za-rezervaciju-smestaja[m[33m)[m
+Merge: 891983f 39ac34b
+Author: Slavko Jevtic <93682867+icex024@users.noreply.github.com>
+Date:   Sun May 14 21:23:10 2023 +0200
+
+    Merge branch 'development' into feature/1-8-zahtevi-za-rezervaciju-smestaja
+
+[33mcommit 39ac34b1baaf2b070d80c66ae2d6ee8e40ffaf62[m
+Author: slavko024 <icex024@gmail.com>
+Date:   Sun May 14 20:50:36 2023 +0200
+
+    small changes
+
+[33mcommit 8b00da6f6287a1167133107faad8d2dce9803b95[m
+Author: FStefanovv <filipficastefanov22@gmail.com>
+Date:   Sun May 14 17:42:03 2023 +0200
+
+    ajde
+
+[33mcommit ec961a94f4cd3389b83a1b80c7f1caed2c135596[m
+Author: FStefanovv <filipficastefanov22@gmail.com>
+Date:   Sat May 13 19:47:19 2023 +0200
+
+    progress
+
+[33mcommit 891983f753d120d6cff30e60fef9197b55878d4d[m
+Author: slavko024 <icex024@gmail.com>
+Date:   Sat May 13 19:31:28 2023 +0200
+
+    back probably done wo grpc
+
+[33mcommit 3d2be3c9c8d27c05c4558816c4a3962b639b138d[m
+Author: slavko024 <icex024@gmail.com>
+Date:   Sat May 13 16:45:10 2023 +0200
+
+    1.8 backend done
+
+[33mcommit 8b9fa7548944d2cd7100fd0702227b6193e4090d[m
+Author: slavko024 <icex024@gmail.com>
+Date:   Wed May 10 21:45:47 2023 +0200
+
+    before grpc
+
+[33mcommit b4c774a037ce00011d1f6ed24bbf978c6b311f3c[m
+Author: Andrej Ruzic <ruzicandrej9@gmail.com>
+Date:   Sat May 13 14:43:56 2023 +0200
+
+    conflicts solved
+
+[33mcommit 70c4921422a6b7fdb7ec1e5b5447f2ca72c034ab[m
+Merge: cc6fa95 a621126
+Author: Andrej Ruzic <ruzicandrej9@gmail.com>
+Date:   Sat May 13 14:34:03 2023 +0200
+
+    conf solved
+
+[33mcommit cc6fa95a693a34c33873ef07edc3deb689182b08[m[33m ([m[1;31morigin/change-user[m[33m)[m
+Author: Andrej Ruzic <ruzicandrej9@gmail.com>
+Date:   Sat May 13 14:05:46 2023 +0200
+
+    update and register done
+
+[33mcommit a62112660abe9c7d8f7d84434682dde57c4294cd[m
+Merge: e741616 de5866d
+Author: milos-adnadjevic <94315400+milos-adnadjevic@users.noreply.github.com>
+Date:   Wed Apr 26 03:18:07 2023 +0200
+
+    Merge pull request #9 from FStefanovv/feature/availability-and-price-accomodation
+    
+    Feature/availability and price accomodation
+
+[33mcommit de5866d778352cce715fda45a76637c98e8bbb8d[m[33m ([m[1;31morigin/feature/availability-and-price-accomodation[m[33m)[m
+Author: Milos Adnadjevic <adnadjevic.ra77.2019@uns.ac.rs>
+Date:   Wed Apr 26 03:17:17 2023 +0200
+
+    front for this feature
+
+[33mcommit 7e6250371e96cc9f394a5e7bc6f61063949c11fe[m
+Author: Milos Adnadjevic <adnadjevic.ra77.2019@uns.ac.rs>
+Date:   Tue Apr 25 11:27:20 2023 +0200
+
+    backend for this function
+
+[33mcommit e741616ea492f3f9cb9cfd83cbbe9dc6c22cddc7[m
+Merge: 90a971c fa98197
+Author: milos-adnadjevic <94315400+milos-adnadjevic@users.noreply.github.com>
+Date:   Thu Apr 20 23:36:09 2023 +0200
+
+    Merge pull request #8 from FStefanovv/feature/delete-account
+    
+    remove account as guest and  host and all activity on that account
+
+[33mcommit fa981972bd0687ac129a38cc38fcf8c091f9c9f9[m[33m ([m[1;31morigin/feature/delete-account[m[33m)[m
+Author: Milos Adnadjevic <adnadjevic.ra77.2019@uns.ac.rs>
+Date:   Thu Apr 20 23:34:58 2023 +0200
+
+    remove account as guest and  host and all activity on that account
+
+[33mcommit 90a971c2e531eb60ed90b8c49766591cda56bcc6[m
+Author: Milos Adnadjevic <adnadjevic.ra77.2019@uns.ac.rs>
+Date:   Wed Apr 19 00:40:30 2023 +0200
+
+    set up
+
+[33mcommit ca2573278dbcbc7e0315a2c00a3594666b5dbb45[m
+Merge: e39c663 f421681
+Author: FStefanovv <93327888+FStefanovv@users.noreply.github.com>
+Date:   Mon Apr 17 13:11:43 2023 +0200
+
+    Merge pull request #7 from FStefanovv/accommodation-app/setup
+    
+    Accommodation app/setup
+
+[33mcommit f42168190bb51aa0937f17251b9e2bc6bc24d0c1[m
+Author: FStefanovv <filipficastefanov22@gmail.com>
+Date:   Sun Apr 16 22:24:15 2023 +0200
+
+    progress
+
+[33mcommit c4cac828d46422bb98d057993f88e6ba33471074[m
+Author: FStefanovv <filipficastefanov22@gmail.com>
+Date:   Sun Apr 16 02:15:18 2023 +0200
+
+    work on frontend
+
+[33mcommit b3dd0deefd733adae058f076ce6d88dc102d3aaa[m
+Author: FStefanovv <filipficastefanov22@gmail.com>
+Date:   Sat Apr 15 01:44:36 2023 +0200
+
+    added reservation model
+
+[33mcommit 80cc8554198db4c12ee5e7c0fecf1e82acf622ff[m
+Author: FStefanovv <filipficastefanov22@gmail.com>
+Date:   Fri Apr 14 20:38:55 2023 +0200
+
+    added reservations service
+
+[33mcommit 36d3bf2661a5b17da4325358c65bb31ce726bc3f[m
+Author: FStefanovv <filipficastefanov22@gmail.com>
+Date:   Wed Apr 12 15:52:03 2023 +0200
+
+    added authentication, role based route guards and started create accomm. component
+
+[33mcommit 048048856562383d3b72f8b306e9723bf69ce2fc[m
+Author: FStefanovv <filipficastefanov22@gmail.com>
+Date:   Tue Apr 11 14:57:09 2023 +0200
+
+    frontend added
+
+[33mcommit 427457116c6b6943ea3a5d0082e638848956c180[m
+Author: FStefanovv <filipficastefanov22@gmail.com>
+Date:   Mon Apr 10 21:58:22 2023 +0200
+
+    able to post accommodation photos to server, photo retrieval problem needs to be solved
+
+[33mcommit 25624b822f0947f55bdf49663182c6fbe3c859ec[m
+Author: FStefanovv <filipficastefanov22@gmail.com>
+Date:   Sun Apr 9 22:13:51 2023 +0200
+
+    switched to postgresql database for users service
+
+[33mcommit 81dd1d5ba4c4ecd5911477fcfe8f80370d33c292[m
+Author: FStefanovv <filipficastefanov22@gmail.com>
+Date:   Sat Apr 8 19:35:44 2023 +0200
+
+    authentication and authorization in api gateway done
+
+[33mcommit 5d4f4b5e3ef3035a870fbbc94699bb814a38c2f5[m
+Author: FStefanovv <filipficastefanov22@gmail.com>
+Date:   Sat Apr 8 19:34:44 2023 +0200
+
+    authentication and authorization in api gateway done
+
+[33mcommit 5d08804f33d434627508c7b592337fbae09f93c1[m
+Author: FStefanovv <filipficastefanov22@gmail.com>
+Date:   Fri Apr 7 22:33:06 2023 +0200
+
+    issue forwarding request when authorization is performed in gateway
+
+[33mcommit 8014742adabba1a370c9922fc745a92610231304[m
+Author: FStefanovv <filipficastefanov22@gmail.com>
+Date:   Fri Apr 7 02:01:56 2023 +0200
+
+    accommodation app started
+
+[33mcommit e39c6638e25da594b92eb21824db21374fac4319[m
+Author: FStefanovv <filipficastefanov22@gmail.com>
+Date:   Thu Apr 6 20:10:56 2023 +0200
+
+    added background task to update flight status
+
+[33mcommit 6298d3ef3c635a320365e9af91d709d776da473d[m
+Author: FStefanovv <filipficastefanov22@gmail.com>
+Date:   Sun Apr 2 17:30:37 2023 +0200
+
+    frontend corrections
+
+[33mcommit a95315c38335f5995bab8362769d2e76d256159d[m
+Merge: ad0a0bf 7809747
+Author: Slavko Jevtic <93682867+icex024@users.noreply.github.com>
+Date:   Sun Apr 2 01:51:03 2023 +0200
+
+    Merge pull request #6 from FStefanovv/bugfix/slavko-1
+    
+    Bugfix/slavko 1
+
+[33mcommit 780974719662737e60d2802744b2b03675e904ec[m
+Author: slavko024 <icex024@gmail.com>
+Date:   Sun Apr 2 01:30:55 2023 +0200
+
+    summed price corrected
+
+[33mcommit febfac3b2a5078e02e0cd890fcaac3b812511f53[m
+Author: slavko024 <icex024@gmail.com>
+Date:   Sat Apr 1 18:14:35 2023 +0200
+
+    small changes
+
+[33mcommit ad0a0bff087e747077f98c957d63adf8f5315b85[m
+Author: FStefanovv <filipficastefanov22@gmail.com>
+Date:   Sat Apr 1 19:06:55 2023 +0200
+
+    change ticket status
+
+[33mcommit 295bb5d9f316cf7729837156bd3e03b5f5ba0da2[m
+Merge: f555ccd f50a050
+Author: Slavko Jevtic <93682867+icex024@users.noreply.github.com>
+Date:   Sat Apr 1 17:56:15 2023 +0200
+
+    Merge pull request #5 from FStefanovv/bugfix/slavko
+    
+    Bugfix/slavko
+
+[33mcommit f50a050975f6009d755c32f87609b73fa6cc3eb4[m
+Author: slavko024 <icex024@gmail.com>
+Date:   Sat Apr 1 17:54:42 2023 +0200
+
+    push
+
+[33mcommit dffc2d7f73bb7254ad38b49fadedf978d8fa44c3[m
+Author: slavko024 <icex024@gmail.com>
+Date:   Sat Apr 1 17:14:28 2023 +0200
+
+    back
+
+[33mcommit 3d9bf43d82b36b0d0d7762902982a6e95bf2486f[m
+Author: slavko024 <icex024@gmail.com>
+Date:   Sat Apr 1 17:13:03 2023 +0200
+
+    working
+
+[33mcommit f555ccd22b1ae225cab6fda3e80c82761e24dc79[m
+Author: FStefanovv <filipficastefanov22@gmail.com>
+Date:   Fri Mar 31 17:35:29 2023 +0200
+
+    bugfixes
+
+[33mcommit 0dbbcd35655f82e4d512debc9bd9458755159c99[m
+Merge: 3af4aa6 3212c3e
+Author: Slavko Jevtic <93682867+icex024@users.noreply.github.com>
+Date:   Fri Mar 31 15:25:57 2023 +0200
+
+    Merge pull request #4 from FStefanovv/feature/ui-for-buying-and-viewing-tickets
+    
+    Feature/UI for buying and viewing tickets
+
+[33mcommit 3212c3e426b54663a53741e544ce8d9bf431fc83[m
+Author: slavko024 <icex024@gmail.com>
+Date:   Fri Mar 31 15:21:30 2023 +0200
+
+    rebase
+
+[33mcommit 92fb2a4939da561513d57d53aab39b9f423c162f[m
+Author: slavko024 <icex024@gmail.com>
+Date:   Fri Mar 31 15:11:59 2023 +0200
+
+    rbs
+
+[33mcommit fc14a23b7d7f59cbc5d04afcbd98c7733df8eed8[m
+Author: slavko024 <icex024@gmail.com>
+Date:   Thu Mar 30 23:39:58 2023 +0200
+
+    works
+
+[33mcommit 2a83a187f9030a0a986c1e3069ed8aa6096cfb23[m
+Author: slavko024 <icex024@gmail.com>
+Date:   Thu Mar 30 23:30:18 2023 +0200
+
+    rebase
+
+[33mcommit 3af4aa696e6e6dc0a8cb1de66e31cedc03be0025[m
+Author: FStefanovv <filipficastefanov22@gmail.com>
+Date:   Fri Mar 31 13:04:33 2023 +0200
+
+    merged
+
+[33mcommit f9e456e2534bdffda97596be7fbb86150b795c58[m
+Merge: 10ca363 c55e7b2
+Author: FStefanovv <filipficastefanov22@gmail.com>
+Date:   Fri Mar 31 11:55:24 2023 +0200
+
+    ceka se efendim slavko
+
+[33mcommit c55e7b2e95ceb6f4331c199b6e75cae288ccb5f2[m[33m ([m[1;31morigin/feature/frontend-design[m[33m, [m[1;32mfeature/frontend-design[m[33m)[m
+Author: FStefanovv <filipficastefanov22@gmail.com>
+Date:   Fri Mar 31 02:21:07 2023 +0200
+
+    flight card component added
+
+[33mcommit 10ca3632329b42c5430de2255e68f4bbf6ae3048[m
+Merge: 5f283f4 e6022a9
+Author: Andrej Ruzic <ruzicandrej9@gmail.com>
+Date:   Thu Mar 30 20:03:53 2023 +0200
+
+    merge front/search-flight
+
+[33mcommit 5f283f4e76225438751938e9e3a6279c43030205[m[33m ([m[1;31morigin/front/search-flights[m[33m)[m
+Author: Andrej Ruzic <ruzicandrej9@gmail.com>
+Date:   Thu Mar 30 19:49:53 2023 +0200
+
+    search-flights-done
+
+[33mcommit e6022a98482fb781dc29a5ed426d3ba0deaa1ee6[m
+Author: FStefanovv <filipficastefanov22@gmail.com>
+Date:   Thu Mar 30 14:58:38 2023 +0200
+
+    bugfix
+
+[33mcommit 986b5d8864c1ee21c9241ae6633373d3e6aab4a1[m
+Author: FStefanovv <filipficastefanov22@gmail.com>
+Date:   Thu Mar 30 14:52:41 2023 +0200
+
+    registration component added, needs styling
+
+[33mcommit 63c34ed5f0ec584075c56c7cf394cb70ab99cc90[m
+Merge: 0ba6e75 35080d6
+Author: milos-adnadjevic <94315400+milos-adnadjevic@users.noreply.github.com>
+Date:   Thu Mar 30 12:57:04 2023 +0200
+
+    Merge pull request #3 from FStefanovv/feature/create-flights-frontend
+    
+    ui for creating flight, validation on front and bug fixes on backend …
+
+[33mcommit 35080d6b2c1e57c279a4f581b5cd677ab970bc8c[m[33m ([m[1;31morigin/feature/create-flights-frontend[m[33m)[m
+Author: Milos Adnadjevic <adnadjevic.ra77.2019@uns.ac.rs>
+Date:   Thu Mar 30 12:55:50 2023 +0200
+
+    ui for creating flight, validation on front and bug fixes on backend dto adapter
+
+[33mcommit edf2d585a493b1013891875ef7f682291b5d096d[m
+Author: FStefanovv <filipficastefanov22@gmail.com>
+Date:   Thu Mar 30 00:54:27 2023 +0200
+
+    styling flight card
+
+[33mcommit 2c92e55c647c0405fc59efba0bbf4e92625cbf42[m
+Author: Andrej Ruzic <ruzicandrej9@gmail.com>
+Date:   Wed Mar 29 17:06:23 2023 +0200
+
+    search flight almost done
+
+[33mcommit df3ce38727fe2da0e7559e0583109606e13674b5[m
+Merge: 0ba6e75 03a0a1b
+Author: Andrej Ruzic <ruzicandrej9@gmail.com>
+Date:   Wed Mar 29 12:43:43 2023 +0200
+
+    backend search merged
+
+[33mcommit 0ba6e75c6c39cef359860fc8fdf0e27ab2b75fa5[m
+Author: FStefanovv <filipficastefanov22@gmail.com>
+Date:   Wed Mar 29 00:11:45 2023 +0200
+
+    changes to homepage
+
+[33mcommit 4fbccc437a537d3f9b0aba54af5393daae9e62ad[m
+Merge: 2bbfa77 3087445
+Author: Slavko Jevtic <93682867+icex024@users.noreply.github.com>
+Date:   Tue Mar 28 21:57:27 2023 +0200
+
+    Merge pull request #2 from FStefanovv/feature/buy-tickets
+    
+    Feature/buy tickets
+
+[33mcommit 3087445f58d4fff0663d3d73346a8b811908673f[m
+Author: slavko024 <icex024@gmail.com>
+Date:   Tue Mar 28 21:55:03 2023 +0200
+
+    back done
+
+[33mcommit 0b409792bfa5dd13a4e99a53540721359589c58e[m
+Author: slavko024 <icex024@gmail.com>
+Date:   Tue Mar 28 21:06:35 2023 +0200
+
+    conection
+
+[33mcommit 2bbfa77b43f4d465cb0b9ff967c65e1918ca24e9[m[33m ([m[1;31morigin/filip/frontend[m[33m, [m[1;32mfilip/frontend[m[33m)[m
+Author: FStefanovv <filipficastefanov22@gmail.com>
+Date:   Tue Mar 28 18:07:32 2023 +0200
+
+    merge to development

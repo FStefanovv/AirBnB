@@ -143,9 +143,5 @@ namespace Accommodation.Services
 
             return reply.Reservation;
         }
-
-
-
-
     }
 }

@@ -1,0 +1,42 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "Flights";
+
+package flightRecommendation;
+
+import "google/protobuf/timestamp.proto";
+
+service FlightGRPCService {
+  rpc GetRecommendations (FlightRequirementsGrpc) returns (Recommendations);
+  rpc PurchaseTickets (TicketInfo) returns (Purchased);
+
+}
+
+message FlightRequirementsGrpc {
+   string airportLocation = 1;
+   google.protobuf.Timestamp departureDate = 2;
+   string accommodationLocation = 3;
+   int32 direction = 4;
+}
+
+message Recommendation {
+  string flightId = 1;
+  google.protobuf.Timestamp departureTime = 2;
+  int32 duration = 3;
+  float ticketPrice = 4;
+}
+
+message Recommendations {
+	repeated Recommendation recommendations = 1;
+}
+
+message TicketInfo {
+	string flightId = 1;
+	int32 numberOfTickets = 2;
+	string email = 3;
+}
+
+message Purchased {
+	bool successful = 1;
+	string purchaseMessage = 2;
+}

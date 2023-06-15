@@ -8,13 +8,13 @@ namespace ReservationService.DTO
 {
     public class ReservationCostDTO
     {
-      
         public DateTime From { get; set; }
-        public DateTime To { get; set; }   
+        public DateTime To { get; set; }
         public string AccommodationId { get; set; }
         public string AccommodationName { get; set; }
         public int NumberOfGuests { get; set; }
-   
+
         public ReservationCostDTO() { }
     }
 }
+    

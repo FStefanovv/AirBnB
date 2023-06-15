@@ -10,8 +10,8 @@ using ReservationService;
 namespace ReservationService.Migrations
 {
     [DbContext(typeof(PostgresDbContext))]
-    [Migration("20230505101323_initialSetup")]
-    partial class initialSetup
+    [Migration("20230615002605_add-location-to-reservation")]
+    partial class addlocationtoreservation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,6 +28,9 @@ namespace ReservationService.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("AccommodationId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("AccommodationLocaiton")
                         .HasColumnType("text");
 
                     b.Property<string>("AccommodationName")

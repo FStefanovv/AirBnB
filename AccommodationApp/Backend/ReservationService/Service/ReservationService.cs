@@ -63,7 +63,7 @@ namespace ReservationService.Service
             }
         }
 
-        public List<Reservation> GetUserReservations(StringValues userId)
+        public List<ShowReservationDTO> GetUserReservations(StringValues userId)
         {
             return _repository.GetUserReservations(userId);
         }
@@ -233,7 +233,6 @@ namespace ReservationService.Service
 
         }
 
-
         public List<DateTime> GetStartReservationDate(string accommodationId)
         {
             List<Reservation> reservations = _repository.GetReservationsForAccommodation(accommodationId);
@@ -330,8 +329,23 @@ namespace ReservationService.Service
             List<Reservation> reservationsPerAcc = _repository.GetReservationsForAccommodation(id.Id);
             return Task.FromResult(new HasReservation
             {
-                Reservation = reservationsPerAcc.Count!=0
+                Reservation = reservationsPerAcc.Count != 0
             });
+        }
+        public ShowReservationDTO GetEndReservation(string id)
+        {
+            Reservation res = _repository.GetReservationById(id);
+
+            return new ShowReservationDTO {
+                Id = res.Id,
+                From = res.From,
+                To = res.To,
+                AccommodationName = res.AccommodationName,
+                AccommodationLocation = res.AccommodationLocaiton,
+                NumberOfGuests = res.NumberOfGuests,
+                Status = res.Status,
+                Price = res.Price
+            };
         }
     }
 }

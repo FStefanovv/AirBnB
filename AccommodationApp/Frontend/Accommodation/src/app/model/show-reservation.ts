@@ -1,13 +1,14 @@
-export class Reservation {
+export class ShowReservation {
     id?: string;
     from?: Date;
     to?: Date;
-    userId?: string;
     accommodationName?: string;
-    accommodationId?: string;
+    accommodationLocation?: string;
     numberOfGuests?: number;
     status?: ReservationStatus;
+    price?: number;
 }
+
 
 export enum ReservationStatus {
     ACTIVE, CANCELLED

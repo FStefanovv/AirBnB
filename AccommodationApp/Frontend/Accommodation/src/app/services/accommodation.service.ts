@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
 import { AccommodationDTO } from '../model/accommodation';
 import { UpdateAccommodation } from '../model/update-accommodation';
 
-
 @Injectable({
   providedIn: 'root'
 })

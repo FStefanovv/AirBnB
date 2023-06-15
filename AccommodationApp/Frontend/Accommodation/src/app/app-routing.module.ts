@@ -9,6 +9,7 @@ import { PendingRequestsComponent } from './components/pending-requests/pending-
 import { UserInfoChangeComponent } from './components/user-info-change/user-info-change.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { UpdateAccommodationComponent } from './components/update-accommodation/update-accommodation.component';
+import { FlightRecommendationsComponent } from './components/flight-recommendations/flight-recommendations.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch:'full' },
@@ -20,7 +21,8 @@ const routes: Routes = [
   { path:'get-host', component: UserInfoChangeComponent, canActivate:[AuthGuard], data: {roles: ['HOST']}},
   { path:'get-regular', component: UserInfoChangeComponent, canActivate:[AuthGuard], data: {roles: ['REGULAR_USER']}},
   { path:'register-user', component: RegistrationComponent},
-  { path:'update-accommodation/:id/:startSeason/:endSeason/:price', component: UpdateAccommodationComponent}
+  { path:'update-accommodation/:id/:startSeason/:endSeason/:price', component: UpdateAccommodationComponent},
+  { path:'flight-recommendations/:id', component: FlightRecommendationsComponent, data: {roles: ['REGULAR_USER']}}
 ];
 
 @NgModule({

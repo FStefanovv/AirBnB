@@ -7,6 +7,7 @@
         <th>Number of guests</th>
         <th>Status</th>
         <th></th>
+        <th></th>
     </tr>
     <tr *ngFor="let reservation of reservations">
         <td>
@@ -27,6 +28,11 @@
         <td>
             <button *ngIf="reservation.status==0" class="button-cancel" (click)="cancelReservation(reservation)">Cancel</button>
         </td>
+        <td>
+            <button *ngIf="reservation.status==0" class="button-regular" (click)="getRecommendations(reservation)">Get Recommendations</button>
+
+        </td>
     </tr>
 </table>
+<!-- delete account ovde gde su sve rezervacije????? -->
 <button ng-show="user.role=='guest'" class="button-delete" (click)="deleteAccAsGuest()">Delete account</button>

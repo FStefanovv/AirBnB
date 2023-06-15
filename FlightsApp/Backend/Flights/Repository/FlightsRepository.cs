@@ -55,7 +55,13 @@ namespace Flights.Repository
             }
         }
 
-        
+        public List<Flight> GetMatchingFlights(FlightRequirements requirements)
+        {
+           if(requirements.Direction==1)
+              return _flights.Find(flight => flight.DeparturePoint == requirements.AirportLocation && flight.ArrivalPoint==requirements.AccommodationLocation && (flight.DepartureTime.Day == requirements.DepartureDate.Day) && (flight.DepartureTime.Month == requirements.DepartureDate.Month)  && (flight.DepartureTime.Year == requirements.DepartureDate.Year) && flight.RemainingTickets!=0 && flight.Status==FlightStatus.SCHEDULED).ToList<Flight>();
+            else
+                return _flights.Find(flight => flight.DeparturePoint == requirements.AccommodationLocation && flight.ArrivalPoint==requirements.AirportLocation && (flight.DepartureTime.Day == requirements.DepartureDate.Day) && (flight.DepartureTime.Month == requirements.DepartureDate.Month) && (flight.DepartureTime.Year == requirements.DepartureDate.Year) && flight.RemainingTickets != 0 && flight.Status == FlightStatus.SCHEDULED).ToList<Flight>();
+        }
 
         public void Create(Flight flight)
         {

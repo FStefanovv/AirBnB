@@ -1,3 +1,4 @@
+using Flights.ApiKeyAuth;
 using Flights.BackgroundTasks;
 using Flights.Model;
 using Flights.Repository;
@@ -14,6 +15,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -50,11 +53,20 @@ namespace Flights
             services.AddSingleton<TicketsRepository>();
             services.AddSingleton<TicketsService>();
 
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Flights", Version = "v1" });
             });
+
+            BsonSerializer.RegisterSerializer(new DateTimeSerializer(DateTimeKind.Utc));
+
+            services.AddGrpc();
+
+            services.AddSingleton<ApiKeyRepository>();
+            services.AddSingleton<ApiKeyAuthorizationFilter>();
+            services.AddSingleton<IApiKeyValidator, ApiKeyValidator>();
 
             services.AddAuthentication(x =>
                 {
@@ -112,6 +124,7 @@ namespace Flights
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapGrpcService<FlightsService>();
             });
         }
     }

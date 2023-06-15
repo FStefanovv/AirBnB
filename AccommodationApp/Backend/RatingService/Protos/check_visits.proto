@@ -1,0 +1,19 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "RatingService";
+
+package rating;
+
+service ReservationGRPCService {
+  rpc CheckIfUserCanRate (RatingData) returns (CanRate);
+}
+
+message RatingData {
+  string userId = 1; 
+  string ratedEntityId = 2;
+  int32 ratedEntityType = 3;
+}
+
+message CanRate {
+  bool ratingAllowed = 1;
+}

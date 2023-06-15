@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-
 using Grpc.Net.Client;
 
 namespace ReservationService.Controllers
@@ -74,11 +73,12 @@ namespace ReservationService.Controllers
         public ActionResult GetUserReservations()
         {
             Request.Headers.TryGetValue("UserId", out StringValues userId);
-            List<Reservation> reservations = _reservationService.GetUserReservations(userId);
+            List<ShowReservationDTO> reservations = _reservationService.GetUserReservations(userId);
 
             
             return Ok(reservations);
         }
+
 
         [HttpGet]
         [Route("get-pending-requests")]
@@ -110,6 +110,43 @@ namespace ReservationService.Controllers
             return Ok(cost);
 
         }
+        /*
+        [HttpPost]
+        [Route("create-reservation")]
+        public async Task<ActionResult> CreateReservation(ReservationDTO dto)
+        {
+            // Request.Headers.TryGetValue("UserId", out StringValues userId);
+            //
+            // Reservation reservation = Adapter.ReservationAdapter.CreateReservationDtoToObject(dto, userId);
+            // _reservationService.CreateReservationGRPC(reservation);
+            //
+            //
+            // return Ok();
+
+              
+              Request.Headers.TryGetValue("UserId", out StringValues userId);
+
+              Reservation reservation= Adapter.ReservationAdapter.CreateReservationDtoToObject(dto, userId);
+
+              var handler = new HttpClientHandler();
+              handler.ServerCertificateCustomValidationCallback = 
+                  HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+              using var channel = GrpcChannel.ForAddress("https://localhost:5002",
+                  new GrpcChannelOptions { HttpHandler = handler });
+              var client = new AccommodationGRPCService.AccommodationGRPCServiceClient(channel);
+              var reply = await client.GetAccommodationGRPCAsync(new AccommodationId
+              {
+                  Id = "64487697c915d0ae735042a6"
+              });
+            //     Console.WriteLine("Status: " + response.StatusCode.ToString());
+            //     string jsonContent = response.Content.ReadAsStringAsync().Result;
+            // DTO.AccommodationDTO result = JsonConvert.DeserializeObject<DTO.AccommodationDTO>(jsonContent);
+             
+
+             // _reservationService.CreateReservation(reservation, result);
+
+              return Ok();
+        }*/
 
 
         [HttpGet]
@@ -137,6 +174,13 @@ namespace ReservationService.Controllers
         {
             var dates = _reservationService.GetBusyDatesForAccommodation(accommodationId);
             return Ok(dates);
+        }
+
+        [HttpGet]
+        [Route("get-reservation/{id}")]
+        public ActionResult GetReservation(string id)
+        {
+            return Ok(_reservationService.GetEndReservation(id));
         }
 
 

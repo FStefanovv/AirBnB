@@ -75,7 +75,6 @@ namespace Accommodation
             {
                 endpoints.MapControllers();
                 endpoints.MapGrpcService<AccommodationService>();
-                endpoints.MapGet("/", async context => { await context.Response.WriteAsync("Hello World!"); });
             });
         }
     }

@@ -38,5 +38,10 @@ namespace Flights.Repository
         {
             return _users.Find(user => user.EMail == email).FirstOrDefault() != null ? true : false;
         }
+
+        public User GetByEmail(string email)
+        {
+            return _users.Find(user => user.EMail == email).FirstOrDefault();
+        }
     }
 }

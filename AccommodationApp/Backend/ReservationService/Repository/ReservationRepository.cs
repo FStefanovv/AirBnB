@@ -24,9 +24,27 @@ namespace ReservationService.Repository
             return _context.Reservations.Where(res => res.Id == reservationId).FirstOrDefault();
         }
 
-        public List<Reservation> GetUserReservations(StringValues userId)
+        public List<ShowReservationDTO> GetUserReservations(StringValues userId)
         {
-            return _context.Reservations.Where(res => res.UserId == userId[0]).ToList();
+            List<Reservation> userReservations = _context.Reservations.Where(res => res.UserId == userId[0]).ToList();
+            List<ShowReservationDTO> userReservationDTos = new List<ShowReservationDTO>();
+
+            foreach(Reservation res in userReservations)
+            {
+                ShowReservationDTO dto = new ShowReservationDTO { 
+                    Id = res.Id,
+                    From = res.From,
+                    To = res.To,
+                    AccommodationName = res.AccommodationName,
+                    AccommodationLocation = res.AccommodationLocaiton,
+                    NumberOfGuests = res.NumberOfGuests,
+                    Status = res.Status,
+                    Price = res.Price
+                };
+
+                userReservationDTos.Add(dto);
+            }
+            return userReservationDTos;
         }
 
         public void UpdateReservation(Reservation reservation)

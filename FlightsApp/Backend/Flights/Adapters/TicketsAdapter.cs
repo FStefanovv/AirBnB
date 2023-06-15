@@ -28,6 +28,28 @@ namespace Flights.Adapters
             return ticket;
         }
 
+        public Ticket BuyTicketApiKeyDtoToTicket(string userId, BuyWithApiKeyDTO dto, Flight flight)
+        {
+            Ticket ticket = new Ticket();
+
+            FlightInfo flightInfo = new FlightInfo();
+
+            ticket.UserId = userId;
+            ticket.Quantity = dto.numberOfTickets;
+            ticket.SummedPrice = flight.TicketPrice * dto.numberOfTickets;
+            flightInfo.TicketPrice = flight.TicketPrice;
+            flightInfo.Duration = flight.Duration;
+            flightInfo.Id = flight.Id;
+            flightInfo.DepartureTime = flight.DepartureTime;
+            flightInfo.Status = flight.Status;
+            flightInfo.ArrivalPoint = flight.ArrivalPoint;
+            flightInfo.DeparturePoint = flight.DeparturePoint;
+            ticket.FlightInfo = flightInfo;
+            ticket.Valid = true;
+
+            return ticket;
+        }
+
         public ViewTicketDTO TicketToViewTicketDTO(Ticket ticket)
         {
             ViewTicketDTO dto = new ViewTicketDTO();
