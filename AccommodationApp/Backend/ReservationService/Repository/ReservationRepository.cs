@@ -53,6 +53,21 @@ namespace ReservationService.Repository
             return _context.Reservations.Where(res => res.HostId == id && res.Status == Enums.ReservationStatus.ACTIVE).ToList();
         }
 
+        public List<Reservation> GetPastHostReservations(string id)
+        {
+            return _context.Reservations.Where(res => res.HostId == id && res.Status == ReservationStatus.PAST).ToList();
+        }
+
+        public List<Reservation> GetCanceledHostReservations(string id)
+        {
+            return _context.Reservations.Where(res => res.HostId == id && res.Status == ReservationStatus.CANCELLED).ToList();
+        }
+
+        public List<Reservation> GetAllHostReservations(string id)
+        {
+            return _context.Reservations.Where(res => res.HostId==id).ToList();
+        }
+
         public void Create(Reservation reservation)
         {
             _context.Reservations.Add(reservation);

@@ -10,6 +10,7 @@ service ReservationGRPCService {
   rpc UpdateRequestsPostUserDeletion (UserData) returns (Updated);
   rpc HostHasActiveReservations (UserData) returns (ActiveReservation);
   rpc AccommodatioHasReservation (AccId) returns (HasReservation);
+  rpc IsDistinguishedHost (ReservationSatisfied) returns (Updated);
 }
 
 message RatingData {
@@ -25,6 +26,11 @@ message CanRate {
 message UserData {
   string id = 1; 
 
+}
+
+message ReservationSatisfied{
+	string id = 1;
+	bool ReservationPartSatisfied = 2;
 }
 
 message  ActiveReservation {

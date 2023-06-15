@@ -18,5 +18,6 @@ namespace ReservationService.Service
         void UpdatePastReservations();
         void CreateReservationFromRequest(ReservationRequest request);
         List<GetBusyDateForAccommodationDTO> GetBusyDatesForAccommodation(string accommodationId);
+        Task<bool> CheckHostStatus(String hostId);
     }
 }

@@ -32,7 +32,11 @@ export class UserReservationsComponent implements OnInit {
 
   cancelReservation(reservation: Reservation){
     if(reservation.id)
-      this.reservationService.cancel(reservation.id).subscribe({});
+      this.reservationService.cancel(reservation.id).subscribe({
+        next: (response : any) => {
+          console.log(response);
+        }
+      });
   }
 
   deleteAccAsGuest(){

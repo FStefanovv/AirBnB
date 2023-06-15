@@ -22,10 +22,12 @@ using Microsoft.Extensions.Primitives;
 using Grpc.Net.Client;
 using System.Diagnostics.Contracts;
 using System.Diagnostics.Eventing.Reader;
+using RatingService;
+using Grpc.Core;
 
 namespace Users.Services
 {
-    public class UserService : IUserService
+    public class UserService : ReservationGRPCService.ReservationGRPCServiceBase, IUserService
     {
         private readonly IUserRepository _userRepository;
         private readonly string key;
@@ -164,12 +166,6 @@ namespace Users.Services
 
         }
 
-
-
-
-
-
-
         public async Task<bool> DeleteAsHost(StringValues id)
         {
             var handler = new HttpClientHandler();
@@ -218,6 +214,41 @@ namespace Users.Services
             });
 
             return reply.IsDeleted;
+        }
+
+
+        public override Task<Updated> IsDistinguishedHost(ReservationSatisfied reservationSatisfied, ServerCallContext context)
+        {
+            User host = _userRepository.GetUserById(reservationSatisfied.Id);
+            if(host.Role == "HOST")
+            {
+                if (reservationSatisfied.ReservationPartSatisfied)
+                {
+                    host.IsReservationPartSatisfied = true;
+                    if (host.IsRatingPartSatisfied)
+                    {
+                        host.IsDistinguishedHost = true;
+                    }
+                    return Task.FromResult(new Updated
+                    {
+                        IsUpdated = true
+                    }) ;
+                }
+                else
+                {
+                    host.IsReservationPartSatisfied = false;
+                    host.IsDistinguishedHost = false;
+                    return Task.FromResult(new Updated
+                    {
+                        IsUpdated = false
+                    });
+                }
+            }
+
+            return Task.FromResult(new Updated
+            {
+                IsUpdated = false
+            });
         }
     }
 }

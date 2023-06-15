@@ -39,11 +39,12 @@
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
 </ItemGroup>
-
-
+	
+	<ItemGroup>
+	  <ProjectReference Include="..\AccommodationSolution\RatingService\RatingService.csproj" />
+	</ItemGroup>
 	<ItemGroup>
 		<Protobuf Include="Protos\accommodation.proto" GrpcServices="Client" />
-		<Protobuf Include="Protos\reservation.proto" GrpcServices="Server" />
+		<Protobuf Include="Protos\reservation.proto" GrpcServices="Server,Client" />
 	</ItemGroup>
-
 </Project>

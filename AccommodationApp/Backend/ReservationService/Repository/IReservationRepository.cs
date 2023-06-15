@@ -14,6 +14,9 @@ namespace ReservationService.Repository
         List<Reservation> GetUserReservations(StringValues userId);
         List<Reservation> GetActiveUserReservations(string id);
         List<Reservation> GetActiveHostReservations(string id);
+        List<Reservation> GetPastHostReservations (string id);
+        List<Reservation> GetCanceledHostReservations(string id);
+        List<Reservation> GetAllHostReservations(string id);
         void Create(Reservation reservation);
         List<Reservation> GetReservationsForAccommodation(string accomodationId);
         bool CheckIfUserHasUncancelledReservation(string userId, string ratedEntityId);

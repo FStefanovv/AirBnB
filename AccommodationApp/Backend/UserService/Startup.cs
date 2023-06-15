@@ -34,6 +34,7 @@ namespace Users
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
+            services.AddGrpc();
 
             //services.AddSingleton<IDbContext, MongoDbContext>();
 
@@ -78,6 +79,7 @@ namespace Users
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapGrpcService<Services.UserService>();
             });
         }
     }

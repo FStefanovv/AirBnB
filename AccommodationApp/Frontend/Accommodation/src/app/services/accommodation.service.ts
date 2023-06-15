@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
 import { AccommodationDTO } from '../model/accommodation';
 import { UpdateAccommodation } from '../model/update-accommodation';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -43,13 +42,13 @@ export class AccommodationService {
   getAll() : Observable<AccommodationDTO[]>{
     return this.http.get<AccommodationDTO[]>(this.accommUrl + 'get-all',this.httpOptions)
   }
-  
+
   GetPhotos(id: string) : Observable<Blob> {
     const headers = new HttpHeaders().set('Accept', 'application/octet-stream');
     return this.http.get(this.accommUrl + 'get-photos/'+id, { responseType: 'blob', headers });
   }
 
-  updateAccommodation(updateAccommodation:UpdateAccommodation):Observable<UpdateAccommodation>
+  updateAccommodation(updateAccommodation: UpdateAccommodation ) : Observable<UpdateAccommodation>
   {
     console.log(this.accommUrl+'update')
     console.log(this.updateAccommodation)

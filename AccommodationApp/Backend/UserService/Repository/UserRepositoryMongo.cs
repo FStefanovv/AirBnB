@@ -59,6 +59,11 @@ namespace Users.Repository
             return _users.Find(user => user.Id == userId).FirstOrDefault();
         }
 
+        public User GetUserById(string id)
+        {
+            return _users.Find(user => user.Id == id).FirstOrDefault();
+        }
+
         public void UpdateUser(User user)
         {
             _users.InsertOne(user);

@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration.UserSecrets;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Grpc.Net.Client;
 using System.Net.Http;
+using Microsoft.AspNetCore.Localization;
 
 namespace ReservationService.Service
 {
@@ -332,6 +333,53 @@ namespace ReservationService.Service
             {
                 Reservation = reservationsPerAcc.Count!=0
             });
+        }
+
+        public async Task<bool> CheckHostStatus(String hostId)
+        {
+            List<Reservation> cancelledReservations = _repository.GetCanceledHostReservations(hostId);
+            List<Reservation> allReservations = _repository.GetAllHostReservations(hostId);
+
+           if((double)cancelledReservations.Count / allReservations.Count * 100 < 5 && allReservations.Count >= 5)
+           {
+                TimeSpan TotalDuration = TimeSpan.Zero;
+
+                foreach (Reservation reservation in allReservations) 
+                {
+                    TimeSpan durationOfReservation = reservation.To - reservation.From;
+                    TotalDuration += durationOfReservation;
+                }
+
+                if(TotalDuration.TotalDays > 50)
+                {
+                   bool nista =  await UpdateDistinguishedHostStatus(hostId, true);
+                   return nista;
+                }
+                else
+                {
+                  bool nista =   await UpdateDistinguishedHostStatus(hostId, false);
+                  return nista;
+                }
+           }
+
+            bool nesto = await UpdateDistinguishedHostStatus(hostId, false);
+            return nesto;
+        }
+
+        private async Task<bool> UpdateDistinguishedHostStatus(String id,bool IsSatisfied)
+        {
+            var handler = new HttpClientHandler();
+            handler.ServerCertificateCustomValidationCallback =
+                HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+            using var channel = GrpcChannel.ForAddress("https://localhost:5001",
+                new GrpcChannelOptions { HttpHandler = handler });
+            var client = new ReservationGRPCService.ReservationGRPCServiceClient(channel);
+            var reply = await client.IsDistinguishedHostAsync(new ReservationSatisfied
+            {
+                Id = id,
+                ReservationPartSatisfied = IsSatisfied
+            }); 
+            return reply.IsUpdated;
         }
     }
 }
