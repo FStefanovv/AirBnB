@@ -1,3 +1,4 @@
+using Flights.ApiKeyAuth;
 using Flights.BackgroundTasks;
 using Flights.Model;
 using Flights.Repository;
@@ -52,6 +53,7 @@ namespace Flights
             services.AddSingleton<TicketsRepository>();
             services.AddSingleton<TicketsService>();
 
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -61,6 +63,10 @@ namespace Flights
             BsonSerializer.RegisterSerializer(new DateTimeSerializer(DateTimeKind.Utc));
 
             services.AddGrpc();
+
+            services.AddSingleton<ApiKeyRepository>();
+            services.AddSingleton<ApiKeyAuthorizationFilter>();
+            services.AddSingleton<IApiKeyValidator, ApiKeyValidator>();
 
             services.AddAuthentication(x =>
                 {

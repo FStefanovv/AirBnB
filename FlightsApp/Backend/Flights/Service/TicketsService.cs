@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Flights.Adapters;
+using Flights.ApiKeyAuth;
 using Flights.DTOs;
 using Flights.Model;
 using Flights.Repository;
@@ -14,12 +15,16 @@ namespace Flights.Service
     {
         private readonly TicketsRepository _ticketsRepository;
         private readonly FlightsRepository _flightsRepository;
+        private readonly UsersRepository _userRepository;
+        private readonly ApiKeyRepository _apiKeyRepository;
+
         private readonly TicketsAdapter _adapter = new TicketsAdapter();
 
-        public TicketsService(TicketsRepository ticketsRepository,FlightsRepository flightsRepository)
+        public TicketsService(TicketsRepository ticketsRepository,FlightsRepository flightsRepository, UsersRepository userRepository)
         {
             _ticketsRepository = ticketsRepository;
             _flightsRepository = flightsRepository;
+            _userRepository = userRepository;
         }
 
         public void BuyTicket(BuyTicketDTO dto)
@@ -30,9 +35,10 @@ namespace Flights.Service
                     _flightsRepository.GetById(dto.flightId)));
                 ReduceNumberOfTickets(_flightsRepository.GetById(dto.flightId),
                     dto.numberOfTickets);
-
             }
         }
+
+       
 
         private void ReduceNumberOfTickets(Flight flight,int numberOfTickets)
         {
@@ -64,6 +70,45 @@ namespace Flights.Service
             }
 
             return tickets;
+        }
+
+
+        public void PurchaseTicketsGrpc(TicketInfo ticketInfo)
+        {
+            User user = _userRepository.GetByEmail(ticketInfo.Email);
+            if (user == null)
+                throw new Exception("User does not have an account. Cannot purchase.");
+
+            Flight flight = _flightsRepository.GetById(ticketInfo.FlightId);
+
+            if(flight.Status == Enums.FlightStatus.CANCELLED)
+                throw new Exception("Flight cancelled");
+
+            if (flight.RemainingTickets < ticketInfo.NumberOfTickets)
+                throw new Exception("Not enough tickets");
+
+            BuyTicketDTO dto = new BuyTicketDTO
+            {
+                userId = user.Id,
+                flightId = flight.Id,
+                numberOfTickets = ticketInfo.NumberOfTickets,
+                price = flight.TicketPrice
+            };
+
+            BuyTicket(dto);    
+        }
+
+        public void BuyWithApiKey(BuyWithApiKeyDTO dto, string apiKey)
+        {
+            string userId = GetUserIdFromApiKey(apiKey);
+            
+        }
+
+        private string GetUserIdFromApiKey(string apiKey)
+        {
+            ApiKey key = _apiKeyRepository.GetApiKey(apiKey);
+
+            return key.UserId;
         }
     }
 }

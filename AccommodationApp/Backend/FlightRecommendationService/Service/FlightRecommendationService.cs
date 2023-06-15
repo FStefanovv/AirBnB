@@ -53,7 +53,9 @@ namespace FlightRecommendationService.Service
             return recommendations;
         }
 
-        public async void PurchaseTickets(TicketPurchaseDTO dto, StringValues email)
+        
+        
+         public async Task<bool>  PurchaseTicket(TicketPurchaseDTO dto, StringValues email)
         {
             var handler = new HttpClientHandler();
             handler.ServerCertificateCustomValidationCallback =
@@ -69,7 +71,8 @@ namespace FlightRecommendationService.Service
             });
 
             if (!reply.Successful)
-                throw new Exception();
+                throw new Exception(reply.PurchaseMessage);
+            else return true;
         }
             
     }

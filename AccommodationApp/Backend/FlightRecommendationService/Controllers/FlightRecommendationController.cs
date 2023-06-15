@@ -38,20 +38,20 @@ namespace FlightRecommendationService.Controllers
 
         [HttpPost]
         [Route("purchase-tickets")]
-        public async Task<ActionResult> PurchaseTickets(TicketPurchaseDTO dto)
+        public async Task<ActionResult> PurchaseTicket(TicketPurchaseDTO dto)
         {
             Request.Headers.TryGetValue("Email", out StringValues email);
+
             try
             {
-                await _service.PurchaseTickets(dto, email);
-
+                await _service.PurchaseTicket(dto, email);
                 return Ok();
             }
             catch(Exception ex)
             {
-                return BadRequest("Could not purchase tickets");
-            }
+                return BadRequest(ex.Message);
 
+            }
         }
     }
 }

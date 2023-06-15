@@ -17,11 +17,13 @@ namespace Flights.Service
     {
         private readonly FlightsRepository _flightsRepository;
         private readonly TicketsRepository _ticketsRepository;
+        private readonly TicketsService _ticketsService;
 
-        public FlightsService(FlightsRepository flightsRepository, TicketsRepository ticketsRepository)
+        public FlightsService(FlightsRepository flightsRepository, TicketsRepository ticketsRepository, TicketsService ticketsService)
         {
             _flightsRepository = flightsRepository;
             _ticketsRepository = ticketsRepository;
+            _ticketsService = ticketsService;
         }
 
         public List<Flight> GetAll()
@@ -77,6 +79,31 @@ namespace Flights.Service
             Recommendations response = new Recommendations();
 
             response.Recommendations_.AddRange(recommendationsList);
+
+            return Task.FromResult(response);
+        }
+
+        public override Task<Purchased> PurchaseTickets(TicketInfo ticketInfo, ServerCallContext context)
+        {
+            string purchaseMessage;
+            bool ticketPurchased = false;
+
+            try
+            {
+                _ticketsService.PurchaseTicketsGrpc(ticketInfo);
+                purchaseMessage = "Tickets purchased successfully";
+                ticketPurchased = true;
+            }
+            catch(Exception ex)
+            {
+                purchaseMessage = ex.Message;
+            }
+  
+            Purchased response = new Purchased
+            {
+                Successful = ticketPurchased,
+                PurchaseMessage = purchaseMessage
+            };
 
             return Task.FromResult(response);
         }

@@ -489,6 +489,28 @@
       "AddHeadersToRequest": {
         "UserId": "Claims[UserId] > value"
       }
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/purchase-flight-tickets",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/flight-recommendation/purchase-tickets",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5005
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "AuthTokenFromUserService",
+        "AllowedScopes": []
+      },
+      "RouteClaimsRequirement": {
+        "Role": "REGULAR_USER"
+      },
+      "AddHeadersToRequest": {
+        "Email": "Claims[Email] > value"
+      }
     }
   ]
 }

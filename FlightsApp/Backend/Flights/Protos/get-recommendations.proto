@@ -38,4 +38,5 @@ message TicketInfo {
 
 message Purchased {
 	bool successful = 1;
+	string purchaseMessage = 2;
 }
