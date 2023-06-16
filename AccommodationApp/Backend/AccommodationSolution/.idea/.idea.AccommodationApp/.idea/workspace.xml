@@ -14,16 +14,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0467373e-b258-45c1-a093-d0f9e12aac94" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../AccommodationService/Properties/launchSettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../AccommodationService/Properties/launchSettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../AccommodationService/Protos/accommodation.proto" beforeDir="false" afterPath="$PROJECT_DIR$/../AccommodationService/Protos/accommodation.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../AccommodationService/Repository/AccommodationRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../AccommodationService/Repository/AccommodationRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../AccommodationService/Services/AccommodationService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../AccommodationService/Services/AccommodationService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../AccommodationService/Startup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../AccommodationService/Startup.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.AccommodationApp/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AccommodationApp/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ApiGateway/ocelot.json" beforeDir="false" afterPath="$PROJECT_DIR$/../ApiGateway/ocelot.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ReservationService/Controllers/ReservationController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ReservationService/Controllers/ReservationController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ReservationService/Properties/launchSettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../ReservationService/Properties/launchSettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ReservationService/Protos/accommodation.proto" beforeDir="false" afterPath="$PROJECT_DIR$/../ReservationService/Protos/accommodation.proto" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -246,6 +237,9 @@
       <workItem from="1684058886946" duration="15432000" />
       <workItem from="1684097271251" duration="848000" />
       <workItem from="1684765945731" duration="574000" />
+      <workItem from="1684766607693" duration="959000" />
+      <workItem from="1684848748336" duration="712000" />
+      <workItem from="1686933017819" duration="2222000" />
     </task>
     <servers />
   </component>
@@ -266,25 +260,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/../ReservationService/Controllers/ReservationController.cs</url>
-          <line>135</line>
-          <properties documentPath="D:\xml\XWS\AccommodationApp\Backend\ReservationService\Controllers\ReservationController.cs" initialLine="133" containingFunctionPresentation="method 'CreateReservation'">
-            <startOffsets>
-              <option value="4132" />
-            </startOffsets>
-            <endOffsets>
-              <option value="4195" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
