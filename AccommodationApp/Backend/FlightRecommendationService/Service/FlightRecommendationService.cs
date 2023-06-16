@@ -33,7 +33,7 @@ namespace FlightRecommendationService.Service
             var reply = await client.GetRecommendationsAsync(new FlightRequirementsGrpc
             {
                 AirportLocation = requirements.AirportLocation,
-                DepartureDate = Timestamp.FromDateTime(requirements.DepartureDate),
+                DepartureDate = Timestamp.FromDateTime(DateTime.SpecifyKind(requirements.DepartureDate, DateTimeKind.Utc)),
                 AccommodationLocation = requirements.AccommodationLocation,
                 Direction = requirements.Direction
             });

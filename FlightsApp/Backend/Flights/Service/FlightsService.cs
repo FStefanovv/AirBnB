@@ -70,7 +70,7 @@ namespace Flights.Service
                 Recommendation temp = new Recommendation
                 {
                     FlightId = flight.Id,
-                    DepartureTime = Timestamp.FromDateTime(flight.DepartureTime),
+                    DepartureTime = Timestamp.FromDateTime(DateTime.SpecifyKind(flight.DepartureTime, DateTimeKind.Utc)),
                     Duration = flight.Duration,
                     TicketPrice = flight.TicketPrice
                 };

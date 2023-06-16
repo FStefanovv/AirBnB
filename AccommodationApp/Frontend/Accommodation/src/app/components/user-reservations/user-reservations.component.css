@@ -2,29 +2,6 @@
     text-align: center;
 }
 
-table {
-   
-    border-collapse: collapse;
-  }
-  
-td, th {
-    border: 1px solid #ddd;
-    padding: 4px 10px;
-    height: 32px;
-}
-
-th, tr:first-child td{
-    border: none;
-}
-
-tr:first-child {
-    border: 1px solid #ddd;
-}
-
-tr {
-    transition: 0.2s ease;
-}
-    
-tr:not(:first-child):hover {
-    background-color: #ddd;
+h1 {
+    color: var(--theme)
 }

@@ -22,6 +22,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import { CreateRequestComponent } from './components/create-request/create-request.component';
 import { UpdateAccommodationComponent } from './components/update-accommodation/update-accommodation.component';
 import { FlightRecommendationsComponent } from './components/flight-recommendations/flight-recommendations.component';
+import { DatePipe } from '@angular/common';
 
 export function tokenGetter() { 
   return localStorage.getItem("jwt"); 
@@ -40,7 +41,7 @@ export function tokenGetter() {
     RegistrationComponent,
     CreateRequestComponent,
     UpdateAccommodationComponent,
-    FlightRecommendationsComponent
+    FlightRecommendationsComponent,
   ],
   imports: [
     BrowserModule,
@@ -57,7 +58,7 @@ export function tokenGetter() {
     NgMultiSelectDropDownModule.forRoot(),
     MatToolbarModule
   ],
-  providers: [AuthGuard],
+  providers: [AuthGuard, DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

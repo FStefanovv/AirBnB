@@ -21,7 +21,7 @@ namespace FlightRecommendationService.Controllers
         }
 
         [HttpPost]
-        [Route("get-recommendations")]
+        [Route("get-recommendations")]    
         public async Task<ActionResult> GetFlightRecommendations(FlightRequirements requirements)
         {
             try

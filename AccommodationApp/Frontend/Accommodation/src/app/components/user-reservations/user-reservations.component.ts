@@ -4,6 +4,7 @@ import { Route, Router } from '@angular/router';
 import { ShowReservation } from 'src/app/model/show-reservation';
 import { ReservationService } from 'src/app/services/reservation.service';
 import { UserService } from 'src/app/services/user.service';
+import { ReservationStatus } from 'src/app/model/show-reservation';
 
 @Component({
   selector: 'app-user-reservations',
@@ -33,6 +34,7 @@ export class UserReservationsComponent implements OnInit {
       this.reservationService.cancel(reservation.id).subscribe({});
   }
 
+  /*
   deleteAccAsGuest(){
     this.userService.deleteAccAsGuest().subscribe({
        next: (res: any) => {
@@ -43,7 +45,7 @@ export class UserReservationsComponent implements OnInit {
      console.log(err);
     }
   });
-  }
+  }*/
 
   getRecommendations(reservation: ShowReservation) {
     this.router.navigate(['flight-recommendations', reservation.id]);

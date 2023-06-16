@@ -1,0 +1,19 @@
+h1, h2 {
+    color: var(--theme)
+}
+input {
+    width: 200px;
+    margin-left: 50px
+}
+
+#recommendation-from td {
+    padding: 14px 0;
+}
+
+#second-heading {
+    margin-top: 100px;
+}
+
+.second-td {
+    padding-left: 60px;
+}

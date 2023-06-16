@@ -22,7 +22,7 @@ const routes: Routes = [
   { path:'get-regular', component: UserInfoChangeComponent, canActivate:[AuthGuard], data: {roles: ['REGULAR_USER']}},
   { path:'register-user', component: RegistrationComponent},
   { path:'update-accommodation/:id/:startSeason/:endSeason/:price', component: UpdateAccommodationComponent},
-  { path:'flight-recommendations/:id', component: FlightRecommendationsComponent, data: {roles: ['REGULAR_USER']}}
+  { path:'flight-recommendations/:id', component: FlightRecommendationsComponent, canActivate:[AuthGuard], data: {roles: ['REGULAR_USER']}}
 ];
 
 @NgModule({

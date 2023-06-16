@@ -7,9 +7,11 @@ export class ShowReservation {
     numberOfGuests?: number;
     status?: ReservationStatus;
     price?: number;
+
+    public constructor(){}
 }
 
 
 export enum ReservationStatus {
-    ACTIVE, CANCELLED
+    ACTIVE, PAST, CANCELLED
 }
