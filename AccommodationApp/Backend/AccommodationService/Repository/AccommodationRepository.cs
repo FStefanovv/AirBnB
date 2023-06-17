@@ -38,10 +38,15 @@ namespace Accommodation.Repository
             return await _context.GetAccommodationPhotos(accommId);
         }
 
-        public void DeleteAccWithoutHost(string id)
+        public bool DeleteAccWithoutHost(string id)
         {
-            var filter = Builders<Model.Accommodation>.Filter.Eq("HostId", id);
-            _accommodation.DeleteMany(filter); 
+            try {
+                var filter = Builders<Model.Accommodation>.Filter.Eq("HostId", id);
+                _accommodation.DeleteMany(filter);
+                return true;
+            }
+            catch(Exception ex) { return false; }
+            
 
         }
 

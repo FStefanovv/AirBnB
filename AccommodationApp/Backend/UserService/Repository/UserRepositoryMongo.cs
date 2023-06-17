@@ -10,7 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Users.DTO;
 using Users.Model;
-
+using Users.RabbitMQ;
 
 namespace Users.Repository
 {
@@ -80,6 +80,11 @@ namespace Users.Repository
         public User GetById(StringValues id)
         {
            return (User)_users.Find(user=>user.Id==id);
+        }
+
+        public bool UpdateUserSaga(string id, SagaState state)
+        {
+            throw new NotImplementedException();
         }
     }
 

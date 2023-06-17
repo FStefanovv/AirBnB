@@ -1,3 +1,4 @@
+using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -8,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using ReservationService.RabbitMQ;
+
 //using ReservationService.BackgroundServices;
 using ReservationService.Repository;
 using ReservationService.Service;
@@ -30,6 +33,21 @@ namespace ReservationService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMassTransit(cfg =>
+            {
+                cfg.AddConsumer<ReservationServiceConsumer>();
+
+                cfg.AddBus(provider => RabbitMQBus.ConfigureBus(provider, (cfg, host) =>
+                {
+                    cfg.ReceiveEndpoint(BusConstants.StartDeleteQueue, ep =>
+                    {
+                        ep.ConfigureConsumer<ReservationServiceConsumer>(provider);
+                    });
+                }));
+            });
+
+            services.AddScoped<ReservationServiceConsumer>();
+            services.AddMassTransitHostedService();
             services.AddCors();
 
             services.AddDbContext<PostgresDbContext>(opts =>
@@ -45,6 +63,8 @@ namespace ReservationService
             services.AddGrpc();
 
             services.AddControllers();
+
+          
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ReservationService", Version = "v1" });

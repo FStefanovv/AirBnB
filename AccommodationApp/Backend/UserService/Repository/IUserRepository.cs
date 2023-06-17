@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Users.DTO;
 using Users.Model;
+using Users.RabbitMQ;
 
 namespace Users.Repository
 {
@@ -18,6 +19,10 @@ namespace Users.Repository
         void UpdateUser(User user);
         User GetById(StringValues id);
         void Delete(User user);
+
         User GetUserById(string id);
+
+        bool UpdateUserSaga(string id,SagaState state);
+
     }
 }

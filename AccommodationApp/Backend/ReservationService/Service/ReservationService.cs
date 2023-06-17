@@ -179,7 +179,7 @@ namespace ReservationService.Service
                 for (int i = 0; i < startSummer.Count; i++)
                 {
 
-                    for (int j = 0; j < numberOfDays; i++)
+                    for (int j = 0; j < numberOfDays; j++)
                     {
                         if (reservation.From.AddDays(j) >= startSummer[i] && reservation.From.AddDays(j) <= endSummer[i])
                         {

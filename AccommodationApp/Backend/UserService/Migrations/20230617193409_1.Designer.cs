@@ -9,8 +9,8 @@ using Users;
 namespace Users.Migrations
 {
     [DbContext(typeof(PostgresDbContext))]
-    [Migration("20230505100813_initialSetup")]
-    partial class initialSetup
+    [Migration("20230617193409_1")]
+    partial class _1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,6 +32,15 @@ namespace Users.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsDistinguishedHost")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsRatingPartSatisfied")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsReservationPartSatisfied")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("LastName")
                         .HasColumnType("text");
 
@@ -40,6 +49,9 @@ namespace Users.Migrations
 
                     b.Property<string>("Role")
                         .HasColumnType("text");
+
+                    b.Property<int>("State")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Username")
                         .HasColumnType("text");
@@ -54,9 +66,13 @@ namespace Users.Migrations
                             Id = "1",
                             Email = "imeprezime@gmail.com",
                             FirstName = "Ime",
+                            IsDistinguishedHost = false,
+                            IsRatingPartSatisfied = false,
+                            IsReservationPartSatisfied = false,
                             LastName = "Prezime",
                             Password = "sifra123",
                             Role = "HOST",
+                            State = 0,
                             Username = "imeprezime"
                         },
                         new
@@ -64,9 +80,13 @@ namespace Users.Migrations
                             Id = "2",
                             Email = "imenkoprezimenko@gmail.com",
                             FirstName = "Imenko",
+                            IsDistinguishedHost = false,
+                            IsRatingPartSatisfied = false,
+                            IsReservationPartSatisfied = false,
                             LastName = "Prezimenic",
                             Password = "sifra123",
                             Role = "HOST",
+                            State = 0,
                             Username = "imenkoprezimenko"
                         });
                 });

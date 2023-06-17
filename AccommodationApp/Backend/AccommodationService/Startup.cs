@@ -15,6 +15,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using MassTransit;
+using Accommodation.RabbitMQ;
 
 namespace Accommodation
 {
@@ -30,6 +32,24 @@ namespace Accommodation
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddMassTransit(cfg =>
+            {
+                cfg.AddConsumer<AccomodationServiceConsumer>();
+
+                cfg.AddBus(provider => RabbitMQBus.ConfigureBus(provider, (cfg, host) =>
+                {
+                    cfg.ReceiveEndpoint(BusConstants.StartDeleteAccommodation, ep =>
+                    {
+                        ep.ConfigureConsumer<AccomodationServiceConsumer>(provider);
+                    });
+                }));
+            });
+
+
+            services.AddScoped<AccomodationServiceConsumer>();
+
+            services.AddMassTransitHostedService();
             services.AddCors();
 
             services.AddSingleton<IDbContext, MongoDbContext>();

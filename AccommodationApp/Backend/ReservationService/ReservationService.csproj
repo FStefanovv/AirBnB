@@ -47,4 +47,11 @@
 		<Protobuf Include="Protos\user.proto" GrpcServices="Client" />
 	</ItemGroup>
 
+
+	<ItemGroup>
+		<PackageReference Include="MassTransit" Version="6.2.5" />
+		<PackageReference Include="MassTransit.AspNetCore" Version="6.2.5" />
+		<PackageReference Include="MassTransit.RabbitMQ" Version="6.2.5" />
+	</ItemGroup>
+
 </Project>

@@ -12,6 +12,9 @@ using Users.Services;
 using Newtonsoft.Json;
 using System.Net.Http;
 using Microsoft.Extensions.Primitives;
+using Users.RabbitMQ;
+using MassTransit;
+using MassTransit.Transports;
 
 namespace Users.Controllers
 {
@@ -21,9 +24,11 @@ namespace Users.Controllers
     {
         private readonly IUserService _userService;
 
-        public UserController(IUserService userService)
+
+        public UserController(IUserService userService, ISendEndpointProvider sendEndpointProvider)
         {
             _userService = userService;
+           
         }
 
 
@@ -117,15 +122,20 @@ namespace Users.Controllers
         [HttpDelete]
         [AllowAnonymous]
         [Route("deleteAsHost")]
-        public async Task<IActionResult> DeleteAsHost()
+        public async Task<IActionResult> DeleteAsHost(string id)
         {
             Request.Headers.TryGetValue("UserId", out StringValues userId);
 
-            bool canBeDeleted = await _userService.DeleteAsHost(userId);
+            // bool canBeDeleted = await _userService.DeleteAsHost(userId);
 
-           return Ok(canBeDeleted);
-            
-          
+            //return Ok(canBeDeleted);
+           bool notReal=await _userService.DeleteAsHostSaga(id);
+                                                        
+
+            return Ok("Success");
         }
+
+
+    
     }
 }
