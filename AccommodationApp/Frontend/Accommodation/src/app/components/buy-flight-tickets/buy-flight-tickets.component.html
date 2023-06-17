@@ -1,0 +1,27 @@
+<div *ngIf="!attemptedPurchase">
+  <h2>Flight Info</h2>
+  <table>
+    <tr>
+      <td>Departure Time</td>
+      <td><input class="input-regular" type="text" [disabled]="true" [value]="formatDate(recommendation.departureTime)" /></td>
+    </tr>
+    <tr>
+      <td>Duration</td>
+      <td><input class="input-regular" type="text" [disabled]="true" [value]="recommendation.duration" /></td>
+    </tr>
+    <tr>
+      <td>Ticket Price</td>
+      <td><input class="input-regular" type="text" [disabled]="true" [value]="recommendation.ticketPrice" /></td>
+    </tr>
+    <tr>
+      <td><label>Pick the number of tickets:</label></td>
+      <td><input class='input-regular' type="number" [(ngModel)]="ticketDTO.numberOfTickets" ></td>
+    </tr>
+  </table>
+
+ 
+  <button class="button-regular" (click)="buyTickets()">Buy Tickets</button>
+</div>
+<div *ngIf="attemptedPurchase">
+    {{message}}
+</div>

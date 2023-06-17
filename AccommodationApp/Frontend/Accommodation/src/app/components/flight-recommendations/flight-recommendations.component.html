@@ -2,9 +2,9 @@
 <table>
     <tr>
       <td><label>From:</label></td>
-      <td><input class="input-regular" type="text" [disabled]="true" [value]="formatReservationDate(reservation.from)" /></td>  
+      <td><input class="input-regular" type="text" [disabled]="true" [value]="formatDate(reservation.from)" /></td>  
       <td><label class="second-td">To:</label></td>
-      <td><input class="input-regular" type="text" [disabled]="true" [value]="formatReservationDate(reservation.to)" /></td>
+      <td><input class="input-regular" type="text" [disabled]="true" [value]="formatDate(reservation.to)" /></td>
     </tr>
     <tr>
       <td><label>Accommodation Name:</label></td>
@@ -20,25 +20,31 @@
     </tr>
   </table>
  
-  
-<h2 id="second-heading">Get Flight Recommendations</h2>
-<table id="recommendation-from">
-    <tr>
-      <td>
-        <label for="departurePoint">Enter the city you would like to depart from to get to {{reservation.accommodationLocation}}:</label>
-      </td>
-      <td>
-        <input class="input-regular" type="text" id="departurePoint" [(ngModel)]="arrivalFlightDeparturePoint" />
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <label for="arrivalPoint">Enter the city you would like to land in on your way back from the vacation:</label>
-      </td>
-      <td>
-        <input class="input-regular" type="text" id="arrivalPoint" [(ngModel)]="departureFlightArrivalPoint" />
-      </td>
-    </tr>
-  </table>
+<div id="get-recommendations-form" *ngIf="!arrivalRecommendationsObtained && !departureRecommendationsObtained">
+<h2>Get Flight Recommendations</h2>
+  <table id="recommendation-from">
+      <tr>
+        <td>
+          <label for="departurePoint">Enter the city you would like to depart from to get to {{reservation.accommodationLocation}}:</label>
+        </td>
+        <td>
+          <input class="input-regular" type="text" id="departurePoint" [(ngModel)]="arrivalFlightDeparturePoint" />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="arrivalPoint">Enter the city you would like to land in on your way back from the vacation:</label>
+        </td>
+        <td>
+          <input class="input-regular" type="text" id="arrivalPoint" [(ngModel)]="departureFlightArrivalPoint" />
+        </td>
+      </tr>
+    </table>
   <button class="button-regular" (click)="getRecommendations()">Get Recommendations</button>
-  
+</div>
+
+<div *ngIf="arrivalRecommendationsObtained || departureRecommendationsObtained" id="recommendations-display">
+  <app-display-recommendations *ngIf="arrivalRecommendationsObtained" [flightRequest]="arrivalFlight" [recommendations]="arrivalRecommendations"></app-display-recommendations>
+  <app-display-recommendations *ngIf="departureRecommendationsObtained" [flightRequest]="departureFlight" [recommendations]="departureRecommendations"></app-display-recommendations>
+</div>
+

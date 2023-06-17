@@ -45,7 +45,7 @@ namespace FlightRecommendationService.Controllers
             try
             {
                 await _service.PurchaseTicket(dto, email);
-                return Ok();
+                return Ok(dto);
             }
             catch(Exception ex)
             {

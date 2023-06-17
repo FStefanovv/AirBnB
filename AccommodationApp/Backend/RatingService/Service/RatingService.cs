@@ -13,9 +13,9 @@ namespace RatingService.Service
 {
     public class RatingService
     {
-        private readonly RatingRepository _ratingRepository;
+        private readonly IRatingRepository _ratingRepository;
 
-        public RatingService(RatingRepository ratingRepository)
+        public RatingService(IRatingRepository ratingRepository)
         {
             _ratingRepository = ratingRepository;
         }
@@ -26,12 +26,16 @@ namespace RatingService.Service
             bool canRate = await CheckIfUserCanRate(dto, userId);
             if (canRate)
             {
-                RatedEntity entity = _ratingRepository.GetRatedEntity(dto.RatedEntityId);
+                User user = await _ratingRepository.GetUser(userId);
+                if (user==null)
+                    user = await _ratingRepository.CreateUser(userId, username);
+                RatedEntity entity = await _ratingRepository.GetRatedEntity(dto.RatedEntityId);
                 if (entity==null)
                 {
                     Rating rating = new Rating(username, userId, dto.Grade, dto.RatedEntityId);
-                    entity = new RatedEntity { Id = dto.RatedEntityId, AverageRating = dto.Grade };
-                    _ratingRepository.CreateEntity(rating, entity);
+                    entity = new RatedEntity { Id = dto.RatedEntityId, AverageRating = dto.Grade, Type = dto.RatedEntityType };
+                    await _ratingRepository.CreateRatedEntity(entity);
+                    await _ratingRepository.MapRating(user, entity, rating);
                 }
                 else
                 {
@@ -46,13 +50,14 @@ namespace RatingService.Service
                     {
                         rating = new Rating(username, userId, dto.Grade, entity.Id);
                         entity.AverageRating = UpdateEntityRating(entity.Id, dto.Grade, null);
-                        _ratingRepository.CreateRating(rating, entity);
+                        //await _ratingRepository.CreateRating(rating, entity);
                     }
                 }
             }
             else throw new Exception("User cannot rate this entity");
         }
 
+        /*
         public bool DeleteRating(string id, StringValues userId)
         {
             Rating rating = _ratingRepository.GetRatingById(id);
@@ -92,7 +97,7 @@ namespace RatingService.Service
         public RatedEntity GetRatedEntity(string id)
         {
             return _ratingRepository.GetRatedEntity(id);
-        }
+        }*/
 
         private float UpdateEntityRating(string id, int grade, string ratingId)
         {

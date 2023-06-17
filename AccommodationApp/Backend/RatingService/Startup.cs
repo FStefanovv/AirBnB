@@ -7,6 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Neo4j.Driver;
+using RatingService.Neo4J;
 using RatingService.Repository;
 using System;
 using System.Collections.Generic;
@@ -30,10 +32,16 @@ namespace RatingService
 
             services.AddCors();
 
-            services.AddSingleton<IDbContext, MongoDbContext>();
+            //services.AddSingleton<IDbContext, MongoDbContext>();
 
-            services.AddSingleton<RatingRepository>();
-            services.AddSingleton<RatingService.Service.RatingService>();
+            services.Configure<Neo4jSettings>(Configuration.GetSection("Neo4jSettings"));
+            var settings = new Neo4jSettings();
+            Configuration.GetSection("Neo4jSettings").Bind(settings);
+
+            services.AddSingleton(GraphDatabase.Driver(settings.Neo4jConnection, AuthTokens.Basic(settings.Neo4jUser, settings.Neo4jPassword)));
+            services.AddSingleton<INeo4jDataAccess, Neo4jDataAccess>();
+            services.AddScoped<IRatingRepository, Neo4jRatingRepository>();
+            services.AddScoped<RatingService.Service.RatingService>();
 
 
             services.AddControllers();

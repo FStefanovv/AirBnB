@@ -40,6 +40,8 @@ namespace RatingService.Controllers
             }
         }
 
+        /*
+
         [HttpGet]
         [Route("get-average-rating/{id}")]
         public ActionResult GetAverageRating(string id)
@@ -52,6 +54,7 @@ namespace RatingService.Controllers
             return NotFound();   
         }
 
+        
         [HttpGet]
         [Route("get-all-ratings/{id}")]
         public ActionResult GetAllRatings(string id)
@@ -75,7 +78,7 @@ namespace RatingService.Controllers
 
             else return BadRequest();
 
-        }
+        }*/
 
         
     }

@@ -17,3 +17,11 @@ input {
 .second-td {
     padding-left: 60px;
 }
+
+#get-recommendations-form {
+    margin-top: 100px
+}
+
+#recommendations-display {
+    margin-top: 100px;
+}

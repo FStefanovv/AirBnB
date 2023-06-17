@@ -1,10 +1,13 @@
 import { DatePipe } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { FlightRecommendation } from 'src/app/model/flight-recommendation';
 import { FlightRequest } from 'src/app/model/flight-requests';
 import { ShowReservation } from 'src/app/model/show-reservation';
 import { FlightRecommendationService } from 'src/app/services/flight-recommendation.service';
 import { ReservationService } from 'src/app/services/reservation.service';
+import { formatDate } from 'src/app/functions/format-date';
 
 @Component({
   selector: 'app-flight-recommendations',
@@ -14,9 +17,20 @@ import { ReservationService } from 'src/app/services/reservation.service';
 export class FlightRecommendationsComponent implements OnInit {
 
   reservation: ShowReservation = new ShowReservation();
+
   arrivalFlightDeparturePoint: string = '';
   departureFlightArrivalPoint: string = '';
 
+  arrivalRecommendations: FlightRecommendation[] = [];
+  departureRecommendations: FlightRecommendation[] = [];
+
+  arrivalFlight: FlightRequest = new FlightRequest();
+  departureFlight: FlightRequest = new FlightRequest();
+
+  arrivalRecommendationsObtained: boolean = false;
+  departureRecommendationsObtained: boolean = false;
+
+  formatDate = formatDate;
 
   constructor(private activatedRoute : ActivatedRoute, private reservationService : ReservationService, 
     private datePipe: DatePipe, private flightRecommendationService: FlightRecommendationService) { }
@@ -27,32 +41,33 @@ export class FlightRecommendationsComponent implements OnInit {
       this.reservationService.getReservation(reservationId).subscribe(
         res => {
           this.reservation = res;
-          console.log(this.reservation);
       });
     }
   }
-
-  formatReservationDate(date: any): any {
-    const dateTransformed = this.datePipe.transform(date, 'dd-MMM-yyyy');
-    if(dateTransformed)
-      return dateTransformed;
-  }
-  
+ 
 
   getRecommendations(){
-    const arrivalFlight: FlightRequest = this.generateFlightRequest(1);
-    const departureFlight: FlightRequest = this.generateFlightRequest(-1);
+    this.arrivalFlight = this.generateFlightRequest(1);
+    this.departureFlight = this.generateFlightRequest(-1);
     
-    this.flightRecommendationService.getRecommendations(arrivalFlight).subscribe(
-      res =>{
-        console.log(res)
+    this.flightRecommendationService.getRecommendations(this.arrivalFlight).subscribe({
+      next: (res) =>{
+        this.arrivalRecommendations = res;
+        this.arrivalRecommendationsObtained = true;
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log(error.message);
       }
-    );
-    this.flightRecommendationService.getRecommendations(departureFlight).subscribe(
-      res =>{
-        console.log(res)
+    });
+    this.flightRecommendationService.getRecommendations(this.departureFlight).subscribe({
+      next: (res) =>{
+        this.departureRecommendations = res;
+        this.departureRecommendationsObtained = true;
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log(error.message);
       }
-    );
+    });
   }
 
   generateFlightRequest(direction: number) : FlightRequest {
@@ -75,7 +90,4 @@ export class FlightRecommendationsComponent implements OnInit {
     }
     return flightRequest;
   }
- 
-
-
 }
