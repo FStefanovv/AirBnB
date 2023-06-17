@@ -30,6 +30,15 @@ namespace Users.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsDistinguishedHost")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsRatingPartSatisfied")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsReservationPartSatisfied")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("LastName")
                         .HasColumnType("text");
 
@@ -55,6 +64,9 @@ namespace Users.Migrations
                             Id = "1",
                             Email = "imeprezime@gmail.com",
                             FirstName = "Ime",
+                            IsDistinguishedHost = false,
+                            IsRatingPartSatisfied = false,
+                            IsReservationPartSatisfied = false,
                             LastName = "Prezime",
                             Password = "sifra123",
                             Role = "HOST",
@@ -66,6 +78,9 @@ namespace Users.Migrations
                             Id = "2",
                             Email = "imenkoprezimenko@gmail.com",
                             FirstName = "Imenko",
+                            IsDistinguishedHost = false,
+                            IsRatingPartSatisfied = false,
+                            IsReservationPartSatisfied = false,
                             LastName = "Prezimenic",
                             Password = "sifra123",
                             Role = "HOST",

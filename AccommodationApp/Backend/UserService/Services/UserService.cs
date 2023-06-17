@@ -22,12 +22,12 @@ using Microsoft.Extensions.Primitives;
 using Grpc.Net.Client;
 using System.Diagnostics.Contracts;
 using System.Diagnostics.Eventing.Reader;
-<<<<<<< HEAD
+
 using Grpc.Core;
-=======
+
 using Users.RabbitMQ;
 using MassTransit;
->>>>>>> 7e8c9ac (that about graph base was joke I implemented SAGA)
+
 
 namespace Users.Services
 {
@@ -225,7 +225,7 @@ namespace Users.Services
         }
 
 
-<<<<<<< HEAD
+
         public override Task<UserUpdated> IsDistinguishedHost(ReservationSatisfied isReservationSatisfied, ServerCallContext context)
         {
             User host = _userRepository.GetUserById(isReservationSatisfied.Id);
@@ -280,8 +280,8 @@ namespace Users.Services
                 HostStatus = change
             });
             return reply.Id;
-=======
 
+        }
         public async Task<bool> DeleteAsHostSaga(string id)
         {
             SagaState state = SagaState.PENDING_DELETE;
@@ -296,7 +296,7 @@ namespace Users.Services
 
             return true;
 
->>>>>>> 7e8c9ac (that about graph base was joke I implemented SAGA)
+
         }
     }
 }
