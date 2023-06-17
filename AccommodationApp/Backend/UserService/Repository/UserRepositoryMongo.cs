@@ -49,6 +49,11 @@ namespace Users.Repository
             return _users.Find(user => user.Username == username).FirstOrDefault() != null;
         }
 
+        public User GetUserById(string id)
+        {
+            return _users.Find(user => user.Id == id).FirstOrDefault();
+        }
+
         public bool CheckIfEMailInUse(string email)
         {
             return _users.Find(user => user.Email == email).FirstOrDefault() != null;

@@ -15,10 +15,23 @@ import { AccommodationService } from 'src/app/services/accommodation.service';
 })
 export class HomeComponent implements OnInit {
   searchDTO: SearchDTO = new SearchDTO();
-  address: string = '';
-  newAddress: Address = new Address();
-  accommodations: AccommodationDTO[] = [];
-  addressParts : string[] = []
+  allAccommodations: AccommodationDTO[] = [];
+  filteredAccommodations : AccommodationDTO[] = [];
+  searchedAccommodations : AccommodationDTO[] = [];
+  accommodationsToShow : AccommodationDTO[] = [];
+  lowestPrice : number = 0;
+  highestPrice : number = 0;
+  wifi : boolean = false;
+  indoors : boolean = false;
+  outdoors : boolean = false;
+  netflix : boolean = false;
+  parties : boolean = false;
+  kitchen : boolean = false;
+  smoking : boolean = false;
+  pet : boolean = false;
+  sauna : boolean = false;
+  gym : boolean = false;
+  distinguishedHost : boolean = false;
 
   constructor(private accommodationService: AccommodationService, private router: Router) {}
 
@@ -27,16 +40,11 @@ export class HomeComponent implements OnInit {
   }
 
   search() {
-    this.addressParts = this.address.split(',');
-    this.newAddress.street = this.addressParts[0];
-    this.newAddress.number = Number(this.addressParts[1]);
-    this.newAddress.city = this.addressParts[2];
-    this.newAddress.country = this.addressParts[3];
-    this.searchDTO.location = this.newAddress;
     console.log(this.searchDTO)
     this.accommodationService.search(this.searchDTO).subscribe({
       next: (res: any) => {
-        this.accommodations = res;
+        this.searchedAccommodations = res;
+        this.accommodationsToShow = this.searchedAccommodations
       }
     });
   }
@@ -44,9 +52,91 @@ export class HomeComponent implements OnInit {
   showAll() {
     this.accommodationService.getAll().subscribe({
       next : (res : any) => {
-        this.accommodations = res
+        this.allAccommodations = res
+        this.accommodationsToShow = this.allAccommodations
       }
     })
+  }
+
+  filter(){
+    if(this.wifi == true){
+      this.accommodationsToShow = this.accommodationsToShow.filter(item => item.offers?.includes('WiFi'))
+    }
+    else{
+      this.accommodationsToShow = this.searchedAccommodations
+    }
+    if(this.netflix == true){
+      this.accommodationsToShow = this.accommodationsToShow.filter(item => item.offers?.includes('Netflix'))
+    }
+    else{
+      this.accommodationsToShow = this.accommodationsToShow
+    }
+    if(this.indoors == true){
+      this.accommodationsToShow = this.accommodationsToShow.filter(item => item.offers?.includes('Indoors pool'))
+    }
+    else{
+      this.accommodationsToShow = this.accommodationsToShow
+    }
+    if(this.outdoors == true){
+      this.accommodationsToShow = this.accommodationsToShow.filter(item => item.offers?.includes('Outdoors pool'))
+    }
+    else{
+      this.accommodationsToShow = this.accommodationsToShow
+    }
+    if(this.parties == true){
+      this.accommodationsToShow = this.accommodationsToShow.filter(item => item.offers?.includes('Parties allowed'))
+    }
+    else{
+      this.accommodationsToShow = this.accommodationsToShow
+    }
+    if(this.kitchen == true){
+      this.accommodationsToShow = this.accommodationsToShow.filter(item => item.offers?.includes('Kitchen'))
+    }
+    else{
+      this.accommodationsToShow = this.accommodationsToShow
+    }
+    if(this.smoking == true){
+      this.accommodationsToShow = this.accommodationsToShow.filter(item => item.offers?.includes('Smoking allowed'))
+    }
+    else{
+      this.accommodationsToShow = this.accommodationsToShow
+    }
+    if(this.pet == true){
+      this.accommodationsToShow = this.accommodationsToShow.filter(item => item.offers?.includes('Pet friendly'))
+    }
+    else{
+      this.accommodationsToShow = this.accommodationsToShow
+    }
+    if(this.sauna == true){
+      this.accommodationsToShow = this.accommodationsToShow.filter(item => item.offers?.includes('Sauna'))
+    }
+    else{
+      this.accommodationsToShow = this.accommodationsToShow
+    }
+    if(this.gym == true){
+      this.accommodationsToShow = this.accommodationsToShow.filter(item => item.offers?.includes('Gym'))
+    }
+    else{
+      this.accommodationsToShow = this.accommodationsToShow
+    }
+    if(this.distinguishedHost == true){
+      this.accommodationsToShow = this.accommodationsToShow.filter(item => item.isDistinguishedHost)
+    }
+    else{
+      this.accommodationsToShow = this.accommodationsToShow
+    }
+    if(this.lowestPrice !== null && this.lowestPrice !== 0){
+      this.accommodationsToShow = this.accommodationsToShow.filter(item => this.lowestPrice <= <number>item.price)
+    }
+    else{
+      this.accommodationsToShow = this.accommodationsToShow
+    }
+    if(this.highestPrice !== null && this.highestPrice !== 0){
+      this.accommodationsToShow = this.accommodationsToShow.filter(item => this.highestPrice >= <number>item.price)
+    }
+    else{
+      this.accommodationsToShow = this.accommodationsToShow
+    }
   }
 
   downloadFiles() {

@@ -2,7 +2,7 @@
 
 namespace ReservationService.Migrations
 {
-    public partial class addlocationtoreservation : Migration
+    public partial class addattribute : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

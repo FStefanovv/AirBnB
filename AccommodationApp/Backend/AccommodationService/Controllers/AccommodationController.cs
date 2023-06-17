@@ -78,10 +78,16 @@ namespace Accommodation.Controllers
 
         [HttpPost]
         [Route("get-searched")]
-        public ActionResult GetSearchedAccomodations(SearchDTO dto)
+        public async Task<ActionResult> GetSearchedAccomodations(SearchDTO dto)
         {
-            List<Model.Accommodation> searchedAccomodations = _accommodationService.SearchAccomodation(dto);
-            return Ok(searchedAccomodations);
+            Task<List<Model.Accommodation>> searchedAccomodationsTask = _accommodationService.SearchAccomodation(dto);
+            List<Model.Accommodation> searchedAccomodations = await searchedAccomodationsTask;
+            List<AccommodationDTO> searhedAccomodationDTOs = new List<AccommodationDTO>();
+            foreach (Model.Accommodation accomm in searchedAccomodations)
+            {
+                searhedAccomodationDTOs.Add(Adapters.CreateAccommodationAdapter.ObjectToAccommodationDTOForSearch(accomm));
+            }
+            return Ok(searhedAccomodationDTOs);
         }
 
         [HttpGet]

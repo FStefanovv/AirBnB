@@ -10,6 +10,7 @@ service ReservationGRPCService {
   rpc UpdateRequestsPostUserDeletion (UserData) returns (Updated);
   rpc HostHasActiveReservations (UserData) returns (ActiveReservation);
   rpc AccommodatioHasReservation (AccId) returns (HasReservation);
+  rpc CheckIfAccommodationIsAvailable (AvailabilityPeriod) returns (IsAvailable);
 }
 
 
@@ -42,4 +43,14 @@ message AccId{
 
 message HasReservation{
 	bool reservation=1;
+}
+
+message AvailabilityPeriod {
+  string AccommodationId = 1; 
+  string StartDate = 2;
+  string EndDate = 3;
+}
+
+message IsAvailable {
+  bool available = 1;
 }
