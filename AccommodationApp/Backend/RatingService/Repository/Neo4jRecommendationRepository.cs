@@ -25,7 +25,6 @@ namespace RatingService.Repository
             foreach(RatedEntity entity in entities)
             {
                 Rating usersRating = await GetRatingByParams(userId, entity.Id);
-
                 List<User> usersThatRated = await GetUsersThatRated(entity.Id);
 
 
