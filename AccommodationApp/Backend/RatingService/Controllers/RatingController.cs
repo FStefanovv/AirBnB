@@ -40,13 +40,13 @@ namespace RatingService.Controllers
             }
         }
 
-        /*
+        
 
         [HttpGet]
         [Route("get-average-rating/{id}")]
-        public ActionResult GetAverageRating(string id)
+        public async Task<ActionResult> GetAverageRating(string id)
         {
-            RatedEntity entity = _ratingService.GetRatedEntity(id);
+            RatedEntity entity = await _ratingService.GetRatedEntity(id);
 
             if (entity != null)
                 return Ok(entity);
@@ -57,9 +57,9 @@ namespace RatingService.Controllers
         
         [HttpGet]
         [Route("get-all-ratings/{id}")]
-        public ActionResult GetAllRatings(string id)
+        public async Task<ActionResult> GetAllRatings(string id)
         {
-            List<Rating> ratings = _ratingService.GetAllEntityRatings(id);
+            List<Rating> ratings = await _ratingService.GetAllEntityRatings(id);
 
             if (ratings != null && ratings.Count > 0)
                 return Ok(ratings);
@@ -69,16 +69,19 @@ namespace RatingService.Controllers
 
         [HttpDelete]
         [Route("delete-rating/{id}")]
-        public ActionResult DeleteRating(string id)
+        public async Task<ActionResult> DeleteRating(string id)
         {
             Request.Headers.TryGetValue("UserId", out StringValues userId);
-            bool successfullyRemoved = _ratingService.DeleteRating(id, userId);
-            if(successfullyRemoved)
+            try
+            {
+                await _ratingService.DeleteRating(id, userId);
                 return Ok();
-
-            else return BadRequest();
-
-        }*/
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
         
     }

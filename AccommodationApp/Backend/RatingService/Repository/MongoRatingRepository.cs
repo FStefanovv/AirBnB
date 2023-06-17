@@ -38,10 +38,11 @@ namespace RatingService.Repository
             
             foreach(Rating r in _ratings.Find(res => true).ToList<Rating>())
             {
+                /*
                 if(r.UserId==userId && r.RatedEntityId == ratedEntityId)
                 {
                     return r;
-                }
+                }*/
             }
             return null;
         }
@@ -68,7 +69,7 @@ namespace RatingService.Repository
 
         public List<Rating> GetEntityRatings(string id)
         {
-            return _ratings.Find(rating => rating.RatedEntityId == id).ToList<Rating>();
+            return _ratings.Find(rating => "1" == id).ToList<Rating>();
         }
 
         public Rating GetRatingById(string id)

@@ -14,9 +14,6 @@ namespace RatingService.Repository
 
 
         //old methods 
-        Rating GetRatingByParams(StringValues userId, string ratedEntityId);
-        List<Rating> GetEntityRatings(string id);
-        void UpdateRating(Rating rating, RatedEntity entity);
         //Rating GetRatingById(string id);
         //void DeleteRating(RatedEntity entity, string id);
 
@@ -26,5 +23,12 @@ namespace RatingService.Repository
         Task<RatedEntity> GetRatedEntity(string id);
         Task CreateRatedEntity(RatedEntity entity);
         Task MapRating(User user, RatedEntity entity, Rating rating);
+        Task<Rating> GetRatingByParams(string userId, string ratedEntityId);
+        Task<List<Rating>> GetEntityRatings(string id);
+        Task UpdateRating(Rating rating);
+        Task UpdateRatedEntity(RatedEntity entity);
+        Task DeleteRating(string ratingId);
+        Task<Rating> GetRatingById(string id);
+        Task<RatedEntity> GetRatedEntityByRating(string ratingId);
     }
 }
