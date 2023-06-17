@@ -118,7 +118,7 @@ namespace RatingService.Repository
             var query = @"
         MATCH (u:User { Id: $userId })
         MATCH (re:RatedEntity { Id: $ratedEntityId })
-        CREATE (u)-[:RATED { Id: $ratingId, Grade: $grade, RatingDate: $ratingDate }]->(re)
+        CREATE (u)-[:RATED { Id: $ratingId, Grade: $grade, RatingDate: $ratingDate, UserId: $userId }]->(re)
         RETURN u.Id AS UserId, re.Id AS RatedEntityId";
 
             var parameters = new Dictionary<string, object>

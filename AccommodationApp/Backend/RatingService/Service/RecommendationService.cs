@@ -15,9 +15,13 @@ namespace RatingService.Service
             _repository = repository;
         }
 
+       
+
+        //function will be renamed
         public async Task GetSimilarUsers(string id)
         {
-            await _repository.GetSimilarUsers(id);
+            List<string> similarUsers = await _repository.GetSimilarUsers(id);
+            List<string> accommodation = await _repository.GetAccommodationWithGoodRatingFrom(similarUsers);
 
         }
     }

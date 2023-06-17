@@ -17,20 +17,81 @@ namespace RatingService.Repository
             _neo4jDataAccess = neo4jDataAccess;
         }
 
-        public async Task<List<User>> GetSimilarUsers(string userId)
+        public async Task<List<string>> GetSimilarUsers(string userId)
         {
             List<RatedEntity> entities =  await GetEntitiesRatedBy(userId);
-            List<User> similarUsers = new List<User>();
+            List<string> similarUsers = new List<string>();
 
             foreach(RatedEntity entity in entities)
             {
-                Rating usersRating = await GetRatingByParams(userId, entity.Id);
-                List<User> usersThatRated = await GetUsersThatRated(entity.Id);
-
+                Rating userRating = await GetRatingByParams(userId, entity.Id);
+                List<Rating> usersThatRated = await GetUsersThatRated(entity.Id);
+                foreach(Rating r in usersThatRated)
+                {
+                    if(SimilarRating(r.Grade, userRating.Grade) && r.UserId!=userId && similarUsers.Where(u => u == r.UserId).FirstOrDefault()==null){
+                        similarUsers.Add(r.UserId);
+                    }
+                }
 
             }
 
-            return null;
+            return similarUsers;
+        }
+
+        public async Task<List<string>> GetAccommodationWithGoodRatingFrom(List<string> similarUsers)
+        {
+            List<string> accommodaiton = new List<string>();
+            foreach(string userId in similarUsers)
+            {
+                List<string> accommodationCurrent = await GetWithGoodRatingFrom(userId);
+
+
+            }
+        }
+
+        private async Task<List<string>> GetWithGoodRatingFrom(string userId)
+        {
+            var query = @"MATCH (u:User { Id: $userId })-[r:RATED]->(re:RatedEntity {Type: 0})
+                                WHERE r.Grade >= 4
+                                RETURN re{Id: re.Id}";
+
+            var parameters = new Dictionary<string, object>
+            {
+                {
+                    "userId",  userId
+                }
+            };
+
+            var result = await _neo4jDataAccess.ExecuteReadDictionaryAsync(query, "re", parameters);
+
+            if (result.Count == 0)
+            {
+                return null; // or throw an exception, depending on your application's requirements
+            }
+
+            List<string> accommodation = new List<string>();
+
+            for (int i = 0; i < result.Count; i++)
+            {
+                var accommodationId = result[i]["Id"].ToString();
+                   
+
+                accommodation.Add(accommodationId);
+            }
+            return accommodation;
+
+
+        }
+
+        private bool SimilarRating(int grade1, int grade2)
+        {
+            if ((grade1 == 5 || grade1 == 4) && (grade2 == 5 || grade2 == 4))
+                return true;
+            else if ((grade1 == 1 || grade1 == 2) && (grade2 == 1 || grade2 == 2))
+                return true;
+            else if (grade1 == 3 && grade2 == 3)
+                return true;
+            else return false;
         }
 
         public async Task<List<RatedEntity>> GetEntitiesRatedBy(string userId)
@@ -101,10 +162,10 @@ namespace RatingService.Repository
             return rating;
         }
 
-        private async Task<List<User>> GetUsersThatRated(string entityId)
+        private async Task<List<Rating>> GetUsersThatRated(string entityId)
         {
-            var query = @"MATCH (u:User)-[r:RATED]->(re:RatedEntity {Type: 0, Id: $entityId})
-                                RETURN u{Id: u.Id, Username: u.Username}";
+            var getRatings = @"MATCH ()-[r:RATED]->(re:RatedEntity {Type: 0, Id: $entityId})
+                                RETURN r{Grade: r.Grade, UserId: r.UserId}";
 
             var parameters = new Dictionary<string, object>
             {
@@ -113,26 +174,27 @@ namespace RatingService.Repository
                 }
             };
 
-            var result = await _neo4jDataAccess.ExecuteReadDictionaryAsync(query, "u", parameters);
+            var result = await _neo4jDataAccess.ExecuteReadDictionaryAsync(getRatings, "r", parameters);
 
             if (result.Count == 0)
             {
                 return null; // or throw an exception, depending on your application's requirements
             }
 
-            List<User> users = new List<User>();
+
+            List<Rating> ratings = new List<Rating>();
 
             for (int i = 0; i < result.Count; i++)
             {
-                var user = new User
+                var rating = new Rating
                 {
-                    Id = result[i]["Id"].ToString(),
-                    Username = result[i]["Username"].ToString()
+                    UserId = result[i]["UserId"].ToString(),
+                    Grade = Convert.ToInt32(result[i]["Grade"])
                 };
 
-                users.Add(user);
+                ratings.Add(rating);
             }
-            return users;
+            return ratings;
         }
     }
 }

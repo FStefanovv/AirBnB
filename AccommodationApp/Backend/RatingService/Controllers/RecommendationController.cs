@@ -27,5 +27,7 @@ namespace RatingService.Controllers
 
             return Ok();
         }
+
+       
     }
 }

@@ -12,6 +12,7 @@ namespace RatingService.Model
         public string Id { get; set; }
         public int Grade { get; set; }
         public DateTime RatingDate { get; set; }
+        public string UserId { get; set; }
 
         public Rating() { }
 
@@ -20,6 +21,7 @@ namespace RatingService.Model
             Id = Guid.NewGuid().ToString();
             Grade = grade;
             RatingDate = DateTime.Now;
+            UserId = userId;
         }
     }
 }
