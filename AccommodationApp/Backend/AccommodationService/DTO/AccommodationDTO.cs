@@ -12,8 +12,8 @@
         public bool HolidayCost { get; set; }
         public bool WeekendCost { get; set; }
         public bool SummerCost { get; set; }
-
-
+        public bool IsDistinguishedHost { get; set; }
+        public string[] Offers { get; set; }
 
         public AccommodationDTO() { }
 

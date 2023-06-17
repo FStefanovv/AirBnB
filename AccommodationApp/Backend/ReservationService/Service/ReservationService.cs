@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration.UserSecrets;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Grpc.Net.Client;
 using System.Net.Http;
+using Users;
 
 namespace ReservationService.Service
 {
@@ -346,6 +347,94 @@ namespace ReservationService.Service
                 Status = res.Status,
                 Price = res.Price
             };
+        }
+
+        public override Task<IsAvailable> CheckIfAccommodationIsAvailable(AvailabilityPeriod availabilityPeriod, ServerCallContext context)
+        {
+            List<Reservation> AccomodationReservations = _repository.GetReservationsForAccommodation(availabilityPeriod.AccommodationId);
+            if (AccomodationReservations.Count == 0)
+            {
+                return Task.FromResult(new IsAvailable
+                {
+                    Available = true
+                });
+            }
+            else
+            {
+                foreach (Reservation reservation in AccomodationReservations)
+                {
+                    if (DateTime.Parse(availabilityPeriod.StartDate) <= reservation.From && DateTime.Parse(availabilityPeriod.EndDate) <= reservation.From)
+                    {
+                        return Task.FromResult(new IsAvailable
+                        {
+                            Available = true
+                        });
+                    }
+                    else if (DateTime.Parse(availabilityPeriod.StartDate) >= reservation.To && DateTime.Parse(availabilityPeriod.EndDate) >= reservation.To)
+                    {
+                        return Task.FromResult(new IsAvailable
+                        {
+                            Available = true
+                        });
+                    }
+                }
+
+                return Task.FromResult(new IsAvailable
+                {
+                    Available = false
+                });
+            }
+        }
+
+
+
+        public async Task<bool> CheckHostStatus(String hostId)
+        {
+            List<Reservation> cancelledReservations = _repository.GetCanceledHostReservations(hostId);
+            List<Reservation> allReservations = _repository.GetAllHostReservations(hostId);
+
+            if ((double)cancelledReservations.Count / allReservations.Count * 100 < 5 && allReservations.Count >= 5)
+            {
+                TimeSpan TotalDuration = TimeSpan.Zero;
+
+                foreach (Reservation reservation in allReservations)
+                {
+                    TimeSpan durationOfReservation = reservation.To - reservation.From;
+                    TotalDuration += durationOfReservation;
+                }
+
+                if (TotalDuration.TotalDays > 50)
+                {
+                    bool nista = await UpdateDistinguishedHostStatus(hostId, true);
+                    return nista;
+                }
+                else
+                {
+                    bool nista = await UpdateDistinguishedHostStatus(hostId, false);
+                    return nista;
+                }
+            }
+
+            bool nesto = await UpdateDistinguishedHostStatus(hostId, false);
+            return nesto;
+        }
+
+
+
+        public async Task<bool> UpdateDistinguishedHostStatus(String id, bool IsSatisfied)
+        {
+            var handler = new HttpClientHandler();
+            handler.ServerCertificateCustomValidationCallback =
+                HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+            using var channel = GrpcChannel.ForAddress("https://localhost:5001",
+                new GrpcChannelOptions { HttpHandler = handler });
+            var client = new UserGRPCService.UserGRPCServiceClient(channel);
+            var reply = await client.IsDistinguishedHostAsync(new ReservationSatisfied
+            {
+                Id = id,
+                ReservationPartSatisfied = IsSatisfied
+            });
+            return reply.IsUserUpdated;
         }
     }
 }

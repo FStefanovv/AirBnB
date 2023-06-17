@@ -60,6 +60,16 @@ namespace Users.Repository
             return null;
         }
 
+        public User GetUserById(string id)
+        {
+            foreach (User user in _context.Users.ToList())
+            {
+                if (user.Id == id)
+                    return user;
+            }
+            return null;
+        }
+
         public void UpdateUser(User user)
         {
             _context.Users.Update(user);

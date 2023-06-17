@@ -92,6 +92,8 @@ namespace Accommodation.Adapters
             accommodationDto.HolidayCost = accommodation.AccomodationPrice.HolidayCost;
             accommodationDto.WeekendCost = accommodation.AccomodationPrice.WeekendCost;
             accommodationDto.SummerCost = accommodation.AccomodationPrice.SummerCost;
+            accommodationDto.Offers = accommodation.Offers;
+            accommodationDto.IsDistinguishedHost = accommodation.IsDistinguishedHost;
 
             return accommodationDto;
 

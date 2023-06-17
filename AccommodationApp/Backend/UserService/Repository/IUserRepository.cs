@@ -18,5 +18,6 @@ namespace Users.Repository
         void UpdateUser(User user);
         User GetById(StringValues id);
         void Delete(User user);
+        User GetUserById(string id);
     }
 }

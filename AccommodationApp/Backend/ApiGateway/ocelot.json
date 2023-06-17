@@ -106,7 +106,7 @@
       ]
     },
     {
-      "UpstreamPathTemplate": "/gateway/search-accommodation",
+      "UpstreamPathTemplate": "/gateway/get-searched",
       "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/accommodation/get-searched",
       "DownstreamScheme": "https",
