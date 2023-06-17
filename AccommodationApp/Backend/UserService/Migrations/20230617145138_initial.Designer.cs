@@ -9,8 +9,8 @@ using Users;
 namespace Users.Migrations
 {
     [DbContext(typeof(PostgresDbContext))]
-    [Migration("20230505100813_initialSetup")]
-    partial class initialSetup
+    [Migration("20230617145138_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -41,6 +41,9 @@ namespace Users.Migrations
                     b.Property<string>("Role")
                         .HasColumnType("text");
 
+                    b.Property<int>("State")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Username")
                         .HasColumnType("text");
 
@@ -57,6 +60,7 @@ namespace Users.Migrations
                             LastName = "Prezime",
                             Password = "sifra123",
                             Role = "HOST",
+                            State = 0,
                             Username = "imeprezime"
                         },
                         new
@@ -67,6 +71,7 @@ namespace Users.Migrations
                             LastName = "Prezimenic",
                             Password = "sifra123",
                             Role = "HOST",
+                            State = 0,
                             Username = "imenkoprezimenko"
                         });
                 });
