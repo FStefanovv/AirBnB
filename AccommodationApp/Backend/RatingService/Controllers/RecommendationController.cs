@@ -20,10 +20,10 @@ namespace RatingService.Controllers
 
 
         [HttpGet]
-        [Route("get-similar-users/{id}")]
+        [Route("get-recommendations/{id}")]
         public async Task<ActionResult> GetSimilarUsers(string id)
         {
-            await _recommendationService.GetSimilarUsers(id);
+            await _recommendationService.GetRecommendationsFor(id);
 
             return Ok();
         }

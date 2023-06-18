@@ -1,4 +1,5 @@
-﻿using RatingService.Repository;
+﻿using RatingService.Model;
+using RatingService.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +18,13 @@ namespace RatingService.Service
 
        
 
-        //function will be renamed
-        public async Task GetSimilarUsers(string id)
+        
+        public async Task GetRecommendationsFor(string id)
         {
             List<string> similarUsers = await _repository.GetSimilarUsers(id);
             List<string> accommodation = await _repository.GetAccommodationWithGoodRatingFrom(similarUsers);
-
+            List<string> accommodationFiltered = await _repository.FilterAccommodationByLatestRatingsAndSort(accommodation);
+            //List<string> accommodationSorted = await _repository.GetSorted(accommodationFiltered);
         }
     }
 }

@@ -38,15 +38,22 @@ namespace RatingService.Repository
             return similarUsers;
         }
 
+
+
         public async Task<List<string>> GetAccommodationWithGoodRatingFrom(List<string> similarUsers)
-        {
-            List<string> accommodaiton = new List<string>();
+        { 
+            List<string> accommodationToRecommend = new List<string>();
             foreach(string userId in similarUsers)
             {
-                List<string> accommodationCurrent = await GetWithGoodRatingFrom(userId);
+                List<string> goodRatingCurrent = await GetWithGoodRatingFrom(userId);
+                foreach(string accommodationId in goodRatingCurrent)
+                {
+                    if (accommodationToRecommend.Where(a => a == accommodationId).FirstOrDefault() == null)
+                        accommodationToRecommend.Add(accommodationId);
 
-
+                }
             }
+            return accommodationToRecommend;
         }
 
         private async Task<List<string>> GetWithGoodRatingFrom(string userId)
@@ -196,5 +203,84 @@ namespace RatingService.Repository
             }
             return ratings;
         }
+
+        public async Task<List<string>> FilterAccommodationByLatestRatingsAndSort(List<string> accommodation)
+        {
+            var query = @" MATCH (u1:User)-[r:RATED]->(re:RatedEntity)
+                           WHERE re.Id IN $accommodationIds 
+                            AND NOT EXISTS {
+                              MATCH (re)<-[r2:RATED]-(u2:User)
+                                WHERE r2.Grade < 3 AND r2.RatingDate >= (date() - duration('P3M'))
+                              WITH re, COUNT(r2) AS ratingCount
+                              WHERE ratingCount >= 5
+                              RETURN re
+                            }
+                            RETURN DISTINCT re{Id: re.Id, AverageRating: re.AverageRating}
+                            ORDER BY re.AverageRating DESC
+                            LIMIT 10";
+            
+
+            var parameters = new Dictionary<string, object>
+            {
+                {
+                    "accommodationIds", accommodation
+                }
+            };
+
+            var result = await _neo4jDataAccess.ExecuteReadDictionaryAsync(query, "re", parameters);
+
+            if (result.Count == 0)
+            {
+                return null;
+            }
+
+
+            List<string> accommodationIds = new List<string>();
+
+            for (int i = 0; i < result.Count; i++)
+            {
+                var accommodationId = result[i]["Id"].ToString();
+                accommodationIds.Add(accommodationId);
+            }
+            return accommodationIds;
+        }
+
+        /*
+        public async Task<List<string>> GetSorted(List<string> accommodationFiltered)
+        {
+            var query = @"MATCH (re: RatedEntity)
+                            WHERE re.Id IN $accommodationIds 
+                            RETURN re{Id: re.Id}
+                            ORDER BY re.AverageRating DESC
+                            LIMIT 10";
+
+            var parameters = new Dictionary<string, object>
+            {
+                {
+                    "accommodationIds", accommodationFiltered
+                }
+            };
+
+            var result = await _neo4jDataAccess.ExecuteReadDictionaryAsync(query, "re", parameters);
+
+            if (result.Count == 0)
+            {
+                return null;
+            }
+
+
+            List<string> accommodationIds = new List<string>();
+
+            for (int i = 0; i < result.Count; i++)
+            {
+                var accommodationId = result[i]["Id"].ToString();
+                accommodationIds.Add(accommodationId);
+            }
+            return accommodationIds;
+
+
+        }*/
+
+
     }
 }
