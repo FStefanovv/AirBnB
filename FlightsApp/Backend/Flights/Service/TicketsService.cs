@@ -20,11 +20,12 @@ namespace Flights.Service
 
         private readonly TicketsAdapter _adapter = new TicketsAdapter();
 
-        public TicketsService(TicketsRepository ticketsRepository,FlightsRepository flightsRepository, UsersRepository userRepository)
+        public TicketsService(TicketsRepository ticketsRepository,FlightsRepository flightsRepository, UsersRepository userRepository, ApiKeyRepository apiKeyRepository)
         {
             _ticketsRepository = ticketsRepository;
             _flightsRepository = flightsRepository;
             _userRepository = userRepository;
+            _apiKeyRepository = apiKeyRepository;
         }
 
         public void BuyTicket(BuyTicketDTO dto)
@@ -101,7 +102,21 @@ namespace Flights.Service
         public void BuyWithApiKey(BuyWithApiKeyDTO dto, string apiKey)
         {
             string userId = GetUserIdFromApiKey(apiKey);
-            
+            Flight flight = _flightsRepository.GetById(dto.flightId);
+            if(flight.RemainingTickets >= dto.numberOfTickets)
+            {
+                Ticket ticket = TicketsAdapter.BuyTicketApiKeyDtoToTicket(userId, dto, flight);
+                _ticketsRepository.Create(ticket);
+                ReduceNumberOfTickets(flight, dto.numberOfTickets);
+            }
+            else
+            {
+                throw new Exception("Not enough tickets");
+            }
+
+
+
+
         }
 
         private string GetUserIdFromApiKey(string apiKey)

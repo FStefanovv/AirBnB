@@ -1,0 +1,18 @@
+
+    <p>Recommendations for flights from <span class="bolded-span">{{from}}</span> to <span class="bolded-span">{{to}}</span></p>
+    <table class="regular">
+    
+      <tr>
+        <th>Departure Time</th>
+        <th>Duration</th>
+        <th>Ticket Price</th>
+        <th></th>
+      </tr>
+    
+      <tr *ngFor="let recommendation of recommendations">
+        <td>{{ formatDate(recommendation.departureTime) }}</td>
+        <td>{{ recommendation.duration }}</td>
+        <td>{{ recommendation.ticketPrice }}</td>
+        <td><button class="button-regular" (click)="buyTickets(recommendation)">Buy tickets</button></td>
+      </tr>
+    </table>

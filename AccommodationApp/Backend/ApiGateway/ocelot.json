@@ -523,6 +523,25 @@
       "AddHeadersToRequest": {
         "Email": "Claims[Email] > value"
       }
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/get-flight-recommendations",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/flight-recommendation/get-recommendations",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5005
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "AuthTokenFromUserService",
+        "AllowedScopes": []
+      },
+      "RouteClaimsRequirement": {
+        "Role": "REGULAR_USER"
+      }
     }
   ]
 }

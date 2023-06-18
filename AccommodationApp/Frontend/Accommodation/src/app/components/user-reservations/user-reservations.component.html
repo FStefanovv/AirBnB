@@ -1,5 +1,5 @@
 <h1>Your reservations</h1>
-<table>
+<table class="regular">
     <tr>
         <th>From</th>
         <th>To</th>
@@ -23,16 +23,13 @@
             {{reservation.numberOfGuests}}
         </td>
         <td>
-            {{reservation.status? 'cancelled' : 'active'}}
+            {{reservation.status==1? 'past' : (reservation.status==2? 'cancelled' : 'scheduled')}}
         </td>
         <td>
             <button *ngIf="reservation.status==0" class="button-cancel" (click)="cancelReservation(reservation)">Cancel</button>
         </td>
         <td>
             <button *ngIf="reservation.status==0" class="button-regular" (click)="getRecommendations(reservation)">Get Recommendations</button>
-
         </td>
     </tr>
 </table>
-<!-- delete account ovde gde su sve rezervacije????? -->
-<button ng-show="user.role=='guest'" class="button-delete" (click)="deleteAccAsGuest()">Delete account</button>

@@ -24,7 +24,7 @@ namespace FlightRecommendationService.Controllers
         }
 
         [HttpPost]
-        [Route("get-recommendations")]
+        [Route("get-recommendations")]    
         public async Task<ActionResult> GetFlightRecommendations(FlightRequirements requirements)
         {
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
@@ -52,7 +52,7 @@ namespace FlightRecommendationService.Controllers
             try
             {
                 await _service.PurchaseTicket(dto, email);
-                return Ok();
+                return Ok(dto);
             }
             catch(Exception ex)
             {

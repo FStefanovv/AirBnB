@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RatingService.Repository
 {
-    public class RatingRepository
+    public class MongoRatingRepository 
     {
         private readonly IDbContext _context;
         private IMongoCollection<RatedEntity> _entities;
@@ -16,7 +16,7 @@ namespace RatingService.Repository
 
         public float AverageRating { get; private set; }
 
-        public RatingRepository(IDbContext context)
+        public MongoRatingRepository(IDbContext context)
         {
             _context = context;
             _entities = _context.GetCollection<RatedEntity>("rated_entities");
@@ -38,10 +38,11 @@ namespace RatingService.Repository
             
             foreach(Rating r in _ratings.Find(res => true).ToList<Rating>())
             {
+                /*
                 if(r.UserId==userId && r.RatedEntityId == ratedEntityId)
                 {
                     return r;
-                }
+                }*/
             }
             return null;
         }
@@ -68,7 +69,7 @@ namespace RatingService.Repository
 
         public List<Rating> GetEntityRatings(string id)
         {
-            return _ratings.Find(rating => rating.RatedEntityId == id).ToList<Rating>();
+            return _ratings.Find(rating => "1" == id).ToList<Rating>();
         }
 
         public Rating GetRatingById(string id)
