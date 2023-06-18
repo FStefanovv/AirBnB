@@ -90,7 +90,15 @@ namespace ReservationService.Service
 
 
         }
+        public bool HostHasActiveReservationsSaga(string hostId)
+        {
+            List<Reservation> activeReservations = _repository.GetActiveHostReservations(hostId);
 
+
+
+            return (activeReservations.Count == 0);
+           
+        }
 
 
 
@@ -187,7 +195,7 @@ namespace ReservationService.Service
                 for (int i = 0; i < startSummer.Count; i++)
                 {
 
-                    for (int j = 0; j < numberOfDays; i++)
+                    for (int j = 0; j < numberOfDays; j++)
                     {
                         if (reservation.From.AddDays(j) >= startSummer[i] && reservation.From.AddDays(j) <= endSummer[i])
                         {

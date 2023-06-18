@@ -13,6 +13,9 @@ using Newtonsoft.Json;
 using System.Net.Http;
 using Microsoft.Extensions.Primitives;
 using OpenTracing;
+using Users.RabbitMQ;
+using MassTransit;
+using MassTransit.Transports;
 
 namespace Users.Controllers
 {
@@ -23,12 +26,12 @@ namespace Users.Controllers
         private readonly IUserService _userService;
         private readonly ITracer _tracer;
 
-        public UserController(IUserService userService,ITracer tracer)
+        public UserController(IUserService userService,ITracer tracer,ISendEndpointProvider sendEndpointProvider)
         {
             _userService = userService;
             _tracer = tracer;
         }
-
+        
 
         [HttpPost]
         [AllowAnonymous]
@@ -141,17 +144,20 @@ namespace Users.Controllers
         [Route("deleteAsHost")]
         public async Task<IActionResult> DeleteAsHost()
         {
-            Request.Headers.TryGetValue("UserId", out StringValues userId);
-
-            bool canBeDeleted = await _userService.DeleteAsHost(userId);
-
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             scope.Span.Log($"Host {userId} is deleting");
+            Request.Headers.TryGetValue("UserId", out StringValues userId);
 
-            return Ok(canBeDeleted);
-            
-          
+            // bool canBeDeleted = await _userService.DeleteAsHost(userId);
+
+            //return Ok(canBeDeleted);
+           bool notReal= await _userService.DeleteAsHostSaga(userId);
+                                                        
+            return Ok("Success");
         }
+
+
+    
     }
 }

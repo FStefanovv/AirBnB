@@ -21,6 +21,8 @@ using Jaeger.Senders.Thrift;
 using Jaeger;
 using OpenTracing.Contrib.NetCore.Configuration;
 using OpenTracing;
+using MassTransit;
+using Accommodation.RabbitMQ;
 
 namespace Accommodation
 {
@@ -36,6 +38,24 @@ namespace Accommodation
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddMassTransit(cfg =>
+            {
+                cfg.AddConsumer<AccomodationServiceConsumer>();
+
+                cfg.AddBus(provider => RabbitMQBus.ConfigureBus(provider, (cfg, host) =>
+                {
+                    cfg.ReceiveEndpoint(BusConstants.StartDeleteAccommodation, ep =>
+                    {
+                        ep.ConfigureConsumer<AccomodationServiceConsumer>(provider);
+                    });
+                }));
+            });
+
+
+            services.AddScoped<AccomodationServiceConsumer>();
+
+            services.AddMassTransitHostedService();
             services.AddCors();
 
             services.AddSingleton<IDbContext, MongoDbContext>();

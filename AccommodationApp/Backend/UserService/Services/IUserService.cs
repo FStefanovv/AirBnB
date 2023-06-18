@@ -19,5 +19,6 @@ namespace Users.Services
         Task<bool> DeleteAsHost(StringValues id);
 
         Task<bool> DeleteAsGuest(StringValues id);
+        Task<bool> DeleteAsHostSaga(string userId);
     }
 }

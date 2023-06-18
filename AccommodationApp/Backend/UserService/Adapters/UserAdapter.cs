@@ -22,7 +22,8 @@ namespace Users.Adapters
                 Email = dto.Email,
                 Username = dto.Username,
                 Role = dto.Role,
-                Address = dto.Address
+                Address = dto.Address,
+                State=RabbitMQ.SagaState.NOT_DELETED
             };
             user.Password = hasher.HashPassword(user, dto.Password);
 

@@ -10,8 +10,8 @@ using ReservationService;
 namespace ReservationService.Migrations
 {
     [DbContext(typeof(PostgresDbContext))]
-    [Migration("20230616161124_add-attribute")]
-    partial class addattribute
+    [Migration("20230618155734_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

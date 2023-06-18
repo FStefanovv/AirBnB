@@ -22,8 +22,13 @@ using Microsoft.Extensions.Primitives;
 using Grpc.Net.Client;
 using System.Diagnostics.Contracts;
 using System.Diagnostics.Eventing.Reader;
+
 using Grpc.Core;
 using OpenTracing;
+
+using Users.RabbitMQ;
+using MassTransit;
+
 
 namespace Users.Services
 {
@@ -32,10 +37,12 @@ namespace Users.Services
         private readonly IUserRepository _userRepository;
         private readonly string key;
         private readonly ITracer _tracer;
+        private readonly ISendEndpointProvider _sendEndpointProvider;
 
-        public UserService(IUserRepository userRepository, IConfiguration configuration, ITracer tracer)
+        public UserService(IUserRepository userRepository, IConfiguration configuration, ISendEndpointProvider sendEndpointProvider, ITracer tracer)
         {
             _userRepository = userRepository;
+            _sendEndpointProvider = sendEndpointProvider;
             key = configuration.GetSection("JwtKey").ToString();
             _tracer = tracer;
         }
@@ -220,6 +227,7 @@ namespace Users.Services
         }
 
 
+
         public override Task<UserUpdated> IsDistinguishedHost(ReservationSatisfied isReservationSatisfied, ServerCallContext context)
         {
             using var scope = _tracer.BuildSpan("IsDistinguishedHost").StartActive(true);
@@ -276,6 +284,23 @@ namespace Users.Services
                 HostStatus = change
             });
             return reply.Id;
+
+        }
+        public async Task<bool> DeleteAsHostSaga(string id)
+        {
+            SagaState state = SagaState.PENDING_DELETE;
+            bool userUpdated = _userRepository.UpdateUserSaga(id,state);
+            if (userUpdated)
+            {
+                var endPoint = await _sendEndpointProvider.
+                GetSendEndpoint(new Uri("queue:" + BusConstants.StartDeleteQueue));
+                await endPoint.Send<IUserMessage>(new { Id = id });
+            }
+
+
+            return true;
+
+
         }
     }
 }
