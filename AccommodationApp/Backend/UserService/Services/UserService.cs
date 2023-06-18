@@ -23,17 +23,28 @@ using Grpc.Net.Client;
 using System.Diagnostics.Contracts;
 using System.Diagnostics.Eventing.Reader;
 
+using Grpc.Core;
+using OpenTracing;
+
+using Users.RabbitMQ;
+using MassTransit;
+
+
 namespace Users.Services
 {
-    public class UserService : IUserService
+    public class UserService : UserGRPCService.UserGRPCServiceBase, IUserService
     {
         private readonly IUserRepository _userRepository;
         private readonly string key;
+        private readonly ITracer _tracer;
+        private readonly ISendEndpointProvider _sendEndpointProvider;
 
-        public UserService(IUserRepository userRepository, IConfiguration configuration)
+        public UserService(IUserRepository userRepository, IConfiguration configuration, ISendEndpointProvider sendEndpointProvider, ITracer tracer)
         {
             _userRepository = userRepository;
+            _sendEndpointProvider = sendEndpointProvider;
             key = configuration.GetSection("JwtKey").ToString();
+            _tracer = tracer;
         }
 
         public TokenDTO Authenticate(LoginCredentialsDTO credentials)
@@ -144,7 +155,7 @@ namespace Users.Services
             {
                 throw new Exception("You have active reservation");
             }
-            
+
         }
 
         public async Task<bool> UpdateRequestsPostUserDeletion(StringValues id)
@@ -165,11 +176,6 @@ namespace Users.Services
         }
 
 
-
-
-
-
-
         public async Task<bool> DeleteAsHost(StringValues id)
         {
             var handler = new HttpClientHandler();
@@ -183,14 +189,14 @@ namespace Users.Services
                 Id = id,
 
             });
-          
+
             if (reply.IsReservationActive == false)
             {
                 User user = _userRepository.GetById(id);
 
                 bool isDeletedAccomodation = await DeleteAccWithoutHost(id);
                 _userRepository.Delete(user);
-               
+
 
                 return isDeletedAccomodation;
             }
@@ -218,6 +224,83 @@ namespace Users.Services
             });
 
             return reply.IsDeleted;
+        }
+
+
+
+        public override Task<UserUpdated> IsDistinguishedHost(ReservationSatisfied isReservationSatisfied, ServerCallContext context)
+        {
+            using var scope = _tracer.BuildSpan("IsDistinguishedHost").StartActive(true);
+            scope.Span.Log($"Checking if host has status 'Distinguished'");
+            User host = _userRepository.GetUserById(isReservationSatisfied.Id);
+            if (host.Role == "HOST")
+            {
+                if (isReservationSatisfied.ReservationPartSatisfied)
+                {
+                    host.IsReservationPartSatisfied = true;
+                    if (host.IsRatingPartSatisfied)
+                    {
+                        host.IsDistinguishedHost = true;
+                    }
+                    Task<string> a = UpdateAccomodationsByDistinguishedHost(isReservationSatisfied.Id, true);
+                    return Task.FromResult(new UserUpdated
+                    {
+                        IsUserUpdated = true
+                    });
+                }
+                else
+                {
+                    host.IsReservationPartSatisfied = false;
+                    host.IsDistinguishedHost = false;
+                    Task<string> a = UpdateAccomodationsByDistinguishedHost(isReservationSatisfied.Id, false);
+                    return Task.FromResult(new UserUpdated
+                    {
+                        IsUserUpdated = false
+                    });
+                }
+            }
+            else
+            {
+                Task<string> b = UpdateAccomodationsByDistinguishedHost(isReservationSatisfied.Id, false);
+                return Task.FromResult(new UserUpdated
+                {
+                    IsUserUpdated = false
+                });
+            }
+        }
+
+
+        private async Task<string> UpdateAccomodationsByDistinguishedHost(String id, bool change)
+        {
+            var handler = new HttpClientHandler();
+            handler.ServerCertificateCustomValidationCallback =
+                    HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+            using var channel = GrpcChannel.ForAddress("https://localhost:5002",
+                    new GrpcChannelOptions { HttpHandler = handler });
+            var client = new AccommodationGRPCService.AccommodationGRPCServiceClient(channel);
+            var reply = await client.UpdateDistinguishedHostAppointmentsAsync(new HostIdAndDistinguishedStatus
+            {
+                Id = id,
+                HostStatus = change
+            });
+            return reply.Id;
+
+        }
+        public async Task<bool> DeleteAsHostSaga(string id)
+        {
+            SagaState state = SagaState.PENDING_DELETE;
+            bool userUpdated = _userRepository.UpdateUserSaga(id,state);
+            if (userUpdated)
+            {
+                var endPoint = await _sendEndpointProvider.
+                GetSendEndpoint(new Uri("queue:" + BusConstants.StartDeleteQueue));
+                await endPoint.Send<IUserMessage>(new { Id = id });
+            }
+
+
+            return true;
+
+
         }
     }
 }

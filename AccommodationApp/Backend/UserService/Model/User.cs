@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using Users.RabbitMQ;
 
 namespace Users.Model
 {
@@ -21,6 +22,11 @@ namespace Users.Model
         public string Password { get; set; }
         public string Role { get; set; }
         public Address Address { get; set; }
+        public bool IsDistinguishedHost { get; set; }
+        public bool IsReservationPartSatisfied { get; set; }
+        public bool IsRatingPartSatisfied { get; set; }
+
+        public SagaState State { get; set; }
 
 
         public User() { }
@@ -32,6 +38,9 @@ namespace Users.Model
             Email = email;
             Password = password;
             Role = role;
+            IsDistinguishedHost = false;
+            IsReservationPartSatisfied = false;
+            IsRatingPartSatisfied = false;
         }
     }
 }

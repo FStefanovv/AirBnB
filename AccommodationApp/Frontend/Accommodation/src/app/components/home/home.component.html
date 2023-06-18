@@ -1,9 +1,9 @@
 <div id="main-div">
     <div>
         <label for="location">Location: </label>
-        <input type="text" placeholder="Street,Number,City,Country" class="input-regular" [(ngModel)]='address'/>
+        <input type="text" placeholder="Street,Number,City,Country" class="input-regular" [(ngModel)]='searchDTO.location'/>
         <label for="guests">Number of guests: </label>
-        <input type="number" class="input-regular" [(ngModel)]="searchDTO.numberOfGuets"/>
+        <input type="number" class="input-regular" [(ngModel)]="searchDTO.numberOfGuests"/>
         <label for="checkIn">Check in: </label>
         <input type="date" class="input-regular" [(ngModel)]="searchDTO.checkIn"/>
         <label for="checkOut">Check out: </label>
@@ -13,7 +13,38 @@
             <button class="button-regular" (click)="showAll()">Show all</button>
         </div>
     </div>
-    <div *ngFor="let accomm of accommodations" class="card">
+    <div>
+        <div>
+            <label for="lowestPrice">Lowest price: </label>
+            <input type="number" name="lowestPrice" class="input-regular" min="1" [(ngModel)]="lowestPrice" (change)="filter()"/>
+            <label for="highestPrice">Highest price: </label>
+            <input type="number" name="highestPrice" class="input-regular" min="1" [(ngModel)]="highestPrice"/>
+        </div>
+        <label for="WiFi">WiFi: </label>
+        <input type="checkbox" name="WiFi" [(ngModel)]="wifi"/>
+        <label for="IndoorsPool">Indoors pool: </label>
+        <input type="checkbox" name="IndoorsPool"  [(ngModel)]="indoors"/>
+        <label for="Outdoors">Outdoors pool: </label>
+        <input type="checkbox" name="OutdoorsPool" [(ngModel)]="outdoors"/>
+        <label for="Netflix">Netflix: </label>
+        <input type="checkbox" name="Netflix"  [(ngModel)]="netflix"/>
+        <label for="Parties">Parties allowed: </label>
+        <input type="checkbox" name="Parties"  [(ngModel)]="parties"/>
+        <label for="Kitchen">Kitchen: </label>
+        <input type="checkbox" name="Kitchen" [(ngModel)]="kitchen"/>
+        <label for="Smoking">Smoking allowed: </label>
+        <input type="checkbox" name="Smoking" [(ngModel)]="smoking"/>
+        <label for="Pet">Pet friendly: </label>
+        <input type="checkbox" name="Pet" [(ngModel)]="pet"/>
+        <label for="Sauna">Sauna: </label>
+        <input type="checkbox" name="Sauna" [(ngModel)]="sauna"/>
+        <label for="Gym">Gym: </label>
+        <input type="checkbox" name="Gym"  [(ngModel)]="gym"/>
+        <label for="DistinguishedHost">Distinguished host: </label>
+        <input type="checkbox" name="DistinguishedHost" [(ngModel)]="distinguishedHost"/>
+        <button class="button-regular" (click)="filter()">Filter</button>
+    </div>
+    <div *ngFor="let accomm of accommodationsToShow" class="card">
         <div class="container">
             <h4><b>{{accomm.name}}</b></h4>
             <div *ngIf="accomm.pricePerGuest; then thenBlock else elseBlock"></div>

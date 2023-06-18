@@ -1,10 +1,12 @@
 ﻿using Accommodation.DTO;
 using Accommodation.Services;
+using Jaeger;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
+using OpenTracing;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,9 +21,12 @@ namespace Accommodation.Controllers
     public class AccommodationController : Controller
     {
         private readonly AccommodationService _accommodationService;
-        public AccommodationController(AccommodationService service)
+        private readonly ITracer _tracer;
+
+        public AccommodationController(AccommodationService service, ITracer tracer)
         {
             _accommodationService = service;
+            _tracer = tracer;
         }
 
 
@@ -30,6 +35,8 @@ namespace Accommodation.Controllers
         [Consumes("multipart/form-data")]
         public ActionResult Create()
         {
+            var actionName = ControllerContext.ActionDescriptor.DisplayName;
+            using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             Request.Headers.TryGetValue("HostId", out StringValues hostId);
 
             var uploadedPhotos = Request.Form.Files.ToList();
@@ -47,7 +54,8 @@ namespace Accommodation.Controllers
         [Route("get-photos/{id}")]
         public async Task<List<byte[]>> GetAccommPhotos(string id)
         {
-
+            var actionName = ControllerContext.ActionDescriptor.DisplayName;
+            using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             return await _accommodationService.GetAccommodationPhotos(id);
         }
 
@@ -57,6 +65,8 @@ namespace Accommodation.Controllers
         [Route("get-by-id/{id}")]
         public ActionResult GetById(string id)
         {
+            var actionName = ControllerContext.ActionDescriptor.DisplayName;
+            using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             var accommodation = _accommodationService.GetById(id);
             var accomodationDTO=Adapters.CreateAccommodationAdapter.ObjectToAccommodationDTO(accommodation);
 
@@ -68,8 +78,10 @@ namespace Accommodation.Controllers
        [HttpPost]
        [Route("update")]
        public async Task<IActionResult> Update(UpdateAccommodationDTO updateAccommodationDTO)
-        {           
-          bool canBeUpdate= await _accommodationService.Update(updateAccommodationDTO);
+        {
+            var actionName = ControllerContext.ActionDescriptor.DisplayName;
+            using var scope = _tracer.BuildSpan(actionName).StartActive(true);
+            bool canBeUpdate= await _accommodationService.Update(updateAccommodationDTO);
 
             return Ok(canBeUpdate);
         }
@@ -78,16 +90,28 @@ namespace Accommodation.Controllers
 
         [HttpPost]
         [Route("get-searched")]
-        public ActionResult GetSearchedAccomodations(SearchDTO dto)
+        public async Task<ActionResult> GetSearchedAccomodations(SearchDTO dto)
         {
-            List<Model.Accommodation> searchedAccomodations = _accommodationService.SearchAccomodation(dto);
-            return Ok(searchedAccomodations);
+            var actionName = ControllerContext.ActionDescriptor.DisplayName;
+            using var scope = _tracer.BuildSpan(actionName).StartActive(true);
+            Task<List<Model.Accommodation>> searchedAccomodationsTask = _accommodationService.SearchAccomodation(dto);
+            List<Model.Accommodation> searchedAccomodations = await searchedAccomodationsTask;
+            List<AccommodationDTO> searhedAccomodationDTOs = new List<AccommodationDTO>();
+            foreach (Model.Accommodation accomm in searchedAccomodations)
+            {
+                searhedAccomodationDTOs.Add(Adapters.CreateAccommodationAdapter.ObjectToAccommodationDTOForSearch(accomm));
+            }
+
+            scope.Span.Log($"Searched accommodations: {searhedAccomodationDTOs}");
+            return Ok(searhedAccomodationDTOs);
         }
 
         [HttpGet]
         [Route("get-all")]
         public ActionResult GetAll()
         {
+            var actionName = ControllerContext.ActionDescriptor.DisplayName;
+            using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             List<Model.Accommodation> accommodations = _accommodationService.GetAll();
             List<AccommodationDTO> accomodationDTOs = new List<AccommodationDTO>();
             foreach(Model.Accommodation accomm in accommodations)

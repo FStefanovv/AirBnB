@@ -1,3 +1,7 @@
+using Jaeger.Reporters;
+using Jaeger.Samplers;
+using Jaeger.Senders.Thrift;
+using Jaeger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -9,6 +13,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Neo4j.Driver;
 using RatingService.Neo4J;
+using OpenTracing.Contrib.NetCore.Configuration;
+using OpenTracing;
 using RatingService.Repository;
 using RatingService.Service;
 using System;
@@ -54,6 +60,27 @@ namespace RatingService
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "RatingService", Version = "v1" });
             });
+
+            services.AddOpenTracing();
+            services.AddSingleton<ITracer>(sp =>
+            {
+                var serviceName = sp.GetRequiredService<IWebHostEnvironment>().ApplicationName;
+                var loggerFactory = sp.GetRequiredService<ILoggerFactory>();
+                var reporter = new RemoteReporter.Builder().WithLoggerFactory(loggerFactory).WithSender(new UdpSender())
+                    .Build();
+                var tracer = new Tracer.Builder(serviceName)
+                    // The constant sampler reports every span.
+                    .WithSampler(new ConstSampler(true))
+                    // LoggingReporter prints every reported span to the logging framework.
+                    .WithReporter(reporter)
+                    .Build();
+
+                return tracer;
+            });
+
+            services.Configure<HttpHandlerDiagnosticOptions>(options =>
+                options.OperationNameResolver =
+                    request => $"{request.Method.Method}: {request?.RequestUri?.AbsoluteUri}");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Jaeger;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
+using OpenTracing;
 using RatingService.DTO;
 using RatingService.Model;
 using System;
@@ -16,16 +18,20 @@ namespace RatingService.Controllers
     {
 
         private readonly RatingService.Service.RatingService _ratingService;
+        private readonly ITracer _tracer;
 
-        public RatingController(RatingService.Service.RatingService ratingService)
+        public RatingController(RatingService.Service.RatingService ratingService, ITracer tracer)
         {
             _ratingService = ratingService;
+            _tracer = tracer;
         }
 
         [HttpPost]
         [Route("rate")]
         public async Task<ActionResult> RateAsync(RatingDTO dto)
         {
+            var actionName = ControllerContext.ActionDescriptor.DisplayName;
+            using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             Request.Headers.TryGetValue("Username", out StringValues username);
             Request.Headers.TryGetValue("UserId", out StringValues userId);
 
@@ -46,7 +52,9 @@ namespace RatingService.Controllers
         [Route("get-average-rating/{id}")]
         public async Task<ActionResult> GetAverageRating(string id)
         {
-            RatedEntity entity = await _ratingService.GetRatedEntity(id);
+            var actionName = ControllerContext.ActionDescriptor.DisplayName;
+            using var scope = _tracer.BuildSpan(actionName).StartActive(true);
+            RatedEntity entity = _ratingService.GetRatedEntity(id);
 
             if (entity != null)
                 return Ok(entity);
@@ -59,7 +67,10 @@ namespace RatingService.Controllers
         [Route("get-all-ratings/{id}")]
         public async Task<ActionResult> GetAllRatings(string id)
         {
-            List<Rating> ratings = await _ratingService.GetAllEntityRatings(id);
+            var actionName = ControllerContext.ActionDescriptor.DisplayName;
+            using var scope = _tracer.BuildSpan(actionName).StartActive(true);
+            
+            List<Rating> ratings = _ratingService.GetAllEntityRatings(id);
 
             if (ratings != null && ratings.Count > 0)
                 return Ok(ratings);
@@ -71,6 +82,8 @@ namespace RatingService.Controllers
         [Route("delete-rating/{id}")]
         public async Task<ActionResult> DeleteRating(string id)
         {
+            var actionName = ControllerContext.ActionDescriptor.DisplayName;
+            using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             Request.Headers.TryGetValue("UserId", out StringValues userId);
             try
             {

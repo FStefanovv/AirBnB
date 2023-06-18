@@ -12,6 +12,10 @@ using Microsoft.Extensions.Configuration.UserSecrets;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Grpc.Net.Client;
 using System.Net.Http;
+using Users;
+using Microsoft.AspNetCore.Mvc;
+using OpenTracing;
+using Jaeger;
 
 namespace ReservationService.Service
 {
@@ -23,17 +27,20 @@ namespace ReservationService.Service
 
         private readonly ILogger<ReservationService> _logger;
         private readonly string _url = "http://localhost:5002/Services.AccomodationService/GetAccommodationGRPC";
+        private readonly ITracer _tracer;
 
 
-        public ReservationService(IReservationRepository repository, ILogger<ReservationService> logger, IRequestRepository requestRepository)
+        public ReservationService(IReservationRepository repository, ILogger<ReservationService> logger, IRequestRepository requestRepository,ITracer tracer)
         {
             _repository = repository;
             _logger = logger;
             _requestRepository = requestRepository;
+            _tracer = tracer;
         }
 
         public override Task<Updated> UpdateRequestsPostUserDeletion(UserData userData, ServerCallContext context)
         {
+            using var scope = _tracer.BuildSpan("UpdateRequestsPostUserDeletion").StartActive(true);
             _requestRepository.UpdateRequestsPostUserDeletion(userData.Id);
             return Task.FromResult(new Updated
             {
@@ -73,6 +80,7 @@ namespace ReservationService.Service
         public override Task<ActiveReservation> GuestHasActiveReservations(UserData userData, ServerCallContext context)
 
         {
+            using var scope = _tracer.BuildSpan("GuestHasActiveReservations").StartActive(true);
             List<Reservation> activeReservations = _repository.GetActiveUserReservations(userData.Id);
 
             return Task.FromResult(new ActiveReservation
@@ -82,12 +90,21 @@ namespace ReservationService.Service
 
 
         }
+        public bool HostHasActiveReservationsSaga(string hostId)
+        {
+            List<Reservation> activeReservations = _repository.GetActiveHostReservations(hostId);
 
+
+
+            return (activeReservations.Count == 0);
+           
+        }
 
 
 
         public override Task<ActiveReservation> HostHasActiveReservations(UserData userData, ServerCallContext context)
         {
+            using var scope = _tracer.BuildSpan("HostHasActiveReservations").StartActive(true);
             List<Reservation> activeReservations = _repository.GetActiveHostReservations(userData.Id);
 
 
@@ -178,7 +195,7 @@ namespace ReservationService.Service
                 for (int i = 0; i < startSummer.Count; i++)
                 {
 
-                    for (int j = 0; j < numberOfDays; i++)
+                    for (int j = 0; j < numberOfDays; j++)
                     {
                         if (reservation.From.AddDays(j) >= startSummer[i] && reservation.From.AddDays(j) <= endSummer[i])
                         {
@@ -312,6 +329,7 @@ namespace ReservationService.Service
 
         public override Task<CanRate> CheckIfUserCanRate(RatingData ratingData, ServerCallContext context)
         {
+            using var scope = _tracer.BuildSpan("CheckIfUserCanRate").StartActive(true);
             bool userHasVisited = _repository.CheckIfUserHasUncancelledReservation(ratingData.UserId, ratingData.RatedEntityId);
             return Task.FromResult(new CanRate
             {
@@ -326,6 +344,7 @@ namespace ReservationService.Service
 
         public override Task<HasReservation> AccommodatioHasReservation(AccId id, ServerCallContext context)
         {
+            using var scope = _tracer.BuildSpan("AccommodationHasReservation").StartActive(true);
             List<Reservation> reservationsPerAcc = _repository.GetReservationsForAccommodation(id.Id);
             return Task.FromResult(new HasReservation
             {
@@ -346,6 +365,95 @@ namespace ReservationService.Service
                 Status = res.Status,
                 Price = res.Price
             };
+        }
+
+        public override Task<IsAvailable> CheckIfAccommodationIsAvailable(AvailabilityPeriod availabilityPeriod, ServerCallContext context)
+        {
+            using var scope = _tracer.BuildSpan("CheckingIfAccomodationsIsAvailable").StartActive(true);
+            List<Reservation> AccomodationReservations = _repository.GetReservationsForAccommodation(availabilityPeriod.AccommodationId);
+            if (AccomodationReservations.Count == 0)
+            {
+                return Task.FromResult(new IsAvailable
+                {
+                    Available = true
+                });
+            }
+            else
+            {
+                foreach (Reservation reservation in AccomodationReservations)
+                {
+                    if (DateTime.Parse(availabilityPeriod.StartDate) <= reservation.From && DateTime.Parse(availabilityPeriod.EndDate) <= reservation.From)
+                    {
+                        return Task.FromResult(new IsAvailable
+                        {
+                            Available = true
+                        });
+                    }
+                    else if (DateTime.Parse(availabilityPeriod.StartDate) >= reservation.To && DateTime.Parse(availabilityPeriod.EndDate) >= reservation.To)
+                    {
+                        return Task.FromResult(new IsAvailable
+                        {
+                            Available = true
+                        });
+                    }
+                }
+
+                return Task.FromResult(new IsAvailable
+                {
+                    Available = false
+                });
+            }
+        }
+
+
+
+        public async Task<bool> CheckHostStatus(String hostId)
+        {
+            List<Reservation> cancelledReservations = _repository.GetCanceledHostReservations(hostId);
+            List<Reservation> allReservations = _repository.GetAllHostReservations(hostId);
+
+            if ((double)cancelledReservations.Count / allReservations.Count * 100 < 5 && allReservations.Count >= 5)
+            {
+                TimeSpan TotalDuration = TimeSpan.Zero;
+
+                foreach (Reservation reservation in allReservations)
+                {
+                    TimeSpan durationOfReservation = reservation.To - reservation.From;
+                    TotalDuration += durationOfReservation;
+                }
+
+                if (TotalDuration.TotalDays > 50)
+                {
+                    bool nista = await UpdateDistinguishedHostStatus(hostId, true);
+                    return nista;
+                }
+                else
+                {
+                    bool nista = await UpdateDistinguishedHostStatus(hostId, false);
+                    return nista;
+                }
+            }
+
+            bool nesto = await UpdateDistinguishedHostStatus(hostId, false);
+            return nesto;
+        }
+
+
+
+        public async Task<bool> UpdateDistinguishedHostStatus(String id, bool IsSatisfied)
+        {
+            var handler = new HttpClientHandler();
+            handler.ServerCertificateCustomValidationCallback =
+                HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+            using var channel = GrpcChannel.ForAddress("https://localhost:5001",
+                new GrpcChannelOptions { HttpHandler = handler });
+            var client = new UserGRPCService.UserGRPCServiceClient(channel);
+            var reply = await client.IsDistinguishedHostAsync(new ReservationSatisfied
+            {
+                Id = id,
+                ReservationPartSatisfied = IsSatisfied
+            });
+            return reply.IsUserUpdated;
         }
     }
 }

@@ -36,7 +36,7 @@ export class AccommodationService {
   }
 
   search(searchDTO: SearchDTO) : Observable<AccommodationDTO[]> {
-    return this.http.post<AccommodationDTO[]>(this.accommUrl + 'search-accommodation',searchDTO,this.httpOptions)
+    return this.http.post<AccommodationDTO[]>(this.accommUrl + 'get-searched',searchDTO,this.httpOptions1)
   }
 
   getAll() : Observable<AccommodationDTO[]>{

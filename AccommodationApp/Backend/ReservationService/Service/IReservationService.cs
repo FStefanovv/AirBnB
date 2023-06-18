@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ReservationService.DTO;
+using Grpc.Core;
 
 namespace ReservationService.Service
 {
@@ -22,5 +23,9 @@ namespace ReservationService.Service
         void CreateReservationFromRequest(ReservationRequest request);
         List<GetBusyDateForAccommodationDTO> GetBusyDatesForAccommodation(string accommodationId);
         ShowReservationDTO GetEndReservation(string id);
+        Task<IsAvailable> CheckIfAccommodationIsAvailable(AvailabilityPeriod availabilityPeriod, ServerCallContext context);
+        Task<bool> CheckHostStatus(String hostId);
+        Task<bool> UpdateDistinguishedHostStatus(String id, bool IsSatisfied);
+        bool HostHasActiveReservationsSaga(string hostId);
     }
 }

@@ -1,0 +1,18 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "Users";
+
+package rating;
+
+service UserGRPCService {
+	rpc IsDistinguishedHost (ReservationSatisfied) returns (UserUpdated);
+}
+
+message ReservationSatisfied{
+	string id = 1;
+	bool ReservationPartSatisfied = 2;
+}
+
+message UserUpdated {
+  bool isUserUpdated = 1;
+}

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Users.DTO;
 using Users.Model;
+using Users.RabbitMQ;
 
 namespace Users.Repository
 {
@@ -60,6 +61,16 @@ namespace Users.Repository
             return null;
         }
 
+        public User GetUserById(string id)
+        {
+            foreach (User user in _context.Users.ToList())
+            {
+                if (user.Id == id)
+                    return user;
+            }
+            return null;
+        }
+
         public void UpdateUser(User user)
         {
             _context.Users.Update(user);
@@ -75,6 +86,18 @@ namespace Users.Repository
         public User GetById(StringValues id)
         {
             return _context.Users.Find(id);
+        }
+
+        public bool UpdateUserSaga(string id,SagaState state)
+        {
+            try
+            {
+                User user=GetById(id);
+                user.State = state;
+                _context.SaveChanges();
+                return true;
+            }
+            catch(Exception ex) { return false; }
         }
     }
 }

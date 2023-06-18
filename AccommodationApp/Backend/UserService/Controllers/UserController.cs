@@ -12,6 +12,10 @@ using Users.Services;
 using Newtonsoft.Json;
 using System.Net.Http;
 using Microsoft.Extensions.Primitives;
+using OpenTracing;
+using Users.RabbitMQ;
+using MassTransit;
+using MassTransit.Transports;
 
 namespace Users.Controllers
 {
@@ -20,12 +24,14 @@ namespace Users.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly ITracer _tracer;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService,ITracer tracer,ISendEndpointProvider sendEndpointProvider)
         {
             _userService = userService;
+            _tracer = tracer;
         }
-
+        
 
         [HttpPost]
         [AllowAnonymous]
@@ -34,10 +40,15 @@ namespace Users.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public ActionResult<string> Login(LoginCredentialsDTO credentials)
         {
+            var actionName = ControllerContext.ActionDescriptor.DisplayName;
+            using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             var token = _userService.Authenticate(credentials);
 
             if (token == null)
                 return StatusCode(401, "Wrong username or password");
+
+  
+            scope.Span.Log($"User is logged with: {credentials.Username}");
 
             return Ok(token);
         }
@@ -52,6 +63,9 @@ namespace Users.Controllers
         {
             try
             {
+                var actionName = ControllerContext.ActionDescriptor.DisplayName;
+                using var scope = _tracer.BuildSpan(actionName).StartActive(true);
+                scope.Span.Log($"User is registered with username: {registrationData.Username}");
                 SuccessfulRegistrationDTO dto = _userService.Register(registrationData);
                 return Ok(dto);
             }
@@ -65,9 +79,12 @@ namespace Users.Controllers
         [Route("get-host")]
         public ActionResult GetHost()
         {
+
             Request.Headers.TryGetValue("UserId", out StringValues userId);
             User user = _userService.GetUser(userId);
-
+            var actionName = ControllerContext.ActionDescriptor.DisplayName;
+            using var scope = _tracer.BuildSpan(actionName).StartActive(true);
+            scope.Span.Log($"Hostid: {userId}");
 
             return Ok(user);
         }
@@ -78,7 +95,9 @@ namespace Users.Controllers
         {
             Request.Headers.TryGetValue("UserId", out StringValues userId);
             User user = _userService.GetUser(userId);
-
+            var actionName = ControllerContext.ActionDescriptor.DisplayName;
+            using var scope = _tracer.BuildSpan(actionName).StartActive(true);
+            scope.Span.Log($"UserId : {userId}");
 
             return Ok(user);
         }
@@ -95,6 +114,9 @@ namespace Users.Controllers
             {
                 Request.Headers.TryGetValue("UserId", out StringValues userId);
                 User user = _userService.UpdateUser(userId,changeData);
+                var actionName = ControllerContext.ActionDescriptor.DisplayName;
+                using var scope = _tracer.BuildSpan(actionName).StartActive(true);
+                scope.Span.Log($"User {userId} is updated!");
                 return Ok(user);
             }
             catch (Exception ex)
@@ -110,6 +132,9 @@ namespace Users.Controllers
         {
             Request.Headers.TryGetValue("UserId", out StringValues userId);
             bool canBeDeleted = await _userService.DeleteAsGuest(userId);
+            var actionName = ControllerContext.ActionDescriptor.DisplayName;
+            using var scope = _tracer.BuildSpan(actionName).StartActive(true);
+            scope.Span.Log($"Guest {userId} is deleting");
             return Ok(canBeDeleted);      
         }
 
@@ -119,13 +144,20 @@ namespace Users.Controllers
         [Route("deleteAsHost")]
         public async Task<IActionResult> DeleteAsHost()
         {
+            var actionName = ControllerContext.ActionDescriptor.DisplayName;
+            using var scope = _tracer.BuildSpan(actionName).StartActive(true);
+            scope.Span.Log($"Host {userId} is deleting");
             Request.Headers.TryGetValue("UserId", out StringValues userId);
 
-            bool canBeDeleted = await _userService.DeleteAsHost(userId);
+            // bool canBeDeleted = await _userService.DeleteAsHost(userId);
 
-           return Ok(canBeDeleted);
-            
-          
+            //return Ok(canBeDeleted);
+           bool notReal= await _userService.DeleteAsHostSaga(userId);
+                                                        
+            return Ok("Success");
         }
+
+
+    
     }
 }

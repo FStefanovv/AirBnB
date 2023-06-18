@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace ReservationService.Repository
 {
     public interface IReservationRepository
-    {   
+    {
         void UpdateReservation(Reservation reservation);
         Reservation GetReservationById(string reservationId);
         List<ShowReservationDTO> GetUserReservations(StringValues userId);
@@ -20,5 +20,8 @@ namespace ReservationService.Repository
         bool CheckIfUserHasUncancelledReservation(string userId, string ratedEntityId);
         List<Reservation> GetPastReservations();
         void UpdatePastReservations();
+        List<Reservation> GetPastHostReservations(string id);
+        List<Reservation> GetCanceledHostReservations(string id);
+        List<Reservation> GetAllHostReservations(string id);
     }
 }
