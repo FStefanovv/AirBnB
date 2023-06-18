@@ -19,16 +19,20 @@ using System.Text.RegularExpressions;
 using System.Globalization;
 using Grpc.Net.Client;
 using System.Net.Http;
+using OpenTracing;
+using Jaeger;
 
 namespace Accommodation.Services
 {
     public class AccommodationService : AccommodationGRPCService.AccommodationGRPCServiceBase
     {
         private readonly Repository.AccommodationRepository _repository;
+        private readonly ITracer _tracer;
 
-        public AccommodationService(Repository.AccommodationRepository repository)
+        public AccommodationService(Repository.AccommodationRepository repository, ITracer tracer)
         {
             _repository = repository;
+            _tracer = tracer;
         }
 
         public void Create(DTO.CreateAccommodationDTO dto, StringValues hostId, List<IFormFile> photos)
@@ -45,7 +49,7 @@ namespace Accommodation.Services
 
         public override Task<Deleted>   DeleteAccwithoutHost(UserId userId, ServerCallContext context)
         {
-           
+            using var scope = _tracer.BuildSpan("DeleteAccwithoutHost").StartActive(true);
             _repository.DeleteAccWithoutHost(userId.Id);
             return Task.FromResult(new Deleted
             {
@@ -219,6 +223,7 @@ namespace Accommodation.Services
 
         public override Task<UserId> UpdateDistinguishedHostAppointments(HostIdAndDistinguishedStatus hostIdAndDistinguishedStatus, ServerCallContext context)
         {
+            using var scope = _tracer.BuildSpan("UpdateDistinguishedHostAppointments").StartActive(true);
             List<Model.Accommodation> hostAccommodations = _repository.GetByHostId(hostIdAndDistinguishedStatus.Id);
             foreach (Model.Accommodation accommodation in hostAccommodations)
             {
@@ -238,6 +243,7 @@ namespace Accommodation.Services
        
         public override Task<AccommodationGRPC> GetAccommodationGRPC(AccommodationId id, ServerCallContext context)
         {
+            using var scope = _tracer.BuildSpan("GetAccommodationGRPC").StartActive(true);
             Model.Accommodation accommodation = _repository.GetById(id.Id);
 
             return Task.FromResult(new AccommodationGRPC

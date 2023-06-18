@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Primitives;
 using System.Net.Http;
 using Grpc.Net.Client;
+using OpenTracing;
+using Jaeger;
 
 namespace RatingService.Service
 {

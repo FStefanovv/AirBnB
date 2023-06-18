@@ -1,3 +1,8 @@
+
+using Jaeger;
+using Jaeger.Reporters;
+using Jaeger.Samplers;
+using Jaeger.Senders.Thrift;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -11,6 +16,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using OpenTracing;
+using OpenTracing.Contrib.NetCore.Configuration;
+using OpenTracing.Util;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -78,10 +86,29 @@ namespace Users
 
             services.AddSwaggerGen(c =>
             {
-               c.SwaggerDoc("v1", new OpenApiInfo { Title = "UserService", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "UserService", Version = "v1" });
             });
 
-      
+            services.AddOpenTracing();
+            services.AddSingleton<ITracer>(sp =>
+            {
+                var serviceName = sp.GetRequiredService<IWebHostEnvironment>().ApplicationName;
+                var loggerFactory = sp.GetRequiredService<ILoggerFactory>();
+                var reporter = new RemoteReporter.Builder().WithLoggerFactory(loggerFactory).WithSender(new UdpSender())
+                    .Build();
+                var tracer = new Tracer.Builder(serviceName)
+                    // The constant sampler reports every span.
+                    .WithSampler(new ConstSampler(true))
+                    // LoggingReporter prints every reported span to the logging framework.
+                    .WithReporter(reporter)
+                    .Build();
+
+                return tracer;
+            });
+
+            services.Configure<HttpHandlerDiagnosticOptions>(options =>
+                options.OperationNameResolver =
+                    request => $"{request.Method.Method}: {request?.RequestUri?.AbsoluteUri}");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

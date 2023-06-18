@@ -24,6 +24,7 @@ using System.Diagnostics.Contracts;
 using System.Diagnostics.Eventing.Reader;
 
 using Grpc.Core;
+using OpenTracing;
 
 using Users.RabbitMQ;
 using MassTransit;
@@ -35,14 +36,15 @@ namespace Users.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly string key;
+        private readonly ITracer _tracer;
         private readonly ISendEndpointProvider _sendEndpointProvider;
 
-        public UserService(IUserRepository userRepository, IConfiguration configuration, ISendEndpointProvider sendEndpointProvider)
+        public UserService(IUserRepository userRepository, IConfiguration configuration, ISendEndpointProvider sendEndpointProvider, ITracer tracer)
         {
             _userRepository = userRepository;
             _sendEndpointProvider = sendEndpointProvider;
             key = configuration.GetSection("JwtKey").ToString();
-            
+            _tracer = tracer;
         }
 
         public TokenDTO Authenticate(LoginCredentialsDTO credentials)
@@ -228,6 +230,8 @@ namespace Users.Services
 
         public override Task<UserUpdated> IsDistinguishedHost(ReservationSatisfied isReservationSatisfied, ServerCallContext context)
         {
+            using var scope = _tracer.BuildSpan("IsDistinguishedHost").StartActive(true);
+            scope.Span.Log($"Checking if host has status 'Distinguished'");
             User host = _userRepository.GetUserById(isReservationSatisfied.Id);
             if (host.Role == "HOST")
             {
