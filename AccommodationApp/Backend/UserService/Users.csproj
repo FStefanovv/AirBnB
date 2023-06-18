@@ -32,11 +32,6 @@
   </ItemGroup>
 
 
-	<ItemGroup>
-		<PackageReference Include="MassTransit" Version="6.2.5" />
-		<PackageReference Include="MassTransit.AspNetCore" Version="6.2.5" />
-		<PackageReference Include="MassTransit.RabbitMQ" Version="6.2.5" />
-	</ItemGroup>
 
   <ItemGroup>
     <Compile Remove="Migrations\20230505100033_initialSetup.Designer.cs" />
@@ -64,6 +59,14 @@
 	  <Protobuf Include="Protos\user.proto" GrpcServices="Server" />
   </ItemGroup>
 
-<!---->
+
+
+
+	<ItemGroup>
+		<PackageReference Include="MassTransit" Version="6.2.5" />
+		<PackageReference Include="MassTransit.AspNetCore" Version="6.2.5" />
+		<PackageReference Include="MassTransit.RabbitMQ" Version="6.2.5" />
+	</ItemGroup>
+	
 
 </Project>

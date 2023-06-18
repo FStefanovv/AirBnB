@@ -24,7 +24,11 @@ namespace ReservationService.RabbitMQ
         public async Task Consume(ConsumeContext<IUserMessage> context)
         {
             var data = context.Message;
-            List<Reservation> activeReservations= _repository.GetActiveHostReservations(data.Id);
+
+            string id = data.Id;
+
+
+            List<Reservation> activeReservations  = _repository.GetActiveHostReservations(id);
 
 
             if (activeReservations.Count ==0)

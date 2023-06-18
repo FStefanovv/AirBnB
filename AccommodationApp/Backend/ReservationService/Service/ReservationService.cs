@@ -83,7 +83,15 @@ namespace ReservationService.Service
 
 
         }
+        public bool HostHasActiveReservationsSaga(string hostId)
+        {
+            List<Reservation> activeReservations = _repository.GetActiveHostReservations(hostId);
 
+
+
+            return (activeReservations.Count == 0);
+           
+        }
 
 
 

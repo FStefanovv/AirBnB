@@ -122,14 +122,14 @@ namespace Users.Controllers
         [HttpDelete]
         [AllowAnonymous]
         [Route("deleteAsHost")]
-        public async Task<IActionResult> DeleteAsHost(string id)
+        public async Task<IActionResult> DeleteAsHost()
         {
             Request.Headers.TryGetValue("UserId", out StringValues userId);
 
             // bool canBeDeleted = await _userService.DeleteAsHost(userId);
 
             //return Ok(canBeDeleted);
-           bool notReal=await _userService.DeleteAsHostSaga(id);
+           bool notReal=await _userService.DeleteAsHostSaga(userId);
                                                         
 
             return Ok("Success");
