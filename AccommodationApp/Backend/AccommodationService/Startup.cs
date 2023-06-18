@@ -15,6 +15,12 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Jaeger.Reporters;
+using Jaeger.Samplers;
+using Jaeger.Senders.Thrift;
+using Jaeger;
+using OpenTracing.Contrib.NetCore.Configuration;
+using OpenTracing;
 
 namespace Accommodation
 {
@@ -44,6 +50,27 @@ namespace Accommodation
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Accommodation", Version = "v1" });
             });
+
+            services.AddOpenTracing();
+            services.AddSingleton<ITracer>(sp =>
+            {
+                var serviceName = sp.GetRequiredService<IWebHostEnvironment>().ApplicationName;
+                var loggerFactory = sp.GetRequiredService<ILoggerFactory>();
+                var reporter = new RemoteReporter.Builder().WithLoggerFactory(loggerFactory).WithSender(new UdpSender())
+                    .Build();
+                var tracer = new Tracer.Builder(serviceName)
+                    // The constant sampler reports every span.
+                    .WithSampler(new ConstSampler(true))
+                    // LoggingReporter prints every reported span to the logging framework.
+                    .WithReporter(reporter)
+                    .Build();
+
+                return tracer;
+            });
+
+            services.Configure<HttpHandlerDiagnosticOptions>(options =>
+                options.OperationNameResolver =
+                    request => $"{request.Method.Method}: {request?.RequestUri?.AbsoluteUri}");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

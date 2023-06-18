@@ -23,6 +23,7 @@ using Grpc.Net.Client;
 using System.Diagnostics.Contracts;
 using System.Diagnostics.Eventing.Reader;
 using Grpc.Core;
+using OpenTracing;
 
 namespace Users.Services
 {
@@ -30,11 +31,13 @@ namespace Users.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly string key;
+        private readonly ITracer _tracer;
 
-        public UserService(IUserRepository userRepository, IConfiguration configuration)
+        public UserService(IUserRepository userRepository, IConfiguration configuration, ITracer tracer)
         {
             _userRepository = userRepository;
             key = configuration.GetSection("JwtKey").ToString();
+            _tracer = tracer;
         }
 
         public TokenDTO Authenticate(LoginCredentialsDTO credentials)
@@ -219,6 +222,8 @@ namespace Users.Services
 
         public override Task<UserUpdated> IsDistinguishedHost(ReservationSatisfied isReservationSatisfied, ServerCallContext context)
         {
+            using var scope = _tracer.BuildSpan("IsDistinguishedHost").StartActive(true);
+            scope.Span.Log($"Checking if host has status 'Distinguished'");
             User host = _userRepository.GetUserById(isReservationSatisfied.Id);
             if (host.Role == "HOST")
             {

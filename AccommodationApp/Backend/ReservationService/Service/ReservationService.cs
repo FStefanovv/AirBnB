@@ -13,6 +13,9 @@ using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Grpc.Net.Client;
 using System.Net.Http;
 using Users;
+using Microsoft.AspNetCore.Mvc;
+using OpenTracing;
+using Jaeger;
 
 namespace ReservationService.Service
 {
@@ -24,17 +27,20 @@ namespace ReservationService.Service
 
         private readonly ILogger<ReservationService> _logger;
         private readonly string _url = "http://localhost:5002/Services.AccomodationService/GetAccommodationGRPC";
+        private readonly ITracer _tracer;
 
 
-        public ReservationService(IReservationRepository repository, ILogger<ReservationService> logger, IRequestRepository requestRepository)
+        public ReservationService(IReservationRepository repository, ILogger<ReservationService> logger, IRequestRepository requestRepository,ITracer tracer)
         {
             _repository = repository;
             _logger = logger;
             _requestRepository = requestRepository;
+            _tracer = tracer;
         }
 
         public override Task<Updated> UpdateRequestsPostUserDeletion(UserData userData, ServerCallContext context)
         {
+            using var scope = _tracer.BuildSpan("UpdateRequestsPostUserDeletion").StartActive(true);
             _requestRepository.UpdateRequestsPostUserDeletion(userData.Id);
             return Task.FromResult(new Updated
             {
@@ -74,6 +80,7 @@ namespace ReservationService.Service
         public override Task<ActiveReservation> GuestHasActiveReservations(UserData userData, ServerCallContext context)
 
         {
+            using var scope = _tracer.BuildSpan("GuestHasActiveReservations").StartActive(true);
             List<Reservation> activeReservations = _repository.GetActiveUserReservations(userData.Id);
 
             return Task.FromResult(new ActiveReservation
@@ -89,6 +96,7 @@ namespace ReservationService.Service
 
         public override Task<ActiveReservation> HostHasActiveReservations(UserData userData, ServerCallContext context)
         {
+            using var scope = _tracer.BuildSpan("HostHasActiveReservations").StartActive(true);
             List<Reservation> activeReservations = _repository.GetActiveHostReservations(userData.Id);
 
 
@@ -313,6 +321,7 @@ namespace ReservationService.Service
 
         public override Task<CanRate> CheckIfUserCanRate(RatingData ratingData, ServerCallContext context)
         {
+            using var scope = _tracer.BuildSpan("CheckIfUserCanRate").StartActive(true);
             bool userHasVisited = _repository.CheckIfUserHasUncancelledReservation(ratingData.UserId, ratingData.RatedEntityId);
             return Task.FromResult(new CanRate
             {
@@ -327,6 +336,7 @@ namespace ReservationService.Service
 
         public override Task<HasReservation> AccommodatioHasReservation(AccId id, ServerCallContext context)
         {
+            using var scope = _tracer.BuildSpan("AccommodationHasReservation").StartActive(true);
             List<Reservation> reservationsPerAcc = _repository.GetReservationsForAccommodation(id.Id);
             return Task.FromResult(new HasReservation
             {
@@ -351,6 +361,7 @@ namespace ReservationService.Service
 
         public override Task<IsAvailable> CheckIfAccommodationIsAvailable(AvailabilityPeriod availabilityPeriod, ServerCallContext context)
         {
+            using var scope = _tracer.BuildSpan("CheckingIfAccomodationsIsAvailable").StartActive(true);
             List<Reservation> AccomodationReservations = _repository.GetReservationsForAccommodation(availabilityPeriod.AccommodationId);
             if (AccomodationReservations.Count == 0)
             {
