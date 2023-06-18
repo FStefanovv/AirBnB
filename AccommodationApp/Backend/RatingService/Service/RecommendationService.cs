@@ -16,13 +16,11 @@ namespace RatingService.Service
             _repository = repository;
         }
 
-       
-
         
         public async Task GetRecommendationsFor(string id)
         {
             List<string> similarUsers = await _repository.GetSimilarUsers(id);
-            List<string> accommodation = await _repository.GetAccommodationWithGoodRatingFrom(similarUsers);
+            List<string> accommodation = await _repository.GetAccommodationWithGoodRatingFrom(similarUsers, id);
             List<string> accommodationFiltered = await _repository.FilterAccommodationByLatestRatingsAndSort(accommodation);
             //List<string> accommodationSorted = await _repository.GetSorted(accommodationFiltered);
         }

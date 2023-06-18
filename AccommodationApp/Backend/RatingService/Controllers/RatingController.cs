@@ -54,7 +54,7 @@ namespace RatingService.Controllers
         {
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
-            RatedEntity entity = _ratingService.GetRatedEntity(id);
+            RatedEntity entity = await _ratingService.GetRatedEntity(id);
 
             if (entity != null)
                 return Ok(entity);
@@ -70,7 +70,7 @@ namespace RatingService.Controllers
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             
-            List<Rating> ratings = _ratingService.GetAllEntityRatings(id);
+            List<Rating> ratings = await _ratingService.GetAllEntityRatings(id);
 
             if (ratings != null && ratings.Count > 0)
                 return Ok(ratings);

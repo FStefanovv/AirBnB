@@ -40,15 +40,18 @@ namespace RatingService.Repository
 
 
 
-        public async Task<List<string>> GetAccommodationWithGoodRatingFrom(List<string> similarUsers)
-        { 
+        public async Task<List<string>> GetAccommodationWithGoodRatingFrom(List<string> similarUsers, string id)
+        {
+            List<RatedEntity> accommVisitedByUser = await GetEntitiesRatedBy(id);
+
             List<string> accommodationToRecommend = new List<string>();
             foreach(string userId in similarUsers)
             {
                 List<string> goodRatingCurrent = await GetWithGoodRatingFrom(userId);
                 foreach(string accommodationId in goodRatingCurrent)
                 {
-                    if (accommodationToRecommend.Where(a => a == accommodationId).FirstOrDefault() == null)
+                    if (accommodationToRecommend.Where(a => a == accommodationId).FirstOrDefault() == null 
+                        && accommVisitedByUser.Where(a=> a.Id == accommodationId).FirstOrDefault() == null)
                         accommodationToRecommend.Add(accommodationId);
 
                 }

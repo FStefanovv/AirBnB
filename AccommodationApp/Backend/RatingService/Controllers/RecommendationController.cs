@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
 using RatingService.Service;
 using System;
 using System.Collections.Generic;
@@ -19,11 +20,15 @@ namespace RatingService.Controllers
         }
 
 
+        //needs additional work
         [HttpGet]
-        [Route("get-recommendations/{id}")]
-        public async Task<ActionResult> GetSimilarUsers(string id)
+        [Route("get-recommendations")]
+        public async Task<ActionResult> GetSimilarUsers()
         {
-            await _recommendationService.GetRecommendationsFor(id);
+            Request.Headers.TryGetValue("UserId", out StringValues userId);
+
+            
+            await _recommendationService.GetRecommendationsFor(userId);
 
             return Ok();
         }

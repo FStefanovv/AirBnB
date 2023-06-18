@@ -104,7 +104,6 @@ namespace Users.Controllers
 
 
         [HttpPost]
-        [AllowAnonymous]
         [Route("update-user")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -126,7 +125,6 @@ namespace Users.Controllers
         }
 
         [HttpDelete]
-        [AllowAnonymous]
         [Route("deleteAsGuest")]
         public async Task<IActionResult> DeleteAsGuest()
         {
@@ -140,19 +138,20 @@ namespace Users.Controllers
 
 
         [HttpDelete]
-        [AllowAnonymous]
         [Route("deleteAsHost")]
         public async Task<IActionResult> DeleteAsHost()
         {
+            Request.Headers.TryGetValue("UserId", out StringValues userId);
+
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             scope.Span.Log($"Host {userId} is deleting");
-            Request.Headers.TryGetValue("UserId", out StringValues userId);
+
 
             // bool canBeDeleted = await _userService.DeleteAsHost(userId);
 
             //return Ok(canBeDeleted);
-           bool notReal= await _userService.DeleteAsHostSaga(userId);
+           bool notReal = await _userService.DeleteAsHostSaga(userId);
                                                         
             return Ok("Success");
         }
