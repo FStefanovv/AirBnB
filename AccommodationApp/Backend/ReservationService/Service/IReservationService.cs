@@ -26,5 +26,6 @@ namespace ReservationService.Service
         Task<IsAvailable> CheckIfAccommodationIsAvailable(AvailabilityPeriod availabilityPeriod, ServerCallContext context);
         Task<bool> CheckHostStatus(String hostId);
         Task<bool> UpdateDistinguishedHostStatus(String id, bool IsSatisfied);
+        bool HostHasActiveReservationsSaga(string hostId);
     }
 }

@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using ReservationService.RabbitMQ;
 
+
 //using ReservationService.BackgroundServices;
 using ReservationService.Repository;
 using ReservationService.Service;
@@ -46,7 +47,7 @@ namespace ReservationService
                 }));
             });
 
-            services.AddScoped<ReservationServiceConsumer>();
+          
             services.AddMassTransitHostedService();
             services.AddCors();
 
@@ -59,6 +60,7 @@ namespace ReservationService
             services.AddScoped<IReservationService, Service.ReservationService>();
             services.AddScoped<IRequestRepository, RequestRepository>();
             services.AddScoped<IRequestService, Service.RequestService>();
+            services.AddScoped<ReservationServiceConsumer>();
 
             services.AddGrpc();
 
