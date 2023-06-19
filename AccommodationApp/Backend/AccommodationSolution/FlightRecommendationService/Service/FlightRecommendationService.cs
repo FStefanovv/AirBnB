@@ -27,7 +27,7 @@ namespace FlightRecommendationService.Service
             var handler = new HttpClientHandler();
             handler.ServerCertificateCustomValidationCallback =
                 HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
-            using var channel = GrpcChannel.ForAddress("https://localhost:5010",
+            using var channel = GrpcChannel.ForAddress("https://flights-service:443",
                 new GrpcChannelOptions { HttpHandler = handler });
             var client = new FlightGRPCService.FlightGRPCServiceClient(channel);
             var reply = await client.GetRecommendationsAsync(new FlightRequirementsGrpc
@@ -60,7 +60,7 @@ namespace FlightRecommendationService.Service
             var handler = new HttpClientHandler();
             handler.ServerCertificateCustomValidationCallback =
                 HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
-            using var channel = GrpcChannel.ForAddress("https://localhost:5010",
+            using var channel = GrpcChannel.ForAddress("https://flights-service:80",
                 new GrpcChannelOptions { HttpHandler = handler });
             var client = new FlightGRPCService.FlightGRPCServiceClient(channel);
             var reply = await client.PurchaseTicketsAsync(new TicketInfo

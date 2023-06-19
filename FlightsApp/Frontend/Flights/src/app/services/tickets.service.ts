@@ -3,16 +3,19 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BuyTicketDto } from '../model/buyTicketDto';
+import { AuthService } from './auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class TicketsService {
-  private apiUrl ='http://localhost:5000/api/Tickets'
+  private apiUrl ='https://localhost:5010/api/Tickets'
 
-  httpOptions ={
-    headers: new HttpHeaders({'Content-Type': 'application/json'})
-  }
+  token = this.authService.getToken();
 
-  constructor(private http: HttpClient) { }
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization':`Bearer ${this.token}`})
+  };
+
+  constructor(private http: HttpClient, private authService:AuthService) { }
 
   buyTicket(dto: BuyTicketDto): Observable<BuyTicketDto>{
     return this.http.post<BuyTicketDto>(this.apiUrl,dto,this.httpOptions)

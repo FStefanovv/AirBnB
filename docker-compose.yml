@@ -1,4 +1,24 @@
 services:
+
+  api-gateway:
+    build:
+      context: ./AccommodationApp/Backend/ApiGateway
+      dockerfile: Dockerfile
+    restart: always
+    container_name: "api-gateway"
+    hostname: "api-gateway"   
+    ports:
+      - 5000:443
+      - 5102:80
+    environment:
+      - ASPNETCORE_URLS=https://+;http://+    
+      - ASPNETCORE_HTTPS_PORT=443
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - C:\Users\User\.aspnet\https:/https/
+
+
   flights-service:
     build:
       context: ./FlightsApp/Backend/Flights
@@ -8,11 +28,12 @@ services:
     hostname: "flights-service"   
     ports:
       - 5010:443
-      - 5011:80
+      - 5101:80
     environment:
       - MONGO_DB_URI=mongodb://root:pass@flights_db:27018
       - MONGO_DB_NAME=XWS_Projekat
-      - ASPNETCORE_HTTPS_PORT=5010
+      - ASPNETCORE_URLS=https://+;http://+    
+      - ASPNETCORE_HTTPS_PORT=443
       - ASPNETCORE_Kestrel__Certificates__Default__Password=password
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
     volumes:
@@ -40,31 +61,34 @@ services:
 
   flight-recommendation-service:
     build:
-      context: ./AccommodationApp\Backend\AccommodationSolution\FlightRecommendationService
+      context: ./AccommodationApp/Backend/AccommodationSolution/FlightRecommendationService
       dockerfile: Dockerfile
     restart: always
     container_name: "flight-recommendation-service"
     hostname: "flight-recommendation-service"   
     ports:  
-      - 5005:80
-    environment:     
-      - ASPNETCORE_HTTPS_PORT=5005
+      - 5005:443
+      - 5100:80
+    environment:
+      - ASPNETCORE_URLS=https://+;http://+    
+      - ASPNETCORE_HTTPS_PORT=443
       - ASPNETCORE_Kestrel__Certificates__Default__Password=password
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
     volumes:
-      - C:\Users\User\.aspnet\https:/https/
+      - C:\Users\User\.aspnet\https:/https/    
 
   accommodation-service:
     build:
-      context: ./AccommodationApp\Backend\AccommodationSolution\AccommodationService
+      context: ./AccommodationApp/Backend/AccommodationSolution/AccommodationService
       dockerfile: Dockerfile
     restart: always
     container_name: "accommodation-service"
     hostname: "accommodation-service"   
     ports:  
-      - 5002:80
+      - 5002:443
+      - 5103:80
     environment:     
-      - ASPNETCORE_HTTPS_PORT=5002
+      - ASPNETCORE_HTTPS_PORT=443
       - ASPNETCORE_Kestrel__Certificates__Default__Password=password
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
     volumes:
@@ -92,7 +116,7 @@ services:
 
   reservation-service:
     build:
-      context: ./AccommodationApp\Backend\AccommodationSolution\ReservationService
+      context: ./AccommodationApp/Backend/AccommodationSolution/ReservationService
       dockerfile: Dockerfile
     restart: always
     container_name: "reservation-service"
@@ -128,7 +152,7 @@ services:
 
   user-service:
     build:
-      context: ./AccommodationApp\Backend\AccommodationSolution\UserService
+      context: ./AccommodationApp/Backend/AccommodationSolution/UserService
       dockerfile: Dockerfile
     restart: always
     container_name: "user-service"
@@ -161,6 +185,8 @@ services:
       retries: 5 
     volumes:
       - user_store:/data/db 
+
+
 
 volumes:
   flights_store:

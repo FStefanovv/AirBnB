@@ -11,7 +11,7 @@ import { UpdateAccommodation } from '../model/update-accommodation';
 })
 export class AccommodationService {
   
-  private accommUrl = 'http://localhost:5000/gateway/';
+  private accommUrl = 'https://localhost:5000/gateway/';
   
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'multipart/form-data' })

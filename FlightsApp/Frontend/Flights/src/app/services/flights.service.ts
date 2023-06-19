@@ -6,6 +6,7 @@ import { catchError, Observable, throwError } from 'rxjs';
 import { Flight } from '../model/flight';
 import { SearchedFlightDTO } from '../model/searchedFlightDto';
 import { NewFlightDto } from '../model/newFlightDto';
+import { AuthService } from './auth.service';
 
 
 @Injectable({
@@ -13,14 +14,16 @@ import { NewFlightDto } from '../model/newFlightDto';
 }) 
 export class FlightsService {
 
-  private flightsUrl = 'http://localhost:5000/api/Flights/';
+  private flightsUrl = 'https://localhost:5010/api/Flights/';
+
+  token = this.authService.getToken();
 
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json'})
+    headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization':`Bearer ${this.token}`})
   };
 
   
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   getAll() : Observable<Flight[]> {
     return this.http.get<Flight[]>(this.flightsUrl, this.httpOptions);

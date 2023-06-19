@@ -15,7 +15,7 @@ import { SuccessfulRegistraionDTO } from '../model/successfulRegistrationDto';
 })
 export class UserService {
 
-  private usersUrl = 'http://localhost:5011/api/Users/';
+  private usersUrl = 'https://localhost:5010/api/Users/';
   
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })

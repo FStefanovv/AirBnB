@@ -13,7 +13,5 @@ namespace FlightRecommendationService.Model
         public int Direction { get; set; }
 
         public FlightRequirements() { }
-
-       
     }
 }
