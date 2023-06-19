@@ -59,8 +59,15 @@ export class ShowAccommodationComponent implements OnInit {
     }
   }
 
-  rate(){
+  rateAccomm(){
     this.ratingDto.RatedEntityId = this.accommodationId;
+    this.ratingService.rate(this.ratingDto);
+  }
+
+  rateHost(){
+    if(this.accommodation.hostId){
+      this.ratingDto.RatedEntityId = this.accommodation.hostId;
+    }
     this.ratingService.rate(this.ratingDto);
   }
 
