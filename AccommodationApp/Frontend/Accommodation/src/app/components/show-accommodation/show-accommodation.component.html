@@ -1,0 +1,14 @@
+<label>Your rating</label>
+<input type="text" [(ngModel)]="ratingDto.Grade">
+<button (click)="rate()" class="button-regular">Rate</button>
+<button (click)="deleteAccommRating()" class="button-regular">Remove Accommodation Rating</button>
+
+<p>
+    {{hostRatingInfo}}
+</p>
+<p>
+    {{accommRatingInfo}}
+</p>
+
+
+
