@@ -39,19 +39,20 @@ namespace RatingService
 
             services.AddCors();
 
-            //services.AddSingleton<IDbContext, MongoDbContext>();
-
+            services.AddSingleton<IDbContext, MongoDbContext>();
+            /*
             services.Configure<Neo4jSettings>(Configuration.GetSection("Neo4jSettings"));
             var settings = new Neo4jSettings();
             Configuration.GetSection("Neo4jSettings").Bind(settings);
 
             services.AddSingleton(GraphDatabase.Driver(settings.Neo4jConnection, AuthTokens.Basic(settings.Neo4jUser, settings.Neo4jPassword)));
             services.AddSingleton<INeo4jDataAccess, Neo4jDataAccess>();
-            services.AddScoped<IRatingRepository, Neo4jRatingRepository>();
+            services.AddScoped<IRatingRepository, Neo4jRatingRepository>();*/
 
+            services.AddScoped<MongoRatingRepository>();
             services.AddScoped<RatingService.Service.RatingService>();
 
-            services.AddScoped<Neo4jRecommendationRepository>();
+            //services.AddScoped<Neo4jRecommendationRepository>();
             services.AddScoped<RecommendationService>();
 
 

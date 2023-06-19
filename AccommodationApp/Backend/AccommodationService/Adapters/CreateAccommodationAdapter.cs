@@ -50,8 +50,9 @@ namespace Accommodation.Adapters
                 PricePerAccomodation = accommodation.AccomodationPrice.PricePerAccomodation,
                 HolidayCost = accommodation.AccomodationPrice.HolidayCost,
                 WeekendCost = accommodation.AccomodationPrice.WeekendCost,
-                SummerCost = accommodation.AccomodationPrice.SummerCost
-
+                SummerCost = accommodation.AccomodationPrice.SummerCost,
+                HostId = accommodation.HostId,
+                IsDistinguishedHost = accommodation.IsDistinguishedHost
             };
 
             return accommodationDTO;

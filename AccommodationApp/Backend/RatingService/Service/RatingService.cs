@@ -15,9 +15,9 @@ namespace RatingService.Service
 {
     public class RatingService
     {
-        private readonly IRatingRepository _ratingRepository;
+        private readonly MongoRatingRepository _ratingRepository;
 
-        public RatingService(IRatingRepository ratingRepository)
+        public RatingService(MongoRatingRepository ratingRepository)
         {
             _ratingRepository = ratingRepository;
         }
@@ -28,59 +28,60 @@ namespace RatingService.Service
             bool canRate = await CheckIfUserCanRate(dto, userId);
             if (canRate)
             {
-                User user = await _ratingRepository.GetUser(userId);
-                if (user==null)
-                    user = await _ratingRepository.CreateUser(userId, username);
-                RatedEntity entity = await _ratingRepository.GetRatedEntity(dto.RatedEntityId);
-                if (entity==null)
+                RatedEntity entity = _ratingRepository.GetRatedEntity(dto.RatedEntityId);
+                if (entity == null)
                 {
                     Rating rating = new Rating(username, userId, dto.Grade, dto.RatedEntityId);
-                    entity = new RatedEntity { Id = dto.RatedEntityId, AverageRating = dto.Grade, Type = dto.RatedEntityType };
-                    await _ratingRepository.CreateRatedEntity(entity);
-                    await _ratingRepository.MapRating(user, entity, rating);
+                    entity = new RatedEntity { Id = dto.RatedEntityId, AverageRating = dto.Grade };
+                    _ratingRepository.CreateEntity(rating, entity);
                 }
                 else
                 {
-                    Rating rating = await _ratingRepository.GetRatingByParams(userId.ToString(), dto.RatedEntityId);
+                    Rating rating = _ratingRepository.GetRatingByParams(userId, dto.RatedEntityId);
                     if (rating != null)
                     {
-                        entity.AverageRating = await UpdateEntityRating(entity.Id, dto.Grade, rating.Id);
+                        entity.AverageRating = UpdateEntityRating(entity.Id, dto.Grade, rating.Id);
                         rating.Grade = dto.Grade;
-                        await _ratingRepository.UpdateRating(rating);
-                        await _ratingRepository.UpdateRatedEntity(entity);
+                        _ratingRepository.UpdateRating(rating, entity);
                     }
                     else
                     {
                         rating = new Rating(username, userId, dto.Grade, entity.Id);
-                        entity.AverageRating = await UpdateEntityRating(entity.Id, dto.Grade, null);
-                        await _ratingRepository.MapRating(user, entity, rating);
-                        await _ratingRepository.UpdateRatedEntity(entity);
+                        entity.AverageRating = UpdateEntityRating(entity.Id, dto.Grade, null);
+                        _ratingRepository.CreateRating(rating, entity);
                     }
                 }
             }
             else throw new Exception("User cannot rate this entity");
         }
 
-        
-        public async Task DeleteRating(string id, StringValues userId)
+        public Rating GetRatingByParams(StringValues userId, string entityId) 
         {
-            Rating rating = await _ratingRepository.GetRatingById(id);
-            
-            
-            RatedEntity entity = await _ratingRepository.GetRatedEntityByRating(rating.Id);
-            entity.AverageRating = await UpdateEntityRatingPostRatingRemoval(entity.Id, rating.Id);
-
-            await _ratingRepository.DeleteRating(rating.Id);
-            await _ratingRepository.UpdateRatedEntity(entity);
+            return _ratingRepository.GetRatingByParams(userId, entityId);
         }
 
-        private async Task<float> UpdateEntityRatingPostRatingRemoval(string entityId, string ratingId)
+        public bool DeleteRating(string entityId, StringValues userId)
         {
-            List<Rating> ratings = await GetAllEntityRatings(entityId);
+            Rating rating = _ratingRepository.GetRatingByParams(userId, entityId);
+            if (rating.UserId == userId)
+            {
+                RatedEntity entity = _ratingRepository.GetRatedEntity(rating.RatedEntityId);
+                entity.AverageRating = UpdateEntityRatingPostRatingRemoval(entity.Id, rating.Id);
+
+                _ratingRepository.DeleteRating(entity, rating.Id);
+
+                return true;
+            }
+            else return false;
+        }
+
+        private float UpdateEntityRatingPostRatingRemoval(string entityId, string ratingId)
+        {
+            List<Rating> ratings = GetAllEntityRatings(entityId);
 
             float sum = 0;
 
-            foreach(Rating r in ratings)
+            foreach (Rating r in ratings)
             {
                 if (r.Id == ratingId)
                     continue;
@@ -90,22 +91,21 @@ namespace RatingService.Service
             return sum / (ratings.Count - 1);
         }
 
-        public async Task<List<Rating>> GetAllEntityRatings(string id)
+        public List<Rating> GetAllEntityRatings(string id)
         {
-            return await _ratingRepository.GetEntityRatings(id);
+            return _ratingRepository.GetEntityRatings(id);
         }
 
-        public async Task<RatedEntity> GetRatedEntity(string id)
+        public RatedEntity GetRatedEntity(string id)
         {
-            RatedEntity entity = await _ratingRepository.GetRatedEntity(id);
-            return entity;
+            return _ratingRepository.GetRatedEntity(id);
         }
 
-        private async Task<float> UpdateEntityRating(string id, int grade, string ratingId)
+        private float UpdateEntityRating(string id, int grade, string ratingId)
         {
-            List<Rating> ratings = await _ratingRepository.GetEntityRatings(id);
+            List<Rating> ratings = _ratingRepository.GetEntityRatings(id);
             float sum = 0;
-            foreach(Rating rating in ratings)
+            foreach (Rating rating in ratings)
             {
                 if (ratingId != null && ratingId == rating.Id)
                     sum += grade;
@@ -117,7 +117,7 @@ namespace RatingService.Service
                 sum += grade;
                 return sum / (ratings.Count + 1);
             }
-            else return sum / ratings.Count;      
+            else return sum / ratings.Count;
         }
 
         private async Task<bool> CheckIfUserCanRate(RatingDTO dto, StringValues userId)
@@ -133,11 +133,9 @@ namespace RatingService.Service
                 UserId = userId,
                 RatedEntityId = dto.RatedEntityId,
                 RatedEntityType = -1
-            }) ;
+            });
 
             return reply.RatingAllowed;
         }
-
-
     }
 }

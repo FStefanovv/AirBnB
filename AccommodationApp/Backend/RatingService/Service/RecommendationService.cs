@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace RatingService.Service
 {
     public class RecommendationService {
-
+        /*
         private readonly Neo4jRecommendationRepository _repository;
 
         public RecommendationService(Neo4jRecommendationRepository repository)
@@ -23,6 +23,6 @@ namespace RatingService.Service
             List<string> accommodation = await _repository.GetAccommodationWithGoodRatingFrom(similarUsers, id);
             List<string> accommodationFiltered = await _repository.FilterAccommodationByLatestRatingsAndSort(accommodation);
             //List<string> accommodationSorted = await _repository.GetSorted(accommodationFiltered);
-        }
+        }*/
     }
 }

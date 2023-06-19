@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace RatingService.Controllers
 {
+    /*
     [Route("api/accommodation-recommendation")]
     [ApiController]
     public class RecommendationController : Controller
@@ -34,5 +35,5 @@ namespace RatingService.Controllers
         }
 
        
-    }
+    }*/
 }

@@ -50,11 +50,11 @@ namespace RatingService.Controllers
 
         [HttpGet]
         [Route("get-average-rating/{id}")]
-        public async Task<ActionResult> GetAverageRating(string id)
+        public ActionResult GetAverageRating(string id)
         {
-            var actionName = ControllerContext.ActionDescriptor.DisplayName;
-            using var scope = _tracer.BuildSpan(actionName).StartActive(true);
-            RatedEntity entity = await _ratingService.GetRatedEntity(id);
+            //var actionName = ControllerContext.ActionDescriptor.DisplayName;
+            //using var scope = _tracer.BuildSpan(actionName).StartActive(true);
+            RatedEntity entity =  _ratingService.GetRatedEntity(id);
 
             if (entity != null)
                 return Ok(entity);
@@ -62,15 +62,16 @@ namespace RatingService.Controllers
             return NotFound();   
         }
 
-        
+
+
         [HttpGet]
         [Route("get-all-ratings/{id}")]
-        public async Task<ActionResult> GetAllRatings(string id)
+        public ActionResult GetAllRatings(string id)
         {
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             
-            List<Rating> ratings = await _ratingService.GetAllEntityRatings(id);
+            List<Rating> ratings = _ratingService.GetAllEntityRatings(id);
 
             if (ratings != null && ratings.Count > 0)
                 return Ok(ratings);
@@ -80,14 +81,14 @@ namespace RatingService.Controllers
 
         [HttpDelete]
         [Route("delete-rating/{id}")]
-        public async Task<ActionResult> DeleteRating(string id)
+        public ActionResult DeleteRating(string id)
         {
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             Request.Headers.TryGetValue("UserId", out StringValues userId);
             try
             {
-                await _ratingService.DeleteRating(id, userId);
+                _ratingService.DeleteRating(id, userId);
                 return Ok();
             }
             catch(Exception ex)
