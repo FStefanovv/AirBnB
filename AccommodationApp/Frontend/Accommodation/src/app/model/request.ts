@@ -8,8 +8,9 @@ export class Request {
     numberOfGuests?: number;
     status?: RequestStatus;
     hostId?: string;
-}
 
+    public constructor(){}
+}
 
 export enum RequestStatus {
     PENDING,

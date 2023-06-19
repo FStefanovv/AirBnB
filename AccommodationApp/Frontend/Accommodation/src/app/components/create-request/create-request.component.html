@@ -6,9 +6,9 @@
     End Date: <div><input [(ngModel)]="createRequestDto.endDate" type="date"/></div>
   </div>
   <div class="display:flex;">
-    Number of guests: <div><input [(ngModel)]="createRequestDto.numberOfGuest" type="date"/></div>
+    Number of guests: <div><input [(ngModel)]="createRequestDto.numberOfGuest" type="number"/></div>
   </div>
-  <div id="submit-create-request" (click)="createRequest()">
-    Submit
+  <div id="submit-create-request">
+    <button (click)="createRequest()"> Send request</button>
   </div>
 </div>

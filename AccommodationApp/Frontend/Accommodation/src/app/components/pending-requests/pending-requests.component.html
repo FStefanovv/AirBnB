@@ -1,1 +1,31 @@
-<p>pending-requests works!</p>
+<h1>Your requests</h1>
+<table class="regular">
+    <tr>
+        <th>From</th>
+        <th>To</th>
+        <th>Accommodation</th>
+        <th>Number of guests</th>
+        <th>Status</th>
+        <th></th>
+    </tr>
+    <tr *ngFor="let request of requests">
+        <td>
+            {{request.from | date:'mediumDate'}}
+        </td>
+        <td>
+            {{request.to |  date:'mediumDate'}}
+        </td>
+        <td>
+            {{request.accommodationName}}
+        </td>
+        <td>
+            {{request.numberOfGuests}}
+        </td>
+        <td>
+            {{request.status==1? 'past' : (request.status==2? 'cancelled' : 'scheduled')}}
+        </td>
+        <td *ngIf="request.status == 0">
+            <button></button>
+        </td>
+    </tr>
+</table>

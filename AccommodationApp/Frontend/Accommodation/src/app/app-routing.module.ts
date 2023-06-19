@@ -11,6 +11,7 @@ import { RegistrationComponent } from './components/registration/registration.co
 import { UpdateAccommodationComponent } from './components/update-accommodation/update-accommodation.component';
 import { FlightRecommendationsComponent } from './components/flight-recommendations/flight-recommendations.component';
 import { BuyFlightTicketsComponent } from './components/buy-flight-tickets/buy-flight-tickets.component';
+import { CreateRequestComponent } from './components/create-request/create-request.component';
 import { ShowAccommodationComponent } from './components/show-accommodation/show-accommodation.component';
 
 const routes: Routes = [
@@ -23,9 +24,10 @@ const routes: Routes = [
   { path:'get-host', component: UserInfoChangeComponent, canActivate:[AuthGuard], data: {roles: ['HOST']}},
   { path:'get-regular', component: UserInfoChangeComponent, canActivate:[AuthGuard], data: {roles: ['REGULAR_USER']}},
   { path:'register-user', component: RegistrationComponent},
-  { path:'update-accommodation/:id/:startSeason/:endSeason/:price', component: UpdateAccommodationComponent},
+  { path:'update-accommodation/:id/:startSeason/:endSeason/:price', component: UpdateAccommodationComponent, canActivate:[AuthGuard], data: {roles: ['HOST']}},
   { path:'flight-recommendations/:id', component: FlightRecommendationsComponent, canActivate:[AuthGuard], data: {roles: ['REGULAR_USER']}},
   { path: 'buy-flight-tickets', component: BuyFlightTicketsComponent, canActivate:[AuthGuard], data: {roles: ['REGULAR_USER']}},
+  { path: 'create-request/:id', component: CreateRequestComponent, canActivate:[AuthGuard], data: {roles: ['REGULAR_USER']}}
   { path: 'buy-flight-tickets', component: ShowAccommodationComponent}
 ];
 

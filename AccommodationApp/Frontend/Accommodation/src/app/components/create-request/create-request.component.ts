@@ -10,8 +10,8 @@ import { ReservationService } from 'src/app/services/reservation.service';
   styleUrls: ['./create-request.component.css']
 })
 export class CreateRequestComponent implements OnInit{
-  constructor(private authService: AuthService,private route: ActivatedRoute,
-    private reservationService:ReservationService){}
+  constructor(private authService: AuthService,private route: ActivatedRoute, private reservationService:ReservationService){}
+  
   accommodationId?: string | null
   hostId?: string | null
   createRequestDto: CreateRequestDto = new CreateRequestDto()
@@ -32,6 +32,7 @@ export class CreateRequestComponent implements OnInit{
     this.createRequestDto.userId = this.authService.getId();
     this.reservationService.createRequest(this.createRequestDto).subscribe((res)=>{
       alert('sent')
+      console.log(this.createRequestDto)
     })
   }
 }

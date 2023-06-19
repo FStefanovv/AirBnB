@@ -13,7 +13,7 @@ export class AccommodationDTO {
     summerCost?: boolean;
     isDistinguishedHost?: boolean;
     offers?: string[];
-    hostId?: string;
+    hostId? : string;
 
     constructor(){
         this.id='';
