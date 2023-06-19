@@ -7,6 +7,7 @@ import { Address } from 'src/app/model/address';
 import { CreateAccommodationDTO } from 'src/app/model/create-accommodation';
 import { SearchDTO } from 'src/app/model/search';
 import { AccommodationService } from 'src/app/services/accommodation.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -33,7 +34,7 @@ export class HomeComponent implements OnInit {
   gym : boolean = false;
   distinguishedHost : boolean = false;
 
-  constructor(private accommodationService: AccommodationService, private router: Router) {}
+  constructor(private accommodationService: AccommodationService, private authService : AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.showAll();
@@ -165,7 +166,17 @@ export class HomeComponent implements OnInit {
 
   }
 
-    
+  sendRequest(id?:string){
+      this.router.navigate(['/create-request',id]);
+  }
+
+  IsHostLoggedIn(): boolean {
+    if (this.authService.getRole() === "HOST") {
+      return true;
+    }
+    return false;
+  } 
+  
 }
 
 

@@ -51,9 +51,13 @@
                 <ng-template #thenBlock>Price per guest:{{accomm.price}}</ng-template>
                 <ng-template #elseBlock>Price per accomodation:{{accomm.price}}</ng-template>
             </div>
-            <button class="button-regular" (click)="update(accomm.id,accomm.startSeason,accomm.endSeason,accomm.price)">Update</button>
+            <div *ngIf="IsHostLoggedIn()">
+                <button class="button-regular" (click)="update(accomm.id,accomm.startSeason,accomm.endSeason,accomm.price)">Update</button>
+            </div>
+            <div *ngIf="!IsHostLoggedIn()">
+                <button class="button-regular" (click)="sendRequest(accomm.id)">Reserve</button>
+            </div>
+        </div>
     </div>
-</div>
 
-    <button (click)="downloadFiles()">Download Files</button>
   
