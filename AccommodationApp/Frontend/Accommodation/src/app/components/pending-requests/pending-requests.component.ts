@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ReservationService } from 'src/app/services/reservation.service';
+import { Request } from 'src/app/model/request';
 
 @Component({
   selector: 'app-pending-requests',
@@ -11,12 +12,12 @@ export class PendingRequestsComponent implements OnInit {
 
   constructor(private reservationService: ReservationService) { }
 
-  requests: Request[] = [];
+  requests? : Request[];
   
 
   ngOnInit(): void {
     this.reservationService.getPendingRequests().subscribe({
-      next: (response: Request[]) => {
+      next: (response: any) => {
         this.requests = response;
         console.log(this.requests);
       },
