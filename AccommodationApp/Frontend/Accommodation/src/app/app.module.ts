@@ -25,6 +25,7 @@ import { FlightRecommendationsComponent } from './components/flight-recommendati
 import { DatePipe } from '@angular/common';
 import { DisplayRecommendationsComponent } from './components/display-recommendations/display-recommendations.component';
 import { BuyFlightTicketsComponent } from './components/buy-flight-tickets/buy-flight-tickets.component';
+import { ShowAccommodationComponent } from './components/show-accommodation/show-accommodation.component';
 
 export function tokenGetter() { 
   return localStorage.getItem("jwt"); 
@@ -46,6 +47,7 @@ export function tokenGetter() {
     FlightRecommendationsComponent,
     DisplayRecommendationsComponent,
     BuyFlightTicketsComponent,
+    ShowAccommodationComponent,
   ],
   imports: [
     BrowserModule,
