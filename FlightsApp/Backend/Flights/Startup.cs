@@ -1,5 +1,4 @@
 using Flights.ApiKeyAuth;
-using Flights.BackgroundTasks;
 using Flights.Model;
 using Flights.Repository;
 using Flights.Service;
@@ -42,7 +41,7 @@ namespace Flights
         {
             services.AddCors();
 
-            services.AddHostedService<UpdateFlightStatus>();
+            //services.AddHostedService<UpdateFlightStatus>();
 
             services.AddSingleton<IDbContext, DbContext>();
 

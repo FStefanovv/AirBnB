@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <UserSecretsId>be09bc84-49ec-4a41-a2f5-b606a1a11513</UserSecretsId>
-    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
     <DockerfileContext>..\AccommodationSolution</DockerfileContext>
     <StartupObject>ReservationService.Program</StartupObject>
   </PropertyGroup>
