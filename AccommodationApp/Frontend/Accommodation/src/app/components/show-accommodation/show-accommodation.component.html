@@ -1,3 +1,41 @@
+<table>
+      <tr>
+        <td><label for="name">Name:</label></td>
+        <td><input type="text" id="name" name="name" [(ngModel)]="accommodation.name"></td>
+      </tr>
+      <tr>
+        <td><label for="startSeason">Start Season:</label></td>
+        <td><input type="text" id="startSeason" name="startSeason" [(ngModel)]="accommodation.startSeason"></td>
+      </tr>
+      <tr>
+        <td><label for="endSeason">End Season:</label></td>
+        <td><input type="text" id="endSeason" name="endSeason" [(ngModel)]="accommodation.endSeason"></td>
+      </tr>
+      <tr>
+        <td><label for="price">Price:</label></td>
+        <td><input type="number" id="price" name="price" [(ngModel)]="accommodation.price"></td>
+      </tr>
+      <tr>
+        <td><label for="pricePerGuest">Price defined:</label></td>
+        <td>{{accommodation.pricePerGuest? 'per guest':'per accommodation'}}</td>
+      </tr>
+      <tr>
+        <td><label for="isDistinguishedHost">Is Distinguished Host:</label></td>
+        <td>{{accommodation.isDistinguishedHost? 'Yes' : 'No'}}</td>
+      </tr>
+      <tr>
+        <td><label for="offers">Offers:</label></td>
+        <td>
+            <span *ngFor="let offer in accommodation.offers">
+                {{offer}},
+            </span>
+        </td>
+      </tr>
+  </table>
+  
+
+
+
 <label>Your accommodation rating</label>
 <input type="text" [(ngModel)]="ratingDto.Grade">
 <button (click)="rateAccomm()" class="button-regular">Rate</button>

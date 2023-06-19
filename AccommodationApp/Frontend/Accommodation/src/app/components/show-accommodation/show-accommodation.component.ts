@@ -26,7 +26,7 @@ export class ShowAccommodationComponent implements OnInit {
 
   hostRatingInfo: string = '';
   accommRatingInfo: string = '';
-
+  offers: string = '';
 
   ngOnInit(): void {
     const temp = this.activatedRoute.snapshot.paramMap.get("id");
