@@ -14,6 +14,7 @@
         public bool SummerCost { get; set; }
         public bool IsDistinguishedHost { get; set; }
         public string[] Offers { get; set; }
+        public string HostId { get; set; }
 
         public AccommodationDTO() { }
 

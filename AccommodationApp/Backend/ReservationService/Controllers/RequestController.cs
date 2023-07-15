@@ -57,5 +57,6 @@ namespace ReservationService.Controllers
             var list = _requestService.GetRequestsForHost(hostId);
             return Ok(list);
         }
+
     }
 }

@@ -203,7 +203,5 @@ namespace ReservationService.Controllers
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             return Ok(_reservationService.GetEndReservation(id));
         }
-
-
     }
 }

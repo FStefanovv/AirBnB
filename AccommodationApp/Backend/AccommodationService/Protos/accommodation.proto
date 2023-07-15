@@ -7,7 +7,7 @@ package accommodation;
 service AccommodationGRPCService {
   rpc GetAccommodationGRPC (AccommodationId) returns (AccommodationGRPC);
   rpc DeleteAccwithoutHost (UserId) returns (Deleted);
-  rpc UpdateDistinguishedHostAppointments (HostIdAndDistinguishedStatus) returns (UserId);
+  rpc UpdateDistinguishedHostAccommodations (HostIdAndDistinguishedStatus) returns (UserId);
   
 }
 
