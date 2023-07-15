@@ -55,4 +55,9 @@ export class AccommodationService {
 
     return this.http.post(this.accommUrl+'update',updateAccommodation,this.httpOptions1)
   }
+
+  //this.accommUrl+'get-by-id/'
+  getAccommodation(id: string) : Observable<AccommodationDTO> {
+    return this.http.get<AccommodationDTO>(this.accommUrl+'get-by-id/'+id, this.httpOptions1)
+  }
 }

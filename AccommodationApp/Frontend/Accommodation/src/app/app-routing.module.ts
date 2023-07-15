@@ -12,6 +12,7 @@ import { UpdateAccommodationComponent } from './components/update-accommodation/
 import { FlightRecommendationsComponent } from './components/flight-recommendations/flight-recommendations.component';
 import { BuyFlightTicketsComponent } from './components/buy-flight-tickets/buy-flight-tickets.component';
 import { CreateRequestComponent } from './components/create-request/create-request.component';
+import { ShowAccommodationComponent } from './components/show-accommodation/show-accommodation.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch:'full' },
@@ -27,6 +28,7 @@ const routes: Routes = [
   { path:'flight-recommendations/:id', component: FlightRecommendationsComponent, canActivate:[AuthGuard], data: {roles: ['REGULAR_USER']}},
   { path: 'buy-flight-tickets', component: BuyFlightTicketsComponent, canActivate:[AuthGuard], data: {roles: ['REGULAR_USER']}},
   { path: 'create-request/:id', component: CreateRequestComponent, canActivate:[AuthGuard], data: {roles: ['REGULAR_USER']}}
+  { path: 'buy-flight-tickets', component: ShowAccommodationComponent}
 ];
 
 @NgModule({

@@ -167,7 +167,13 @@ export class HomeComponent implements OnInit {
 
     this.router.navigate(
       ['/update-accommodation',id,startSeason,endSeason,price] ); 
+  }
 
+  showAccommodation(id: string | undefined) {
+    if(id){
+      this.router.navigate(
+        ['/show-accommodation',id]); 
+    }
   }
 
   sendRequest(id?:string){

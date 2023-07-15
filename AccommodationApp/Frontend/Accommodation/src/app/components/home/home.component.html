@@ -62,6 +62,8 @@
             <div *ngIf="!IsHostLoggedIn()">
                 <button class="button-regular" (click)="sendRequest(accomm.id)">Reserve</button>
             </div>
+            <button class="button-regular" (click)="showAccommodation(accomm.id)">See more</button>
+            <button class="button-regular" (click)="update(accomm.id,accomm.startSeason,accomm.endSeason,accomm.price)">Update</button>
         </div>
     </div>
 
