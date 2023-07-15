@@ -221,9 +221,9 @@ namespace Accommodation.Services
 
         }
 
-        public override Task<UserId> UpdateDistinguishedHostAppointments(HostIdAndDistinguishedStatus hostIdAndDistinguishedStatus, ServerCallContext context)
+        public override Task<UserId> UpdateDistinguishedHostAccommodations(HostIdAndDistinguishedStatus hostIdAndDistinguishedStatus, ServerCallContext context)
         {
-            using var scope = _tracer.BuildSpan("UpdateDistinguishedHostAppointments").StartActive(true);
+            using var scope = _tracer.BuildSpan("UpdateDistinguishedHostAccommodations").StartActive(true);
             List<Model.Accommodation> hostAccommodations = _repository.GetByHostId(hostIdAndDistinguishedStatus.Id);
             foreach (Model.Accommodation accommodation in hostAccommodations)
             {
