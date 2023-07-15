@@ -40,7 +40,7 @@ export class ShowAccommodationComponent implements OnInit {
     );
     if(this.accommodationId)
       this.ratingService.getAverageRating(this.accommodationId).subscribe({ 
-        next: (res: RatedEntity) => {
+        next: (res: any) => {
           this.hostRatingInfo = 'Host average rating is '+ res.AverageRating;
         },
         error: (error: HttpErrorResponse) => {
@@ -49,7 +49,7 @@ export class ShowAccommodationComponent implements OnInit {
         });
     if(this.accommodation.hostId){
       this.ratingService.getAverageRating(this.accommodation.hostId).subscribe({ 
-        next: (res: RatedEntity) => {
+        next: (res: any) => {
           this.accommRatingInfo = 'Accommodation average rating is '+ res.AverageRating;
         },
         error: (error: HttpErrorResponse) => {

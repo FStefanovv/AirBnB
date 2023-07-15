@@ -27,7 +27,7 @@ const routes: Routes = [
   { path:'update-accommodation/:id/:startSeason/:endSeason/:price', component: UpdateAccommodationComponent, canActivate:[AuthGuard], data: {roles: ['HOST']}},
   { path:'flight-recommendations/:id', component: FlightRecommendationsComponent, canActivate:[AuthGuard], data: {roles: ['REGULAR_USER']}},
   { path: 'buy-flight-tickets', component: BuyFlightTicketsComponent, canActivate:[AuthGuard], data: {roles: ['REGULAR_USER']}},
-  { path: 'create-request/:id', component: CreateRequestComponent, canActivate:[AuthGuard], data: {roles: ['REGULAR_USER']}}
+  { path: 'create-request/:id', component: CreateRequestComponent, canActivate:[AuthGuard], data: {roles: ['REGULAR_USER']}},
   { path: 'buy-flight-tickets', component: ShowAccommodationComponent}
 ];
 
