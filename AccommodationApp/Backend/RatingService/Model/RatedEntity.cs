@@ -11,6 +11,7 @@ namespace RatingService.Model
         public float AverageRating { get; set; }
         public int Type { get; set; }
 
+
         public RatedEntity(){}
 
         public RatedEntity(string id, int type)

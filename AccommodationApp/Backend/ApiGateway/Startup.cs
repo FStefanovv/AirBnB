@@ -65,7 +65,10 @@ namespace ApiGateway
                     };
                 }
             );
-           
+
+            /*services.AddHttpClient("NoCertificateValidationHandler")
+                .AddHttpMessageHandler<NoCertificateValidationHandler>();*/
+
             services.AddOcelot();
         }
 

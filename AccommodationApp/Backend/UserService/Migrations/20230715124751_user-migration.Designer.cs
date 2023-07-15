@@ -9,8 +9,8 @@ using Users;
 namespace Users.Migrations
 {
     [DbContext(typeof(PostgresDbContext))]
-    [Migration("20230619145640_newMigration")]
-    partial class newMigration
+    [Migration("20230715124751_user-migration")]
+    partial class usermigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

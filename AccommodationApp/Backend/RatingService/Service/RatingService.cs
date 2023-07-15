@@ -22,7 +22,7 @@ namespace RatingService.Service
             _ratingRepository = ratingRepository;
         }
 
-        public async Task CreateAsync(RatingDTO dto, StringValues username, StringValues userId)
+        public async Task CreateAsync(CreateRatingDTO dto, StringValues username, StringValues userId)
         {
 
             bool canRate = await CheckIfUserCanRate(dto, userId);
@@ -90,6 +90,7 @@ namespace RatingService.Service
             return sum / (ratings.Count - 1);
         }
 
+
         public async Task<List<Rating>> GetAllEntityRatings(string id)
         {
             return await _ratingRepository.GetEntityRatings(id);
@@ -120,7 +121,7 @@ namespace RatingService.Service
             else return sum / ratings.Count;      
         }
 
-        private async Task<bool> CheckIfUserCanRate(RatingDTO dto, StringValues userId)
+        private async Task<bool> CheckIfUserCanRate(CreateRatingDTO dto, StringValues userId)
         {
             var handler = new HttpClientHandler();
             handler.ServerCertificateCustomValidationCallback =
@@ -136,6 +137,14 @@ namespace RatingService.Service
             }) ;
 
             return reply.RatingAllowed;
+        }
+
+        public async Task<Rating> GetUsersRating(string entityId, StringValues userId)
+        {
+            Rating rating = await _ratingRepository.GetRatingByParams(userId, entityId);
+            if (rating != null)
+                return rating;
+            throw new Exception("User has not rated this entity");
         }
 
 
