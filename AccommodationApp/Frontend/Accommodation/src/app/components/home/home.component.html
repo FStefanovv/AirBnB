@@ -1,4 +1,9 @@
 <div id="main-div">
+    <div class="container-distinguished">
+        <div *ngIf="isHostDistinguished">
+            <button class="button-distinguished">Distinguished</button>
+        </div>
+    </div>
     <div>
         <label for="location">Location: </label>
         <input type="text" placeholder="Street,Number,City,Country" class="input-regular" [(ngModel)]='searchDTO.location'/>
@@ -41,7 +46,7 @@
         <label for="Gym">Gym: </label>
         <input type="checkbox" name="Gym"  [(ngModel)]="gym"/>
         <label for="DistinguishedHost">Distinguished host: </label>
-        <input type="checkbox" name="DistinguishedHost" [(ngModel)]="distinguishedHost"/>
+        <input type="checkbox" name="DistinguishedHost" [(ngModel)]="isDistinguishedHost"/>
         <button class="button-regular" (click)="filter()">Filter</button>
     </div>
     <div *ngFor="let accomm of accommodationsToShow" class="card">

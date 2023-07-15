@@ -8,6 +8,7 @@ import { CreateAccommodationDTO } from 'src/app/model/create-accommodation';
 import { SearchDTO } from 'src/app/model/search';
 import { AccommodationService } from 'src/app/services/accommodation.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-home',
@@ -32,12 +33,15 @@ export class HomeComponent implements OnInit {
   pet : boolean = false;
   sauna : boolean = false;
   gym : boolean = false;
-  distinguishedHost : boolean = false;
+  isDistinguishedHost : boolean = false;
+  isHostDistinguished: boolean = false;
+  
 
-  constructor(private accommodationService: AccommodationService, private authService : AuthService, private router: Router) {}
+  constructor(private accommodationService: AccommodationService, private userService: UserService, private authService : AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.showAll();
+    this.IsHostDistinguished();
   }
 
   search() {
@@ -120,7 +124,7 @@ export class HomeComponent implements OnInit {
     else{
       this.accommodationsToShow = this.accommodationsToShow
     }
-    if(this.distinguishedHost == true){
+    if(this.isDistinguishedHost == true){
       this.accommodationsToShow = this.accommodationsToShow.filter(item => item.isDistinguishedHost)
     }
     else{
@@ -176,8 +180,25 @@ export class HomeComponent implements OnInit {
     }
     return false;
   } 
-  
+
+  IsHostDistinguished() {
+    this.userService.getHost().subscribe({
+      next: (res : any) => {
+        if(res.isDistinguishedHost){
+          console.log('dis je')
+          this.isHostDistinguished = true;
+        }
+        else{
+          console.log('nije dis')
+          this.isHostDistinguished = false;
+        }
+      }
+    })
+  }
+
 }
+
+
 
 
 

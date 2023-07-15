@@ -9,6 +9,7 @@ export class User {
     password?: string
     confirmPassword?: string
     role?: string
+    isDistinguishedHost?: boolean
 
     constructor(){
         this.firstName = '';
@@ -19,5 +20,6 @@ export class User {
         this.password = '';
         this.confirmPassword = '';
         this.role = '';
+        this.isDistinguishedHost = false;
     }
 }
