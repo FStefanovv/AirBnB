@@ -12,6 +12,7 @@ import { UpdateAccommodationComponent } from './components/update-accommodation/
 import { FlightRecommendationsComponent } from './components/flight-recommendations/flight-recommendations.component';
 import { BuyFlightTicketsComponent } from './components/buy-flight-tickets/buy-flight-tickets.component';
 import { ShowAccommodationComponent } from './components/show-accommodation/show-accommodation.component';
+import { CreateRequestComponent } from './components/create-request/create-request.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch:'full' },

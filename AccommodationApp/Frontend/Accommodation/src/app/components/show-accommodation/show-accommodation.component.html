@@ -5,7 +5,7 @@
 
 <label>Your host rating</label>
 <input type="text" [(ngModel)]="ratingDto.Grade">
-<button (click)="rateHost()" class="button-regular">Rate</button>
+<button (click)="rateHost()" class="butt on-regular">Rate</button>
 <button (click)="deleteHostRating()" class="button-regular">Remove Host Rating</button>
 
 <p>
@@ -15,5 +15,9 @@
     {{accommRatingInfo}}
 </p>-->
 
+<p>{{userHostRatingInfo}}</p>
+<p>{{userAccommRatingInfo}}</p>
+<p>{{hostRatingInfo}}</p>
+<p>{{accommRatingInfo}}</p>
 
 

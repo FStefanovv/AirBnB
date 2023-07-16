@@ -98,12 +98,12 @@ namespace RatingService.Controllers
 
         [HttpGet]
         [Route("get-user-rating/{id}")]
-        public async Task<ActionResult<Rating>> GetUsersRating(string entityId)
+        public async Task<ActionResult<Rating>> GetUsersRating(string id)
         {
             Request.Headers.TryGetValue("UserId", out StringValues userId);
             try
             {
-                Rating rating = await _ratingService.GetUsersRating(entityId, userId);
+                Rating rating = await _ratingService.GetUsersRating(id, userId);
                 return Ok(rating);
             }
             catch(Exception ex)

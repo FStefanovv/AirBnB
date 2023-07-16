@@ -20,9 +20,15 @@ export class ShowAccommodationComponent implements OnInit {
 
   createAccommodationRatingDto: CreateRatingDTO = new CreateRatingDTO();
   createHostRatingDto: CreateRatingDTO = new CreateRatingDTO();
+
+  existingAccommRating: RatingDTO = new RatingDTO();
+  existingHostRating: RatingDTO = new RatingDTO();
   
   accommRating: RatedEntity = new RatedEntity();
   hostRating: RatedEntity = new RatedEntity();
+
+  hasRatedAccomm: boolean = false;
+  hasRatedHost: boolean = false;
 
   hostRatingInfo: string = '';
   accommRatingInfo: string = '';
@@ -39,56 +45,21 @@ export class ShowAccommodationComponent implements OnInit {
       res =>
       {
         this.accommodation = res;
+        this.obtainAccommAverageRatingInfo();
       }
     );
-    if(this.accommodationId){
-      this.ratingService.getAverageRating(this.accommodationId).subscribe({ 
-        next: (res: any) => {
-          this.hostRatingInfo = 'Host average rating is '+ res.AverageRating;
-        },
-        error: (error: HttpErrorResponse) => {
-          this.hostRatingInfo = 'The accommodation doesn\'t have any ratings yet';
-        }
-        });
-      this.ratingService.getUsersRating(this.accommodationId).subscribe({
-        next: (res: RatingDTO) => {
-            
-        },
-        error: (error: HttpErrorResponse) => {
-          
-        }
-        });
-    }
-    if(this.accommodation.hostId){
-      this.ratingService.getAverageRating(this.accommodation.hostId).subscribe({ 
-        next: (res: any) => {
-          this.accommRatingInfo = 'Accommodation average rating is '+ res.AverageRating;
-        },
-        error: (error: HttpErrorResponse) => {
-          this.hostRatingInfo = 'The host doesn\'t have any ratings yet';
-        }
-        });
-     this.ratingService.getUsersRating(this.accommodation.hostId).subscribe({
-      next: (res: RatingDTO) => {
-        
-      },
-      error: (error: HttpErrorResponse) => {
-
-      }
-     });
-    }
   }
 
   rateAccomm(){
-    this.createAccommodationRatingDto.RatedEntityId = this.accommodationId;
-    this.createAccommodationRatingDto.RatedEntityType = 0;
+    this.createAccommodationRatingDto.ratedEntityId = this.accommodationId;
+    this.createAccommodationRatingDto.ratedEntityType = 0;
     this.ratingService.rate(this.createAccommodationRatingDto);
   }
 
   rateHost(){
     if(this.accommodation.hostId){
-      this.createHostRatingDto.RatedEntityId = this.accommodation.hostId;
-      this.createHostRatingDto.RatedEntityType = 1;
+      this.createHostRatingDto.ratedEntityId = this.accommodation.hostId;
+      this.createHostRatingDto.ratedEntityType = 1;
     }
     this.ratingService.rate(this.createHostRatingDto);
   }
@@ -101,4 +72,64 @@ export class ShowAccommodationComponent implements OnInit {
     if(this.accommodation.hostId)
       this.ratingService.deleteRating(this.accommodation.hostId).subscribe();
   }
+
+  obtainAccommAverageRatingInfo() {
+    if(this.accommodation.id){
+      this.ratingService.getAverageRating(this.accommodation.id).subscribe({ 
+        next: (res: RatedEntity) => {
+          this.accommRatingInfo = 'Average accommodation rating is '+ res.averageRating;
+        },
+        error: (error: HttpErrorResponse) => {
+          this.accommRatingInfo = 'The accommodation doesn\'t have any ratings yet';
+        }
+        });
+      this.obtainUsersRatingForAccomm();
+    }    
+  }
+
+  obtainUsersRatingForAccomm() {
+    if(this.accommodation.id){
+      this.ratingService.getUsersRating(this.accommodation.id).subscribe({
+        next: (res: RatingDTO) => {
+            this.hasRatedAccomm = true;
+            this.existingAccommRating = res;
+            this.userHostRatingInfo = 'You have rated this accommodation ' + this.existingAccommRating.grade;
+
+        },
+        error: (error: HttpErrorResponse) => {
+          this.userAccommRatingInfo = "You haven\'t rated this accommodation yet";
+        }
+        });
+    }
+    this.obtainHostAveragerating();
+  }
+  obtainHostAveragerating() {
+    if(this.accommodation.hostId){
+      this.ratingService.getAverageRating(this.accommodation.hostId).subscribe({ 
+        next: (res: RatedEntity) => {
+          this.hostRatingInfo = 'Average host average rating is '+ res.averageRating;
+        },
+        error: (error: HttpErrorResponse) => {
+          this.hostRatingInfo = 'The host doesn\'t have any ratings yet';
+        }
+        });
+    }
+    this.obtainUsersRatingForHost();
+  }
+
+  obtainUsersRatingForHost() {
+    if(this.accommodation.hostId){
+      this.ratingService.getUsersRating(this.accommodation.hostId).subscribe({
+        next: (res: RatingDTO) => {
+          this.hasRatedHost = true;
+          this.existingHostRating = res;
+          this.userHostRatingInfo = 'You have rated this host ' + this.existingHostRating.grade;
+        },
+        error: (error: HttpErrorResponse) => {
+          this.userHostRatingInfo = "You haven\'t rated this host yet";
+        }
+       });
+    }
+  }
 }
+

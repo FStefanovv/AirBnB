@@ -141,7 +141,7 @@ namespace RatingService.Repository
 
             var query = @"
             MATCH (u:User { Id: $userId })-[r:RATED]->(re:RatedEntity { Id: $ratedEntityId })
-            RETURN r{Id: r.Id, Grade: r.Grade, RatingDate: r.RatingDate}";
+            RETURN r{Id: r.Id, Grade: r.Grade, RatingDate: r.RatingDate, UserId: r.UserId}";
 
             var parameters = new Dictionary<string, object>
                 {
@@ -159,7 +159,8 @@ namespace RatingService.Repository
             {
                 Id = result[0]["Id"].ToString(),
                 Grade = Convert.ToInt32(result[0]["Grade"]),
-                RatingDate = result[0]["RatingDate"].As<LocalDateTime>().ToDateTime()
+                RatingDate = result[0]["RatingDate"].As<LocalDateTime>().ToDateTime(),
+                UserId = result[0]["UserId"].ToString()
             };
 
             return rating;
