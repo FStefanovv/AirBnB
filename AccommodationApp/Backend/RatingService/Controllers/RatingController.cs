@@ -112,6 +112,16 @@ namespace RatingService.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("get-ratings-for-page/{accommId}/{hostId}")]
+        public async Task<ActionResult<List<RatingDTO>>> GetRatingsForPage(string accommId, string hostId)
+        {
+            Request.Headers.TryGetValue("UserId", out StringValues userId);
+
+            List<RatingDTO> ratingDtos = await _ratingService.GetPageRatings(userId, accommId, hostId);
+
+            return Ok(ratingDtos);
+        }
 
     }
 }

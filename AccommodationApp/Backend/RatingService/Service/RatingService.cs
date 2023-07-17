@@ -102,6 +102,7 @@ namespace RatingService.Service
             return entity;
         }
 
+
         private async Task<float> UpdateEntityRating(string id, int grade, string ratingId)
         {
             List<Rating> ratings = await _ratingRepository.GetEntityRatings(id);
@@ -145,6 +146,80 @@ namespace RatingService.Service
             if (rating != null)
                 return rating;
             throw new Exception("User has not rated this entity");
+        }
+
+        public async Task<List<RatingDTO>> GetPageRatings(string userId, string accommId, string hostId)
+        {
+            List<RatingDTO> ratingDtos = new List<RatingDTO>();
+
+
+            RatedEntity accommRating = await _ratingRepository.GetRatedEntity(accommId);
+            if (accommRating == null)
+                ratingDtos.Add(
+                    new RatingDTO
+                    {
+                        Id = "",
+                        Grade = -1
+                    });
+            else
+                ratingDtos.Add(
+                    new RatingDTO
+                    {
+                        Id = accommRating.Id,
+                        Grade = accommRating.AverageRating
+                    });
+
+
+            RatedEntity hostRating = await _ratingRepository.GetRatedEntity(hostId);
+            if (hostRating == null)
+                ratingDtos.Add(
+                    new RatingDTO
+                    {
+                        Id = "",
+                        Grade = -1
+                    });
+            else
+                ratingDtos.Add(
+                    new RatingDTO
+                    {
+                        Id = hostRating.Id,
+                        Grade = hostRating.AverageRating
+                    });
+
+            Rating accommUserRating = await _ratingRepository.GetRatingByParams(userId, accommId);
+            if (accommUserRating == null)
+                ratingDtos.Add(
+                    new RatingDTO
+                    {
+                        Id = "",
+                        Grade = -1
+                    });
+            else
+                ratingDtos.Add(
+                    new RatingDTO
+                    {
+                        Id = accommUserRating.Id,
+                        Grade = accommUserRating.Grade
+                    });
+
+            Rating hostUserRating = await _ratingRepository.GetRatingByParams(userId, hostId);
+            if (accommUserRating == null)
+                ratingDtos.Add(
+                    new RatingDTO
+                    {
+                        Id = "",
+                        Grade = -1
+                    });
+            else
+                ratingDtos.Add(
+                    new RatingDTO
+                    {
+                        Id = hostUserRating.Id,
+                        Grade = hostUserRating.Grade
+                    });
+
+
+            return ratingDtos;
         }
 
 

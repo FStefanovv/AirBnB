@@ -17,5 +17,10 @@ export class RatedEntity {
     type: number = 0;
 }
 
+export class RatingInfoDTO {
+    id: string = '';
+    grade: number = 0;
+}
+
 
 

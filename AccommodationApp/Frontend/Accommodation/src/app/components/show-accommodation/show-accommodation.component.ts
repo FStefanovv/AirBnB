@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AccommodationDTO } from 'src/app/model/accommodation';
-import { CreateRatingDTO, RatedEntity, RatingDTO } from 'src/app/model/ratings';
+import { CreateRatingDTO, RatedEntity, RatingDTO, RatingInfoDTO } from 'src/app/model/ratings';
 import { AccommodationService } from 'src/app/services/accommodation.service';
 import { RatingServiceService } from 'src/app/services/rating-service.service';
 
@@ -21,11 +21,11 @@ export class ShowAccommodationComponent implements OnInit {
   createAccommodationRatingDto: CreateRatingDTO = new CreateRatingDTO();
   createHostRatingDto: CreateRatingDTO = new CreateRatingDTO();
 
-  existingAccommRating: RatingDTO = new RatingDTO();
-  existingHostRating: RatingDTO = new RatingDTO();
+  //existingAccommRating: RatingDTO = new RatingDTO();
+  //existingHostRating: RatingDTO = new RatingDTO();
   
-  accommRating: RatedEntity = new RatedEntity();
-  hostRating: RatedEntity = new RatedEntity();
+  //accommRating: RatedEntity = new RatedEntity();
+  //hostRating: RatedEntity = new RatedEntity();
 
   hasRatedAccomm: boolean = false;
   hasRatedHost: boolean = false;
@@ -36,6 +36,8 @@ export class ShowAccommodationComponent implements OnInit {
   userHostRatingInfo: string = '';
   userAccommRatingInfo: string = '';
 
+  pageRatingInfo: RatingInfoDTO[] = [];
+
 
   ngOnInit(): void {
     const temp = this.activatedRoute.snapshot.paramMap.get("id");
@@ -45,9 +47,19 @@ export class ShowAccommodationComponent implements OnInit {
       res =>
       {
         this.accommodation = res;
-        this.obtainAccommAverageRatingInfo();
+        this.obtainAllRatingInfo();
       }
     );
+  }
+  obtainAllRatingInfo() {
+    if(this.accommodation.id && this.accommodation.hostId){
+      this.ratingService.getPageRatingInfo(this.accommodation.id, this.accommodation.hostId).subscribe(
+        res => {
+          this.pageRatingInfo = res;
+          console.log(this.pageRatingInfo);
+        }
+      );
+    }
   }
 
   rateAccomm(){
@@ -73,6 +85,7 @@ export class ShowAccommodationComponent implements OnInit {
       this.ratingService.deleteRating(this.accommodation.hostId).subscribe();
   }
 
+  /*
   obtainAccommAverageRatingInfo() {
     if(this.accommodation.id){
       this.ratingService.getAverageRating(this.accommodation.id).subscribe({ 
@@ -130,6 +143,6 @@ export class ShowAccommodationComponent implements OnInit {
         }
        });
     }
-  }
+  }*/
 }
 
