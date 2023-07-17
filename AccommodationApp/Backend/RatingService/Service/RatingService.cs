@@ -203,7 +203,7 @@ namespace RatingService.Service
                     });
 
             Rating hostUserRating = await _ratingRepository.GetRatingByParams(userId, hostId);
-            if (accommUserRating == null)
+            if (hostUserRating == null)
                 ratingDtos.Add(
                     new RatingDTO
                     {

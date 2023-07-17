@@ -1,22 +1,16 @@
-<!--<label>Your accommodation rating</label>
-<input type="text" [(ngModel)]="ratingDto.Grade">
-<button (click)="rateAccomm()" class="button-regular">Rate</button>
-<button (click)="deleteAccommRating()" class="button-regular">Remove Accommodation Rating</button>
-
-<label>Your host rating</label>
-<input type="text" [(ngModel)]="ratingDto.Grade">
-<button (click)="rateHost()" class="butt on-regular">Rate</button>
-<button (click)="deleteHostRating()" class="button-regular">Remove Host Rating</button>
-
-<p>
-    {{hostRatingInfo}}
-</p>
-<p>
-    {{accommRatingInfo}}
-</p>
-
-<p>{{userHostRatingInfo}}</p>
-<p>{{userAccommRatingInfo}}</p>
-<p>{{hostRatingInfo}}</p>
 <p>{{accommRatingInfo}}</p>
--->
+<p>{{hostRatingInfo}}</p>
+<div>
+    <span>{{userAccommRatingInfo}}</span>
+    <input [(ngModel)]="createAccommodationRatingDto.grade" class="input-regular"/>
+    <button (click)="rateAccomm()" class="button-regular">{{!hasRatedAccomm? 'Rate' : 'Update Rating'}}</button>
+    <button *ngIf="hasRatedAccomm" (click)="deleteRating(pageRatingInfo[2].id)" class="button-cancel">Remove Rating</button>
+</div>
+<div>
+    <span>{{userHostRatingInfo}}</span>
+    <input [(ngModel)]="createHostRatingDto.grade" class="input-regular" />
+    <button (click)="rateHost()" class="button-regular">{{!hasRatedHost? 'Rate' : 'Update Rating'}}</button>
+    <button *ngIf="hasRatedHost" (click)="deleteRating(pageRatingInfo[3].id)" class="button-cancel">Remove Rating</button>
+</div>
+
+
