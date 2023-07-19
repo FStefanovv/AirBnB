@@ -10,16 +10,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
-COPY ["Accommodation.csproj", ""]
-RUN dotnet restore "./Accommodation.csproj"
+COPY ["ApiGateway.csproj", ""]
+RUN dotnet restore "./ApiGateway.csproj"
 COPY . .
 WORKDIR "/src/."
-RUN dotnet build "Accommodation.csproj" -c Release -o /app/build
+RUN dotnet build "ApiGateway.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Accommodation.csproj" -c Release -o /app/publish
+RUN dotnet publish "ApiGateway.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Accommodation.dll"]
+ENTRYPOINT ["dotnet", "ApiGateway.dll"]

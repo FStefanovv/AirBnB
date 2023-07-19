@@ -1,31 +1,30 @@
-
-using Jaeger.Reporters;
-using Jaeger.Samplers;
-using Jaeger.Senders.Thrift;
-using Jaeger;
-using MassTransit;
+using Accommodation.Repository;
+using Accommodation.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using OpenTracing.Contrib.NetCore.Configuration;
-using OpenTracing;
-using ReservationService.RabbitMQ;
-//using ReservationService.BackgroundServices;
-using ReservationService.Repository;
-using ReservationService.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Jaeger.Reporters;
+using Jaeger.Samplers;
+using Jaeger.Senders.Thrift;
+using Jaeger;
+using OpenTracing.Contrib.NetCore.Configuration;
+using OpenTracing;
+using MassTransit;
+using Accommodation.RabbitMQ;
 
-namespace ReservationService
+namespace Accommodation
 {
     public class Startup
     {
@@ -39,42 +38,37 @@ namespace ReservationService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddMassTransit(cfg =>
             {
-                cfg.AddConsumer<ReservationServiceConsumer>();
+                cfg.AddConsumer<AccomodationServiceConsumer>();
 
                 cfg.AddBus(provider => RabbitMQBus.ConfigureBus(provider, (cfg, host) =>
                 {
-                    cfg.ReceiveEndpoint(BusConstants.StartDeleteQueue, ep =>
+                    cfg.ReceiveEndpoint(BusConstants.StartDeleteAccommodation, ep =>
                     {
-                        ep.ConfigureConsumer<ReservationServiceConsumer>(provider);
+                        ep.ConfigureConsumer<AccomodationServiceConsumer>(provider);
                     });
                 }));
             });
 
-          
+
+            services.AddScoped<AccomodationServiceConsumer>();
+
             services.AddMassTransitHostedService();
             services.AddCors();
 
-            services.AddDbContext<PostgresDbContext>(opts =>
-                opts.UseNpgsql(Configuration.GetConnectionString("PostgresDatabaseConnectionString")));
+            services.AddSingleton<IDbContext, MongoDbContext>();
+            services.AddSingleton<AccommodationRepository>();
+            services.AddSingleton<AccommodationService>();
 
-            //services.AddHostedService<UpdateReservationStatus>();
-
-            services.AddScoped<IReservationRepository, ReservationRepository>();
-            services.AddScoped<IReservationService, Service.ReservationService>();
-            services.AddScoped<IRequestRepository, RequestRepository>();
-            services.AddScoped<IRequestService, Service.RequestService>();
-            services.AddScoped<ReservationServiceConsumer>();
 
             services.AddGrpc();
 
             services.AddControllers();
-
-          
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ReservationService", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Accommodation", Version = "v1" });
             });
 
             services.AddOpenTracing();
@@ -106,10 +100,12 @@ namespace ReservationService
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ReservationService v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Accommodation v1"));
             }
 
-            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 
@@ -125,8 +121,7 @@ namespace ReservationService
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapGrpcService<ReservationService.Service.ReservationService>();
-               // endpoints.MapGrpcService<ReservationService.Service.RequestService>();
+                endpoints.MapGrpcService<AccommodationService>();
             });
         }
     }

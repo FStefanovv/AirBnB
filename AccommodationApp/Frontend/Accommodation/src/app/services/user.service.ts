@@ -10,7 +10,7 @@ import { User } from '../model/user';
   providedIn: 'root'
 })
 export class UserService {
-  private usersUrl = 'http://localhost:5000/gateway/';
+  private usersUrl = 'https://localhost:5000/gateway/';
   
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })

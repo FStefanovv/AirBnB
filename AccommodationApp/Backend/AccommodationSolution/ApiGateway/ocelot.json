@@ -7,11 +7,11 @@
       "UpstreamPathTemplate": "/gateway/register-user",
       "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/users/register",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5001
+          "Host": "user-service",
+          "Port": 80
         }
       ]
     },
@@ -19,11 +19,11 @@
       "UpstreamPathTemplate": "/gateway/login",
       "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/users/login",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5001
+          "Host": "user-service",
+          "Port": 80
         }
       ]
     },
@@ -75,11 +75,11 @@
       "UpstreamPathTemplate": "/gateway/create-accommodation",
       "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/accommodation/create",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5002
+          "Host": "accommodation-service",
+          "Port": 80
         }
       ],
       "AuthenticationOptions": {
@@ -189,11 +189,11 @@
       "UpstreamPathTemplate": "/gateway/get-user-reservations",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/reservation/get-user-reservations",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5003
+          "Host": "reservation-service",
+          "Port": 80
         }
       ],
       "AuthenticationOptions": {
@@ -427,7 +427,7 @@
       "UpstreamPathTemplate": "/gateway/rate",
       "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/rating/rate",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
@@ -595,11 +595,11 @@
       "UpstreamPathTemplate": "/gateway/get-flight-recommendations",
       "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/flight-recommendation/get-recommendations",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5005
+          "Host": "flight-recommendation-service",
+          "Port": 80
         }
       ],
       "AuthenticationOptions": {

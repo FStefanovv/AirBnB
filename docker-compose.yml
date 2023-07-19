@@ -1,25 +1,52 @@
 services:
-  server:
+
+  api-gateway:
+    build:
+      context: ./AccommodationApp/Backend/AccommodationSolution/ApiGateway
+      dockerfile: Dockerfile
+    restart: always
+    container_name: "api-gateway"
+    hostname: "api-gateway"   
+    ports:
+      - 5000:443
+      - 5102:80
+    environment:
+      - ASPNETCORE_URLS=https://+;http://+    
+      - ASPNETCORE_HTTPS_PORT=443
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - C:\Users\User\.aspnet\https:/https/
+
+
+  flights-service:
     build:
       context: ./FlightsApp/Backend/Flights
       dockerfile: Dockerfile
     restart: always
-    container_name: "flights-server"
-    hostname: "flights-server"   
+    container_name: "flights-service"
+    hostname: "flights-service"   
     ports:
-      - 5000:80  
+      - 5010:443
+      - 5101:80
     environment:
-      - MONGO_DB_URI=mongodb://root:pass@mongo:27017
-      - MONGO_DB_NAME=XWS_Projekat     
+      - MONGO_DB_URI=mongodb://root:pass@flights_db:27018
+      - MONGO_DB_NAME=XWS_Projekat
+      - ASPNETCORE_URLS=https://+;http://+    
+      - ASPNETCORE_HTTPS_PORT=443
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - C:\Users\User\.aspnet\https:/https/
     depends_on:
-      mongo:
+      flights_db:
         condition: service_healthy
   
-  mongo:
+  flights_db:
     image: mongo
     restart: always
     ports:
-      - "27017:27017"
+      - "27018:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: pass
@@ -30,23 +57,178 @@ services:
       timeout: 10s
       retries: 10
     volumes:
-      - mongo_store:/data/db
+      - flights_store:/data/db
 
-  mongo-express:
-    image: mongo-express
+  flight-recommendation-service:
+    build:
+      context: ./AccommodationApp/Backend/AccommodationSolution/FlightRecommendationService
+      dockerfile: Dockerfile
     restart: always
+    container_name: "flight-recommendation-service"
+    hostname: "flight-recommendation-service"   
+    ports:  
+      - 5005:443
+      - 5100:80
     environment:
-      # hostname of mongo databse
-      - ME_CONFIG_MONGODB_SERVER=mongo
-      - ME_CONFIG_MONGODB_ADMINUSERNAME=root
-      - ME_CONFIG_MONGODB_ADMINPASSWORD=pass
-      - ME_CONFIG_BASICAUTH_USERNAME=admin
-      - ME_CONFIG_BASICAUTH_PASSWORD=admin
-      - ME_CONFIG_MONGODB_URL=mongodb://mongo:27017/
+      - ASPNETCORE_URLS=https://+;http://+    
+      - ASPNETCORE_HTTPS_PORT=443
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - C:\Users\User\.aspnet\https:/https/    
+
+  accommodation-service:
+    build:
+      context: ./AccommodationApp/Backend/AccommodationSolution/AccommodationService
+      dockerfile: Dockerfile
+    restart: always
+    container_name: "accommodation-service"
+    hostname: "accommodation-service"   
+    ports:  
+      - 5002:443
+      - 5103:80
+    environment: 
+      - ASPNETCORE_URLS=https://+;http://+
+      - ASPNETCORE_HTTPS_PORT=443
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - C:\Users\User\.aspnet\https:/https/
     depends_on:
-      - mongo
+      accommodation_db:
+        condition: service_healthy
+
+  accommodation_db:
+    image: mongo
+    restart: always
     ports:
-      - "8081:8081"
+      - "27019:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: pass
+      MONGO_INITDB_DATABASE: XWS_Projekat
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok'
+      interval: 10s
+      timeout: 10s
+      retries: 10
+    volumes:
+      - accommodation_store:/data/db
+  
+
+  reservation-service:
+    build:
+      context: ./AccommodationApp/Backend/AccommodationSolution/ReservationService
+      dockerfile: Dockerfile
+    restart: always
+    container_name: "reservation-service"
+    hostname: "reservation-service"   
+    ports:
+      - 5003:443  
+      - 5110:80
+    environment:     
+      - ASPNETCORE_HTTPS_PORT=443
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - C:\Users\User\.aspnet\https:/https/
+    depends_on:
+      reservation_db:
+        condition: service_healthy
+
+  reservation_db:
+    image: postgres:15.0-alpine
+    restart: always
+    ports:
+      - "27020:5432"
+    environment:
+      - PGUSER=postgres
+      - POSTGRES_PASSWORD=password   
+      - POSTGRES_DB=XWSReservationDatabase  
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5 
+    volumes:
+      - reservation_store:/data/db    
+
+  user-service:
+    build:
+      context: ./AccommodationApp/Backend/AccommodationSolution/UserService
+      dockerfile: Dockerfile
+    restart: always
+    container_name: "user-service"
+    hostname: "user-service"   
+    ports:  
+      - 5001:443
+      - 5111:80
+    environment:     
+      - ASPNETCORE_HTTPS_PORT=443
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - C:\Users\User\.aspnet\https:/https/
+    depends_on:
+      user_db:
+        condition: service_healthy
+
+  user_db:
+    image: postgres:15.0-alpine
+    restart: always
+    ports:
+      - "27021:5432"
+    environment:
+      - PGUSER=postgres
+      - POSTGRES_PASSWORD=password   
+      - POSTGRES_DB=XWSUserDatabase
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5 
+    volumes:
+      - user_store:/data/db 
+
+  rating-service:
+    build:
+      context: ./AccommodationApp/Backend/AccommodationSolution/RatingService
+      dockerfile: Dockerfile
+    restart: always
+    container_name: "rating-service"
+    hostname: "rating-service"   
+    ports:  
+      - 5004:443
+      - 5104:80
+    environment: 
+      - ASPNETCORE_URLS=https://+;http://+
+      - ASPNETCORE_HTTPS_PORT=443
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - C:\Users\User\.aspnet\https:/https/
+    depends_on:
+      rating_db:
+        condition: service_healthy
+
+  rating_db:
+    image: neo4j:latest
+    restart: always
+    ports:
+      - "27022:7687"
+    environment:
+      - NEO4J_AUTH=neo4j:password
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok'
+      interval: 10s
+      timeout: 10s
+      retries: 10
+    volumes:
+      - rating_store:/data/db
 
 volumes:
-  mongo_store:
+  flights_store:
+  accommodation_store:
+  reservation_store:
+  user_store:
+  rating_store:

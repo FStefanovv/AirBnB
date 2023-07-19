@@ -127,7 +127,7 @@ namespace RatingService.Service
             var handler = new HttpClientHandler();
             handler.ServerCertificateCustomValidationCallback =
                 HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
-            using var channel = GrpcChannel.ForAddress("https://localhost:5003",
+            using var channel = GrpcChannel.ForAddress("https://reservation-service:443",
                 new GrpcChannelOptions { HttpHandler = handler });
             var client = new ReservationGRPCService.ReservationGRPCServiceClient(channel);
             var reply = await client.CheckIfUserCanRateAsync(new RatingData

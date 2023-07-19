@@ -7,10 +7,10 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0-buster-slim AS build
 WORKDIR /src
-COPY ["RatingService/RatingService.csproj", "RatingService/"]
-RUN dotnet restore "RatingService/RatingService.csproj"
+COPY ["RatingService.csproj", "./"]
+RUN dotnet restore "RatingService.csproj"
 COPY . .
-WORKDIR "/src/RatingService"
+WORKDIR "/src/"
 RUN dotnet build "RatingService.csproj" -c Release -o /app/build
 
 FROM build AS publish

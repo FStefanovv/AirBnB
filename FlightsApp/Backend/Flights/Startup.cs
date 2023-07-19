@@ -42,7 +42,7 @@ namespace Flights
         {
             services.AddCors();
 
-            services.AddHostedService<UpdateFlightStatus>();
+            //services.AddHostedService<UpdateFlightStatus>();
 
             services.AddSingleton<IDbContext, DbContext>();
 
