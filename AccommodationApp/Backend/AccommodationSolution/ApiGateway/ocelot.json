@@ -74,7 +74,7 @@
     {
       "UpstreamPathTemplate": "/gateway/create-accommodation",
       "UpstreamHttpMethod": [ "Post" ],
-      "DownstreamPathTemplate": "/api/accommodation/cget-reate",
+      "DownstreamPathTemplate": "/api/accommodation/create",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -97,11 +97,11 @@
       "UpstreamPathTemplate": "/gateway/get-all",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/accommodation/get-all",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5002
+          "Host": "accommodation-service",
+          "Port": 80
         }
       ]
     },
@@ -430,8 +430,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5004
+          "Host": "rating-service",
+          "Port": 80
         }
       ],
       "AuthenticationOptions": {
@@ -450,11 +450,11 @@
       "UpstreamPathTemplate": "/gateway/get-average-rating/{id}",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/rating/get-average-rating/{id}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5004
+          "Host": "rating-service",
+          "Port": 80
         }
       ]
     },
@@ -462,11 +462,11 @@
       "UpstreamPathTemplate": "/gateway/get-all-ratings/{id}",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/rating/get-all-ratings/{id}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5004
+          "Host": "rating-service",
+          "Port": 80
         }
       ],
       "AuthenticationOptions": {
@@ -485,11 +485,11 @@
       "UpstreamPathTemplate": "/gateway/delete-rating/{id}",
       "UpstreamHttpMethod": [ "Delete" ],
       "DownstreamPathTemplate": "/api/rating/delete-rating/{id}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5004
+          "Host": "rating-service",
+          "Port": 80
         }
       ],
       "AuthenticationOptions": {
@@ -507,11 +507,11 @@
       "UpstreamPathTemplate": "/gateway/get-user-rating/{id}",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/rating/get-user-rating/{id}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5004
+          "Host": "rating-service",
+          "Port": 80
         }
       ],
       "AuthenticationOptions": {
@@ -529,11 +529,11 @@
       "UpstreamPathTemplate": "/gateway/get-ratings-for-page/{accommId}/{hostId}",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/rating/get-ratings-for-page/{accommId}/{hostId}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5004
+          "Host": "rating-service",
+          "Port": 80
         }
       ],
       "AuthenticationOptions": {

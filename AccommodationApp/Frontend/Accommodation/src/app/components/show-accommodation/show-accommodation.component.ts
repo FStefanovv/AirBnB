@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AccommodationDTO } from 'src/app/model/accommodation';
 import { CreateRatingDTO, RatedEntity, RatingDTO, RatingInfoDTO } from 'src/app/model/ratings';
 import { AccommodationService } from 'src/app/services/accommodation.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { RatingServiceService } from 'src/app/services/rating-service.service';
 
 @Component({
@@ -13,7 +14,7 @@ import { RatingServiceService } from 'src/app/services/rating-service.service';
 })
 export class ShowAccommodationComponent implements OnInit {
 
-  constructor(private activatedRoute: ActivatedRoute, private accommodationService:AccommodationService, private ratingService: RatingServiceService) { }
+  constructor(private activatedRoute: ActivatedRoute, private accommodationService:AccommodationService, private ratingService: RatingServiceService, private authService: AuthService) { }
 
   accommodationId: string = '';
   accommodation: AccommodationDTO = new AccommodationDTO();
@@ -21,11 +22,7 @@ export class ShowAccommodationComponent implements OnInit {
   createAccommodationRatingDto: CreateRatingDTO = new CreateRatingDTO();
   createHostRatingDto: CreateRatingDTO = new CreateRatingDTO();
 
-  //existingAccommRating: RatingDTO = new RatingDTO();
-  //existingHostRating: RatingDTO = new RatingDTO();
-  
-  //accommRating: RatedEntity = new RatedEntity();
-  //hostRating: RatedEntity = new RatedEntity();
+ 
 
   hasRatedAccomm: boolean = false;
   hasRatedHost: boolean = false;
@@ -38,8 +35,11 @@ export class ShowAccommodationComponent implements OnInit {
 
   pageRatingInfo: RatingInfoDTO[] = [];
 
+  userRole: string = '';
+
 
   ngOnInit(): void {
+    this.userRole = this.authService.getRole();
     const temp = this.activatedRoute.snapshot.paramMap.get("id");
     if(temp)
       this.accommodationId = temp;
@@ -47,6 +47,7 @@ export class ShowAccommodationComponent implements OnInit {
       res =>
       {
         this.accommodation = res;
+        console.log(this.accommodation)
         this.obtainAllRatingInfo();
       }
     );
@@ -57,6 +58,7 @@ export class ShowAccommodationComponent implements OnInit {
       this.ratingService.getPageRatingInfo(this.accommodation.id, this.accommodation.hostId).subscribe(
         res => {
           this.pageRatingInfo = res;
+          console.log(this.pageRatingInfo);
           this.displayRatingInfo();
         }
       );

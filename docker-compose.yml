@@ -126,7 +126,8 @@ services:
     ports:
       - 5003:443  
       - 5110:80
-    environment:     
+    environment: 
+      - ASPNETCORE_URLS=https://+;http://+      
       - ASPNETCORE_HTTPS_PORT=443
       - ASPNETCORE_Kestrel__Certificates__Default__Password=password
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
@@ -163,7 +164,8 @@ services:
     ports:  
       - 5001:443
       - 5111:80
-    environment:     
+    environment: 
+      - ASPNETCORE_URLS=https://+;http://+      
       - ASPNETCORE_HTTPS_PORT=443
       - ASPNETCORE_Kestrel__Certificates__Default__Password=password
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
@@ -217,7 +219,7 @@ services:
     ports:
       - "27022:7687"
     environment:
-      - NEO4J_AUTH=neo4j:password
+      - NEO4J_AUTH=neo4j/password
     healthcheck:
       test: echo 'db.runCommand("ping").ok'
       interval: 10s

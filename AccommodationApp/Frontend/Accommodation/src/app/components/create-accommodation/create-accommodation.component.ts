@@ -80,6 +80,7 @@ export class CreateAccommodationComponent implements OnInit {
      if(this.guestNumError==false && this.priceError==false){
         this.accommodationService.Post(this.accommDto, this.images).subscribe({
           next: (response: any) => {
+            this.router.navigate(['home'])
             console.log('success');
           },
           error : (err: HttpErrorResponse) => {

@@ -6,6 +6,15 @@
     --theme: #486A8A;
 }
 
+.main-content {
+    position: absolute;
+    top: 0;
+    left: 21%;
+    height: 100%;
+    width: 76%; 
+    padding-left: 2%;
+}
+
 .input-regular {
     border-radius: 4px;
     border: 2px solid #D5DBDB;

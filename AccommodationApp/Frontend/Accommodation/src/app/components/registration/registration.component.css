@@ -53,3 +53,11 @@ input {
 #error-container{
     text-align: center;
 }
+
+option {
+    font-size: 20px;
+}
+
+p {
+    font-size: 20px;
+}
