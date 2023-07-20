@@ -74,7 +74,7 @@
     {
       "UpstreamPathTemplate": "/gateway/create-accommodation",
       "UpstreamHttpMethod": [ "Post" ],
-      "DownstreamPathTemplate": "/api/accommodation/create",
+      "DownstreamPathTemplate": "/api/accommodation/cget-reate",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -415,11 +415,11 @@
       "UpstreamPathTemplate": "/gateway/get-by-id/{id}",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/accommodation/get-by-id/{id}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5002
+          "Host": "accommodation-service",
+          "Port": 80
         }
       ]
     },
@@ -551,11 +551,11 @@
       "UpstreamPathTemplate": "/gateway/get-reservation/{id}",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/reservation/get-reservation/{id}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5003
+          "Host": "reservation-service",
+          "Port": 80
         }
       ],
       "AuthenticationOptions": {
@@ -573,11 +573,11 @@
       "UpstreamPathTemplate": "/gateway/purchase-flight-tickets",
       "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/flight-recommendation/purchase-tickets",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5005
+          "Host": "flight-recommendation-service",
+          "Port": 80
         }
       ],
       "AuthenticationOptions": {

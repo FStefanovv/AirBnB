@@ -21,7 +21,7 @@ export class UserReservationsComponent implements OnInit {
     this.reservationService.getUsersReservations().subscribe({
       next: (response: ShowReservation[]) => {
         this.reservations = response;
-        console.log(this.reservations);
+        
       },
       error : (err: HttpErrorResponse) => {
        console.log(err.error);

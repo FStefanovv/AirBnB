@@ -19,7 +19,6 @@ export class ReservationService {
   constructor(private http: HttpClient) { }
 
   getUsersReservations() : Observable<ShowReservation[]> {
-    console.log('uso');
     return this.http.get<ShowReservation[]>(this.gatewayUrl+'get-user-reservations', this.httpOptions);
   }
 
