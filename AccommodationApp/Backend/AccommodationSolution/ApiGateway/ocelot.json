@@ -474,7 +474,7 @@
         "AllowedScopes": []
       },
       "RouteClaimsRequirement": {
-        "Role": "HOST"
+        "Role": "REGULAR_USER"
       },
       "AddHeadersToRequest": {
         "UserId": "Claims[UserId] > value",

@@ -1,0 +1,16 @@
+th, td {
+    border: none
+}
+
+tr {
+    color: var(--theme);
+    font-weight: 500;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+h3 {
+    color: var(--theme);
+}

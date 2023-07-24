@@ -47,7 +47,6 @@ export class ShowAccommodationComponent implements OnInit {
       res =>
       {
         this.accommodation = res;
-        console.log(this.accommodation)
         this.obtainAllRatingInfo();
       }
     );
@@ -58,7 +57,6 @@ export class ShowAccommodationComponent implements OnInit {
       this.ratingService.getPageRatingInfo(this.accommodation.id, this.accommodation.hostId).subscribe(
         res => {
           this.pageRatingInfo = res;
-          console.log(this.pageRatingInfo);
           this.displayRatingInfo();
         }
       );
@@ -110,16 +108,6 @@ export class ShowAccommodationComponent implements OnInit {
     }
     this.ratingService.rate(this.createHostRatingDto).subscribe();
   }
-
-  /*
-  deleteAccommRating() {
-    this.ratingService.deleteRating(this.accommodationId).subscribe();
-  }
-
-  deleteHostRating(){
-    if(this.accommodation.hostId)
-      this.ratingService.deleteRating(this.accommodation.hostId).subscribe();
-  }*/
 
   deleteRating(ratingId: string){
     this.ratingService.deleteRating(ratingId).subscribe();
