@@ -6,6 +6,7 @@ package accommodation;
 
 service AccommodationGRPCService {
   rpc GetAccommodationGRPC (AccommodationId) returns (AccommodationGRPC);
+  rpc GetAccomodationsAutoApproval (AccommodationIdForApproval) returns (AccommodationAutoApproval);
   rpc DeleteAccwithoutHost (UserId) returns (Deleted);
   rpc UpdateDistinguishedHostAccommodations (HostIdAndDistinguishedStatus) returns (UserId);
   
@@ -14,6 +15,11 @@ service AccommodationGRPCService {
 message AccommodationId {
   string id = 1;
 }
+
+message AccommodationIdForApproval {
+  string accId = 1;
+}
+
 message AccommodationGRPC{
   string name = 1;
   string startSeason = 2;
@@ -24,6 +30,7 @@ message AccommodationGRPC{
   bool holidayCost = 7;
   bool weekendCost = 8;
   bool summerCost = 9;
+  string address = 10;
 }
 message UserId {
   string id = 1;
@@ -35,5 +42,9 @@ message Deleted {
 message HostIdAndDistinguishedStatus{
 	string id = 1;
 	bool hostStatus = 2;
+}
+
+message AccommodationAutoApproval{
+	bool autoApproval = 1;
 }
 

@@ -228,43 +228,36 @@ namespace Users.Services
 
 
 
-        public override Task<UserUpdated> IsDistinguishedHost(ReservationSatisfied isReservationSatisfied, ServerCallContext context)
+        public override Task<ReservationPartUpdated> IsReservationPartSatisfied(ReservationSatisfied isReservationSatisfied, ServerCallContext context)
         {
-            using var scope = _tracer.BuildSpan("IsDistinguishedHost").StartActive(true);
-            scope.Span.Log($"Checking if host has status 'Distinguished'");
+            using var scope = _tracer.BuildSpan("IsReservationPartSatisfied").StartActive(true);
             User host = _userRepository.GetUserById(isReservationSatisfied.Id);
             if (host.Role == "HOST")
             {
                 if (isReservationSatisfied.ReservationPartSatisfied)
                 {
                     host.IsReservationPartSatisfied = true;
-                    if (host.IsRatingPartSatisfied)
+                    _userRepository.UpdateUser(host);
+                    return Task.FromResult(new ReservationPartUpdated
                     {
-                        host.IsDistinguishedHost = true;
-                    }
-                    Task<string> a = UpdateAccomodationsByDistinguishedHost(isReservationSatisfied.Id, true);
-                    return Task.FromResult(new UserUpdated
-                    {
-                        IsUserUpdated = true
+                        IsReservationSatisfied = true
                     });
                 }
                 else
                 {
                     host.IsReservationPartSatisfied = false;
-                    host.IsDistinguishedHost = false;
-                    Task<string> a = UpdateAccomodationsByDistinguishedHost(isReservationSatisfied.Id, false);
-                    return Task.FromResult(new UserUpdated
+                    _userRepository.UpdateUser(host);
+                    return Task.FromResult(new ReservationPartUpdated
                     {
-                        IsUserUpdated = false
+                        IsReservationSatisfied = false
                     });
                 }
             }
             else
             {
-                Task<string> b = UpdateAccomodationsByDistinguishedHost(isReservationSatisfied.Id, false);
-                return Task.FromResult(new UserUpdated
+                return Task.FromResult(new ReservationPartUpdated
                 {
-                    IsUserUpdated = false
+                    IsReservationSatisfied = false
                 });
             }
         }

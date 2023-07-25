@@ -48,6 +48,11 @@ namespace ReservationService.Service
             });
         }
 
+        public void Create(Reservation reservation)
+        {
+            _repository.Create(reservation);
+        }
+
         public void CancelReservation(string reservationId, StringValues userId)
         {
             Reservation reservation = _repository.GetReservationById(reservationId);
@@ -66,7 +71,6 @@ namespace ReservationService.Service
             {
                 reservation.Status = Enums.ReservationStatus.CANCELLED;
                 _repository.UpdateReservation(reservation);
-                //notify accommodation service that reservation slot is free
             }
         }
 
@@ -245,9 +249,6 @@ namespace ReservationService.Service
             });
 
             return reply;
-
-            
-
         }
 
         public List<DateTime> GetStartReservationDate(string accommodationId)
@@ -307,25 +308,20 @@ namespace ReservationService.Service
 
         }
 
-        public void CreateReservationFromRequest(ReservationRequest request)
+        public async Task CreateReservationFromRequest(ReservationRequest request)
         {
+            ReservationCostDTO dto = new ReservationCostDTO();
+            dto.From = request.From;
+            dto.To = request.To;
+            dto.NumberOfGuests = request.NumberOfGuests;
+            dto.AccommodationId = request.AccommodationId;
+            dto.AccommodationName = request.AccommodationName;
             Reservation reservation = Adapter.ReservationAdapter.RequestToReservation(request);
+            AccommodationGRPC accommodation = await getAccommodation(dto);
+            reservation.Price = await GetCost(dto);
+            reservation.AccommodationLocaiton = accommodation.Address;
             _repository.Create(reservation);
         }
-
-        //         public async void CreateReservationGRPC(Reservation reservation)
-        //         {
-        //             AppContext.SetSwitch(
-        //                 "System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
-        //             using var channel = GrpcChannel.ForAddress(_url);
-        //             var client = new AccommodationGRPCService.AccommodationGRPCServiceClient(channel);
-
-        //             var reply = await client.GetAccommodationGRPCAsync(new AccommodationId
-        //             {
-        //                 Id = "64487697c915d0ae735042a6"
-        //             });
-        //             _logger.LogInformation("Greeting: {reply.Name} -- {DateTime.Now}");
-        //         }
 
         public override Task<CanRate> CheckIfUserCanRate(RatingData ratingData, ServerCallContext context)
         {
@@ -380,16 +376,26 @@ namespace ReservationService.Service
             }
             else
             {
-                foreach (Reservation reservation in AccomodationReservations)
+                foreach (Reservation reservation in AccomodationReservations)          
                 {
-                    if (DateTime.Parse(availabilityPeriod.StartDate) <= reservation.From && DateTime.Parse(availabilityPeriod.EndDate) <= reservation.From)
+                    if (reservation.Status == Enums.ReservationStatus.ACTIVE)
                     {
-                        return Task.FromResult(new IsAvailable
+                        if (DateTime.Parse(availabilityPeriod.StartDate) <= reservation.From && DateTime.Parse(availabilityPeriod.EndDate) <= reservation.From)
                         {
-                            Available = true
-                        });
+                            return Task.FromResult(new IsAvailable
+                            {
+                                Available = true
+                            });
+                        }
+                        else if (DateTime.Parse(availabilityPeriod.StartDate) >= reservation.To && DateTime.Parse(availabilityPeriod.EndDate) >= reservation.To)
+                        {
+                            return Task.FromResult(new IsAvailable
+                            {
+                                Available = true
+                            });
+                        }
                     }
-                    else if (DateTime.Parse(availabilityPeriod.StartDate) >= reservation.To && DateTime.Parse(availabilityPeriod.EndDate) >= reservation.To)
+                    else
                     {
                         return Task.FromResult(new IsAvailable
                         {
@@ -424,23 +430,26 @@ namespace ReservationService.Service
 
                 if (TotalDuration.TotalDays > 50)
                 {
-                    bool nista = await UpdateDistinguishedHostStatus(hostId, true);
+                    bool nista = await UpdateReservationStatus(hostId, true);
                     return nista;
                 }
                 else
                 {
-                    bool nista = await UpdateDistinguishedHostStatus(hostId, false);
+                    bool nista = await UpdateReservationStatus(hostId, false);
                     return nista;
                 }
             }
+            else
+            {
+                bool nesto = await UpdateReservationStatus(hostId, false);
+                return nesto;
 
-            bool nesto = await UpdateDistinguishedHostStatus(hostId, false);
-            return nesto;
+            }
         }
 
 
 
-        public async Task<bool> UpdateDistinguishedHostStatus(String id, bool IsSatisfied)
+        public async Task<bool> UpdateReservationStatus(String id, bool IsSatisfied)
         {
             var handler = new HttpClientHandler();
             handler.ServerCertificateCustomValidationCallback =
@@ -448,12 +457,12 @@ namespace ReservationService.Service
             using var channel = GrpcChannel.ForAddress("https://localhost:5001",
                 new GrpcChannelOptions { HttpHandler = handler });
             var client = new UserGRPCService.UserGRPCServiceClient(channel);
-            var reply = await client.IsDistinguishedHostAsync(new ReservationSatisfied
+            var reply = await client.IsReservationPartSatisfiedAsync(new ReservationSatisfied
             {
                 Id = id,
                 ReservationPartSatisfied = IsSatisfied
             });
-            return reply.IsUserUpdated;
+            return reply.IsReservationSatisfied;
         }
     }
 }

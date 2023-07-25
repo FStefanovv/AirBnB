@@ -5,9 +5,11 @@ import { Observable } from 'rxjs';
 import { AccommodationDTO } from 'src/app/model/accommodation';
 import { Address } from 'src/app/model/address';
 import { CreateAccommodationDTO } from 'src/app/model/create-accommodation';
+import { CreateRequestDto } from 'src/app/model/createRequestDto';
 import { SearchDTO } from 'src/app/model/search';
 import { AccommodationService } from 'src/app/services/accommodation.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { ReservationService } from 'src/app/services/reservation.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -21,6 +23,7 @@ export class HomeComponent implements OnInit {
   filteredAccommodations : AccommodationDTO[] = [];
   searchedAccommodations : AccommodationDTO[] = [];
   accommodationsToShow : AccommodationDTO[] = [];
+  createRequestDto: CreateRequestDto = new CreateRequestDto()
   lowestPrice : number = 0;
   highestPrice : number = 0;
   wifi : boolean = false;
@@ -35,9 +38,10 @@ export class HomeComponent implements OnInit {
   gym : boolean = false;
   isDistinguishedHost : boolean = false;
   isHostDistinguished: boolean = false;
-  
+  IsSearched: boolean = false;
 
-  constructor(private accommodationService: AccommodationService, private userService: UserService, private authService : AuthService, private router: Router) {}
+  
+  constructor(private accommodationService: AccommodationService, private userService: UserService, private reservationService : ReservationService, private authService : AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.showAll();
@@ -50,6 +54,8 @@ export class HomeComponent implements OnInit {
       next: (res: any) => {
         this.searchedAccommodations = res;
         this.accommodationsToShow = this.searchedAccommodations
+        this.IsSearched = true;
+        console.log(this.accommodationsToShow)
       }
     });
   }
@@ -59,6 +65,8 @@ export class HomeComponent implements OnInit {
       next : (res : any) => {
         this.allAccommodations = res
         this.accommodationsToShow = this.allAccommodations
+        this.IsSearched = false;
+        console.log(this.accommodationsToShow)
       }
     })
   }
@@ -176,8 +184,18 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  sendRequest(id?:string){
-      this.router.navigate(['/create-request',id]);
+  sendRequest(accommodation : AccommodationDTO) {
+    this.createRequestDto.accommodationLocation = accommodation.accommodationLocation
+    this.createRequestDto.accommodationName = accommodation.name
+    this.createRequestDto.accomodationId = accommodation.id
+    this.createRequestDto.endDate = this.searchDTO.checkOut
+    this.createRequestDto.hostId = accommodation.hostId
+    this.createRequestDto.numberOfGuests = this.searchDTO.numberOfGuests
+    this.createRequestDto.price = accommodation.price
+    this.createRequestDto.startDate = this.searchDTO.checkIn
+    this.createRequestDto.userId = this.authService.getId()
+    console.log(this.createRequestDto)
+    this.reservationService.createRequest(this.createRequestDto).subscribe()
   }
 
   IsHostLoggedIn(): boolean {
@@ -191,11 +209,9 @@ export class HomeComponent implements OnInit {
     this.userService.getHost().subscribe({
       next: (res : any) => {
         if(res.isDistinguishedHost){
-          console.log('dis je')
           this.isHostDistinguished = true;
         }
         else{
-          console.log('nije dis')
           this.isHostDistinguished = false;
         }
       }

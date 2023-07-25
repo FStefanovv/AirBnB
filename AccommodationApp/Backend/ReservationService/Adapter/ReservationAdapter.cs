@@ -54,10 +54,27 @@ namespace ReservationService.Adapter
             resRequest.UserId = dto.UserId;
             resRequest.AccommodationId = dto.AccomodationId;
             resRequest.NumberOfGuests = dto.NumberOfGuests;
+            resRequest.AccommodationName= dto.AccommodationName;
             resRequest.From = Convert.ToDateTime(dto.StartDate);
             resRequest.To = Convert.ToDateTime(dto.EndDate);
             resRequest.Status = RequestStatus.PENDING;
             return resRequest;
+        }
+
+        public static Reservation RequestReservationDtoToReservation(RequestReservationDTO dto)
+        {
+            Reservation reservation = new Reservation();
+            reservation.HostId = dto.HostId;
+            reservation.UserId = dto.UserId;
+            reservation.AccommodationId = dto.AccomodationId;
+            reservation.NumberOfGuests = dto.NumberOfGuests;
+            reservation.AccommodationName = dto.AccommodationName;
+            reservation.AccommodationLocaiton = dto.AccommodationLocation;
+            reservation.From = Convert.ToDateTime(dto.StartDate);
+            reservation.To = Convert.ToDateTime(dto.EndDate);
+            reservation.Status = ReservationStatus.ACTIVE;
+            reservation.Price = dto.Price;
+            return reservation;
         }
 
         public static GetBusyDateForAccommodationDTO ReservationToGetBusyDateForAccommodationDTO(
@@ -79,8 +96,8 @@ namespace ReservationService.Adapter
             reservation.AccommodationId = request.AccommodationId;
             reservation.HostId = request.HostId;
             reservation.Status = ReservationStatus.ACTIVE;
-            reservation.Price = request.NumberOfGuests * 100;//ovde ce ici price od accomodationa
             reservation.NumberOfGuests = request.NumberOfGuests;
+            reservation.AccommodationName = request.AccommodationName;
             return reservation;
         }
 
@@ -88,10 +105,11 @@ namespace ReservationService.Adapter
         {
             ShowRequestDTO dto = new ShowRequestDTO();
             dto.RequestId = request.Id;
-            dto.From = request.From.ToString();
-            dto.To = request.To.ToString();
+            dto.From = request.From;
+            dto.To = request.To;
             dto.UserId = request.UserId;
             dto.AccommodationId = request.AccommodationId;
+            dto.AccommodationName = request.AccommodationName;
             dto.HostId = request.HostId;
             dto.NumberOfGuests = request.NumberOfGuests;
             return dto;

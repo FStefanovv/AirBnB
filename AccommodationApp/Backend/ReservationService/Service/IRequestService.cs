@@ -13,8 +13,9 @@ namespace ReservationService.Service
         void CancelReservationRequest(string requestId, StringValues userId);
         List<ReservationRequest> GetPendingRequestsByHost(StringValues userId);
         List<ReservationRequest> GetResolvedRequestsByHost(StringValues userId);
-        void CreateReservationRequest(RequestReservationDTO dto);
+        Task<bool> CreateReservationRequestOrReservation(RequestReservationDTO dto);
         void AcceptRequest(string requestId, string accommodationId);
         List<ShowRequestDTO> GetRequestsForHost(string hostId);
+        List<ShowRequestDTO> GetRequestsForUsers(string userId);
     }
 }

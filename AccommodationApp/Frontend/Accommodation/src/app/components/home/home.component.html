@@ -8,7 +8,7 @@
         <label for="location">Location: </label>
         <input type="text" placeholder="Street,Number,City,Country" class="input-regular" [(ngModel)]='searchDTO.location'/>
         <label for="guests">Number of guests: </label>
-        <input type="number" class="input-regular" [(ngModel)]="searchDTO.numberOfGuests"/>
+        <input type="number" min="0" class="input-regular" [(ngModel)]="searchDTO.numberOfGuests"/>
         <label for="checkIn">Check in: </label>
         <input type="date" class="input-regular" [(ngModel)]="searchDTO.checkIn"/>
         <label for="checkOut">Check out: </label>
@@ -21,9 +21,9 @@
     <div>
         <div>
             <label for="lowestPrice">Lowest price: </label>
-            <input type="number" name="lowestPrice" class="input-regular" min="1" [(ngModel)]="lowestPrice" (change)="filter()"/>
+            <input type="number" id="lowestPrice" name="lowestPrice" class="input-regular" min="1" [(ngModel)]="lowestPrice" (change)="filter()"/>
             <label for="highestPrice">Highest price: </label>
-            <input type="number" name="highestPrice" class="input-regular" min="1" [(ngModel)]="highestPrice"/>
+            <input type="number" id="highestPrice" name="highestPrice" class="input-regular" min="1" [(ngModel)]="highestPrice"/>
         </div>
         <label for="WiFi">WiFi: </label>
         <input type="checkbox" name="WiFi" [(ngModel)]="wifi"/>
@@ -61,8 +61,13 @@
                 <button class="button-regular" (click)="showAccommodation(accomm.id)">See more</button>
             </div>
             <div *ngIf="!IsHostLoggedIn()">
-                <button class="button-regular" (click)="sendRequest(accomm.id)">Reserve</button>
-                <button class="button-regular" (click)="showAccommodation(accomm.id)">See more</button>
+                <div *ngIf="IsSearched">
+                    <button class="button-regular" (click)="sendRequest(accomm)">Reserve</button>
+                    <button class="button-regular" (click)="showAccommodation(accomm.id)">See more</button>    
+                </div>
+                <div *ngIf="!IsSearched">
+                    <button class="button-regular" (click)="showAccommodation(accomm.id)">See more</button>    
+                </div>
             </div>
         </div>
     </div>

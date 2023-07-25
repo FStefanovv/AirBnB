@@ -20,12 +20,13 @@ namespace ReservationService.Service
         List<DateTime> GetStartReservationDate(string accommodationId);
         List<DateTime> GetEndReservationDate(string accommodationId);
         void UpdatePastReservations();
-        void CreateReservationFromRequest(ReservationRequest request);
+        Task CreateReservationFromRequest(ReservationRequest request);
         List<GetBusyDateForAccommodationDTO> GetBusyDatesForAccommodation(string accommodationId);
         ShowReservationDTO GetEndReservation(string id);
         Task<IsAvailable> CheckIfAccommodationIsAvailable(AvailabilityPeriod availabilityPeriod, ServerCallContext context);
         Task<bool> CheckHostStatus(String hostId);
-        Task<bool> UpdateDistinguishedHostStatus(String id, bool IsSatisfied);
+        Task<bool> UpdateReservationStatus(String id, bool IsSatisfied);
         bool HostHasActiveReservationsSaga(string hostId);
+        void Create(Reservation reservation);
     }
 }

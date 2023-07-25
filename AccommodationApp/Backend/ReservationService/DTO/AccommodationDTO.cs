@@ -17,6 +17,7 @@ namespace ReservationService.DTO
         public bool HolidayCost { get; set; }
         public bool WeekendCost { get; set; }
         public bool SummerCost { get; set; }
+        public string AccommodationLocation { get; set; }
 
         public AccommodationDTO() { }
     }

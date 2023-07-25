@@ -5,7 +5,7 @@ option csharp_namespace = "Users";
 package rating;
 
 service UserGRPCService {
-	rpc IsDistinguishedHost (ReservationSatisfied) returns (UserUpdated);
+	rpc IsReservationPartSatisfied (ReservationSatisfied) returns (ReservationPartUpdated);
 }
 
 message ReservationSatisfied{
@@ -13,6 +13,6 @@ message ReservationSatisfied{
 	bool ReservationPartSatisfied = 2;
 }
 
-message UserUpdated {
-  bool isUserUpdated = 1;
+message ReservationPartUpdated {
+  bool IsReservationSatisfied = 1;
 }

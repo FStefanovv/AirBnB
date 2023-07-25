@@ -15,6 +15,7 @@
         public bool IsDistinguishedHost { get; set; }
         public string[] Offers { get; set; }
         public string HostId { get; set; }
+        public string AccommodationLocation { get; set; }
 
         public AccommodationDTO() { }
 

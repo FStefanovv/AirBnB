@@ -14,6 +14,7 @@ export class AccommodationDTO {
     isDistinguishedHost?: boolean;
     offers?: string[];
     hostId? : string;
+    accommodationLocation? : string;
 
     constructor(){
         this.id='';
@@ -29,5 +30,6 @@ export class AccommodationDTO {
         this.isDistinguishedHost = false;
         this.offers = [];
         this.hostId = '';
+        this.accommodationLocation = "";
     }
 }

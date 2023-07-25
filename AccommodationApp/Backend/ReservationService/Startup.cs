@@ -17,7 +17,6 @@ using Microsoft.OpenApi.Models;
 using OpenTracing.Contrib.NetCore.Configuration;
 using OpenTracing;
 using ReservationService.RabbitMQ;
-//using ReservationService.BackgroundServices;
 using ReservationService.Repository;
 using ReservationService.Service;
 using System;
@@ -126,7 +125,7 @@ namespace ReservationService
             {
                 endpoints.MapControllers();
                 endpoints.MapGrpcService<ReservationService.Service.ReservationService>();
-               // endpoints.MapGrpcService<ReservationService.Service.RequestService>();
+                //endpoints.MapGrpcService<ReservationService.Service.RequestService>();
             });
         }
     }

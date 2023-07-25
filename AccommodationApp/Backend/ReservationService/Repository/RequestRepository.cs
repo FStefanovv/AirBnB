@@ -47,7 +47,7 @@ namespace ReservationService.Repository
 
         public List<ReservationRequest> GetRequestsByUser(string id)
         {
-            return _context.Requests.Where(req => req.Id == id).ToList();
+            return _context.Requests.Where(req => req.UserId == id).ToList();
         }
 
         public List<ReservationRequest> GetPendingRequestsByUser(string id)
@@ -87,7 +87,7 @@ namespace ReservationService.Repository
         
         public List<ReservationRequest> GetRequestsForCancelAfterAcceptingOne(string accommodationId)
         {
-            return _context.Requests.Where(req => req.AccommodationId == accommodationId).ToList();
+            return _context.Requests.Where(req => req.AccommodationId == accommodationId && req.Status == Enums.RequestStatus.PENDING).ToList();
         }
 
         public List<ReservationRequest> GetRequestsForHost(string hostId)

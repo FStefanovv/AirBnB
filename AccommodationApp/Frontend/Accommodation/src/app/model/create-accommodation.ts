@@ -15,7 +15,7 @@ export class CreateAccommodationDTO {
     holidayCost?: boolean;
     weekendCost?: boolean;
     summerCost?: boolean;
-
+    isDistinguishedHost?: boolean;
 
     constructor(){
         this.name = '';
@@ -32,5 +32,6 @@ export class CreateAccommodationDTO {
         this.holidayCost=false;
         this.weekendCost=false;
         this.summerCost=false;
+        this.isDistinguishedHost = false;
     }
 }

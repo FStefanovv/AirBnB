@@ -23,6 +23,7 @@ namespace Accommodation.Adapters
                 AutoApprove = dto.AutoApprove,
                 StartSeasonDate = DateTime.ParseExact(dto.StartSeason, "yyyy-MM-dd", culture),
                 EndSeasonDate = DateTime.ParseExact(dto.EndSeason, "yyyy-MM-dd", culture),
+                IsDistinguishedHost = dto.IsDistinguishedHost,
                 AccomodationPrice = new Model.Price()
                 {
                     FinalPrice = dto.Price,
@@ -94,6 +95,8 @@ namespace Accommodation.Adapters
             accommodationDto.SummerCost = accommodation.AccomodationPrice.SummerCost;
             accommodationDto.Offers = accommodation.Offers;
             accommodationDto.IsDistinguishedHost = accommodation.IsDistinguishedHost;
+            accommodationDto.HostId = accommodation.HostId;
+            accommodationDto.AccommodationLocation = accommodation.Address.Street + ',' + accommodation.Address.Number + ',' + accommodation.Address.City + ',' + accommodation.Address.Country;
 
             return accommodationDto;
 

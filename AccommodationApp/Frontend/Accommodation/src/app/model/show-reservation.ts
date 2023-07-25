@@ -4,6 +4,7 @@ export class ShowReservation {
     to?: Date;
     accommodationName?: string;
     accommodationLocation?: string;
+    hostId?: string;
     numberOfGuests?: number;
     status?: ReservationStatus;
     price?: number;

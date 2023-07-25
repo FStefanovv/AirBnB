@@ -208,6 +208,28 @@
       }
     },
     {
+      "UpstreamPathTemplate": "/gateway/get-user-requests",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/request/get-user-requests",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "AuthTokenFromUserService",
+        "AllowedScopes": []
+      },
+      "RouteClaimsRequirement": {
+        "Role": "REGULAR_USER"
+      },
+      "AddHeadersToRequest": {
+        "UserId": "Claims[UserId] > value"
+      }
+    },
+    {
       "UpstreamPathTemplate": "/gateway/get-pending-requests",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/reservation/get-pending-requests",

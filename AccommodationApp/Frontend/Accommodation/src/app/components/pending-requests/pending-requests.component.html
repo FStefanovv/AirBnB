@@ -7,6 +7,7 @@
         <th>Number of guests</th>
         <th>Status</th>
         <th></th>
+        <th></th>
     </tr>
     <tr *ngFor="let request of requests">
         <td>
@@ -25,7 +26,7 @@
             {{request.status==1? 'past' : (request.status==2? 'cancelled' : 'scheduled')}}
         </td>
         <td *ngIf="request.status == 0">
-            <button></button>
+            <button (click)="acceptRequest(request.id,request.accommodationId)">Accept request</button>
         </td>
     </tr>
 </table>

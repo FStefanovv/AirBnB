@@ -19,6 +19,20 @@ namespace ReservationService.Repository
             _context = context;
         }
 
+        public void Create(Reservation reservation)
+        {
+            try
+            {
+                _context.Reservations.Add(reservation);
+                _context.SaveChanges();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
+
+
         public Reservation GetReservationById(string reservationId)
         {
             return _context.Reservations.Where(res => res.Id == reservationId).FirstOrDefault();
@@ -38,6 +52,7 @@ namespace ReservationService.Repository
                     AccommodationName = res.AccommodationName,
                     AccommodationLocation = res.AccommodationLocaiton,
                     NumberOfGuests = res.NumberOfGuests,
+                    HostId = res.HostId,
                     Status = res.Status,
                     Price = res.Price
                 };
@@ -85,13 +100,6 @@ namespace ReservationService.Repository
         {
             return _context.Reservations.Where(res => res.HostId == id).ToList();
         }
-
-        public void Create(Reservation reservation)
-        {
-            _context.Reservations.Add(reservation);
-            _context.SaveChanges();
-        }
-
 
         public List<Reservation>  GetReservationsForAccommodation (string accomodationId)
         {

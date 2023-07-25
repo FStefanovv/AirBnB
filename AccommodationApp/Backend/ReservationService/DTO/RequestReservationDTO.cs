@@ -8,6 +8,9 @@ namespace ReservationService.DTO
         public int NumberOfGuests { get; set; }
         public string HostId { get; set; }
         public string UserId { get; set; }
+        public string AccommodationName { get; set; }
+        public string AccommodationLocation { get; set; }
+        public double Price { get; set; }
 
         public RequestReservationDTO()
         {
