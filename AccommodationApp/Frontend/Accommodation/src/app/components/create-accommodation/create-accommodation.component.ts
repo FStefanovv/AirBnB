@@ -78,6 +78,16 @@ export class CreateAccommodationComponent implements OnInit {
     }
 
      if(this.guestNumError==false && this.priceError==false){
+      this.userService.getHost().subscribe({
+        next: (res : any) => {
+          if(res.isDistinguishedHost){
+            this.accommDto.isDistinguishedHost = true;
+          }
+          else{
+            this.accommDto.isDistinguishedHost = false;
+          }
+        }
+      })
         this.accommodationService.Post(this.accommDto, this.images).subscribe({
           next: (response: any) => {
             console.log('success');

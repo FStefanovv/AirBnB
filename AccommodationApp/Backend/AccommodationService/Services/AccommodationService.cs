@@ -56,7 +56,27 @@ namespace Accommodation.Services
                 IsDeleted = true
             });
         }
-        
+
+        public override Task<AccommodationAutoApproval> GetAccomodationsAutoApproval(AccommodationIdForApproval accommodationId, ServerCallContext context)
+        {
+            using var scope = _tracer.BuildSpan("AccommodationIdForApproval").StartActive(true);
+            Model.Accommodation accommodation = _repository.GetById(accommodationId.AccId);
+            if (accommodation.AutoApprove)
+            {
+                return Task.FromResult(new AccommodationAutoApproval
+                {
+                    AutoApproval = true
+                });
+            }
+            else
+            {
+                return Task.FromResult(new AccommodationAutoApproval
+                {
+                    AutoApproval = false
+                });
+            }
+        }
+
         public Model.Accommodation GetById(string id)
         {
             return _repository.GetById(id);
@@ -70,31 +90,34 @@ namespace Accommodation.Services
             using var channel = GrpcChannel.ForAddress("https://localhost:5003/",
                 new GrpcChannelOptions { HttpHandler = handler });
             var client = new ReservationGRPCService.ReservationGRPCServiceClient(channel);
-            var reply = await client.CheckIfAccommodationIsAvailableAsync(new AvailabilityPeriod
+            try
             {
-                AccommodationId = accommodationId,
-                StartDate = startDate.ToString(),
-                EndDate = endDate.ToString()
-            });
+                var reply = await client.CheckIfAccommodationIsAvailableAsync(new AvailabilityPeriod
+                {
+                    AccommodationId = accommodationId,
+                    StartDate = startDate.ToString(),
+                    EndDate = endDate.ToString()
+                });
 
-            return reply.Available;
+                return reply.Available;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return false;
+            }
+
         }
 
         public async Task<List<Model.Accommodation>> SearchAccomodation(SearchDTO searchDTO)
         {
             List<Model.Accommodation> allAccomodations = _repository.GetAll();
             List<Model.Accommodation> searchedAccomodations = new List<Model.Accommodation>();
-            String[] locationSplits = searchDTO.Location.Split(',');
-            Address searchDTOAddress = new Address();
             DateTime searchDTOCheckIn = DateTime.ParseExact(searchDTO.CheckIn, "yyyy-MM-dd", CultureInfo.InvariantCulture);
             DateTime searchDTOCheckOut = DateTime.ParseExact(searchDTO.CheckOut, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-            searchDTOAddress.Street = locationSplits[0];
-            searchDTOAddress.Number = int.Parse(locationSplits[1]);
-            searchDTOAddress.City = locationSplits[2];
-            searchDTOAddress.Country = locationSplits[3];
             foreach (Model.Accommodation accommodation in allAccomodations)
             {
-                if (accommodation.Address.Number == searchDTOAddress.Number && accommodation.Address.Country == searchDTOAddress.Country && accommodation.Address.City == searchDTOAddress.City && accommodation.Address.Street == searchDTOAddress.Street)
+                if (accommodation.Address.City == searchDTO.Location)
                 {
                     if (accommodation.MaxGuests >= searchDTO.NumberOfGuests && searchDTO.NumberOfGuests >= accommodation.MinGuests)
                     {
@@ -228,6 +251,7 @@ namespace Accommodation.Services
             foreach (Model.Accommodation accommodation in hostAccommodations)
             {
                 accommodation.IsDistinguishedHost = hostIdAndDistinguishedStatus.HostStatus;
+                _repository.Update(accommodation);
             }
 
             return Task.FromResult(new UserId
@@ -245,6 +269,7 @@ namespace Accommodation.Services
         {
             using var scope = _tracer.BuildSpan("GetAccommodationGRPC").StartActive(true);
             Model.Accommodation accommodation = _repository.GetById(id.Id);
+            string address = accommodation.Address.Street + ',' + accommodation.Address.Number + ',' + accommodation.Address.City + ',' + accommodation.Address.Country;
 
             return Task.FromResult(new AccommodationGRPC
             {
@@ -256,8 +281,9 @@ namespace Accommodation.Services
                 PricePerAccomodation = accommodation.AccomodationPrice.PricePerAccomodation,
                 HolidayCost = accommodation.AccomodationPrice.HolidayCost,
                 WeekendCost = accommodation.AccomodationPrice.WeekendCost,
-                SummerCost = accommodation.AccomodationPrice.SummerCost
-            }) ;
+                SummerCost = accommodation.AccomodationPrice.SummerCost,
+                Address = address
+            });
                 
 
         }

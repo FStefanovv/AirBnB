@@ -13,7 +13,6 @@ export class PendingRequestsComponent implements OnInit {
   constructor(private reservationService: ReservationService) { }
 
   requests? : Request[];
-  
 
   ngOnInit(): void {
     this.reservationService.getPendingRequests().subscribe({
@@ -28,4 +27,10 @@ export class PendingRequestsComponent implements OnInit {
 
   }
 
+  acceptRequest(requestId: string | undefined, accommodationId: string | undefined) {
+    if (requestId !== undefined && accommodationId !== undefined) {
+      this.reservationService.acceptRequest(requestId, accommodationId).subscribe({
+      });
+    }
+  }
 }

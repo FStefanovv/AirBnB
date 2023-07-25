@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
 using OpenTracing;
 using ReservationService.DTO;
 using ReservationService.Service;
+using System.Collections.Generic;
 
 namespace ReservationService.Controllers
 {
@@ -10,11 +12,13 @@ namespace ReservationService.Controllers
     public class RequestController:ControllerBase
     {
         private readonly IRequestService _requestService;
+        private readonly IReservationService _reservationService;
         private readonly ITracer _tracer;
 
-        public RequestController(IRequestService requestService, ITracer tracer)
+        public RequestController(IRequestService requestService,IReservationService reservationService, ITracer tracer)
         {       
             _requestService = requestService;
+            _reservationService = reservationService;
             _tracer = tracer;
         }
 
@@ -34,7 +38,7 @@ namespace ReservationService.Controllers
         {
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
-            _requestService.CreateReservationRequest(dto);
+            _requestService.CreateReservationRequestOrReservation(dto);
             return Ok();
         }
 
@@ -55,6 +59,17 @@ namespace ReservationService.Controllers
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             var list = _requestService.GetRequestsForHost(hostId);
+            return Ok(list);
+        }
+
+        [HttpGet]
+        [Route("get-user-requests")]
+        public ActionResult GetRequestsForUser()
+        {
+            var actionName = ControllerContext.ActionDescriptor.DisplayName;
+            using var scope = _tracer.BuildSpan(actionName).StartActive(true);
+            Request.Headers.TryGetValue("UserId", out StringValues userId);
+            List<ShowRequestDTO> list = _requestService.GetRequestsForUsers(userId);
             return Ok(list);
         }
 

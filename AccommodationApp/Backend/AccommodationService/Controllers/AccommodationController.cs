@@ -74,8 +74,7 @@ namespace Accommodation.Controllers
         }
 
 
-
-       [HttpPost]
+        [HttpPost]
        [Route("update")]
        public async Task<IActionResult> Update(UpdateAccommodationDTO updateAccommodationDTO)
         {
