@@ -1,0 +1,68 @@
+#sidebar {
+    height: 100%;
+    width: 20%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    border-right: 3px solid var(--theme);
+    color: var(--theme);
+    font-size: 18px;
+}
+
+button {
+    display: block;
+    margin: 0 auto;
+}
+
+#create-account {
+    font-size: 16px;
+}
+
+#create-account-span {
+    transition: 0.2s all;
+}
+
+#create-account-span:hover {
+    cursor: pointer;
+    color: #61A7E7;
+}
+
+#login {
+    font-size: 18px;
+}
+
+#logout {
+    margin-top: 10%;
+    font-size: 18px;
+}
+
+p {
+    text-align: center;
+    margin-top: 50px;
+}
+#sidebar-options{
+    display: flex;
+    flex-direction: column;
+    margin-top: 40%;
+    
+}
+#sidebar-option{
+    text-align: center;
+    margin-bottom: 8px;
+    width: 50%;
+    place-self: center;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    transition: 0.4s ease;
+    border-radius: 2px;
+}
+#sidebar-option:hover{
+    margin-bottom: 8px;
+    width: 50%;
+    place-self: center;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    cursor: pointer;
+    background-color: var(--theme);
+    color:white
+}

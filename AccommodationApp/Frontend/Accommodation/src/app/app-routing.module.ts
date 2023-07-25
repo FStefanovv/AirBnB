@@ -12,7 +12,8 @@ import { UpdateAccommodationComponent } from './components/update-accommodation/
 import { FlightRecommendationsComponent } from './components/flight-recommendations/flight-recommendations.component';
 import { BuyFlightTicketsComponent } from './components/buy-flight-tickets/buy-flight-tickets.component';
 import { ShowAccommodationComponent } from './components/show-accommodation/show-accommodation.component';
-import { CreateRequestComponent } from './components/create-request/create-request.component';
+import { UserRequestsComponent } from './components/user-requests/user-requests.component';
+//import { CreateRequestComponent } from './components/create-request/create-request.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch:'full' },
@@ -27,7 +28,9 @@ const routes: Routes = [
   { path:'update-accommodation/:id/:startSeason/:endSeason/:price', component: UpdateAccommodationComponent},
   { path:'flight-recommendations/:id', component: FlightRecommendationsComponent, canActivate:[AuthGuard], data: {roles: ['REGULAR_USER']}},
   { path: 'buy-flight-tickets', component: BuyFlightTicketsComponent, canActivate:[AuthGuard], data: {roles: ['REGULAR_USER']}},
-  { path: 'show-accommodation/:id', component: ShowAccommodationComponent}
+  { path: 'show-accommodation/:id', component: ShowAccommodationComponent},
+  { path:'my-requests', component: UserRequestsComponent, canActivate:[AuthGuard], data: {roles: ['REGULAR_USER']} },
+
 ];
 
 @NgModule({

@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>3e26c9a9-86a4-4ae0-9399-2cd043c4aad9</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Protos\user.proto" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Jaeger" Version="1.0.3" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
+    <PackageReference Include="Neo4j.Driver" Version="4.1.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="OpenTracing.Contrib.NetCore" Version="0.9.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="MongoDB.Driver" Version="2.19.0" />
+  </ItemGroup>
+	
+<ItemGroup>
+		<PackageReference Include="Google.Protobuf" Version="3.15.5" />
+		<PackageReference Include="Grpc.AspNetCore" Version="2.35.0" />
+		<PackageReference Include="Grpc.Net.Client" Version="2.35.0" />
+		<PackageReference Include="Grpc.Tools" Version="2.36.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+
+	<ItemGroup>
+		<Protobuf Include="Protos\check_visits.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\user.proto" GrpcServices="Client" />
+	</ItemGroup>
+</Project>

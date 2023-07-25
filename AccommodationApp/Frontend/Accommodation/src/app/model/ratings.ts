@@ -11,6 +11,13 @@ export class RatingDTO {
     userId: string = '';
 }
 
+export class RatingWithUsernameDTO {
+   
+    grade: number = 0;
+    ratingDate: Date = new Date();
+    username: string = '';
+}
+
 export class RatedEntity {
     id: string = '';
     averageRating: number = 0;

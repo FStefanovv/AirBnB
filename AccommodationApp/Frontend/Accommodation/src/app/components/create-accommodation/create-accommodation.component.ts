@@ -90,6 +90,7 @@ export class CreateAccommodationComponent implements OnInit {
       })
         this.accommodationService.Post(this.accommDto, this.images).subscribe({
           next: (response: any) => {
+            this.router.navigate(['home'])
             console.log('success');
           },
           error : (err: HttpErrorResponse) => {

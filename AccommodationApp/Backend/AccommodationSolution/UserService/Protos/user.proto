@@ -1,0 +1,29 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "Users";
+
+package rating;
+
+service UserGRPCService {
+	rpc IsReservationPartSatisfied (ReservationSatisfied) returns (ReservationPartUpdated);
+	rpc ChangeRatingCondition (RatingCondition) returns (UserUpdated);
+}
+
+message ReservationSatisfied{
+	string id = 1;
+	bool ReservationPartSatisfied = 2;
+}
+
+message ReservationPartUpdated {
+  bool IsReservationSatisfied = 1;
+}
+
+message RatingCondition {
+	string id = 1;
+	bool isSatisfied = 2;
+}
+
+message UserUpdated {
+  bool isUserUpdated = 1;
+}
+

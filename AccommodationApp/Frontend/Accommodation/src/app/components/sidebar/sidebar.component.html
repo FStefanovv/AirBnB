@@ -1,0 +1,21 @@
+<div id="sidebar">
+    <p [style.visibility]="loggedIn? 'visible' : 'hidden'">
+        Welcome, {{username}}!
+    </p>
+    <div id="sidebar-options">
+        <div id="sidebar-option" *ngIf="loggedIn" (click)="changeRoute('/home')">Home</div>
+        <div id="sidebar-option" *ngIf="loggedIn && userRole == 'HOST'" (click)="changeRoute('/create-accommodation')">Register Accommodation</div>
+        <div id="sidebar-option" *ngIf="loggedIn && userRole == 'REGULAR_USER'" (click)="changeRoute('/my-reservations')">My Reservations</div>
+        <div id="sidebar-option" *ngIf="loggedIn && userRole == 'REGULAR_USER'" (click)="changeRoute('/my-requests')">My Requests</div>
+        <div id="sidebar-option" *ngIf="loggedIn && userRole == 'HOST'" (click)="changeRoute('/pending-requests')">Reservation Requests</div>
+        <div id="sidebar-option" *ngIf="loggedIn && userRole == 'HOST'" (click)="changeRoute('/get-host')">My Profile</div>
+        <div id="sidebar-option" *ngIf="loggedIn && userRole == 'REGULAR_USER'" (click)="changeRoute('/get-regular')">My Profile</div>
+    </div>
+    <button (click)="logIn()" class="button-regular"  [style.visibility]="loggedIn? 'hidden' : 'visible'" id="login">
+        Log In
+    </button>
+    <p [style.visibility]="loggedIn? 'hidden' : 'visible'" id="create-account">Don't have an account?<br><span (click)="goToRegistration()" id="create-account-span"><u>Create one here!</u></span></p>
+    <button (click)="logOut()" id="logout" class="button-regular" [style.visibility]="loggedIn? 'visible' : 'hidden'">
+        Log Out
+    </button>
+</div>

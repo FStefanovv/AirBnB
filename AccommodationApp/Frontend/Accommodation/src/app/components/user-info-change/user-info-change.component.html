@@ -1,5 +1,7 @@
+<app-sidebar></app-sidebar>
+<div class="main-content">
 <div id="main-div">
-    <h1> Your informations</h1>
+    <h1>Your profile</h1>
     <div>
         <label>First name: </label>
         <input type="text" class="input-regular" [(ngModel)]='user.firstName'/>
@@ -32,4 +34,5 @@
     <div id="button-container">
         <button class="button-regular" (click)="updateUser()">Update</button>
     </div>  
+</div>
 </div>

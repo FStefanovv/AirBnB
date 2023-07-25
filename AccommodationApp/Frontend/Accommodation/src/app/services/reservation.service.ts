@@ -11,7 +11,7 @@ import { ShowRequest } from '../model/show-requests';
 })
 export class ReservationService {
 
-  private gatewayUrl = 'http://localhost:5000/gateway/';
+  private gatewayUrl = 'https://localhost:5000/gateway/';
   
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })

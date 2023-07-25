@@ -21,26 +21,13 @@ export class UserReservationsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getReservations();
-    this.getRequests();
   }
 
   getReservations(){
     this.reservationService.getUsersReservations().subscribe({
       next: (response: ShowReservation[]) => {
         this.reservations = response;
-        console.log(this.reservations);
-      },
-      error : (err: HttpErrorResponse) => {
-       console.log(err.error);
-      }
-    });
-  }
-
-  getRequests(){
-    this.reservationService.getRequests().subscribe({
-      next: (res: ShowRequest[]) => {
-        this.requests = res;
-        console.log(this.requests)
+        
       },
       error : (err: HttpErrorResponse) => {
        console.log(err.error);
@@ -55,14 +42,6 @@ export class UserReservationsComponent implements OnInit {
         this.reservationService.cancelReservation(reservation.id,reservation.hostId).subscribe({});
       }
     }
-  }
-
-  cancelRequest(request: ShowRequest){
-    console.log(request.requestId)
-    if(request.requestId){
-      console.log('uso')
-      this.reservationService.cancelRequest(request.requestId).subscribe({});    
-    }  
   }
 
   /*

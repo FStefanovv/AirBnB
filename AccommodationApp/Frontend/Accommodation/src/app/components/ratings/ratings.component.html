@@ -1,0 +1,22 @@
+<h3>{{ratingsFor}} ratings</h3>
+<p *ngFor="let rating of ratings">
+    {{rating.username}} rated with {{rating.grade}} on {{rating.ratingDate | date:'mediumDate'}}
+</p>
+
+<!--<table>
+    <thead>
+      <tr>
+        <th>Grade</th>
+        <th>Rated on</th>
+        <th>Username</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of ratings">
+        <td>{{ data.grade }}</td>
+        <td>{{ data.ratingDate | date:'yyyy-MM-dd' }}</td>
+        <td>{{ data.userId }}</td>
+      </tr>
+    </tbody>
+  </table>-->
+  

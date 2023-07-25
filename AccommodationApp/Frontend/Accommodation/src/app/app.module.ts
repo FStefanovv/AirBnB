@@ -25,6 +25,9 @@ import { DatePipe } from '@angular/common';
 import { DisplayRecommendationsComponent } from './components/display-recommendations/display-recommendations.component';
 import { BuyFlightTicketsComponent } from './components/buy-flight-tickets/buy-flight-tickets.component';
 import { ShowAccommodationComponent } from './components/show-accommodation/show-accommodation.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { RatingsComponent } from './components/ratings/ratings.component';
+import { UserRequestsComponent } from './components/user-requests/user-requests.component';
 
 export function tokenGetter() { 
   return localStorage.getItem("jwt"); 
@@ -46,6 +49,9 @@ export function tokenGetter() {
     DisplayRecommendationsComponent,
     BuyFlightTicketsComponent,
     ShowAccommodationComponent,
+    SidebarComponent,
+    RatingsComponent,
+    UserRequestsComponent,
   ],
   imports: [
     BrowserModule,

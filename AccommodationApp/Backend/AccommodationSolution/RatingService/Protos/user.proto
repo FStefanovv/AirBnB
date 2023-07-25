@@ -1,0 +1,19 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "RatingService";
+
+package rating;
+
+service UserGRPCService {
+	rpc ChangeRatingCondition (RatingCondition) returns (UserUpdated);
+}
+
+message RatingCondition {
+	string id = 1;
+	bool isSatisfied = 2;
+}
+
+message UserUpdated {
+  bool isUserUpdated = 1;
+}
+

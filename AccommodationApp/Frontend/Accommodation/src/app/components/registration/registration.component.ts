@@ -33,7 +33,7 @@ export class RegistrationComponent implements OnInit {
     this.user.address = this.userAddress;
     this.userService.Register(this.user).subscribe({
       next: (res: User) => {
-        this.user = res;
+        this.router.navigate(['login'])
       },
       error: (error : HttpErrorResponse) => {
         this.errorMsg = error.error;

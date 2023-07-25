@@ -13,7 +13,7 @@ import { NewFlightDto } from '../model/newFlightDto';
 }) 
 export class FlightsService {
 
-  private flightsUrl = 'http://localhost:5000/api/Flights/';
+  private flightsUrl = 'https://localhost:5010/api/Flights/';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json'})

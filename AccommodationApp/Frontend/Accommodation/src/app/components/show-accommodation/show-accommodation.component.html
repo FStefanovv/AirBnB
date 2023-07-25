@@ -1,22 +1,82 @@
-<!--<label>Your accommodation rating</label>
-<input type="text" [(ngModel)]="ratingDto.Grade">
-<button (click)="rateAccomm()" class="button-regular">Rate</button>
-<button (click)="deleteAccommRating()" class="button-regular">Remove Accommodation Rating</button>
+<app-sidebar></app-sidebar>
+<div class="main-content">
+   <h1>{{accommodation.name}}</h1>
+    <table>
+        <tr>
+            <td><label for="price">Price:</label></td>
+            <td><input class='input-regular' type="number" id="price" [(ngModel)]="accommodation.price" disabled></td>
+        </tr>
+        <tr>
+            <td colspan="2" class="bold-text">Price is defined per {{accommodation.pricePerGuest? 'guest' : 'accommodation'}}</td>
+        </tr>   
+        <tr *ngIf="accommodation.holidayCost">
+            <td class="bold-text" colspan="2">Holiday cost included</td>
+        </tr>
+        <tr *ngIf="accommodation.weekendCost">
+            <td class="bold-text" colspan="2">Weekend cost included</td>
+        </tr>
+        <tr *ngIf="accommodation.summerCost">
+            <td class="bold-text" colspan="2">Summer season cost included</td>
+        </tr>
+        <tr *ngIf="accommodation.summerCost">
+            <td><label for="startSeason">Season Start:</label></td>
+            <td><input class='input-regular' type="text" id="startSeason" [(ngModel)]="accommodation.startSeason" disabled></td>
+        </tr>
+        <tr *ngIf="accommodation.summerCost">
+            <td><label for="endSeason">Season End:</label></td>
+            <td><input class='input-regular' type="text" id="endSeason" [(ngModel)]="accommodation.endSeason" disabled></td>
+        </tr>
+        <tr *ngIf="accommodation.isDistinguishedHost">
+            <td class="bold-text" colspan="2">Distinguished Host</td>
+        </tr>
+        <tr>
+            <td><label for="offers">Offers:</label></td>
+            <td>
+                <ul>
+                    <li *ngFor="let offer of accommodation.offers">{{offer}}</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="hostId">Host ID:</label></td>
+            <td><input type="text" id="hostId" [(ngModel)]="accommodation.hostId" disabled></td>
+        </tr>
+    </table>
 
-<label>Your host rating</label>
-<input type="text" [(ngModel)]="ratingDto.Grade">
-<button (click)="rateHost()" class="butt on-regular">Rate</button>
-<button (click)="deleteHostRating()" class="button-regular">Remove Host Rating</button>
+    <p>{{accommRatingInfo}}</p>
+    <p>{{hostRatingInfo}}</p>
+    <table *ngIf="userRole=='REGULAR_USER'">
+        <tr>
+            <td>
+                <span>{{userAccommRatingInfo}}</span>
+            </td>
+            <td>
+                <input [(ngModel)]="createAccommodationRatingDto.grade" class="input-regular"/>
+            </td>
+            <td>
+                <button (click)="rateAccomm()" class="button-regular">{{!hasRatedAccomm? 'Rate' : 'Update Rating'}}</button>
+            </td>
+            <td>
+                <button *ngIf="hasRatedAccomm" (click)="deleteRating(pageRatingInfo[2].id)" class="button-cancel">Remove Rating</button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span>{{userHostRatingInfo}}</span>
+            </td>
+            <td>
+                <input [(ngModel)]="createHostRatingDto.grade" class="input-regular" />
+            </td>
+            <td>
+                <button (click)="rateHost()" class="button-regular">{{!hasRatedHost? 'Rate' : 'Update Rating'}}</button>
+            </td>
+            <td>
+                <button *ngIf="hasRatedHost" (click)="deleteRating(pageRatingInfo[3].id)" class="button-cancel">Remove Rating</button>
+            </td>
+        </tr>
+    </table>
+    <app-ratings [entityId]="accommodation.id" [ratingsFor]="'Accommodation'"></app-ratings>
+    <app-ratings [entityId]="accommodation.hostId" [ratingsFor]="'Host'"></app-ratings>
+</div>
 
-<p>
-    {{hostRatingInfo}}
-</p>
-<p>
-    {{accommRatingInfo}}
-</p>
 
-<p>{{userHostRatingInfo}}</p>
-<p>{{userAccommRatingInfo}}</p>
-<p>{{hostRatingInfo}}</p>
-<p>{{accommRatingInfo}}</p>
--->

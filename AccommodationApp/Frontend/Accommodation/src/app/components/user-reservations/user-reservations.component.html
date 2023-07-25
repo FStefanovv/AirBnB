@@ -1,3 +1,5 @@
+<app-sidebar></app-sidebar>
+<div class="main-content">
 <h1>Your reservations</h1>
 <table class="regular">
     <tr>
@@ -33,35 +35,4 @@
         </td>
     </tr>
 </table>
-
-<h1>Your requests</h1>
-<table class="regular">
-    <tr>
-        <th>From</th>
-        <th>To</th>
-        <th>Accommodation</th>
-        <th>Number of guests</th>
-        <th>Status</th>
-        <th></th>
-    </tr>
-    <tr *ngFor="let request of requests">
-        <td>
-            {{request.from | date:'mediumDate'}}
-        </td>
-        <td>
-            {{request.to |  date:'mediumDate'}}
-        </td>
-        <td>
-            {{request.accommodationName}}
-        </td>
-        <td>
-            {{request.numberOfGuests}}
-        </td>
-        <td>
-            Pending
-        </td>
-        <td>
-            <button class="button-cancel" (click)="cancelRequest(request)">Cancel</button>
-        </td>
-    </tr>
-</table>
+</div>

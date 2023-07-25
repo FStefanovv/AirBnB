@@ -1,3 +1,5 @@
+<app-sidebar></app-sidebar>
+<div class="main-content">
 <h2>Vacation Details</h2>
 <table>
     <tr>
@@ -46,5 +48,6 @@
 <div *ngIf="arrivalRecommendationsObtained || departureRecommendationsObtained" id="recommendations-display">
   <app-display-recommendations *ngIf="arrivalRecommendationsObtained" [flightRequest]="arrivalFlight" [recommendations]="arrivalRecommendations"></app-display-recommendations>
   <app-display-recommendations *ngIf="departureRecommendationsObtained" [flightRequest]="departureFlight" [recommendations]="departureRecommendations"></app-display-recommendations>
+</div>
 </div>
 
