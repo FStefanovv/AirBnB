@@ -1,0 +1,39 @@
+<div id="view-flights-to-buy" *ngIf="!flightChosen">
+    <div *ngFor="let flight of flights" id="flight" [style.display]="flight.status == 1 ? 'none': 'block'" >
+      <div>
+        <div id="ticket-line-bt-1"><div style="margin-right: 8px;">{{flight.departurePoint}}</div>-<div style="margin-left: 8px;">{{flight.arrivalPoint}}</div></div>
+        <div id="ticket-line-bt-2"><div>Departure time: {{flight.departureTime | date:'short'}}</div>
+        <div>|</div>
+        <div>Duration: {{flight.duration}}min.</div></div>
+        <div id="ticket-line-bt-3">
+          <div style="display:flex; justify-content: center;">
+            <div>Remaining seats: {{flight.remainingTickets}}</div>
+          <div style="margin-left: 10px;">Price: {{flight.ticketPrice}} EUR</div></div>
+          <div *ngIf="flight.remainingTickets != 0" style="display:flex; justify-self: end;">
+            <div id="buy-ticket-button" (click)="selectFlight(flight.id)">Buy</div>
+          </div>
+          <div *ngIf="flight.remainingTickets == 0" style="display:flex; justify-self: end;">
+            <div style="color:crimson">No tickets available</div>
+          </div>
+        </div>
+        <div style="font-size: 16px; color: gray;">Number of seats: {{flight.numberOfPassengers}}</div>
+      </div>
+    </div>
+</div>
+
+
+<table *ngIf="flightChosen">
+    <tr>
+        <td><label>Enter Key:</label></td>
+        <td><input [(ngModel)]="key" class="inputRegular"/> </td>
+    </tr>
+    <tr>
+        <td><label>Enter number of tickets:</label></td>
+        <td><input [(ngModel)]="purchaseInfo.numberOfTickets" class="inputRegular"/> </td>
+    </tr>
+    <tr>
+        <td>
+            <button (click)="purchase()" class="regularButton">Purchase</button>
+        </td>
+    </tr>
+</table>

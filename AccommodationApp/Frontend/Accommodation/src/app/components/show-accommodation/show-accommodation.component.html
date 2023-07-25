@@ -1,11 +1,7 @@
 <app-sidebar></app-sidebar>
 <div class="main-content">
-   
+   <h1>{{accommodation.name}}</h1>
     <table>
-        <tr>
-            <td><label for="name">Accommodaiton Name:</label></td>
-            <td><input class='input-regular' type="text" id="name" [(ngModel)]="accommodation.name" disabled></td>
-        </tr>
         <tr>
             <td><label for="price">Price:</label></td>
             <td><input class='input-regular' type="number" id="price" [(ngModel)]="accommodation.price" disabled></td>

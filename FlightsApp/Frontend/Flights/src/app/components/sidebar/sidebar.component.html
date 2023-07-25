@@ -7,6 +7,7 @@
         <div id="sidebar-option" *ngIf="loggedIn && userRole == 'ADMIN'" (click)="changeRoute('/new-flight')">Create a flight</div>
         <div id="sidebar-option" *ngIf="loggedIn && userRole == 'REGULAR_USER'" (click)="changeRoute('/purchase-tickets-regular')" >Purchse a ticket</div>
         <div id="sidebar-option" *ngIf="loggedIn && userRole == 'REGULAR_USER'" (click)="changeRoute('/view-bought-tickets')">View tickets</div>
+        <div id="sidebar-option" (click)="changeRoute('/purchase-tickets-api')">Purchase With Key</div>
     </div>
     <button (click)="logIn()" class="regularButton"  [style.visibility]="loggedIn? 'hidden' : 'visible'" id="login">
         Log In

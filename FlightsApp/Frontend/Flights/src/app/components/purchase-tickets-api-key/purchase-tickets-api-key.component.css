@@ -1,0 +1,62 @@
+h1 {
+    color: var(--theme);
+    margin-top: 5%;
+    margin-bottom: 8%;
+  }
+  #flight {
+    padding: 16px;
+    box-shadow: 2px 2px 12px 1px rgba(0, 0, 0, 0.2);
+    border-radius: 16px;
+    position: relative;
+  }
+  #buy-ticket-button {
+    margin-left: 10px;
+    width: 50px;
+    padding: 4px;
+    border: 2px solid;
+    border-color: var(--theme);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    transition: 0.3s ease;
+    margin-right: 4px;
+    color: var(--theme);
+    border-radius: 3px;
+  }
+  #buy-ticket-button:hover {
+    margin-left: 10px;
+    width: 50px;
+    padding: 4px;
+    border: 2px solid;
+    border-color: var(--theme);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    background-color: var(--theme);
+    color: white;
+  }
+  
+   #ticket-line-bt-1{
+     margin-bottom: 8px;
+     display: flex;
+     font-size: 20px;
+   }
+   #ticket-line-bt-2{
+     display:flex;
+     margin-bottom: 8px;
+     justify-content: space-between;
+   }
+   #ticket-line-bt-3{
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     margin-bottom: 8px;
+   }
+   #view-flights-to-buy{
+     display:grid; 
+     gap:32px;
+     grid-template-columns: repeat(3,minmax(0,1fr));
+   }
+   #number-of-tickets{
+    width: 50px;
+   }
