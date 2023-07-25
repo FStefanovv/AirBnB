@@ -57,6 +57,8 @@ namespace RatingService.Service
                         await _ratingRepository.UpdateRatedEntity(entity);
                     }
                 }
+                if (dto.RatedEntityType == 1)
+                    await UpdateRatingCondition(dto.RatedEntityId);
             }
             else throw new Exception("User cannot rate this entity");
         }
@@ -72,6 +74,7 @@ namespace RatingService.Service
 
             await _ratingRepository.DeleteRating(rating.Id);
             await _ratingRepository.UpdateRatedEntity(entity);
+            await UpdateRatingCondition(entity.Id);
         }
 
         private async Task<float> UpdateEntityRatingPostRatingRemoval(string entityId, string ratingId)
@@ -94,6 +97,11 @@ namespace RatingService.Service
         public async Task<List<Rating>> GetAllEntityRatings(string id)
         {
             return await _ratingRepository.GetEntityRatings(id);
+        }
+
+        public async Task<List<RatingWithUsernameDTO>> GetAllEntityRatingsWithUsername(string id)
+        {
+            return await _ratingRepository.GetAllEntityRatingsWithUsername(id);
         }
 
         public async Task<RatedEntity> GetRatedEntity(string id)
@@ -220,6 +228,26 @@ namespace RatingService.Service
 
 
             return ratingDtos;
+        }
+
+        private async Task UpdateRatingCondition(string userId)
+        {
+            bool satisfied = await _ratingRepository.CheckIfRatingAbove(userId);
+
+
+            var handler = new HttpClientHandler();
+            handler.ServerCertificateCustomValidationCallback =
+                HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+            using var channel = GrpcChannel.ForAddress("https://user-service:443",
+                new GrpcChannelOptions { HttpHandler = handler });
+            var client = new UserGRPCService.UserGRPCServiceClient(channel);
+            var reply = await client.ChangeRatingConditionAsync(new RatingCondition
+            {
+                Id = userId, 
+                IsSatisfied = satisfied
+            });
+
+            //return reply.isUserUpdated;
         }
 
 

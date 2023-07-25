@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Primitives;
+using RatingService.DTO;
 using RatingService.Model;
 using System;
 using System.Collections.Generic;
@@ -30,5 +31,7 @@ namespace RatingService.Repository
         Task DeleteRating(string ratingId);
         Task<Rating> GetRatingById(string id);
         Task<RatedEntity> GetRatedEntityByRating(string ratingId);
+        Task<List<RatingWithUsernameDTO>> GetAllEntityRatingsWithUsername(string id);
+        Task<bool> CheckIfRatingAbove(string userId);
     }
 }

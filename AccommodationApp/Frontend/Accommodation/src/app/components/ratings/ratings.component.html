@@ -1,6 +1,6 @@
 <h3>{{ratingsFor}} ratings</h3>
 <p *ngFor="let rating of ratings">
-    {{rating.userId}} rated with {{rating.grade}} on {{rating.ratingDate | date:'mediumDate'}}
+    {{rating.username}} rated with {{rating.grade}} on {{rating.ratingDate | date:'mediumDate'}}
 </p>
 
 <!--<table>

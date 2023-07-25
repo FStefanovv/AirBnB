@@ -1,17 +1,11 @@
 ﻿syntax = "proto3";
 
-option csharp_namespace = "Users";
+option csharp_namespace = "RatingService";
 
 package rating;
 
 service UserGRPCService {
-	rpc IsDistinguishedHost (ReservationSatisfied) returns (UserUpdated);
 	rpc ChangeRatingCondition (RatingCondition) returns (UserUpdated);
-}
-
-message ReservationSatisfied{
-	string id = 1;
-	bool ReservationPartSatisfied = 2;
 }
 
 message RatingCondition {

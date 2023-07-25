@@ -302,5 +302,19 @@ namespace Users.Services
 
 
         }
+
+        public override Task<UserUpdated> ChangeRatingCondition(RatingCondition condition, ServerCallContext context)
+        {
+            User host = _userRepository.GetById(condition.Id);
+
+            host.IsRatingPartSatisfied = condition.IsSatisfied;
+
+            _userRepository.UpdateUser(host);
+
+            return Task.FromResult(new UserUpdated
+            {
+                IsUserUpdated = true
+            });
+        }
     }
 }

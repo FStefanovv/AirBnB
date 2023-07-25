@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CreateRatingDTO, RatedEntity, RatingDTO, RatingInfoDTO } from '../model/ratings';
+import { CreateRatingDTO, RatedEntity, RatingDTO, RatingInfoDTO, RatingWithUsernameDTO } from '../model/ratings';
 import { ObserversModule } from '@angular/cdk/observers';
 import { Observable } from 'rxjs';
 
@@ -25,8 +25,8 @@ export class RatingServiceService {
     return this.http.get<RatedEntity>(this.gatewayUrl+'get-average-rating/'+id, this.httpOptions);
   }
   
-  getAllRatings(id: string) : Observable<RatingDTO[]> {
-    return this.http.get<RatingDTO[]>(this.gatewayUrl+'get-all-ratings/'+id, this.httpOptions);
+  getAllRatings(id: string) : Observable<RatingWithUsernameDTO[]> {
+    return this.http.get<RatingWithUsernameDTO[]>(this.gatewayUrl+'get-all-ratings/'+id, this.httpOptions);
   }
   
   deleteRating(entityId: string) {

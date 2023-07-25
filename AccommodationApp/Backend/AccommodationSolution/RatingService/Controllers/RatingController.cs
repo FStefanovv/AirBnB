@@ -70,7 +70,7 @@ namespace RatingService.Controllers
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             
-            List<Rating> ratings = await _ratingService.GetAllEntityRatings(id);
+            List<RatingWithUsernameDTO> ratings = await _ratingService.GetAllEntityRatingsWithUsername(id);
 
             if (ratings != null && ratings.Count > 0)
                 return Ok(ratings);

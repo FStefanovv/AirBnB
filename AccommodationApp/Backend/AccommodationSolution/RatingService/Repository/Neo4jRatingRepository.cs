@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Primitives;
 using Neo4j.Driver;
 using Newtonsoft.Json;
+using RatingService.DTO;
 using RatingService.Model;
 using RatingService.Neo4J;
 using System;
@@ -304,6 +305,48 @@ namespace RatingService.Repository
             };
 
             await _neo4jDataAccess.ExecuteWriteTransactionAsync<object>(query, parameters);
+        }
+
+        public async Task<List<RatingWithUsernameDTO>> GetAllEntityRatingsWithUsername(string id)
+        {
+            var query = @"MATCH (u: User)-[r:RATED]->(re:RatedEntity { Id: $id })
+                          RETURN r{Username:u.Username, Grade: r.Grade, RatingDate: r.RatingDate}";
+
+            var parameters = new Dictionary<string, object>
+            {
+                {
+                    "id",  id
+                }
+            };
+
+            var result = await _neo4jDataAccess.ExecuteReadDictionaryAsync(query, "r", parameters);
+
+            if (result.Count == 0)
+            {
+                return null; // or throw an exception, depending on your application's requirements
+            }
+
+            List<RatingWithUsernameDTO> ratings = new List<RatingWithUsernameDTO>();
+
+            for (int i = 0; i < result.Count; i++)
+            {
+                var rating = new RatingWithUsernameDTO
+                {
+                    Username = result[i]["Username"].ToString(),
+                    Grade = Convert.ToInt32(result[i]["Grade"]),
+                    RatingDate = result[i]["RatingDate"].As<LocalDateTime>().ToDateTime()
+                };
+
+                ratings.Add(rating);
+            }
+            return ratings;
+        }
+
+        public async Task<bool> CheckIfRatingAbove(string hostId)
+        {
+            RatedEntity host = await GetRatedEntity(hostId);
+
+            return host.AverageRating > 4.7;
         }
     }
 }

@@ -8,7 +8,9 @@ export class ShowReservation {
     status?: ReservationStatus;
     price?: number;
 
-    public constructor(){}
+    public constructor(){
+        
+    }
 }
 
 

@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
-import { RatingDTO } from 'src/app/model/ratings';
+import { RatingDTO, RatingWithUsernameDTO } from 'src/app/model/ratings';
 import { RatingServiceService } from 'src/app/services/rating-service.service';
 
 @Component({
@@ -15,7 +15,7 @@ export class RatingsComponent implements OnInit {
 
   constructor(private ratingService: RatingServiceService) { }
 
-  ratings: RatingDTO[] = [];
+  ratings: RatingWithUsernameDTO[] = [];
 
 
   ngOnInit(): void {
@@ -30,7 +30,7 @@ export class RatingsComponent implements OnInit {
   getRatings(){
     if(this.entityId){
       this.ratingService.getAllRatings(this.entityId).subscribe({
-        next: (res: RatingDTO[]) => {
+        next: (res: RatingWithUsernameDTO[]) => {
           console.log(res)
           this.ratings = res;
         },

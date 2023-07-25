@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Protos\user.proto" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Jaeger" Version="1.0.3" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
     <PackageReference Include="Neo4j.Driver" Version="4.1.0" />
@@ -29,5 +33,6 @@
 
 	<ItemGroup>
 		<Protobuf Include="Protos\check_visits.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\user.proto" GrpcServices="Client" />
 	</ItemGroup>
 </Project>
