@@ -1,7 +1,9 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { BuyTicketApiKeyDto } from 'src/app/model/buyWithApiKey';
 import { Flight } from 'src/app/model/flight';
 import { FlightsService } from 'src/app/services/flights.service';
+import { TicketsService } from 'src/app/services/tickets.service';
 
 @Component({
   selector: 'app-purchase-tickets-api-key',
@@ -10,7 +12,7 @@ import { FlightsService } from 'src/app/services/flights.service';
 })
 export class PurchaseTicketsApiKeyComponent implements OnInit {
 
-  constructor(private flightService: FlightsService) { }
+  constructor(private flightService: FlightsService, private ticketService: TicketsService) { }
 
   flights: Flight[] = [];
 
@@ -37,7 +39,15 @@ export class PurchaseTicketsApiKeyComponent implements OnInit {
 
   purchase(){
     this.purchaseInfo.flightId = this.selectedFlight;
-    console.log(this.purchaseInfo);
+    //console.log(this.purchaseInfo);
+    this.ticketService.purchaseTicketApikey(this.purchaseInfo, this.key).subscribe({
+      next: (response: any) => {
+        console.log('successfully purchased');
+      },
+      error : (err: HttpErrorResponse) => {
+        console.log(err.error);
+      }
+    });
   }
 
 }

@@ -48,7 +48,7 @@ namespace ReservationService.Service
             });
         }
 
-        public void Create(Reservation reservation)
+        public async Task Create(Reservation reservation)
         {
             _repository.Create(reservation);
         }
@@ -66,7 +66,7 @@ namespace ReservationService.Service
             int differenceInDays = (reservation.From - DateTime.Now).Days;
 
             if (differenceInDays < 1)
-                throw new Exception();
+                throw new Exception("You cannot cancel a reservation less than 24 hours prior to it's beginning.");
             else
             {
                 reservation.Status = Enums.ReservationStatus.CANCELLED;

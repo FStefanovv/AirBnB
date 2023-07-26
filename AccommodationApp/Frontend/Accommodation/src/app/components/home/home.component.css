@@ -5,7 +5,17 @@
     width: 70%;
     height: 80%;
     margin: 30px auto;
-    color: #486A8A;
+    color: #759cc0;
+}
+
+#filter-div {
+  margin-top: -35px;
+}
+
+#filter-button {
+  margin-top: 40px;
+  margin-left: 34%;
+  margin-right: 10px;
 }
 
 label {
@@ -14,8 +24,8 @@ label {
 }
 
 input {
-    margin-top: 20px;
-    margin-right: 5px;
+    margin-top: 10px;
+    margin-left: 15px;
 }
 
 #button-regular {
@@ -25,7 +35,8 @@ input {
 
 #button-container {
     text-align: center;
-    margin: 30px auto;
+    margin-top: 30px;
+    margin-left:15%;
 }
 
 #main-div {
@@ -42,6 +53,8 @@ input {
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
     width: 300px;
     height: 200px;
+    color: var(--theme);
+    display: inline-block
   }
   
   .container {
@@ -78,5 +91,7 @@ input {
     justify-content: flex-end;
     align-items: flex-start;
   }
-  
-  
+
+  #reset-search {
+    margin-left: 10px;
+  }

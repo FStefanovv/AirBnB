@@ -1,13 +1,11 @@
-<label>Start season</label><br/>
-<input type="date" [(ngModel)]="updatedAccommodation.startSeason" format="yyyy-MM-dd" ><br/><br/>
-<label>End season</label><br/>
-<input type="date" [(ngModel)]="updatedAccommodation.endSeason" format="yyyy-MM-dd"><br/><br/>
-<label>Price</label><br/>
-<input type="number" [(ngModel)]="updatedAccommodation.price"/><br/><br/>
+<label>Beginning of Season</label><br/>
+<input class="input-regular" type="date" [(ngModel)]="updatedAccommodation.startSeason" format="yyyy-MM-dd" ><br/><br/>
+<label>End of season</label><br/>
+<input class="input-regular" type="date" [(ngModel)]="updatedAccommodation.endSeason" format="yyyy-MM-dd"><br/><br/>
+<label>New Price</label><br/>
+<input class="input-regular" type="number" [(ngModel)]="updatedAccommodation.price"/><br/><br/>
 <p [ngStyle]="{'color':'red', 'font-size':'20px'}" *ngIf="priceError" >Price must be greater than zero</p>
 <br/>
 <br/>
-
 <button class="button-regular" (click)="update()">Update</button>
-
 <br/>

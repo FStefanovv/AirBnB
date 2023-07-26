@@ -1,11 +1,12 @@
-<h1>Your requests</h1>
+<app-sidebar></app-sidebar>
+<div class="main-content">
+<h1>Requests waiting for your approval</h1>
 <table class="regular">
     <tr>
         <th>From</th>
         <th>To</th>
         <th>Accommodation</th>
         <th>Number of guests</th>
-        <th>Status</th>
         <th></th>
         <th></th>
     </tr>
@@ -22,11 +23,9 @@
         <td>
             {{request.numberOfGuests}}
         </td>
-        <td>
-            {{request.status==1? 'past' : (request.status==2? 'cancelled' : 'scheduled')}}
-        </td>
         <td *ngIf="request.status == 0">
-            <button (click)="acceptRequest(request.id,request.accommodationId)">Accept request</button>
+            <button (click)="acceptRequest(request.id,request.accommodationId)" class="button-regular">Accept</button>
         </td>
     </tr>
 </table>
+</div>

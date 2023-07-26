@@ -11,6 +11,7 @@ using ReservationService.Helpers;
 using Grpc.Core;
 using System.Net.Http;
 using Grpc.Net.Client;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ReservationService.Service
 {
@@ -67,8 +68,8 @@ namespace ReservationService.Service
             if (autoApproval == true)
             {
                 Reservation reservation = Adapter.ReservationAdapter.RequestReservationDtoToReservation(dto);
-                _reservation.Create(reservation);
                 await _reservation.CheckHostStatus(dto.HostId);
+                await _reservation.Create(reservation);
             }
             else
             {
@@ -94,14 +95,14 @@ namespace ReservationService.Service
 
         }
 
-        public void AcceptRequest(string requestId,string accommodationId)
+        public async Task AcceptRequest(string requestId,string accommodationId)
         {
             ReservationRequest request = _repository.GetRequestById(requestId);
             AcceptRequestDatabaseUpdate(request);
             //fali grpc sa accomodationom
-            _reservation.CreateReservationFromRequest(request);
+            await _reservation.CreateReservationFromRequest(request);
             CancelRequestsInTimeRange(accommodationId, request.From, request.To);
-            _reservation.CheckHostStatus(request.HostId);
+            await _reservation.CheckHostStatus(request.HostId);
         }
 
         private void AcceptRequestDatabaseUpdate(ReservationRequest request)

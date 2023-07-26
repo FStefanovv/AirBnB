@@ -45,7 +45,8 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.showAll();
-    this.IsHostDistinguished();
+    if(this.authService.getRole()=="HOST")
+      this.IsHostDistinguished();
   }
 
   search() {
@@ -66,7 +67,8 @@ export class HomeComponent implements OnInit {
         this.allAccommodations = res
         this.accommodationsToShow = this.allAccommodations
         this.IsSearched = false;
-        console.log(this.accommodationsToShow)
+        this.resetFilter(false);
+        //console.log(this.accommodationsToShow)
       }
     })
   }
@@ -152,6 +154,26 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  resetFilter(search:boolean) : void {
+    this.wifi = false;
+    this.indoors = false;
+    this.outdoors = false;
+    this.netflix = false;
+    this.parties = false;
+    this.kitchen = false;
+    this.smoking = false;
+    this.pet = false;
+    this.sauna = false;
+    this.gym = false;
+    this.isDistinguishedHost = false;
+    this.lowestPrice = 0;
+    this.highestPrice = 0;
+    if(search)
+      this.accommodationsToShow = this.searchedAccommodations;
+    else 
+      this.accommodationsToShow = this.allAccommodations;
+  }
+
   downloadFiles() {
   this.accommodationService.GetPhotos('64345c35782e3689729e953b').subscribe({
     next: (response: any) => {
@@ -203,7 +225,13 @@ export class HomeComponent implements OnInit {
       return true;
     }
     return false;
-  } 
+  }
+  
+  GetUserId() : string {
+    return this.authService.getId();
+  }
+
+
 
   IsHostDistinguished() {
     this.userService.getHost().subscribe({
@@ -217,7 +245,6 @@ export class HomeComponent implements OnInit {
       }
     })
   }
-
 }
 
 

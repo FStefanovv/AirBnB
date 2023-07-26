@@ -4,9 +4,9 @@
     </p>
     <div id="sidebar-options">
         <div id="sidebar-option" *ngIf="loggedIn" (click)="changeRoute('/home')">Home</div>
-        <div id="sidebar-option" *ngIf="loggedIn && userRole == 'HOST'" (click)="changeRoute('/create-accommodation')">Register Accommodation</div>
-        <div id="sidebar-option" *ngIf="loggedIn && userRole == 'REGULAR_USER'" (click)="changeRoute('/my-reservations')">My Reservations</div>
-        <div id="sidebar-option" *ngIf="loggedIn && userRole == 'REGULAR_USER'" (click)="changeRoute('/my-requests')">My Requests</div>
+        <div id="sidebar-option" *ngIf="loggedIn && userRole == 'HOST'" (click)="changeRoute('/create-accommodation')">Register Your Accommodation</div>
+        <div id="sidebar-option" *ngIf="loggedIn && userRole == 'REGULAR_USER'" (click)="changeRoute('/my-reservations')">Reservations</div>
+        <div id="sidebar-option" *ngIf="loggedIn && userRole == 'REGULAR_USER'" (click)="changeRoute('/my-requests')">Reservation Requests</div>
         <div id="sidebar-option" *ngIf="loggedIn && userRole == 'HOST'" (click)="changeRoute('/pending-requests')">Reservation Requests</div>
         <div id="sidebar-option" *ngIf="loggedIn && userRole == 'HOST'" (click)="changeRoute('/get-host')">My Profile</div>
         <div id="sidebar-option" *ngIf="loggedIn && userRole == 'REGULAR_USER'" (click)="changeRoute('/get-regular')">My Profile</div>

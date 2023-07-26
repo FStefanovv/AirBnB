@@ -7,24 +7,30 @@
         </div>
     </div>
     <div>
-        <label for="location">Location: </label>
-        <input type="text" placeholder="Street,Number,City,Country" class="input-regular" [(ngModel)]='searchDTO.location'/>
-        <label for="guests">Number of guests: </label>
-        <input type="number" min="0" class="input-regular" [(ngModel)]="searchDTO.numberOfGuests"/>
-        <label for="checkIn">Check in: </label>
-        <input type="date" class="input-regular" [(ngModel)]="searchDTO.checkIn"/>
-        <label for="checkOut">Check out: </label>
-        <input type="date" class="input-regular" [(ngModel)]="searchDTO.checkOut"/>
+        <table>
+            <tr>
+                <td><label for="location">Location: </label></td>
+                <td><input type="text" placeholder="City" class="input-regular" [(ngModel)]='searchDTO.location'/></td>       
+                <td><label for="guests">Number of guests: </label></td>
+                <td><input type="number" min="0" class="input-regular" [(ngModel)]="searchDTO.numberOfGuests"/></td>
+            </tr>
+            <tr>
+                <td><label for="checkIn">Check in:</label></td>
+                <td><input type="date" class="input-regular" [(ngModel)]="searchDTO.checkIn"/></td>
+                <td><label for="checkOut">Check out: </label></td>
+                <td><input type="date" class="input-regular" [(ngModel)]="searchDTO.checkOut"/></td>
+            </tr>
+        </table>
         <div id="button-container">
             <button class="button-regular" (click)="search()">Search</button>
-            <button class="button-regular" (click)="showAll()">Show all</button>
+            <button class="button-regular" (click)="showAll()" id="reset-search">Reset Search</button>
         </div>
     </div>
-    <div>
+    <div id="filter-div">
         <div>
-            <label for="lowestPrice">Lowest price: </label>
+            <label for="lowestPrice">Lower price boundary: </label>
             <input type="number" id="lowestPrice" name="lowestPrice" class="input-regular" min="1" [(ngModel)]="lowestPrice" (change)="filter()"/>
-            <label for="highestPrice">Highest price: </label>
+            <label for="highestPrice">Upper price boundary: </label>
             <input type="number" id="highestPrice" name="highestPrice" class="input-regular" min="1" [(ngModel)]="highestPrice"/>
         </div>
         <label for="WiFi">WiFi: </label>
@@ -48,30 +54,25 @@
         <label for="Gym">Gym: </label>
         <input type="checkbox" name="Gym"  [(ngModel)]="gym"/>
         <label for="DistinguishedHost">Distinguished host: </label>
-        <input type="checkbox" name="DistinguishedHost" [(ngModel)]="isDistinguishedHost"/>
-        <button class="button-regular" (click)="filter()">Filter</button>
+        <input type="checkbox" name="DistinguishedHost" [(ngModel)]="isDistinguishedHost"/><br>
+        <button class="button-regular" id="filter-button" (click)="filter()">Filter</button>
+        <button class="button-regular" (click)="resetFilter(true)">Reset Filter</button>
     </div>
+</div>
     <div *ngFor="let accomm of accommodationsToShow" class="card">
         <div class="container">
             <h4><b>{{accomm.name}}</b></h4>
             <div *ngIf="accomm.pricePerGuest; then thenBlock else elseBlock"></div>
                 <ng-template #thenBlock>Price per guest:{{accomm.price}}</ng-template>
                 <ng-template #elseBlock>Price per accomodation:{{accomm.price}}</ng-template>
-            </div>
-            <div *ngIf="IsHostLoggedIn()">
-                <button class="button-regular" (click)="update(accomm.id,accomm.startSeason,accomm.endSeason,accomm.price)">Update</button>
-                <button class="button-regular" (click)="showAccommodation(accomm.id)">See more</button>
-            </div>
-            <div *ngIf="!IsHostLoggedIn()">
-                <div *ngIf="IsSearched">
-                    <button class="button-regular" (click)="sendRequest(accomm)">Reserve</button>
-                    <button class="button-regular" (click)="showAccommodation(accomm.id)">See more</button>    
-                </div>
-                <div *ngIf="!IsSearched">
-                    <button class="button-regular" (click)="showAccommodation(accomm.id)">See more</button>    
-                </div>
-            </div>
         </div>
+        <div *ngIf="IsHostLoggedIn() && accomm.hostId==GetUserId()">
+                <button class="button-regular" (click)="update(accomm.id,accomm.startSeason,accomm.endSeason,accomm.price)">Update Price</button>
+        </div>
+        <div *ngIf="!IsHostLoggedIn() && IsSearched">
+            <button class="button-regular" (click)="sendRequest(accomm)">Reserve</button>
+        </div>
+        <button class="button-regular" (click)="showAccommodation(accomm.id)">See more</button>    
     </div>
 </div>
   

@@ -4,6 +4,7 @@ using OpenTracing;
 using ReservationService.DTO;
 using ReservationService.Service;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ReservationService.Controllers
 {
@@ -34,21 +35,21 @@ namespace ReservationService.Controllers
 
         [HttpPost]
         [Route("create-request")]
-        public ActionResult CreateRequest(RequestReservationDTO dto)
+        public async Task<ActionResult> CreateRequest(RequestReservationDTO dto)
         {
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
-            _requestService.CreateReservationRequestOrReservation(dto);
+            await _requestService.CreateReservationRequestOrReservation(dto);
             return Ok();
         }
 
         [HttpPost]
         [Route("accept-request/{requestId}/{accommodationId}")]
-        public ActionResult AcceptRequest(string requestId, string accommodationId)
+        public async Task<ActionResult> AcceptRequest(string requestId, string accommodationId)
         {
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
-            _requestService.AcceptRequest(requestId, accommodationId);
+            await _requestService.AcceptRequest(requestId, accommodationId);
             return Ok();
         }
 

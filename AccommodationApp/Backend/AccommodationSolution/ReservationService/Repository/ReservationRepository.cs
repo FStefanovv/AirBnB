@@ -26,12 +26,8 @@ namespace ReservationService.Repository
                 _context.Reservations.Add(reservation);
                 _context.SaveChanges();
             }
-            catch(Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
+            catch(Exception ex) { }
         }
-
 
         public Reservation GetReservationById(string reservationId)
         {

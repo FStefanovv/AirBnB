@@ -54,8 +54,6 @@ namespace Users
             services.AddDbContext<PostgresDbContext>(opts =>
                 opts.UseNpgsql(Configuration.GetConnectionString("PostgresDatabaseConnectionString")));
 
-
-
             services.AddScoped<IUserRepository, UserRepositoryPostgres>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<CancelDeleteConsumer>();

@@ -27,6 +27,6 @@ namespace ReservationService.Service
         Task<bool> CheckHostStatus(String hostId);
         Task<bool> UpdateReservationStatus(String id, bool IsSatisfied);
         bool HostHasActiveReservationsSaga(string hostId);
-        void Create(Reservation reservation);
+        Task Create(Reservation reservation);
     }
 }
