@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31019.35
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiGateway", "..\ApiGateway\ApiGateway.csproj", "{185E65AC-3B37-4F97-BDD1-DEDEDD3A5958}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RatingService", "..\RatingService\RatingService.csproj", "{11E40984-65E0-4C49-93C6-6F1FA810F26C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlightRecommendationService", "..\FlightRecommendationService\FlightRecommendationService.csproj", "{6BCE128D-DB8A-459B-A519-B18ACE671DBB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserMessage", "..\UserMessage\UserMessage.csproj", "{D2CCBD64-E856-41AE-9400-49AE8FE514AE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{6BCE128D-DB8A-459B-A519-B18ACE671DBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6BCE128D-DB8A-459B-A519-B18ACE671DBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6BCE128D-DB8A-459B-A519-B18ACE671DBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2CCBD64-E856-41AE-9400-49AE8FE514AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2CCBD64-E856-41AE-9400-49AE8FE514AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2CCBD64-E856-41AE-9400-49AE8FE514AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2CCBD64-E856-41AE-9400-49AE8FE514AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

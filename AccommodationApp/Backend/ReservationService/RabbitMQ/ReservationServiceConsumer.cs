@@ -7,7 +7,7 @@ using ReservationService.Service;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Users.RabbitMQ;
+
 
 namespace ReservationService.RabbitMQ
 {

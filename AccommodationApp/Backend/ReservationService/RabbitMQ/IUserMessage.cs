@@ -1,4 +1,4 @@
-﻿namespace Users.RabbitMQ
+﻿namespace ReservationService.RabbitMQ
 {
     public class IUserMessage
     {
