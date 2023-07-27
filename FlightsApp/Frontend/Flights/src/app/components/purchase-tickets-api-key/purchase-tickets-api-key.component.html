@@ -1,4 +1,7 @@
+<sidebar></sidebar>
+<div class="main-content">
 <div id="view-flights-to-buy" *ngIf="!flightChosen">
+    
     <div *ngFor="let flight of flights" id="flight" [style.display]="flight.status == 1 ? 'none': 'block'" >
       <div>
         <div id="ticket-line-bt-1"><div style="margin-right: 8px;">{{flight.departurePoint}}</div>-<div style="margin-left: 8px;">{{flight.arrivalPoint}}</div></div>
@@ -37,3 +40,4 @@
         </td>
     </tr>
 </table>
+</div>

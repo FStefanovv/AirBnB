@@ -1,12 +1,17 @@
+<sidebar></sidebar>
+<div class="main-content">
 <div id="generate-key-form" *ngIf="!keyGenerated">
     <h1>Generate a key</h1>
-    <label>Pick a date until which the generated key will be valid</label>
-    <input type="date" [(ngModel)]="dto.validUntil" class="inputRegular" />
+    <label>Pick a date until which the generated key will be valid:</label>
+    <input type="date" [(ngModel)]="dto.validUntil" class="inputRegular" /><br>
+    <label>Valid Permanently</label>
+    <input type="checkbox" (change)="onCheckboxChange($event)"/>
     <p>*anyone in possession of the key will be able to purchase tickets on behalf of the issuer</p>
     <button class="regularButton" (click)="generateKey()">Generate</button>
 </div>
 <div id="key-generated" *ngIf="keyGenerated">
-    The generated key is {{key.id}}. It's valid until {{key.validUntil}}
+    The generated key is <span>{{key.id}}</span>. <span>{{validUntilMessage}}</span>
+</div>
 </div>
 
 

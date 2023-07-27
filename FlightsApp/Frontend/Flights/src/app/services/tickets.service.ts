@@ -4,23 +4,33 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BuyTicketDto } from '../model/buyTicketDto';
 import { ApiKeyDto, BuyTicketApiKeyDto, KeyValidUntilDto } from '../model/buyWithApiKey';
+import { AuthService } from './auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class TicketsService {
   private apiUrl ='https://localhost:5010/api/Tickets'
 
-  httpOptions ={
-    headers: new HttpHeaders({'Content-Type': 'application/json'})
+  getHttpHeadersRegular() : HttpHeaders {
+    
+    return  new HttpHeaders({'Content-Type': 'application/json'})
   }
 
-  constructor(private http: HttpClient) { }
+  getHttpHeadersBearer() : HttpHeaders {
+    const token = this.authService.getToken();
+    
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization':`Bearer ${token}`});
+  }
+
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   buyTicket(dto: BuyTicketDto): Observable<BuyTicketDto>{
-    return this.http.post<BuyTicketDto>(this.apiUrl,dto,this.httpOptions)
+    return this.http.post<BuyTicketDto>(this.apiUrl,dto,{headers: this.getHttpHeadersBearer()})
   }
   
   viewTicketsForUser(usernameId:string):Observable<ViewTicketDto[]>{
-    return this.http.get<ViewTicketDto[]>(this.apiUrl+ "?userId=" +usernameId,this.httpOptions)
+    return this.http.get<ViewTicketDto[]>(this.apiUrl+ "?userId=" +usernameId,{headers: this.getHttpHeadersBearer()})
   }
 
  purchaseTicketApikey(dto: BuyTicketApiKeyDto, apiKey: string): Observable<BuyTicketApiKeyDto>{
@@ -36,7 +46,8 @@ export class TicketsService {
   }
 
   generateKey(validUntil: KeyValidUntilDto) : Observable<ApiKeyDto>{
-    return this.http.post<ApiKeyDto>(this.apiUrl+'/generate-api-key',validUntil,this.httpOptions);
+    
+    return this.http.post<ApiKeyDto>(this.apiUrl+'/generate-api-key',validUntil,{headers: this.getHttpHeadersBearer()});
   }
 }
 

@@ -2,6 +2,7 @@ h1 {
     color: var(--theme);
     margin-top: 5%;
     margin-bottom: 8%;
+    display:block
   }
   #flight {
     padding: 16px;
@@ -56,6 +57,7 @@ h1 {
      display:grid; 
      gap:32px;
      grid-template-columns: repeat(3,minmax(0,1fr));
+     margin-top: 80px
    }
    #number-of-tickets{
     width: 50px;
