@@ -230,6 +230,28 @@
       }
     },
     {
+      "UpstreamPathTemplate": "/gateway/get-user-requests",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/request/get-user-requests",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reservation-service",
+          "Port": 80
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "AuthTokenFromUserService",
+        "AllowedScopes": []
+      },
+      "RouteClaimsRequirement": {
+        "Role": "REGULAR_USER"
+      },
+      "AddHeadersToRequest": {
+        "UserId": "Claims[UserId] > value"
+      }
+    },
+    {
       "UpstreamPathTemplate": "/gateway/get-resolved-requests",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/reservation/get-resolved-requests",

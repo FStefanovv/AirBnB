@@ -202,18 +202,19 @@ namespace Accommodation.Services
 
             if (accommodation.AccomodationPrice.SummerCost)
             {
+                
                 var startSummer = new List<DateTime> { };
                 var endSummer = new List<DateTime> { };
                 for (int i = 0; i < 100; i++)
                 {
-                    startSummer[i] = new DateTime(2023 + i, 06, 22);
-                    endSummer[i] = new DateTime(2023 + i, 09, 23);
+                    startSummer.Add(new DateTime(2023 + i, 06, 22));
+                    endSummer.Add(new DateTime(2023 + i, 09, 23));
                 }
 
                 for (int i = 0; i < startSummer.Count; i++)
                 {
 
-                    for (int j = 0; j < numberOfDays; i++)
+                    for (int j = 0; j < numberOfDays; j++)
                     {
                         if (searchDTOCheckIn.AddDays(j) >= startSummer[i] && searchDTOCheckIn.AddDays(j) <= endSummer[i])
                         {
@@ -226,9 +227,6 @@ namespace Accommodation.Services
 
             if (accommodation.AccomodationPrice.WeekendCost == true || accommodation.AccomodationPrice.HolidayCost == true || accommodation.AccomodationPrice.SummerCost || true)
             {
-
-
-
                 if (accommodation.AccomodationPrice.PricePerAccomodation)
                 {
                     FinalPrice = accommodation.AccomodationPrice.FinalPrice * (numberOfDays - 1) + (accommodation.AccomodationPrice.FinalPrice * 0.2) * (weekends + holidays + summerDays);

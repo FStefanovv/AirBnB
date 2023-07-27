@@ -41,6 +41,7 @@ export class ShowAccommodationComponent implements OnInit {
   ngOnInit(): void {
     this.userRole = this.authService.getRole();
     const temp = this.activatedRoute.snapshot.paramMap.get("id");
+    console.log(temp)
     if(temp)
       this.accommodationId = temp;
     this.accommodationService.getAccommodation(this.accommodationId).subscribe(

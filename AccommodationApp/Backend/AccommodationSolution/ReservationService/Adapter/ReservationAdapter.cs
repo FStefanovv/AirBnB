@@ -69,7 +69,8 @@ namespace ReservationService.Adapter
             reservation.AccommodationId = dto.AccomodationId;
             reservation.NumberOfGuests = dto.NumberOfGuests;
             reservation.AccommodationName = dto.AccommodationName;
-            reservation.AccommodationLocaiton = dto.AccommodationLocation;
+            string[] locationSplit = dto.AccommodationLocation.Split(',');
+            reservation.AccommodationLocaiton = locationSplit[2];
             reservation.From = Convert.ToDateTime(dto.StartDate);
             reservation.To = Convert.ToDateTime(dto.EndDate);
             reservation.Status = ReservationStatus.ACTIVE;

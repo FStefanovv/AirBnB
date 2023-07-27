@@ -192,8 +192,8 @@ namespace ReservationService.Service
                 var endSummer = new List<DateTime> { };
                 for (int i = 0; i < 100; i++)
                 {
-                    startSummer[i] = new DateTime(2023 + i, 06, 22);
-                    endSummer[i] = new DateTime(2023 + i, 09, 23);
+                    startSummer.Add(new DateTime(2023 + i, 06, 22));
+                    endSummer.Add(new DateTime(2023 + i, 09, 23));
                 }
 
                 for (int i = 0; i < startSummer.Count; i++)
