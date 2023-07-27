@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BuyTicketDto } from '../model/buyTicketDto';
-import { BuyTicketApiKeyDto } from '../model/buyWithApiKey';
+import { ApiKeyDto, BuyTicketApiKeyDto, KeyValidUntilDto } from '../model/buyWithApiKey';
 
 @Injectable({ providedIn: 'root' })
 export class TicketsService {
@@ -32,7 +32,11 @@ export class TicketsService {
     const httpOptionsApiKey = {
       headers: apiKeyHeaders
     };
-    return this.http.post<BuyTicketApiKeyDto>(this.apiUrl,dto,httpOptionsApiKey)
+    return this.http.post<BuyTicketApiKeyDto>(this.apiUrl+'/buy-with-api-key',dto,httpOptionsApiKey)
+  }
+
+  generateKey(validUntil: KeyValidUntilDto) : Observable<ApiKeyDto>{
+    return this.http.post<ApiKeyDto>(this.apiUrl+'/generate-api-key',validUntil,this.httpOptions);
   }
 }
 

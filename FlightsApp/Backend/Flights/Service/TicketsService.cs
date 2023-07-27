@@ -7,6 +7,7 @@ using Flights.DTOs;
 using Flights.Model;
 using Flights.Repository;
 using Microsoft.JSInterop.Infrastructure;
+using MongoDB.Bson;
 
 namespace Flights.Service
 {
@@ -47,7 +48,22 @@ namespace Flights.Service
             flight.RemainingTickets = flag - numberOfTickets;
             _flightsRepository.UpdateNumberOfTickets(flight);
         }
-        
+
+        public ApiKey GenerateApiKey(KeyValidUntilDTO dto)
+        {
+            try
+            {
+                ApiKey key = new ApiKey { Id = ObjectId.GenerateNewId().ToString(), UserId = dto.UserId, ValidUntil = dto.ValidUntil };
+                _apiKeyRepository.Create(key);
+                   
+                return key;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Could not generate api key.");
+            }
+        }
+
         private Boolean CheckIfThereAreAvailableTickets(string flightId, int numOfTickets)
         {
             Flight flight = _flightsRepository.GetById(flightId);

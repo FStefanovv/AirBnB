@@ -48,9 +48,26 @@ namespace Flights.Controllers
             {
                 return BadRequest(ex.Message);
             }
-
         }
 
+
+        [Authorize(Policy = "LoggedInUser")]
+        [HttpPost]
+        [Route("generate-api-key")]
+        public ActionResult<ApiKey> GenerateApiKey(KeyValidUntilDTO dto)
+        {
+            try
+            {
+                var apiKey = _ticketsService.GenerateApiKey(dto);
+
+                return Ok(apiKey);
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, "Could not generate api key");
+            }
+            
+        }
 
         [Authorize(Policy = "LoggedInUser")]
         [HttpGet]

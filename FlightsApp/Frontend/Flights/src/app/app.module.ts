@@ -19,6 +19,7 @@ import { NewFlightComponent } from './components/new-flight/new-flight.component
 import { DatePipe } from '@angular/common';
 import { FlightCardComponent } from './components/flight-card/flight-card.component';
 import { PurchaseTicketsApiKeyComponent } from './components/purchase-tickets-api-key/purchase-tickets-api-key.component';
+import { GenerateApiKeyComponent } from './components/generate-api-key/generate-api-key.component';
 
 export function tokenGetter() { 
   return localStorage.getItem("jwt"); 
@@ -35,7 +36,8 @@ export function tokenGetter() {
     RegistrationComponent,
     NewFlightComponent,
     FlightCardComponent,
-    PurchaseTicketsApiKeyComponent
+    PurchaseTicketsApiKeyComponent,
+    GenerateApiKeyComponent
   ],
   imports: [
     BrowserModule,

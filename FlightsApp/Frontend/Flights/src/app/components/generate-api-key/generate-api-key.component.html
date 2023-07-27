@@ -1,0 +1,12 @@
+<div id="generate-key-form" *ngIf="!keyGenerated">
+    <h1>Generate a key</h1>
+    <label>Pick a date until which the generated key will be valid</label>
+    <input type="date" [(ngModel)]="dto.validUntil" class="inputRegular" />
+    <p>*anyone in possession of the key will be able to purchase tickets on behalf of the issuer</p>
+    <button class="regularButton" (click)="generateKey()">Generate</button>
+</div>
+<div id="key-generated" *ngIf="keyGenerated">
+    The generated key is {{key.id}}. It's valid until {{key.validUntil}}
+</div>
+
+

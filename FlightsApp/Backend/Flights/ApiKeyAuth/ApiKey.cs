@@ -15,5 +15,7 @@ namespace Flights.ApiKeyAuth
         public string Id { get; set; }
         public string UserId { get; set; }
         public DateTime ValidUntil { get; set; }
+
+        public ApiKey() { }
     }
 }

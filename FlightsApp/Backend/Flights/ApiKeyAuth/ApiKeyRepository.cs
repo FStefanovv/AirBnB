@@ -26,8 +26,9 @@ namespace Flights.ApiKeyAuth
             return _keys.Find(key => key.Id == apiKey).FirstOrDefault();
         }
 
-
-
-
+        public void Create(ApiKey apiKey)
+        {
+            _keys.InsertOne(apiKey);
+        }
     }
 }
