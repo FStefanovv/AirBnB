@@ -45,8 +45,9 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.showAll();
-    if(this.authService.getRole()=="HOST")
-      this.IsHostDistinguished();
+    if(this.authService.isLoggedIn())
+      if(this.authService.getRole()=="HOST")
+        this.IsHostDistinguished();
   }
 
   search() {
@@ -221,8 +222,11 @@ export class HomeComponent implements OnInit {
   }
 
   IsHostLoggedIn(): boolean {
-    if (this.authService.getRole() === "HOST") {
-      return true;
+    if(this.authService.isLoggedIn()){
+      if (this.authService.getRole() === "HOST") {
+        return true;
+      }
+      return false;
     }
     return false;
   }

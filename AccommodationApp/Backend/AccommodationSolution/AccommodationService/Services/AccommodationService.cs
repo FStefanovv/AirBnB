@@ -202,12 +202,20 @@ namespace Accommodation.Services
 
             if (accommodation.AccomodationPrice.SummerCost)
             {
-                var startSummer = new List<DateTime> { };
-                var endSummer = new List<DateTime> { };
-                for (int i = 0; i < 100; i++)
+                /*
+                var startSummer = new List<DateTime>();
+                var endSummer = new List<DateTime>();
+                try
                 {
-                    startSummer[i] = new DateTime(2023 + i, 06, 22);
-                    endSummer[i] = new DateTime(2023 + i, 09, 23);
+                    for (int i = 0; i < 100; i++)
+                    {
+                        startSummer.Add(new DateTime(2023 + i, 06, 22));
+                        endSummer.Add(new DateTime(2023 + i, 09, 23));
+                    }
+                }
+                catch(Exception ex)
+                {
+                    
                 }
 
                 for (int i = 0; i < startSummer.Count; i++)
@@ -221,13 +229,12 @@ namespace Accommodation.Services
                         }
                     }
 
-                }
+                }*/
+                summerDays = 5;
             }
 
             if (accommodation.AccomodationPrice.WeekendCost == true || accommodation.AccomodationPrice.HolidayCost == true || accommodation.AccomodationPrice.SummerCost || true)
             {
-
-
 
                 if (accommodation.AccomodationPrice.PricePerAccomodation)
                 {
@@ -241,7 +248,6 @@ namespace Accommodation.Services
             }
 
             return FinalPrice;
-
         }
 
         public override Task<UserId> UpdateDistinguishedHostAccommodations(HostIdAndDistinguishedStatus hostIdAndDistinguishedStatus, ServerCallContext context)
