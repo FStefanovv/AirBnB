@@ -240,7 +240,7 @@ namespace ReservationService.Service
             var handler = new HttpClientHandler();
             handler.ServerCertificateCustomValidationCallback =
                 HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
-            using var channel = GrpcChannel.ForAddress("https://localhost:5002",
+            using var channel = GrpcChannel.ForAddress("https://accommodation-service:443",
                 new GrpcChannelOptions { HttpHandler = handler });
             var client = new AccommodationGRPCService.AccommodationGRPCServiceClient(channel);
             var reply = await client.GetAccommodationGRPCAsync(new AccommodationId
@@ -454,7 +454,7 @@ namespace ReservationService.Service
             var handler = new HttpClientHandler();
             handler.ServerCertificateCustomValidationCallback =
                 HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001",
+            using var channel = GrpcChannel.ForAddress("https://user-service:443",
                 new GrpcChannelOptions { HttpHandler = handler });
             var client = new UserGRPCService.UserGRPCServiceClient(channel);
             var reply = await client.IsReservationPartSatisfiedAsync(new ReservationSatisfied
