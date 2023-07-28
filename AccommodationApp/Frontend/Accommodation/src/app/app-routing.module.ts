@@ -13,6 +13,7 @@ import { FlightRecommendationsComponent } from './components/flight-recommendati
 import { BuyFlightTicketsComponent } from './components/buy-flight-tickets/buy-flight-tickets.component';
 import { ShowAccommodationComponent } from './components/show-accommodation/show-accommodation.component';
 import { UserRequestsComponent } from './components/user-requests/user-requests.component';
+import { DeleteAccountComponent } from './components/delete-account/delete-account.component';
 //import { CreateRequestComponent } from './components/create-request/create-request.component';
 
 const routes: Routes = [
@@ -30,6 +31,7 @@ const routes: Routes = [
   { path: 'buy-flight-tickets', component: BuyFlightTicketsComponent, canActivate:[AuthGuard], data: {roles: ['REGULAR_USER']}},
   { path: 'show-accommodation/:id', component: ShowAccommodationComponent},
   { path:'my-requests', component: UserRequestsComponent, canActivate:[AuthGuard], data: {roles: ['REGULAR_USER']} },
+  { path:'delete-account', component: DeleteAccountComponent, canActivate:[AuthGuard]},
 
 ];
 

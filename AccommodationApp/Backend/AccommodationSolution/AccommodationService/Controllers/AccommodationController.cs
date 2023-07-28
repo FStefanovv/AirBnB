@@ -38,13 +38,14 @@ namespace Accommodation.Controllers
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             Request.Headers.TryGetValue("HostId", out StringValues hostId);
+            Request.Headers.TryGetValue("Username", out StringValues hostUsername);
 
             var uploadedPhotos = Request.Form.Files.ToList();
 
             var accommodationData = Request.Form["accomm-data"].ToList();
             CreateAccommodationDTO dto = JsonConvert.DeserializeObject<CreateAccommodationDTO>(accommodationData[0]);
 
-            _accommodationService.Create(dto, hostId, uploadedPhotos);
+            _accommodationService.Create(dto, hostId, hostUsername, uploadedPhotos);
 
             return Ok();
         }

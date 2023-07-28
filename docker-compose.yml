@@ -18,6 +18,16 @@ services:
     volumes:
       - C:\Users\User\.aspnet\https:/https/
 
+  rabbit:
+    image: rabbitmq:management
+    container_name: rabbit
+    restart: always
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
 
   flights-service:
     build:
@@ -95,8 +105,8 @@ services:
     volumes:
       - C:\Users\User\.aspnet\https:/https/
     depends_on:
-      accommodation_db:
-        condition: service_healthy
+      - rabbit
+      - accommodation_db
 
   accommodation_db:
     image: mongo
@@ -134,8 +144,8 @@ services:
     volumes:
       - C:\Users\User\.aspnet\https:/https/
     depends_on:
-      reservation_db:
-        condition: service_healthy
+      - rabbit
+      - reservation_db
 
   reservation_db:
     image: postgres:15.0-alpine
@@ -172,8 +182,8 @@ services:
     volumes:
       - C:\Users\User\.aspnet\https:/https/
     depends_on:
-      user_db:
-        condition: service_healthy
+      - rabbit
+      - user_db
 
   user_db:
     image: postgres:15.0-alpine

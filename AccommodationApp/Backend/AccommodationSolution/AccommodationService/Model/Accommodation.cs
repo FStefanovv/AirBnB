@@ -18,6 +18,7 @@ namespace Accommodation.Model
         public int MinGuests { get; set; }
         public int MaxGuests { get; set; }
         public string HostId { get; set; }
+        public string HostUsername { get; set; }
         public bool AutoApprove { get; set; }
         public DateTime StartSeasonDate { get; set; }
         public DateTime EndSeasonDate { get; set; }

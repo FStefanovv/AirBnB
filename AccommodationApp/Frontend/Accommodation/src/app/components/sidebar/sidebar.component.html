@@ -10,6 +10,7 @@
         <div id="sidebar-option" *ngIf="loggedIn && userRole == 'HOST'" (click)="changeRoute('/pending-requests')">Reservation Requests</div>
         <div id="sidebar-option" *ngIf="loggedIn && userRole == 'HOST'" (click)="changeRoute('/get-host')">My Profile</div>
         <div id="sidebar-option" *ngIf="loggedIn && userRole == 'REGULAR_USER'" (click)="changeRoute('/get-regular')">My Profile</div>
+        <div id="sidebar-option" *ngIf="loggedIn" (click)="changeRoute('/delete-account')">Delete Account</div>
     </div>
     <button (click)="logIn()" class="button-regular"  [style.visibility]="loggedIn? 'hidden' : 'visible'" id="login">
         Log In

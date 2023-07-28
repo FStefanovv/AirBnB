@@ -9,7 +9,7 @@ namespace Accommodation.Adapters
 {
     public static class CreateAccommodationAdapter
     {
-        public static Model.Accommodation CreateAccommodaitonDtoToObject(DTO.CreateAccommodationDTO dto, string hostId)
+        public static Model.Accommodation CreateAccommodaitonDtoToObject(DTO.CreateAccommodationDTO dto, string hostId, string hostUsername)
         {
             CultureInfo culture = CultureInfo.CreateSpecificCulture("sr-Cyrl-Rs");
             var accommodation = new Model.Accommodation()
@@ -20,6 +20,7 @@ namespace Accommodation.Adapters
                 MaxGuests = dto.MaxGuests,
                 MinGuests = dto.MinGuests,
                 HostId = hostId,
+                HostUsername = hostUsername, 
                 AutoApprove = dto.AutoApprove,
                 StartSeasonDate = DateTime.ParseExact(dto.StartSeason, "yyyy-MM-dd", culture),
                 EndSeasonDate = DateTime.ParseExact(dto.EndSeason, "yyyy-MM-dd", culture),
@@ -52,7 +53,8 @@ namespace Accommodation.Adapters
                 HolidayCost = accommodation.AccomodationPrice.HolidayCost,
                 WeekendCost = accommodation.AccomodationPrice.WeekendCost,
                 SummerCost = accommodation.AccomodationPrice.SummerCost,
-                HostId = accommodation.HostId
+                HostId = accommodation.HostId,
+                HostUsername = accommodation.HostUsername
 
             };
 

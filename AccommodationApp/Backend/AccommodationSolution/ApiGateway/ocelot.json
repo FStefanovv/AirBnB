@@ -90,7 +90,8 @@
         "Role": "HOST"
       },
       "AddHeadersToRequest": {
-        "HostId": "Claims[UserId] > value"
+        "HostId": "Claims[UserId] > value",
+        "Username": "Claims[Username] > value"
       }
     },
     {

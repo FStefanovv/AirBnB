@@ -27,7 +27,7 @@
             <td><input class='input-regular' type="text" id="endSeason" [(ngModel)]="accommodation.endSeason" disabled></td>
         </tr>
         <tr *ngIf="accommodation.isDistinguishedHost">
-            <td class="bold-text" colspan="2">Distinguished Host</td>
+            <td class="bold-text" colspan="2" id="distinguished-host">Distinguished Host</td>
         </tr>
         <tr>
             <td><label for="offers">Offers:</label></td>
@@ -38,8 +38,8 @@
             </td>
         </tr>
         <tr>
-            <td><label for="hostId">Host ID:</label></td>
-            <td><input type="text" id="hostId" [(ngModel)]="accommodation.hostId" disabled></td>
+            <td><label for="hostId">Host:</label></td>
+            <td><input type="text" id="hostId" [(ngModel)]="accommodation.hostUsername" disabled></td>
         </tr>
     </table>
 
@@ -75,7 +75,7 @@
             </td>
         </tr>
     </table>
-    <app-ratings [entityId]="accommodation.id" [ratingsFor]="'Accommodation'"></app-ratings>
+    <app-ratings [entityId]="accommodation.id" [ratingsFor]="'Accommodation'"></app-ratings><br><br>
     <app-ratings [entityId]="accommodation.hostId" [ratingsFor]="'Host'"></app-ratings>
 </div>
 

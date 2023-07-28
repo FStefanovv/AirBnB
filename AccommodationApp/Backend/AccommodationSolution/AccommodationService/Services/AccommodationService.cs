@@ -35,9 +35,9 @@ namespace Accommodation.Services
             _tracer = tracer;
         }
 
-        public void Create(DTO.CreateAccommodationDTO dto, StringValues hostId, List<IFormFile> photos)
+        public void Create(DTO.CreateAccommodationDTO dto, StringValues hostId, StringValues hostUsername, List<IFormFile> photos)
         {
-            Model.Accommodation accommodation = Adapters.CreateAccommodationAdapter.CreateAccommodaitonDtoToObject(dto, hostId);
+            Model.Accommodation accommodation = Adapters.CreateAccommodationAdapter.CreateAccommodaitonDtoToObject(dto, hostId, hostUsername);
 
             _repository.Create(accommodation, photos);
         }

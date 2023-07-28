@@ -48,6 +48,7 @@ export class ShowAccommodationComponent implements OnInit {
       res =>
       {
         this.accommodation = res;
+        console.log(this.accommodation)
         this.obtainAllRatingInfo();
       }
     );

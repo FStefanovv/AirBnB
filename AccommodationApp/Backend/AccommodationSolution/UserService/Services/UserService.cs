@@ -135,7 +135,7 @@ namespace Users.Services
             var handler = new HttpClientHandler();
             handler.ServerCertificateCustomValidationCallback =
                 HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
-            using var channel = GrpcChannel.ForAddress("https://localhost:5003",
+            using var channel = GrpcChannel.ForAddress("https://reservation-service:443",
                 new GrpcChannelOptions { HttpHandler = handler });
             var client = new ReservationGRPCService.ReservationGRPCServiceClient(channel);
             var reply = await client.GuestHasActiveReservationsAsync(new UserData
@@ -163,7 +163,7 @@ namespace Users.Services
             var handler = new HttpClientHandler();
             handler.ServerCertificateCustomValidationCallback =
                 HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
-            using var channel = GrpcChannel.ForAddress("https://localhost:5003",
+            using var channel = GrpcChannel.ForAddress("https://reservation-service:443",
                 new GrpcChannelOptions { HttpHandler = handler });
             var client = new ReservationGRPCService.ReservationGRPCServiceClient(channel);
             var reply = await client.UpdateRequestsPostUserDeletionAsync(new UserData
@@ -176,6 +176,7 @@ namespace Users.Services
         }
 
 
+        /*
         public async Task<bool> DeleteAsHost(StringValues id)
         {
             var handler = new HttpClientHandler();
@@ -206,7 +207,8 @@ namespace Users.Services
             }
 
 
-        }
+        }*/
+
 
         public async Task<bool> DeleteAccWithoutHost(StringValues id)
         {
@@ -268,7 +270,7 @@ namespace Users.Services
             var handler = new HttpClientHandler();
             handler.ServerCertificateCustomValidationCallback =
                     HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
-            using var channel = GrpcChannel.ForAddress("https://localhost:5002",
+            using var channel = GrpcChannel.ForAddress("https://accommodation-service:443",
                     new GrpcChannelOptions { HttpHandler = handler });
             var client = new AccommodationGRPCService.AccommodationGRPCServiceClient(channel);
             var reply = await client.UpdateDistinguishedHostAppointmentsAsync(new HostIdAndDistinguishedStatus
@@ -277,8 +279,8 @@ namespace Users.Services
                 HostStatus = change
             });
             return reply.Id;
-
         }
+
         public async Task<bool> DeleteAsHostSaga(string id)
         {
             SagaState state = SagaState.PENDING_DELETE;
@@ -289,11 +291,7 @@ namespace Users.Services
                 GetSendEndpoint(new Uri("queue:" + BusConstants.StartDeleteQueue));
                 await endPoint.Send<IUserMessage>(new { Id = id });
             }
-
-
             return true;
-
-
         }
 
         public override Task<UserUpdated> ChangeRatingCondition(RatingCondition condition, ServerCallContext context)

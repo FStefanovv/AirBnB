@@ -20,3 +20,8 @@ div.main-content {
 h1 {
     color: var(--theme)
 }
+
+#distinguished-host {
+    font-weight: 600px;
+    color: var(--theme);
+}

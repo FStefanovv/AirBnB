@@ -39,7 +39,7 @@ export class UserService {
   }
 
   deleteAccAsGuest():Observable<any> {
-    return this.http.delete(this.usersUrl+'deleteAsGuest1',this.httpOptions);
+    return this.http.delete(this.usersUrl+'deleteAsGuest',this.httpOptions);
   }
 
   deleteAccAsHost():Observable<any> {

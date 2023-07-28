@@ -11,6 +11,5 @@ namespace RatingService.DTO
         public float Grade { get; set; }
 
         public RatingDTO() { }
-
     }
 }

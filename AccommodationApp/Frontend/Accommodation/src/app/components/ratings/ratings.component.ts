@@ -17,21 +17,24 @@ export class RatingsComponent implements OnInit {
 
   ratings: RatingWithUsernameDTO[] = [];
 
+  ratingsObtained: boolean = false;
 
   ngOnInit(): void {
   }
 
+  /*
   ngOnChanges(changes: SimpleChanges) {
     if (changes['entityId']) {
       this.getRatings();
     }
-  }
+  }*/
 
   getRatings(){
     if(this.entityId){
       this.ratingService.getAllRatings(this.entityId).subscribe({
         next: (res: RatingWithUsernameDTO[]) => {
-          console.log(res)
+          //console.log(res);
+          this.ratingsObtained = true;
           this.ratings = res;
         },
         error: (err: HttpErrorResponse) => {
