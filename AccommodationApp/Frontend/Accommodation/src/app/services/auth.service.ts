@@ -24,8 +24,11 @@ export class AuthService {
   }
 
   getRole(){
-    const decodedToken = this.decodeToken();
-    return decodedToken['Role'];
+    if(this.isLoggedIn()){
+      const decodedToken = this.decodeToken();
+      return decodedToken['Role'];
+    }
+    return null;
   }
 
   getUsername(){

@@ -46,6 +46,7 @@
 </div>
 
 <div *ngIf="arrivalRecommendationsObtained || departureRecommendationsObtained" id="recommendations-display">
+  <button class="button-regular" (click)="resetRecommendations()">Reset Recommendations</button>
   <app-display-recommendations *ngIf="arrivalRecommendationsObtained" [flightRequest]="arrivalFlight" [recommendations]="arrivalRecommendations"></app-display-recommendations>
   <app-display-recommendations *ngIf="departureRecommendationsObtained" [flightRequest]="departureFlight" [recommendations]="departureRecommendations"></app-display-recommendations>
 </div>

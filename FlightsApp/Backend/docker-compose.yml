@@ -1,0 +1,44 @@
+services:
+  flights-service-debug:
+    build:
+      context: ./Flights
+      dockerfile: Dockerfile
+      target: debug
+    restart: always
+    container_name: "flights-service-debug"
+    hostname: "flights-service-debug"   
+    ports:
+      - 5010:443
+      - 5101:80
+    environment:
+      - MONGO_DB_URI=mongodb://root:pass@flights_db_debug:27018
+      - MONGO_DB_NAME=XWS_Projekat
+      - ASPNETCORE_URLS=https://+;http://+    
+      - ASPNETCORE_HTTPS_PORT=443
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - C:\Users\User\.aspnet\https:/https/
+    depends_on:
+      flights_db_debug:
+        condition: service_healthy
+  
+  flights_db_debug:
+    image: mongo
+    restart: always
+    ports:
+      - "27018:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: pass
+      MONGO_INITDB_DATABASE: XWS_Projekat
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok'
+      interval: 10s
+      timeout: 10s
+      retries: 10
+    volumes:
+      - flights_store_debug:/data/db
+
+volumes:
+  flights_store_debug:

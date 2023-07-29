@@ -129,10 +129,6 @@ namespace Flights.Service
             {
                 throw new Exception("Not enough tickets");
             }
-
-
-
-
         }
 
         private string GetUserIdFromApiKey(string apiKey)

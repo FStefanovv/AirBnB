@@ -57,10 +57,22 @@ namespace Flights.Repository
 
         public List<Flight> GetMatchingFlights(FlightRequirements requirements)
         {
-           if(requirements.Direction==1)
-              return _flights.Find(flight => flight.DeparturePoint == requirements.AirportLocation && flight.ArrivalPoint==requirements.AccommodationLocation && (flight.DepartureTime.Day == requirements.DepartureDate.Day) && (flight.DepartureTime.Month == requirements.DepartureDate.Month)  && (flight.DepartureTime.Year == requirements.DepartureDate.Year) && flight.RemainingTickets!=0 && flight.Status==FlightStatus.SCHEDULED).ToList<Flight>();
+            List<Flight> matching = new List<Flight>();
+            if(requirements.Direction==1)
+            {
+                foreach(Flight flight in _flights.Find(Builders<Flight>.Filter.Empty).ToList()){
+                 if(flight.DeparturePoint == requirements.AirportLocation && flight.ArrivalPoint==requirements.AccommodationLocation && (flight.DepartureTime.Day == requirements.DepartureDate.Day) && (flight.DepartureTime.Month == requirements.DepartureDate.Month)  && (flight.DepartureTime.Year == requirements.DepartureDate.Year) && flight.RemainingTickets!=0 && flight.Status==FlightStatus.SCHEDULED)
+                    matching.Add(flight);
+                }
+            }
             else
-                return _flights.Find(flight => flight.DeparturePoint == requirements.AccommodationLocation && flight.ArrivalPoint==requirements.AirportLocation && (flight.DepartureTime.Day == requirements.DepartureDate.Day) && (flight.DepartureTime.Month == requirements.DepartureDate.Month) && (flight.DepartureTime.Year == requirements.DepartureDate.Year) && flight.RemainingTickets != 0 && flight.Status == FlightStatus.SCHEDULED).ToList<Flight>();
+            {
+                foreach(Flight flight in _flights.Find(Builders<Flight>.Filter.Empty).ToList()){
+                 if(flight.DeparturePoint == requirements.AccommodationLocation && flight.ArrivalPoint==requirements.AirportLocation && (flight.DepartureTime.Day == requirements.DepartureDate.Day) && (flight.DepartureTime.Month == requirements.DepartureDate.Month) && (flight.DepartureTime.Year == requirements.DepartureDate.Year) && flight.RemainingTickets != 0 && flight.Status == FlightStatus.SCHEDULED)
+                    matching.Add(flight);
+                }
+            }
+            return matching;
         }
 
         public void Create(Flight flight)
@@ -80,9 +92,11 @@ namespace Flights.Repository
 
         public Flight GetById(String id)
         {
-            var filter = Builders<Flight>.Filter.Eq(a =>a.Id, id);
-
-            return _flights.Find(filter).FirstOrDefault();
+            foreach(Flight f in _flights.Find(Builders<Flight>.Filter.Empty).ToList()){
+                if(f.Id==id)
+                    return f;
+            }
+            return null;
         }
 
         public void UpdateNumberOfTickets(Flight flight)

@@ -16,7 +16,7 @@
         Log In
     </button>
     <p [style.visibility]="loggedIn? 'hidden' : 'visible'" id="create-account">Don't have an account?<br><span (click)="goToRegistration()" id="create-account-span"><u>Create one here!</u></span></p>
-    <button (click)="logOut()" id="logout" class="button-regular" [style.visibility]="loggedIn? 'visible' : 'hidden'">
+    <button *ngIf="loggedIn" (click)="logOut()" id="logout" class="button-regular">
         Log Out
     </button>
 </div>

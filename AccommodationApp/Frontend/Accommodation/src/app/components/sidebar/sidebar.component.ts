@@ -17,7 +17,6 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit(): void {
     this.loggedIn = this.authService.isLoggedIn();
-    console.log('jel ulogovan', this.loggedIn)
     if(this.loggedIn){
       this.username = this.authService.getUsername();
       this.userRole = this.authService.getRole();

@@ -90,4 +90,9 @@ export class FlightRecommendationsComponent implements OnInit {
     }
     return flightRequest;
   }
+
+  resetRecommendations() : void {
+    this.arrivalRecommendationsObtained = false;
+    this.departureRecommendationsObtained = false;
+  }
 }

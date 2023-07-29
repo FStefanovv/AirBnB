@@ -6,6 +6,7 @@ import { catchError, Observable, throwError } from 'rxjs';
 import { Flight } from '../model/flight';
 import { SearchedFlightDTO } from '../model/searchedFlightDto';
 import { NewFlightDto } from '../model/newFlightDto';
+import { AuthService } from './auth.service';
 
 
 @Injectable({
@@ -19,8 +20,20 @@ export class FlightsService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json'})
   };
 
+  getHttpHeadersRegular() : HttpHeaders {
+    
+    return  new HttpHeaders({'Content-Type': 'application/json'})
+  }
+
+  getHttpHeadersBearer() : HttpHeaders {
+    const token = this.authService.getToken();
+    
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization':`Bearer ${token}`});
+  }
   
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   getAll() : Observable<Flight[]> {
     return this.http.get<Flight[]>(this.flightsUrl, this.httpOptions);
@@ -34,14 +47,11 @@ export class FlightsService {
   }
 
   new(newFlight: NewFlightDto) : Observable<NewFlightDto> {
-    console.log(newFlight.departurePoint)
-    console.log(newFlight.remainingTickets)
-    console.log(newFlight.departureTime)
-    console.log(newFlight)
-    return this.http.post<NewFlightDto>(this.flightsUrl, newFlight, this.httpOptions);
+   
+    return this.http.post<NewFlightDto>(this.flightsUrl, newFlight, {headers: this.getHttpHeadersBearer()});
   }
 
   delete(id: any): Observable<any> {
-    return this.http.delete<any>(this.flightsUrl+ 'Delete/' + id,  this.httpOptions);
+    return this.http.delete<any>(this.flightsUrl+ 'Delete/' + id,  {headers: this.getHttpHeadersBearer()});
   }
 }
