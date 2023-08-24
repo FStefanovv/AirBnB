@@ -92,7 +92,9 @@ namespace Users
             {
                 var serviceName = sp.GetRequiredService<IWebHostEnvironment>().ApplicationName;
                 var loggerFactory = sp.GetRequiredService<ILoggerFactory>();
-                var reporter = new RemoteReporter.Builder().WithLoggerFactory(loggerFactory).WithSender(new UdpSender())
+                var reporter = new RemoteReporter.Builder()
+                    .WithLoggerFactory(loggerFactory)
+                    .WithSender(new UdpSender("jaeger", 6831, 0))
                     .Build();
                 var tracer = new Tracer.Builder(serviceName)
                     // The constant sampler reports every span.

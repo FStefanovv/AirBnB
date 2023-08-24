@@ -17,6 +17,12 @@ services:
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
     volumes:
       - C:\Users\User\.aspnet\https:/https/
+    logging:
+      driver: fluentd
+      options:
+        fluentd-async: "true"
+        fluentd-address: localhost:24224
+        tag: api-gateway
 
   rabbit:
     image: rabbitmq:management
@@ -51,6 +57,12 @@ services:
     depends_on:
       flights_db:
         condition: service_healthy
+    logging:
+      driver: fluentd
+      options:
+        fluentd-async: "true"
+        fluentd-address: localhost:24224
+        tag: flights-service
   
   flights_db:
     image: mongo
@@ -85,7 +97,13 @@ services:
       - ASPNETCORE_Kestrel__Certificates__Default__Password=password
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
     volumes:
-      - C:\Users\User\.aspnet\https:/https/    
+      - C:\Users\User\.aspnet\https:/https/ 
+    logging:
+      driver: fluentd
+      options:
+        fluentd-async: "true"
+        fluentd-address: localhost:24224
+        tag: flight-recommendations-service
 
   accommodation-service:
     build:
@@ -107,6 +125,12 @@ services:
     depends_on:
       - rabbit
       - accommodation_db
+    logging:
+      driver: fluentd
+      options:
+        fluentd-async: "true"
+        fluentd-address: localhost:24224
+        tag: accommodation-service
 
   accommodation_db:
     image: mongo
@@ -146,6 +170,12 @@ services:
     depends_on:
       - rabbit
       - reservation_db
+    logging:
+      driver: fluentd
+      options:
+        fluentd-async: "true"
+        fluentd-address: localhost:24224
+        tag: reservation-service
 
   reservation_db:
     image: postgres:15.0-alpine
@@ -184,6 +214,12 @@ services:
     depends_on:
       - rabbit
       - user_db
+    logging:
+      driver: fluentd
+      options:
+        fluentd-async: "true"
+        fluentd-address: localhost:24224
+        tag: user-service
 
   user_db:
     image: postgres:15.0-alpine
@@ -222,6 +258,12 @@ services:
     depends_on:
       rating_db:
         condition: service_healthy
+    logging:
+      driver: fluentd
+      options:
+        fluentd-async: "true"
+        fluentd-address: localhost:24224
+        tag: rating-service
 
   rating_db:
     image: neo4j:latest
@@ -238,6 +280,52 @@ services:
     volumes:
       - rating_store:/data/db
 
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "5775:5775/udp"
+      - "6831:6831/udp"
+      - "6832:6832/udp"
+      - "5778:5778"
+      - "16686:16686"
+      - "14268:14268"
+      - "9411:9411"
+
+  fluent-bit:
+    environment:
+      LOG_LEVEL: debug
+      LOKI_URL: http://loki:3100/loki/api/v1/push
+    build:
+      context: ./FluentBit
+      dockerfile: Dockerfile
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
+   
+  loki:
+    image: grafana/loki:latest
+    expose:
+      - "3100"
+    ports:
+      - "3100:3100"
+   
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      GF_RENDERING_SERVER_URL: http://renderer:8081/render
+      GF_RENDERING_CALLBACK_URL: http://grafana:3000/
+      GF_LOG_FILTERS: rendering:debug
+   
+  renderer:
+    image: grafana/grafana-image-renderer:latest
+    expose:
+      - "8081"
+    environment:
+      ENABLE_METRICS: "true"
+   
+     
 volumes:
   flights_store:
   accommodation_store:

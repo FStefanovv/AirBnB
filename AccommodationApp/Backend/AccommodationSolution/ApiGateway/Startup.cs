@@ -20,6 +20,11 @@ using System.Net;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using OpenTracing;
+using Jaeger.Reporters;
+using Jaeger;
+using Jaeger.Samplers;
+using Jaeger.Senders.Thrift;
 
 namespace ApiGateway
 {
@@ -65,6 +70,25 @@ namespace ApiGateway
                     };
                 }
             );
+
+            services.AddOpenTracing();
+            services.AddSingleton<ITracer>(sp =>
+            {
+                var serviceName = sp.GetRequiredService<IWebHostEnvironment>().ApplicationName;
+                var loggerFactory = sp.GetRequiredService<ILoggerFactory>();
+                var reporter = new RemoteReporter.Builder()
+                    .WithLoggerFactory(loggerFactory)
+                    .WithSender(new UdpSender("jaeger", 6831, 0))
+                    .Build();
+                var tracer = new Tracer.Builder(serviceName)
+                    // The constant sampler reports every span.
+                    .WithSampler(new ConstSampler(true))
+                    // LoggingReporter prints every reported span to the logging framework.
+                    .WithReporter(reporter)
+                    .Build();
+
+                return tracer;
+            });
 
             /*services.AddHttpClient("NoCertificateValidationHandler")
                 .AddHttpMessageHandler<NoCertificateValidationHandler>();*/
