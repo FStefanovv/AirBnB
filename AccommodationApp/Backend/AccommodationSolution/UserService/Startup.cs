@@ -30,7 +30,7 @@ using System.Threading.Tasks;
 using Users.RabbitMQ;
 using Users.Repository;
 using Users.Services;
-
+using Prometheus;
 
 namespace Users
 {
@@ -114,6 +114,8 @@ namespace Users
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -131,6 +133,10 @@ namespace Users
                        .AllowAnyMethod()
                        .AllowAnyHeader();
             });
+
+
+            app.UseMetricServer();
+            app.UseHttpMetrics();
 
             app.UseAuthorization();
 

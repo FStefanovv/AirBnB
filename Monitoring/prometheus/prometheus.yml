@@ -1,0 +1,19 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'user-service'
+    static_configs:
+      - targets: ['user-service:80']
+
+  - job_name: 'accommodation-service'
+    static_configs:
+      - targets: ['accommodation-service:80']
+
+  
