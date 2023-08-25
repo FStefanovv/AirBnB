@@ -25,6 +25,7 @@ using Jaeger.Reporters;
 using Jaeger;
 using Jaeger.Samplers;
 using Jaeger.Senders.Thrift;
+using Prometheus;
 
 namespace ApiGateway
 {
@@ -115,6 +116,9 @@ namespace ApiGateway
             app.UseHttpsRedirection();          
 
             app.UseRouting();
+
+            //app.UseMetricServer();
+            //app.UseHttpMetrics();
 
             app.UseAuthorization();
 

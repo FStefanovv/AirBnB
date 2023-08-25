@@ -16,4 +16,20 @@ scrape_configs:
     static_configs:
       - targets: ['accommodation-service:80']
 
+  - job_name: 'api-gateway'
+    static_configs:
+      - targets: ['api-gateway:80']
+
+  - job_name: 'flight-recommendation-service'
+    static_configs:
+      - targets: ['flight-recommendation-service:80']
+
+  - job_name: 'reservation-service'
+    static_configs:
+      - targets: ['reservation-service:80']
+
+  - job_name: 'rating-service'
+    static_configs:
+      - targets: ['rating-service:80']
+
   

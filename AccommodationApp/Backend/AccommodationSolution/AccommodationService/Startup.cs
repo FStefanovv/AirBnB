@@ -23,6 +23,7 @@ using OpenTracing.Contrib.NetCore.Configuration;
 using OpenTracing;
 using MassTransit;
 using Accommodation.RabbitMQ;
+using Prometheus;
 
 namespace Accommodation
 {
@@ -117,6 +118,9 @@ namespace Accommodation
                        .AllowAnyMethod()
                        .AllowAnyHeader();
             });
+
+            app.UseMetricServer();
+            app.UseHttpMetrics();
 
             app.UseAuthorization();
 

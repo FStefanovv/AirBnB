@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Prometheus;
 
 namespace ReservationService
 {
@@ -120,6 +121,9 @@ namespace ReservationService
                        .AllowAnyMethod()
                        .AllowAnyHeader();
             });
+
+            app.UseMetricServer();
+            app.UseHttpMetrics();
 
             app.UseAuthorization();
 
