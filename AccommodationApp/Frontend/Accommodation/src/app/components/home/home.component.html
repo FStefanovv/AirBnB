@@ -62,10 +62,11 @@
     <div *ngFor="let accomm of accommodationsToShow" class="card">
         <div class="container">
             <h4><b>{{accomm.name}}</b></h4>
-            <div *ngIf="accomm.pricePerGuest; then thenBlock else elseBlock"></div>
-                <ng-template #thenBlock>Price per guest:{{accomm.price}}</ng-template>
-                <ng-template #elseBlock>Price per accomodation:{{accomm.price}}</ng-template>
-        </div>
+            
+                <div *ngIf="accomm.pricePerGuest && !IsSearched">Price per guest:{{accomm.price}}</div>
+                <div *ngIf="accomm.pricePerAccomodation  && !IsSearched">Price per accomodation:{{accomm.price}}</div>
+                <div *ngIf="IsSearched">Total price for searched period: {{accomm.price}}</div>
+            </div>
         <div *ngIf="IsHostLoggedIn() && accomm.hostId==GetUserId()" class="button-card-container">
                 <button class="button-regular" (click)="update(accomm.id,accomm.startSeason,accomm.endSeason,accomm.price)">Update Price</button>
         </div>
