@@ -44,21 +44,12 @@ export class UserReservationsComponent implements OnInit {
     }
   }
 
-  /*
-  deleteAccAsGuest(){
-    this.userService.deleteAccAsGuest().subscribe({
-       next: (res: any) => {
-      console.log('success');
-      this.router.navigate(['login']);
-    },
-    error : (err: HttpErrorResponse) => {
-     console.log(err);
-    }
-  });
-  }*/
-
   getRecommendations(reservation: ShowReservation) {
     this.router.navigate(['flight-recommendations', reservation.id]);
+  }
+
+  canBeCancelled(reservationStart: Date | undefined) : boolean {
+    return true;
   }
 
 }

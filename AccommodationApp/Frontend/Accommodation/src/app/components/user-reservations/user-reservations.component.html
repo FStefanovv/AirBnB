@@ -28,7 +28,7 @@
             {{reservation.status==1? 'past' : (reservation.status==2? 'cancelled' : 'scheduled')}}
         </td>
         <td>
-            <button *ngIf="reservation.status==0" class="button-cancel" (click)="cancelReservation(reservation)">Cancel</button>
+            <button *ngIf="reservation.status==0 && canBeCancelled(reservation.from)" class="button-cancel" (click)="cancelReservation(reservation)">Cancel</button>
         </td>
         <td>
             <button *ngIf="reservation.status==0" class="button-regular" (click)="getRecommendations(reservation)">Get Recommendations</button>

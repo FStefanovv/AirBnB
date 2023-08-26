@@ -29,7 +29,9 @@ export class SidebarComponent implements OnInit {
 
   logOut(){
     this.authService.logOut();
-    window.location.reload();
+    if(this.router.url=='/home')
+      window.location.reload();
+    else this.router.navigate(['home']);
   }
 
   goToRegistration(){
