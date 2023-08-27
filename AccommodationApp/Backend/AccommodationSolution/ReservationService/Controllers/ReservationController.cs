@@ -42,8 +42,11 @@ namespace ReservationService.Controllers
             {
                 var actionName = ControllerContext.ActionDescriptor.DisplayName;
                 using var scope = _tracer.BuildSpan(actionName).StartActive(true);
+
                 Request.Headers.TryGetValue("UserId", out StringValues userId);
-                await _reservationService.CancelReservation(id, userId);
+                Request.Headers.TryGetValue("Username", out StringValues username);
+
+                await _reservationService.CancelReservation(id, userId, username);
                 Task<bool> checkStatus = _reservationService.CheckHostStatus(hostId);
                 return StatusCode(200);
             }

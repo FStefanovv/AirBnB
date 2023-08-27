@@ -13,7 +13,7 @@ namespace ReservationService.Service
         void CancelReservationRequest(string requestId, StringValues userId);
         List<ReservationRequest> GetPendingRequestsByHost(StringValues userId);
         List<ReservationRequest> GetResolvedRequestsByHost(StringValues userId);
-        Task<bool> CreateReservationRequestOrReservation(RequestReservationDTO dto);
+        Task<bool> CreateReservationRequestOrReservation(RequestReservationDTO dto, string username);
         Task AcceptRequest(string requestId, string accommodationId);
         List<ShowRequestDTO> GetRequestsForHost(string hostId);
         List<ShowRequestDTO> GetRequestsForUsers(string userId);

@@ -183,7 +183,8 @@
         "Role": "REGULAR_USER"
       },
       "AddHeadersToRequest": {
-        "UserId": "Claims[UserId] > value"
+        "UserId": "Claims[UserId] > value",
+        "Username": "Claims[Username] > value"
       }
     },
     {
@@ -393,7 +394,17 @@
           "Host": "reservation-service",
           "Port": 80
         }
-      ]
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "AuthTokenFromUserService",
+        "AllowedScopes": []
+      },
+      "RouteClaimsRequirement": {
+        "Role": "REGULAR_USER"
+      },
+      "AddHeadersToRequest": {
+        "Username": "Claims[Username] > value"
+      }
     },
     {
       "UpstreamPathTemplate": "/gateway/get-busy-dates-for-accommodation/{accommodationId}",

@@ -65,7 +65,7 @@ namespace ReservationService.Service
             return _repository.GetPendingRequestsByUser(userId);
         }
 
-        public async Task<bool> CreateReservationRequestOrReservation(RequestReservationDTO dto)
+        public async Task<bool> CreateReservationRequestOrReservation(RequestReservationDTO dto, string username)
         {
             bool autoApproval = await IsAutoApproval(dto.AccomodationId);
             
@@ -79,7 +79,7 @@ namespace ReservationService.Service
             {
                 ReservationRequest resRequest = Adapter.ReservationAdapter.RequestReservationDtoToReservationRequest(dto);
                 _repository.Create(resRequest);
-                await SendNotification(dto.HostId, dto.UserId + " has created a reservation request for " + dto.AccommodationName);
+                await SendNotification(dto.HostId, username + " has created a reservation request for " + dto.AccommodationName + " at " + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss"));
 
             }
             return true;
@@ -87,7 +87,7 @@ namespace ReservationService.Service
 
         private async Task SendNotification(string hostId, string notificationContent)
         {
-            using var scope = _tracer.BuildSpan("SendCancellationNotificaiton").StartActive(true);
+            using var scope = _tracer.BuildSpan("SendNotificaiton").StartActive(true);
             var handler = new HttpClientHandler();
             handler.ServerCertificateCustomValidationCallback =
                 HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;

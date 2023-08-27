@@ -39,7 +39,11 @@ namespace ReservationService.Controllers
         {
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
-            await _requestService.CreateReservationRequestOrReservation(dto);
+
+            Request.Headers.TryGetValue("Username", out StringValues username);
+
+
+            await _requestService.CreateReservationRequestOrReservation(dto, username);
             return Ok();
         }
 

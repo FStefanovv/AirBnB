@@ -30,7 +30,16 @@ export class PendingRequestsComponent implements OnInit {
   acceptRequest(requestId: string | undefined, accommodationId: string | undefined) {
     if (requestId !== undefined && accommodationId !== undefined) {
       this.reservationService.acceptRequest(requestId, accommodationId).subscribe({
+        next: (response: any) => {
+          if(this.requests!=undefined) {
+            this.requests = this.requests.filter((req) => req.id!=requestId);
+          }
+        },
+        error : (err: HttpErrorResponse) => {
+         console.log(err.error);
+        }
       });
     }
+
   }
 }
