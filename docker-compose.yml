@@ -300,6 +300,52 @@ services:
     volumes:
       - rating_store:/data/db
 
+  notification-service:
+    build:
+      context: ./AccommodationApp/Backend/AccommodationSolution/NotificationsService
+      dockerfile: Dockerfile
+    restart: always
+    container_name: "notification-service"
+    hostname: "notification-service"   
+    ports:  
+      - 5006:443
+      - 5106:80
+    environment: 
+      - ASPNETCORE_URLS=https://+;http://+
+      - ASPNETCORE_HTTPS_PORT=443
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - C:\Users\User\.aspnet\https:/https/
+    depends_on:
+      - notification_db
+    networks:
+      - monitoring_monitoring
+      - default
+    logging:
+      driver: fluentd
+      options:
+        fluentd-async: "true"
+        fluentd-address: localhost:24224
+        tag: notification-service
+
+  notification_db:
+    image: mongo
+    restart: always
+    ports:
+      - "27023:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: pass
+      MONGO_INITDB_DATABASE: XWS_Projekat
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok'
+      interval: 10s
+      timeout: 10s
+      retries: 10
+    volumes:
+      - notification_store:/data/db
+
    
      
 volumes:
@@ -308,6 +354,7 @@ volumes:
   reservation_store:
   user_store:
   rating_store:
+  notification_store:
 
 networks:
   monitoring_monitoring:

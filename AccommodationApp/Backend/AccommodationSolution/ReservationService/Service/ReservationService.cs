@@ -53,7 +53,7 @@ namespace ReservationService.Service
             _repository.Create(reservation);
         }
 
-        public void CancelReservation(string reservationId, StringValues userId)
+        public async Task CancelReservation(string reservationId, StringValues userId)
         {
             Reservation reservation = _repository.GetReservationById(reservationId);
             if (reservation == null)
@@ -71,7 +71,25 @@ namespace ReservationService.Service
             {
                 reservation.Status = Enums.ReservationStatus.CANCELLED;
                 _repository.UpdateReservation(reservation);
+                await SendNotification(reservation.HostId, reservation.UserId + " has cancelled a reservation at " + reservation.AccommodationName);
             }
+        }
+
+        private async Task  SendNotification(string hostId, string notificationContent)
+        {
+            using var scope = _tracer.BuildSpan("SendCancellationNotificaiton").StartActive(true);
+            var handler = new HttpClientHandler();
+            handler.ServerCertificateCustomValidationCallback =
+                HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+            using var channel = GrpcChannel.ForAddress("https://notification-service:443",
+                new GrpcChannelOptions { HttpHandler = handler });
+            var client = new NotificationGRPCService.NotificationGRPCServiceClient(channel);
+            var reply = await client.CreateNotificationAsync(new NotificationData
+            {
+             UserId = hostId,
+             NotificationContent = notificationContent
+            });
+
         }
 
         public List<ShowReservationDTO> GetUserReservations(StringValues userId)

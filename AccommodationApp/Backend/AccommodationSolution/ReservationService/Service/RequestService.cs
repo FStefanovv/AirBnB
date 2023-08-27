@@ -12,6 +12,7 @@ using Grpc.Core;
 using System.Net.Http;
 using Grpc.Net.Client;
 using Microsoft.AspNetCore.Mvc;
+using OpenTracing;
 
 namespace ReservationService.Service
 {
@@ -19,11 +20,14 @@ namespace ReservationService.Service
     {
         private readonly IRequestRepository _repository;
         private readonly IReservationService _reservation;
+        private readonly ITracer _tracer;
 
-        public RequestService(IRequestRepository repository,IReservationService reservation)
+
+        public RequestService(IRequestRepository repository,IReservationService reservation, ITracer tracer)
         {
             _repository = repository;
             _reservation = reservation;
+            _tracer = tracer;
         }
 
         public void CancelReservationRequest(string requestId, StringValues userId)
@@ -75,8 +79,27 @@ namespace ReservationService.Service
             {
                 ReservationRequest resRequest = Adapter.ReservationAdapter.RequestReservationDtoToReservationRequest(dto);
                 _repository.Create(resRequest);
+                await SendNotification(dto.HostId, dto.UserId + " has created a reservation request for " + dto.AccommodationName);
+
             }
             return true;
+        }
+
+        private async Task SendNotification(string hostId, string notificationContent)
+        {
+            using var scope = _tracer.BuildSpan("SendCancellationNotificaiton").StartActive(true);
+            var handler = new HttpClientHandler();
+            handler.ServerCertificateCustomValidationCallback =
+                HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+            using var channel = GrpcChannel.ForAddress("https://notification-service:443",
+                new GrpcChannelOptions { HttpHandler = handler });
+            var client = new NotificationGRPCService.NotificationGRPCServiceClient(channel);
+            var reply = await client.CreateNotificationAsync(new NotificationData
+            {
+                UserId = hostId,
+                NotificationContent = notificationContent
+            });
+
         }
 
         public async Task<bool> IsAutoApproval(StringValues id)
@@ -103,6 +126,8 @@ namespace ReservationService.Service
             await _reservation.CreateReservationFromRequest(request);
             CancelRequestsInTimeRange(accommodationId, request.From, request.To);
             await _reservation.CheckHostStatus(request.HostId);
+            await SendNotification(request.UserId, "Your request for " + request.AccommodationName + " has been accepted!");
+
         }
 
         private void AcceptRequestDatabaseUpdate(ReservationRequest request)

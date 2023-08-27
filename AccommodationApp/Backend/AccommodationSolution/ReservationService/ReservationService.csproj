@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Protos\notifications.proto" />
     <None Remove="Protos\user.proto" />
   </ItemGroup>
 
@@ -51,10 +52,15 @@
 
 	<ItemGroup>
 		<Protobuf Include="Protos\accommodation.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\notifications.proto" GrpcServices="Server" />
 		<Protobuf Include="Protos\reservation.proto" GrpcServices="Server" />
 		<Protobuf Include="Protos\user.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\notifications.proto" GrpcServices="Client" />
+
 	</ItemGroup>
 
+
+	
 
 	<ItemGroup>
 		<PackageReference Include="MassTransit" Version="6.2.5" />

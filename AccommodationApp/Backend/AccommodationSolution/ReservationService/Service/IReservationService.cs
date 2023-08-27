@@ -11,7 +11,7 @@ namespace ReservationService.Service
 {
     public interface IReservationService
     {
-        void CancelReservation(string reservationId, StringValues userId);
+        Task CancelReservation(string reservationId, StringValues userId);
         Task<double> GetCost(ReservationCostDTO reservation);
         List<ShowReservationDTO> GetUserReservations(StringValues userId);
         //bool GuestHasActiveReservations(string id);

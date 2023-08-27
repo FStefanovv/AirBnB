@@ -36,14 +36,14 @@ namespace ReservationService.Controllers
         [Route("cancel-reservation/{id}/{hostId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult CancelReservation(string id,string hostId)
+        public async Task<ActionResult> CancelReservation(string id,string hostId)
         {
             try
             {
                 var actionName = ControllerContext.ActionDescriptor.DisplayName;
                 using var scope = _tracer.BuildSpan(actionName).StartActive(true);
                 Request.Headers.TryGetValue("UserId", out StringValues userId);
-                _reservationService.CancelReservation(id, userId);
+                await _reservationService.CancelReservation(id, userId);
                 Task<bool> checkStatus = _reservationService.CheckHostStatus(hostId);
                 return StatusCode(200);
             }

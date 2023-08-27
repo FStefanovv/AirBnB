@@ -1,0 +1,18 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "NotificationsService";
+
+package notifications;
+
+service NotificationGRPCService {
+  rpc CreateNotification (NotificationData) returns (NotificationCreated);
+}
+
+message NotificationData {
+  string UserId = 1; 
+  string NotificationContent = 2;
+}
+
+message NotificationCreated {
+  bool success = 1;
+}
