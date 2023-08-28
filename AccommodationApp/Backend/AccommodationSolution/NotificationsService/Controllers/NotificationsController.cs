@@ -20,7 +20,7 @@ namespace NotificationsService.Controllers
         }
 
         [HttpGet]
-        [Route("get-notifications")]
+        [Route("all-by-user")]
         public ActionResult GetNotifications()
         {
             Request.Headers.TryGetValue("UserId", out StringValues userId);

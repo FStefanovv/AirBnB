@@ -4,6 +4,36 @@
   },
   "Routes": [
     {
+      "UpstreamPathTemplate": "/gateway/notifications",
+      "DownstreamPathTemplate": "/notifications",
+      "DownstreamScheme": "ws",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "notification-service",
+          "Port": 80
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/user-notifications",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/notifications/all-by-user",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "notification-service",
+          "Port": 80
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "AuthTokenFromUserService",
+        "AllowedScopes": []
+      },
+      "AddHeadersToRequest": {
+        "UserId": "Claims[UserId] > value"
+      }
+    },
+    {
       "UpstreamPathTemplate": "/gateway/register-user",
       "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/users/register",
@@ -455,9 +485,9 @@
       ]
     },
     {
-      "UpstreamPathTemplate": "/gateway/rate",
+      "UpstreamPathTemplate": "/gateway/rate/{hostId}/{entityName}",
       "UpstreamHttpMethod": [ "Post" ],
-      "DownstreamPathTemplate": "/api/rating/rate",
+      "DownstreamPathTemplate": "/api/rating/rate/{hostId}/{entityName}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {

@@ -17,8 +17,8 @@ export class RatingServiceService {
 
   constructor(private http: HttpClient) { }
 
-  rate(dto: CreateRatingDTO) : Observable<CreateRatingDTO> {
-    return this.http.post<CreateRatingDTO>(this.gatewayUrl+'rate', dto, this.httpOptions);
+  rate(dto: CreateRatingDTO, hostId: string, entityName: string) : Observable<CreateRatingDTO> {
+    return this.http.post<CreateRatingDTO>(this.gatewayUrl+'rate/'+hostId+'/'+entityName, dto, this.httpOptions);
   }
 
   getAverageRating(id: string) : Observable<RatedEntity>{

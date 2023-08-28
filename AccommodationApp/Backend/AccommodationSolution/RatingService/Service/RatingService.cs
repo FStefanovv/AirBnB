@@ -10,20 +10,26 @@ using System.Net.Http;
 using Grpc.Net.Client;
 using OpenTracing;
 using Jaeger;
+using NotificationsService.RabbitMQ;
+using RatingService.RabbitMQ;
+using MassTransit;
 
 namespace RatingService.Service
 {
     public class RatingService
     {
         private readonly IRatingRepository _ratingRepository;
+        private readonly ISendEndpointProvider _sendEndpointProvider;
 
-        public RatingService(IRatingRepository ratingRepository)
+
+        public RatingService(IRatingRepository ratingRepository, ISendEndpointProvider sendEndpointProvider)
         {
             _ratingRepository = ratingRepository;
+            _sendEndpointProvider = sendEndpointProvider;
         }
 
-        public async Task CreateAsync(CreateRatingDTO dto, StringValues username, StringValues userId)
-        {
+        public async Task CreateAsync(CreateRatingDTO dto, StringValues username, StringValues userId, StringValues hostId, StringValues entityName)
+        {   
 
             bool canRate = await CheckIfUserCanRate(dto, userId);
             if (canRate)
@@ -56,6 +62,11 @@ namespace RatingService.Service
                         await _ratingRepository.MapRating(user, entity, rating);
                         await _ratingRepository.UpdateRatedEntity(entity);
                     }
+                    if (dto.RatedEntityType == 0)
+                        await SendNotification(hostId, "Your accommodation " + entityName + " has been rated by " + username + " with grade " + dto.Grade);
+                    else
+                        await SendNotification(hostId, "You have been rated by " + username + " with grade " + dto.Grade);
+
                 }
                 if (dto.RatedEntityType == 1)
                     await UpdateRatingCondition(dto.RatedEntityId);
@@ -63,7 +74,14 @@ namespace RatingService.Service
             else throw new Exception("User cannot rate this entity");
         }
 
-        
+        private async Task SendNotification(string userId, string notificationContent)
+        {
+            var endPoint = await _sendEndpointProvider.
+                GetSendEndpoint(new Uri("queue:" + BusConstants.NotificationQueue));
+            await endPoint.Send<INotification>(new { UserId = userId, NotificationContent = notificationContent });
+        }
+
+
         public async Task DeleteRating(string id, StringValues userId)
         {
             Rating rating = await _ratingRepository.GetRatingById(id);

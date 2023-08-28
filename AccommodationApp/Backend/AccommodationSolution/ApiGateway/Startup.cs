@@ -109,6 +109,9 @@ namespace ApiGateway
 
             app.UseCors("CorsPolicy");
 
+
+            app.UseWebSockets();
+
             await app.UseOcelot();
 
             app.UseAuthentication();         

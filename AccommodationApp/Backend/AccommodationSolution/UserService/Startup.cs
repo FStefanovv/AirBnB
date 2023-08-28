@@ -56,6 +56,7 @@ namespace Users
 
             services.AddScoped<IUserRepository, UserRepositoryPostgres>();
             services.AddScoped<IUserService, UserService>();
+
             services.AddScoped<CancelDeleteConsumer>();
             services.AddScoped<EndDeleteConsumer>();
             services.AddControllers();

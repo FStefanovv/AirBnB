@@ -16,6 +16,9 @@ using Users;
 using Microsoft.AspNetCore.Mvc;
 using OpenTracing;
 using Jaeger;
+using MassTransit;
+using ReservationService.RabbitMQ;
+using NotificationsService.RabbitMQ;
 
 namespace ReservationService.Service
 {
@@ -29,13 +32,17 @@ namespace ReservationService.Service
         private readonly string _url = "http://localhost:5002/Services.AccomodationService/GetAccommodationGRPC";
         private readonly ITracer _tracer;
 
+        private readonly ISendEndpointProvider _sendEndpointProvider;
 
-        public ReservationService(IReservationRepository repository, ILogger<ReservationService> logger, IRequestRepository requestRepository,ITracer tracer)
+
+
+        public ReservationService(IReservationRepository repository, ILogger<ReservationService> logger, IRequestRepository requestRepository,ITracer tracer, ISendEndpointProvider sendEndpointProvider)
         {
             _repository = repository;
             _logger = logger;
             _requestRepository = requestRepository;
             _tracer = tracer;
+            _sendEndpointProvider = sendEndpointProvider;
         }
 
         public override Task<Updated> UpdateRequestsPostUserDeletion(UserData userData, ServerCallContext context)
@@ -71,11 +78,19 @@ namespace ReservationService.Service
             {
                 reservation.Status = Enums.ReservationStatus.CANCELLED;
                 _repository.UpdateReservation(reservation);
-                await SendNotification(reservation.HostId, username + " has cancelled a reservation for " + reservation.AccommodationName + " at " + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss"));
+                await SendNotification(reservation.HostId, username + " has cancelled a reservation for " + reservation.AccommodationName);
             }
         }
 
-        private async Task  SendNotification(string hostId, string notificationContent)
+        private async Task SendNotification(string userId, string notificationContent)
+        {
+            var endPoint = await _sendEndpointProvider.
+                GetSendEndpoint(new Uri("queue:" + BusConstants.NotificationQueue));
+            await endPoint.Send<INotification>(new { UserId = userId, NotificationContent = notificationContent });
+        }
+
+
+        /*private async Task  SendNotification(string hostId, string notificationContent)
         {
             using var scope = _tracer.BuildSpan("SendCancellationNotificaiton").StartActive(true);
             var handler = new HttpClientHandler();
@@ -90,7 +105,7 @@ namespace ReservationService.Service
              NotificationContent = notificationContent
             });
 
-        }
+        }*/
 
         public List<ShowReservationDTO> GetUserReservations(StringValues userId)
         {

@@ -22,6 +22,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Prometheus;
+using MassTransit;
+using RatingService.RabbitMQ;
 
 namespace RatingService
 {
@@ -39,6 +41,15 @@ namespace RatingService
         {
 
             services.AddCors();
+
+            services.AddMassTransit(cfg =>
+            {
+                cfg.AddBus(provider => RabbitMQBus.ConfigureBus(provider, (cfg, host) =>
+                {
+                    
+                }));
+            });
+            services.AddMassTransitHostedService();
 
             //services.AddSingleton<IDbContext, MongoDbContext>();
 

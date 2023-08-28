@@ -1,6 +1,10 @@
 ﻿using Grpc.Core;
+using MassTransit;
+using Microsoft.AspNetCore.SignalR;
 using NotificationsService.Model;
+using NotificationsService.RabbitMQ;
 using NotificationsService.Repository;
+using NotificationsService.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,13 +12,16 @@ using System.Threading.Tasks;
 
 namespace NotificationsService.Service
 {
-    public class NotificationService : NotificationGRPCService.NotificationGRPCServiceBase
+    public class NotificationService : NotificationGRPCService.NotificationGRPCServiceBase, IConsumer<INotification>
     {
         private NotificationRepository _repository;
+        private readonly IHubContext<NotificationHub> _hubContext;
 
-        public NotificationService(NotificationRepository repository)
+
+        public NotificationService(NotificationRepository repository, IHubContext<NotificationHub> hubContext)
         {
             _repository = repository;
+            _hubContext = hubContext;
         }
 
         public List<Notification> GetNotifications(string userId)
@@ -22,17 +29,13 @@ namespace NotificationsService.Service
             return _repository.GetUserNotifications(userId);
         }
 
-        //CreateNotification(NotificationData) returns(NotificationCreated);
-        public override Task<NotificationCreated> CreateNotification(NotificationData data, ServerCallContext context)
+        public async Task Consume(ConsumeContext<INotification> context)
         {
-            //using var scope = _tracer.BuildSpan("UpdateRequestsPostUserDeletion").StartActive(true);
-            Notification notification = new Notification { UserId = data.UserId, NotificationContent = data.NotificationContent };
-            _repository.Create(notification);
-            return Task.FromResult(new NotificationCreated
-            {
-                Success = true
-            });
-        }
+            var data = context.Message;
 
+            Notification notification = new Notification { UserId = data.UserId, NotificationContent = data.NotificationContent, CreatedAt = DateTime.Now.ToString("MM/dd/yyyy HH:mm") };
+            _repository.Create(notification);
+            await _hubContext.Clients.All.SendAsync("NewNotification", notification);
+        }
     }
 }

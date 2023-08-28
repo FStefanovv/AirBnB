@@ -27,8 +27,8 @@ namespace RatingService.Controllers
         }
 
         [HttpPost]
-        [Route("rate")]
-        public async Task<ActionResult> RateAsync(CreateRatingDTO dto)
+        [Route("rate/{hostId}/{entityName}")]
+        public async Task<ActionResult> RateAsync(CreateRatingDTO dto, string hostId, string entityName)
         {
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
@@ -37,7 +37,7 @@ namespace RatingService.Controllers
 
             try
             {
-                await _ratingService.CreateAsync(dto, username, userId);
+                await _ratingService.CreateAsync(dto, username, userId, hostId, entityName);
                 return Ok();
             }
             catch(Exception ex)

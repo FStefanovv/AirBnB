@@ -19,4 +19,6 @@
     <button *ngIf="loggedIn" (click)="logOut()" id="logout" class="button-regular">
         Log Out
     </button>
+
+    <app-notifications *ngIf="loggedIn"></app-notifications>
 </div>

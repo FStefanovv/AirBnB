@@ -29,6 +29,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { RatingsComponent } from './components/ratings/ratings.component';
 import { UserRequestsComponent } from './components/user-requests/user-requests.component';
 import { DeleteAccountComponent } from './components/delete-account/delete-account.component';
+import { NotificationsComponent } from './components/notifications/notifications.component';
 
 export function tokenGetter() { 
   return localStorage.getItem("jwt"); 
@@ -54,6 +55,7 @@ export function tokenGetter() {
     RatingsComponent,
     UserRequestsComponent,
     DeleteAccountComponent,
+    NotificationsComponent,
   ],
   imports: [
     BrowserModule,

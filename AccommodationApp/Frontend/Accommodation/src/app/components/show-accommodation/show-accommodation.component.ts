@@ -98,17 +98,19 @@ export class ShowAccommodationComponent implements OnInit {
   }
 
   rateAccomm(){
+    
     this.createAccommodationRatingDto.ratedEntityId = this.accommodationId;
     this.createAccommodationRatingDto.ratedEntityType = 0;
-    this.ratingService.rate(this.createAccommodationRatingDto).subscribe();
+    if(this.accommodation.hostId && this.accommodation.name)
+      this.ratingService.rate(this.createAccommodationRatingDto, this.accommodation.hostId, this.accommodation.name).subscribe();
   }
 
   rateHost(){
     if(this.accommodation.hostId){
       this.createHostRatingDto.ratedEntityId = this.accommodation.hostId;
       this.createHostRatingDto.ratedEntityType = 1;
+      this.ratingService.rate(this.createHostRatingDto, this.accommodation.hostId, "none").subscribe();
     }
-    this.ratingService.rate(this.createHostRatingDto).subscribe();
   }
 
   deleteRating(ratingId: string){

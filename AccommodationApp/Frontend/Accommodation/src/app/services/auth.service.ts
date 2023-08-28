@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { SignalRService } from './signal-r.service';
 
 
 @Injectable({
@@ -7,7 +8,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 })
 export class AuthService {
 
-  constructor(private jwtHelper: JwtHelperService) { }
+  constructor(private jwtHelper: JwtHelperService, private notificationService: SignalRService) { }
 
   isLoggedIn() {
     const token = this.getToken();
@@ -51,5 +52,6 @@ export class AuthService {
 
   logOut(){
     localStorage.removeItem("jwt");
+    this.notificationService.closeConnection();
   }
 }
