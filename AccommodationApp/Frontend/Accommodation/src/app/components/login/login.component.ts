@@ -6,6 +6,7 @@ import { Token } from 'src/app/model/token';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
+import { SignalRService } from 'src/app/services/signal-r.service';
 
 
 @Component({
@@ -15,7 +16,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private userService: UserService, private authService: AuthService, private router: Router) { }
+  constructor(private userService: UserService, private authService: AuthService, private router: Router, private notificationService: SignalRService) { }
 
   credentials: LoginCredentials = new LoginCredentials();
   errorMessage: string = '';
@@ -39,7 +40,8 @@ export class LoginComponent implements OnInit {
         next: (response: Token) => {
           const token = response.token;
           if(token){
-            this.authService.storeToken(token);            
+            this.authService.logIn(token);     
+            this.notificationService.init();
             this.router.navigate(['my-reservations']);
           } 
         },

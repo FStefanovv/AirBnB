@@ -7,8 +7,7 @@ import { SignalRService } from './signal-r.service';
   providedIn: 'root'
 })
 export class AuthService {
-
-  constructor(private jwtHelper: JwtHelperService, private notificationService: SignalRService) { }
+  constructor(private jwtHelper: JwtHelperService) { }
 
   isLoggedIn() {
     const token = this.getToken();
@@ -52,6 +51,9 @@ export class AuthService {
 
   logOut(){
     localStorage.removeItem("jwt");
-    this.notificationService.closeConnection();
+  }
+
+  logIn(token: string) {
+    this.storeToken(token);
   }
 }

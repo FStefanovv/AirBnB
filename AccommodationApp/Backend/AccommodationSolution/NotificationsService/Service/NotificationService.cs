@@ -16,12 +16,14 @@ namespace NotificationsService.Service
     {
         private NotificationRepository _repository;
         private readonly IHubContext<NotificationHub> _hubContext;
+        private readonly IConnectionManager _connectionManager;
 
 
-        public NotificationService(NotificationRepository repository, IHubContext<NotificationHub> hubContext)
+        public NotificationService(NotificationRepository repository, IHubContext<NotificationHub> hubContext, IConnectionManager connectionManager)
         {
             _repository = repository;
             _hubContext = hubContext;
+            _connectionManager = connectionManager; 
         }
 
         public List<Notification> GetNotifications(string userId)
@@ -35,7 +37,21 @@ namespace NotificationsService.Service
 
             Notification notification = new Notification { UserId = data.UserId, NotificationContent = data.NotificationContent, CreatedAt = DateTime.Now.ToString("MM/dd/yyyy HH:mm") };
             _repository.Create(notification);
-            await _hubContext.Clients.All.SendAsync("NewNotification", notification);
+
+            HashSet<string> connections = _connectionManager.GetConnections(data.UserId);
+
+            if(connections!=null && connections.Count>0)
+            {
+                foreach(var conn in connections)
+                {
+                    try
+                    {
+                        await _hubContext.Clients.Client(conn).SendAsync("NewNotification", notification);
+
+                    }
+                    catch {}
+                }
+            }
         }
     }
 }

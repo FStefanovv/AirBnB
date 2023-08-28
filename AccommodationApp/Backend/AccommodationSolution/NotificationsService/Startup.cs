@@ -57,6 +57,8 @@ namespace NotificationsService
             services.AddSingleton<NotificationsService.Repository.NotificationRepository>();
             services.AddSingleton<NotificationsService.Service.NotificationService>();
             services.AddSignalR();
+            services.AddSingleton<IConnectionManager, ConnectionManager>();
+
 
         }
 
@@ -89,7 +91,7 @@ namespace NotificationsService
             {
                 endpoints.MapControllers();
                 endpoints.MapGrpcService<NotificationsService.Service.NotificationService>();
-                endpoints.MapHub<NotificationHub>("/notifications");
+                endpoints.MapHub<NotificationHub>("/notifications/{userId}");
             });
         }
     }

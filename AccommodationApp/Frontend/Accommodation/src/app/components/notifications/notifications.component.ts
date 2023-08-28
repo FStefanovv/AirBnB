@@ -13,14 +13,8 @@ export class NotificationsComponent implements OnInit {
 
   constructor(private notificationService: SignalRService) { }
 
-  private hubConnectionBuilder!: signalR.HubConnection;
 
   ngOnInit(): void {
-    if(!this.notificationService.connectionOpen){
-      this.notificationService.startConnection();
-      this.notificationService.addNotificationListener();
-    }
-    this.notificationService.getUserNotifications();
   }
 
 }

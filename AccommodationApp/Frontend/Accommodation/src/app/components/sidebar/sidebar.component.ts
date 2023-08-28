@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { SignalRService } from 'src/app/services/signal-r.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -9,7 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class SidebarComponent implements OnInit {
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router, private notificationService: SignalRService) { }
 
   loggedIn?: boolean;
   username?: string;
@@ -29,6 +30,7 @@ export class SidebarComponent implements OnInit {
 
   logOut(){
     this.authService.logOut();
+    this.notificationService.closeConnection();
     if(this.router.url=='/home')
       window.location.reload();
     else this.router.navigate(['home']);

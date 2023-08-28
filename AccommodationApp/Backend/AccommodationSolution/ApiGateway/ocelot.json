@@ -4,8 +4,8 @@
   },
   "Routes": [
     {
-      "UpstreamPathTemplate": "/gateway/notifications",
-      "DownstreamPathTemplate": "/notifications",
+      "UpstreamPathTemplate": "/gateway/notifications/{userId}",
+      "DownstreamPathTemplate": "/notifications/{userId}",
       "DownstreamScheme": "ws",
       "DownstreamHostAndPorts": [
         {
@@ -170,7 +170,17 @@
           "Host": "accommodation-service",
           "Port": 80
         }
-      ]
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "AuthTokenFromUserService",
+        "AllowedScopes": []
+      },
+      "RouteClaimsRequirement": {
+        "Role": "HOST"
+      },
+      "AddHeadersToRequest": {
+        "UserId": "Claims[UserId] > value"
+      }
     },
     {
       "UpstreamPathTemplate": "/gateway/cancel-reservation-request/{id}",
