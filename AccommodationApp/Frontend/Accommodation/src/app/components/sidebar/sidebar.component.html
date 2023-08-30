@@ -2,6 +2,8 @@
     <p [style.visibility]="loggedIn? 'visible' : 'hidden'">
         Welcome, {{username}}!
     </p>
+    <p *ngIf="userRole=='HOST' && user?.isDistinguishedHost">Distinguished Host</p>
+    <app-notifications *ngIf="loggedIn"></app-notifications>
     <div id="sidebar-options">
         <div id="sidebar-option" *ngIf="loggedIn" (click)="changeRoute('/home')">Home</div>
         <div id="sidebar-option" *ngIf="loggedIn && userRole == 'HOST'" (click)="changeRoute('/create-accommodation')">Register Your Accommodation</div>
@@ -20,5 +22,4 @@
         Log Out
     </button>
 
-    <app-notifications *ngIf="loggedIn"></app-notifications>
 </div>

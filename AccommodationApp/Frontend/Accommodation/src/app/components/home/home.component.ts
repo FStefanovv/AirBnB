@@ -37,7 +37,6 @@ export class HomeComponent implements OnInit {
   sauna : boolean = false;
   gym : boolean = false;
   isDistinguishedHost : boolean = false;
-  isHostDistinguished: boolean = false;
   IsSearched: boolean = false;
 
   
@@ -45,8 +44,6 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.showAll();
-    if(this.authService.getRole()=="HOST")
-      this.IsHostDistinguished();
   }
 
   search() {
@@ -229,21 +226,6 @@ export class HomeComponent implements OnInit {
   
   GetUserId() : string {
     return this.authService.getId();
-  }
-
-
-
-  IsHostDistinguished() {
-    this.userService.getHost().subscribe({
-      next: (res : any) => {
-        if(res.isDistinguishedHost){
-          this.isHostDistinguished = true;
-        }
-        else{
-          this.isHostDistinguished = false;
-        }
-      }
-    })
   }
 }
 

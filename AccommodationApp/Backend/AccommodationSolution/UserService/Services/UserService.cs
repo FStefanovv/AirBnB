@@ -28,7 +28,7 @@ using OpenTracing;
 
 using Users.RabbitMQ;
 using MassTransit;
-
+using NotificationsService.RabbitMQ;
 
 namespace Users.Services
 {
@@ -230,40 +230,50 @@ namespace Users.Services
 
 
 
-        public override Task<ReservationPartUpdated> IsReservationPartSatisfied(ReservationSatisfied isReservationSatisfied, ServerCallContext context)
+        public async override Task<ReservationPartUpdated> IsReservationPartSatisfied(ReservationSatisfied isReservationSatisfied, ServerCallContext context)
         {
             using var scope = _tracer.BuildSpan("IsReservationPartSatisfied").StartActive(true);
             User host = _userRepository.GetUserById(isReservationSatisfied.Id);
             if (host.Role == "HOST")
             {
-                if (isReservationSatisfied.ReservationPartSatisfied)
+                host.IsReservationPartSatisfied = isReservationSatisfied.ReservationPartSatisfied;
+                await UpdateDistinguishedHostStatus(host);
+                return await Task.FromResult(new ReservationPartUpdated
                 {
-                    host.IsReservationPartSatisfied = true;
-                    _userRepository.UpdateUser(host);
-                    return Task.FromResult(new ReservationPartUpdated
-                    {
-                        IsReservationSatisfied = true
-                    });
-                }
-                else
-                {
-                    host.IsReservationPartSatisfied = false;
-                    _userRepository.UpdateUser(host);
-                    return Task.FromResult(new ReservationPartUpdated
-                    {
-                        IsReservationSatisfied = false
-                    });
-                }
+                    IsReservationSatisfied = host.IsReservationPartSatisfied
+                });
             }
             else
             {
-                return Task.FromResult(new ReservationPartUpdated
+                return await Task.FromResult(new ReservationPartUpdated
                 {
                     IsReservationSatisfied = false
                 });
             }
         }
 
+        private async Task UpdateDistinguishedHostStatus(User host)
+        {
+            bool preUpdateStatus = host.IsDistinguishedHost;
+            host.IsDistinguishedHost = host.IsRatingPartSatisfied && host.IsReservationPartSatisfied;
+            if (preUpdateStatus != host.IsDistinguishedHost)
+            {
+                if (host.IsDistinguishedHost)
+                    await SendNotification(host.Id, "You have been promoted to a distinguished host!");
+                else
+                    await SendNotification(host.Id, "You have lost the distinguished host status");
+                _userRepository.UpdateUser(host);
+                await UpdateAccomodationsByDistinguishedHost(host.Id, host.IsDistinguishedHost);
+            }
+            else _userRepository.UpdateUser(host);
+        }
+
+        private async Task SendNotification(string userId, string notificationContent)
+        {
+            var endPoint = await _sendEndpointProvider.
+                GetSendEndpoint(new Uri("queue:" + BusConstants.NotificationQueue));
+            await endPoint.Send<INotification>(new INotification { UserId = userId, NotificationContent = notificationContent, CreatedAt = DateTime.Now });
+        }
 
         private async Task<string> UpdateAccomodationsByDistinguishedHost(String id, bool change)
         {
@@ -273,7 +283,7 @@ namespace Users.Services
             using var channel = GrpcChannel.ForAddress("https://accommodation-service:443",
                     new GrpcChannelOptions { HttpHandler = handler });
             var client = new AccommodationGRPCService.AccommodationGRPCServiceClient(channel);
-            var reply = await client.UpdateDistinguishedHostAppointmentsAsync(new HostIdAndDistinguishedStatus
+            var reply = await client.UpdateDistinguishedHostAccommodationsAsync(new HostIdAndDistinguishedStatus
             {
                 Id = id,
                 HostStatus = change
@@ -294,15 +304,15 @@ namespace Users.Services
             return true;
         }
 
-        public override Task<UserUpdated> ChangeRatingCondition(RatingCondition condition, ServerCallContext context)
+        public async override Task<UserUpdated> ChangeRatingCondition(RatingCondition condition, ServerCallContext context)
         {
             User host = _userRepository.GetById(condition.Id);
 
             host.IsRatingPartSatisfied = condition.IsSatisfied;
 
-            _userRepository.UpdateUser(host);
+            await UpdateDistinguishedHostStatus(host);
 
-            return Task.FromResult(new UserUpdated
+            return await Task.FromResult(new UserUpdated
             {
                 IsUserUpdated = true
             });

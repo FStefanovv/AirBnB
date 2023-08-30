@@ -1,0 +1,14 @@
+#notificaitons-container {
+    position: absolute;
+    top:200px;
+    left:400px;
+    width:600px;
+    border: 1px solid var(--theme);
+    height: 500px;
+    overflow-y: scroll;
+}
+
+.notification {
+    width: 500px;
+    padding: 8px 6px;
+}

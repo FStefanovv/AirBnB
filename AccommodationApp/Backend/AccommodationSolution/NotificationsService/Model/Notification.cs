@@ -15,7 +15,7 @@ namespace NotificationsService.Model
         public string Id { get; set; }
         public string UserId { get; set; }
         public string NotificationContent { get; set; }
-        public string CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
 
 
         public Notification() { }

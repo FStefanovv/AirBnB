@@ -8,5 +8,6 @@
         public const string StartDeleteQueue = "reservations_queue";
         public const string CancelDeleteQueue = "hasReservation_queue";
         public const string EndDeleteQueue = "end_delte_queue";
+        public const string NotificationQueue = "notification_queue";
     }
 }

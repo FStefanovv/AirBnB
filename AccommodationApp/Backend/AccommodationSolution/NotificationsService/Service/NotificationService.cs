@@ -35,10 +35,15 @@ namespace NotificationsService.Service
         {
             var data = context.Message;
 
-            Notification notification = new Notification { UserId = data.UserId, NotificationContent = data.NotificationContent, CreatedAt = DateTime.Now.ToString("MM/dd/yyyy HH:mm") };
+            Notification notification = new Notification { UserId = data.UserId, NotificationContent = data.NotificationContent, CreatedAt = data.CreatedAt };
             _repository.Create(notification);
 
             HashSet<string> connections = _connectionManager.GetConnections(data.UserId);
+
+            /*
+            if (connections == null || connections.Count == 0)
+                throw new Exception("no connections");
+            */
 
             if(connections!=null && connections.Count>0)
             {
@@ -47,7 +52,6 @@ namespace NotificationsService.Service
                     try
                     {
                         await _hubContext.Clients.Client(conn).SendAsync("NewNotification", notification);
-
                     }
                     catch {}
                 }

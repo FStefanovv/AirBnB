@@ -61,11 +61,11 @@
 		</PackageReference>
 	</ItemGroup>
 
-  <ItemGroup>
-	  <Protobuf Include="Protos\accommodation.proto" GrpcServices="Client" />
-	  <Protobuf Include="Protos\reservation.proto" GrpcServices="Client" />
-	  <Protobuf Include="Protos\user.proto" GrpcServices="Server" />
-  </ItemGroup>
+	<ItemGroup>
+		<Protobuf Include="Protos\accommodation.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\reservation.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\user.proto" GrpcServices="Server" />
+	</ItemGroup>
 
 
 

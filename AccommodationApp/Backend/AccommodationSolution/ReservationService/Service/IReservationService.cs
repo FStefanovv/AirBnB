@@ -24,7 +24,7 @@ namespace ReservationService.Service
         List<GetBusyDateForAccommodationDTO> GetBusyDatesForAccommodation(string accommodationId);
         ShowReservationDTO GetEndReservation(string id);
         Task<IsAvailable> CheckIfAccommodationIsAvailable(AvailabilityPeriod availabilityPeriod, ServerCallContext context);
-        Task<bool> CheckHostStatus(String hostId);
+        Task CheckHostStatus(String hostId);
         Task<bool> UpdateReservationStatus(String id, bool IsSatisfied);
         bool HostHasActiveReservationsSaga(string hostId);
         Task Create(Reservation reservation);

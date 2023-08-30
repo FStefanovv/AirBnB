@@ -47,7 +47,7 @@ namespace ReservationService.Controllers
                 Request.Headers.TryGetValue("Username", out StringValues username);
 
                 await _reservationService.CancelReservation(id, userId, username);
-                Task<bool> checkStatus = _reservationService.CheckHostStatus(hostId);
+                //Task<bool> checkStatus = _reservationService.CheckHostStatus(hostId);
                 return StatusCode(200);
             }
             catch

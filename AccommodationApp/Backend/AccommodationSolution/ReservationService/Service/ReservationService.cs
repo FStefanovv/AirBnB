@@ -79,6 +79,7 @@ namespace ReservationService.Service
                 reservation.Status = Enums.ReservationStatus.CANCELLED;
                 _repository.UpdateReservation(reservation);
                 await SendNotification(reservation.HostId, username + " has cancelled a reservation for " + reservation.AccommodationName);
+                await CheckHostStatus(reservation.HostId);
             }
         }
 
@@ -86,26 +87,9 @@ namespace ReservationService.Service
         {
             var endPoint = await _sendEndpointProvider.
                 GetSendEndpoint(new Uri("queue:" + BusConstants.NotificationQueue));
-            await endPoint.Send<INotification>(new { UserId = userId, NotificationContent = notificationContent });
+            await endPoint.Send<INotification>(new INotification { UserId = userId, NotificationContent = notificationContent, CreatedAt = DateTime.Now });
         }
 
-
-        /*private async Task  SendNotification(string hostId, string notificationContent)
-        {
-            using var scope = _tracer.BuildSpan("SendCancellationNotificaiton").StartActive(true);
-            var handler = new HttpClientHandler();
-            handler.ServerCertificateCustomValidationCallback =
-                HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
-            using var channel = GrpcChannel.ForAddress("https://notification-service:443",
-                new GrpcChannelOptions { HttpHandler = handler });
-            var client = new NotificationGRPCService.NotificationGRPCServiceClient(channel);
-            var reply = await client.CreateNotificationAsync(new NotificationData
-            {
-             UserId = hostId,
-             NotificationContent = notificationContent
-            });
-
-        }*/
 
         public List<ShowReservationDTO> GetUserReservations(StringValues userId)
         {
@@ -113,7 +97,6 @@ namespace ReservationService.Service
         }
 
 
-        //to be called from UserService via gRPC to check whether user account can be deleted or not
         public override Task<ActiveReservation> GuestHasActiveReservations(UserData userData, ServerCallContext context)
 
         {
@@ -445,13 +428,16 @@ namespace ReservationService.Service
         }
 
 
-
-        public async Task<bool> CheckHostStatus(String hostId)
+        public async Task CheckHostStatus(String hostId)
         {
             List<Reservation> cancelledReservations = _repository.GetCanceledHostReservations(hostId);
             List<Reservation> allReservations = _repository.GetAllHostReservations(hostId);
 
-            if ((double)cancelledReservations.Count / allReservations.Count * 100 < 5 && allReservations.Count >= 5)
+            bool lowCancellationRate = ((double) cancelledReservations.Count / allReservations.Count) * 100 < 5;
+
+            int numberOfPastReservations = allReservations.Where<Reservation>(res => res.Status==Enums.ReservationStatus.PAST).ToList().Count;
+
+            if (lowCancellationRate && numberOfPastReservations >= 5)
             {
                 TimeSpan TotalDuration = TimeSpan.Zero;
 
@@ -463,20 +449,16 @@ namespace ReservationService.Service
 
                 if (TotalDuration.TotalDays > 50)
                 {
-                    bool nista = await UpdateReservationStatus(hostId, true);
-                    return nista;
+                    await UpdateReservationStatus(hostId, true);
                 }
                 else
                 {
-                    bool nista = await UpdateReservationStatus(hostId, false);
-                    return nista;
+                    await UpdateReservationStatus(hostId, false);
                 }
             }
             else
             {
-                bool nesto = await UpdateReservationStatus(hostId, false);
-                return nesto;
-
+               await UpdateReservationStatus(hostId, false);
             }
         }
 

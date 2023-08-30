@@ -78,7 +78,7 @@ namespace RatingService.Service
         {
             var endPoint = await _sendEndpointProvider.
                 GetSendEndpoint(new Uri("queue:" + BusConstants.NotificationQueue));
-            await endPoint.Send<INotification>(new { UserId = userId, NotificationContent = notificationContent });
+            await endPoint.Send<INotification>(new INotification { UserId = userId, NotificationContent = notificationContent, CreatedAt = DateTime.Now });
         }
 
 

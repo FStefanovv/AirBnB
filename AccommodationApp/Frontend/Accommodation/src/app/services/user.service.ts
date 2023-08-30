@@ -11,6 +11,8 @@ import { User } from '../model/user';
 })
 export class UserService {
   private usersUrl = 'https://localhost:5000/gateway/';
+
+  public user!: User;
   
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -20,6 +22,12 @@ export class UserService {
 
   LogIn(credentials: LoginCredentials) : Observable<Token> {
       return this.http.post<Token>(this.usersUrl+'login', credentials, this.httpOptions);
+  }
+
+  setHost() {
+    this.getHost().subscribe((resp) => {
+      this.user = resp;
+    })
   }
 
   getHost() : Observable<User> {

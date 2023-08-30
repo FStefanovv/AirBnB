@@ -94,7 +94,7 @@ namespace ReservationService.Service
         {
             var endPoint = await _sendEndpointProvider.
                 GetSendEndpoint(new Uri("queue:" + BusConstants.NotificationQueue));
-            await endPoint.Send<INotification>(new { UserId = userId, NotificationContent = notificationContent });
+            await endPoint.Send<INotification>(new INotification { UserId = userId, NotificationContent = notificationContent, CreatedAt = DateTime.Now });
         }
 
 
@@ -136,12 +136,10 @@ namespace ReservationService.Service
         {
             ReservationRequest request = _repository.GetRequestById(requestId);
             AcceptRequestDatabaseUpdate(request);
-            //fali grpc sa accomodationom
-            await _reservation.CreateReservationFromRequest(request);
             CancelRequestsInTimeRange(accommodationId, request.From, request.To);
+            await _reservation.CreateReservationFromRequest(request);
             await _reservation.CheckHostStatus(request.HostId);
             await SendNotification(request.UserId, "Your request for " + request.AccommodationName + " has been accepted!");
-
         }
 
         private void AcceptRequestDatabaseUpdate(ReservationRequest request)

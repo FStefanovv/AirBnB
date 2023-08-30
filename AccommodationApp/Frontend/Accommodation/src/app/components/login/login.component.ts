@@ -42,6 +42,8 @@ export class LoginComponent implements OnInit {
           if(token){
             this.authService.logIn(token);     
             this.notificationService.init();
+            if(this.authService.getRole()=='HOST')
+              this.userService.setHost();
             this.router.navigate(['my-reservations']);
           } 
         },

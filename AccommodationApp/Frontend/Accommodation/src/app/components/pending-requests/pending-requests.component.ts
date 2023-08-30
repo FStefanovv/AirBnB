@@ -18,7 +18,6 @@ export class PendingRequestsComponent implements OnInit {
     this.reservationService.getPendingRequests().subscribe({
       next: (response: any) => {
         this.requests = response;
-        console.log(this.requests);
       },
       error : (err: HttpErrorResponse) => {
        console.log(err.error);
