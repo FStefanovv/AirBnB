@@ -324,5 +324,22 @@ namespace Accommodation.Services
 
             return reply.Reservation;
         }
+
+        public override Task<AccommodationNames> GetAccommodationNames(AccommodationIds ids, ServerCallContext context)
+        {
+            List<string> names = new List<string>();
+            foreach(string id in ids.Ids)
+            {
+                Accommodation.Model.Accommodation accomm = _repository.GetById(id);
+                names.Add(accomm.Name);
+            }
+
+            AccommodationNames namesMessage = new AccommodationNames();
+            namesMessage.Names.AddRange(names);
+
+            return Task.FromResult(namesMessage);
+
+        }
+
     }
 }

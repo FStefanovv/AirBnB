@@ -14,6 +14,8 @@ import { BuyFlightTicketsComponent } from './components/buy-flight-tickets/buy-f
 import { ShowAccommodationComponent } from './components/show-accommodation/show-accommodation.component';
 import { UserRequestsComponent } from './components/user-requests/user-requests.component';
 import { DeleteAccountComponent } from './components/delete-account/delete-account.component';
+import { AccommodationRecommendationsComponent } from './components/accommodation-recommendations/accommodation-recommendations.component';
+import { NotificationsComponent } from './components/notifications/notifications.component';
 //import { CreateRequestComponent } from './components/create-request/create-request.component';
 
 const routes: Routes = [
@@ -32,7 +34,8 @@ const routes: Routes = [
   { path: 'show-accommodation/:id', component: ShowAccommodationComponent},
   { path:'my-requests', component: UserRequestsComponent, canActivate:[AuthGuard], data: {roles: ['REGULAR_USER']} },
   { path:'delete-account', component: DeleteAccountComponent, canActivate:[AuthGuard]},
-
+  { path:'get-accommodation-recommendations', component: AccommodationRecommendationsComponent, canActivate:[AuthGuard], data: {roles: ['REGULAR_USER']} },
+  { path:'notifications', component: NotificationsComponent, canActivate:[AuthGuard], data: {roles: ['REGULAR_USER', 'HOST']} }
 ];
 
 @NgModule({

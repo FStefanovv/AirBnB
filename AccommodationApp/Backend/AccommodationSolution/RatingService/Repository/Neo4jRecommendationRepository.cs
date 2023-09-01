@@ -20,6 +20,7 @@ namespace RatingService.Repository
         public async Task<List<string>> GetSimilarUsers(string userId)
         {
             List<RatedEntity> entities =  await GetEntitiesRatedBy(userId);
+
             List<string> similarUsers = new List<string>();
 
             foreach(RatedEntity entity in entities)
@@ -76,7 +77,7 @@ namespace RatingService.Repository
 
             if (result.Count == 0)
             {
-                return null; // or throw an exception, depending on your application's requirements
+                return new List<string>(); // or throw an exception, depending on your application's requirements
             }
 
             List<string> accommodation = new List<string>();
@@ -121,23 +122,24 @@ namespace RatingService.Repository
 
             if (result.Count == 0)
             {
-                return null; // or throw an exception, depending on your application's requirements
+                return new List<RatedEntity>(); // or throw an exception, depending on your application's requirements
             }
 
 
             List<RatedEntity> entities = new List<RatedEntity>();
 
-            for (int i = 0; i < result.Count; i++)
+            foreach (var record in result)
             {
                 var ratedEntity = new RatedEntity
                 {
-                    Id = result[0]["Id"].ToString(),
-                    AverageRating = float.Parse(result[0]["AverageRating"].ToString()),
-                    Type = int.Parse(result[0]["Type"].ToString())
+                    Id = record["Id"].ToString(),
+                    AverageRating = float.Parse(record["AverageRating"].ToString()),
+                    Type = int.Parse(record["Type"].ToString())
                 };
 
                 entities.Add(ratedEntity);
             }
+
             return entities;
         }
 
@@ -188,7 +190,7 @@ namespace RatingService.Repository
 
             if (result.Count == 0)
             {
-                return null; // or throw an exception, depending on your application's requirements
+                return new List<Rating>(); // or throw an exception, depending on your application's requirements
             }
 
 
@@ -206,6 +208,7 @@ namespace RatingService.Repository
             }
             return ratings;
         }
+
 
         public async Task<List<string>> FilterAccommodationByLatestRatingsAndSort(List<string> accommodation)
         {
@@ -234,7 +237,7 @@ namespace RatingService.Repository
 
             if (result.Count == 0)
             {
-                return null;
+                return new List<string>();
             }
 
 
@@ -248,41 +251,7 @@ namespace RatingService.Repository
             return accommodationIds;
         }
 
-        /*
-        public async Task<List<string>> GetSorted(List<string> accommodationFiltered)
-        {
-            var query = @"MATCH (re: RatedEntity)
-                            WHERE re.Id IN $accommodationIds 
-                            RETURN re{Id: re.Id}
-                            ORDER BY re.AverageRating DESC
-                            LIMIT 10";
-
-            var parameters = new Dictionary<string, object>
-            {
-                {
-                    "accommodationIds", accommodationFiltered
-                }
-            };
-
-            var result = await _neo4jDataAccess.ExecuteReadDictionaryAsync(query, "re", parameters);
-
-            if (result.Count == 0)
-            {
-                return null;
-            }
-
-
-            List<string> accommodationIds = new List<string>();
-
-            for (int i = 0; i < result.Count; i++)
-            {
-                var accommodationId = result[i]["Id"].ToString();
-                accommodationIds.Add(accommodationId);
-            }
-            return accommodationIds;
-
-
-        }*/
+       
 
 
     }

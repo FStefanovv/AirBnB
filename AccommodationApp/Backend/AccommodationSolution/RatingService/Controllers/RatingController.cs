@@ -118,6 +118,9 @@ namespace RatingService.Controllers
         {
             Request.Headers.TryGetValue("UserId", out StringValues userId);
 
+            if (userId == StringValues.Empty || userId.Count == 0)
+                userId = "-1";
+
             List<RatingDTO> ratingDtos = await _ratingService.GetPageRatings(userId, accommId, hostId);
 
             return Ok(ratingDtos);

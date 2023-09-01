@@ -30,6 +30,7 @@ import { RatingsComponent } from './components/ratings/ratings.component';
 import { UserRequestsComponent } from './components/user-requests/user-requests.component';
 import { DeleteAccountComponent } from './components/delete-account/delete-account.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
+import { AccommodationRecommendationsComponent } from './components/accommodation-recommendations/accommodation-recommendations.component';
 
 export function tokenGetter() { 
   return localStorage.getItem("jwt"); 
@@ -56,6 +57,7 @@ export function tokenGetter() {
     UserRequestsComponent,
     DeleteAccountComponent,
     NotificationsComponent,
+    AccommodationRecommendationsComponent,
   ],
   imports: [
     BrowserModule,

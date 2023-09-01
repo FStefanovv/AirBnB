@@ -548,8 +548,7 @@
         "Role": "REGULAR_USER"
       },
       "AddHeadersToRequest": {
-        "UserId": "Claims[UserId] > value",
-        "Username": "Claims[Username] > value"
+        "UserId": "Claims[UserId] > value"
       }
     },
     {
@@ -610,6 +609,9 @@
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "AuthTokenFromUserService",
         "AllowedScopes": []
+      },
+      "RouteClaimsRequirement": {
+        "Role": "REGULAR_USER"
       },
       "AddHeadersToRequest": {
         "UserId": "Claims[UserId] > value"
@@ -695,6 +697,9 @@
       },
       "RouteClaimsRequirement": {
         "Role": "REGULAR_USER"
+      },
+      "AddHeadersToRequest": {
+        "UserId": "Claims[UserId] > value"
       }
     }
   ]

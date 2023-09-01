@@ -1,0 +1,17 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "RatingService";
+
+package accommodation;
+
+service AccommodationGRPCService {
+  rpc GetAccommodationNames (AccommodationIds) returns (AccommodationNames);
+}
+message AccommodationIds {
+	repeated string ids = 1;
+}
+
+message AccommodationNames {
+	repeated string names = 1;
+}
+

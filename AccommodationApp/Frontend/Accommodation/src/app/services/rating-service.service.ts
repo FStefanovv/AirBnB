@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { CreateRatingDTO, RatedEntity, RatingDTO, RatingInfoDTO, RatingWithUsernameDTO } from '../model/ratings';
 import { ObserversModule } from '@angular/cdk/observers';
 import { Observable } from 'rxjs';
+import { AccommodationRecommendation } from '../model/accomm-recomm';
 
 @Injectable({
   providedIn: 'root'
@@ -39,5 +40,9 @@ export class RatingServiceService {
 
   getPageRatingInfo(accommId: string, hostId: string) : Observable<RatingInfoDTO[]> {
     return this.http.get<RatingInfoDTO[]>(this.gatewayUrl+'get-ratings-for-page/'+accommId+'/'+hostId, this.httpOptions);
+  }
+
+  getAccommodationRecomemendations() : Observable<AccommodationRecommendation[]> {
+    return this.http.get<AccommodationRecommendation[]>(this.gatewayUrl+'get-accommodation-recommendations', this.httpOptions)
   }
 }

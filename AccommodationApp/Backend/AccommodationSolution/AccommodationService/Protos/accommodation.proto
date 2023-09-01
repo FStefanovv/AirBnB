@@ -9,10 +9,19 @@ service AccommodationGRPCService {
   rpc GetAccomodationsAutoApproval (AccommodationIdForApproval) returns (AccommodationAutoApproval);
   rpc DeleteAccwithoutHost (UserId) returns (Deleted);
   rpc UpdateDistinguishedHostAccommodations (HostIdAndDistinguishedStatus) returns (UserId);
+  rpc GetAccommodationNames (AccommodationIds) returns (AccommodationNames);
 }
 
 message AccommodationId {
   string id = 1;
+}
+
+message AccommodationIds {
+	repeated string ids = 1;
+}
+
+message AccommodationNames {
+	repeated string names = 1;
 }
 
 message AccommodationIdForApproval {

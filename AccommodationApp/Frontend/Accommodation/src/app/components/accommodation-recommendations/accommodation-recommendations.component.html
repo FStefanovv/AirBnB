@@ -1,0 +1,4 @@
+<h3>Recommended for you</h3>
+<p *ngFor="let recc of recommendations" (click)="goToAccommodation(recc.id)">
+    {{recc.name}}, rating {{recc.rating}}/5
+</p>
