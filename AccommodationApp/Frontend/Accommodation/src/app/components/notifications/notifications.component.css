@@ -1,14 +1,27 @@
-#notificaitons-container {
-    position: absolute;
-    top:200px;
-    left:400px;
-    width:600px;
-    border: 1px solid var(--theme);
-    height: 500px;
-    overflow-y: scroll;
+h2 {
+    color: var(--theme);
 }
 
 .notification {
     width: 500px;
     padding: 8px 6px;
+    color: var(--theme)
+}
+
+.notification-content {
+    font-weight: 600px;
+}
+
+#main-div {
+    border: 1px solid #CCD1D1;
+    border-radius: 10px;
+    padding: 0;
+    width: 66%;
+    height: 60%;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin: 30px 13px;
+    color: #759cc0;
+    float:left;
 }

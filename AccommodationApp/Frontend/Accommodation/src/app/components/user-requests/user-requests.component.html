@@ -1,6 +1,8 @@
 <app-sidebar></app-sidebar>
 <div class="main-content">
-<h1>Your requests</h1>
+<h1 *ngIf="!hasRequests">You have no pending requests</h1>
+<div id="requests" *ngIf="hasRequests">
+<h1>Your requests currently waiting for approval</h1>
 <table class="regular">
     <tr>
         <th>From</th>
@@ -31,4 +33,5 @@
         </td>
     </tr>
 </table>
+</div>
 </div>

@@ -1,25 +1,7 @@
-<button *ngIf="!ratingsObtained" (click)="getRatings()">See how others have rated this {{ratingsFor.toLowerCase()}}</button>
+<button *ngIf="!ratingsObtained" (click)="getRatings()">See how users have rated this {{ratingsFor.toLowerCase()}}</button>
 <div *ngIf="ratingsObtained">
   <h3>{{ratingsFor}} ratings</h3>
   <p *ngFor="let rating of ratings">
       {{rating.username}} rated with {{rating.grade}} on {{rating.ratingDate | date:'mediumDate'}}
   </p>
 </div>
-
-<!--<table>
-    <thead>
-      <tr>
-        <th>Grade</th>
-        <th>Rated on</th>
-        <th>Username</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let data of ratings">
-        <td>{{ data.grade }}</td>
-        <td>{{ data.ratingDate | date:'yyyy-MM-dd' }}</td>
-        <td>{{ data.userId }}</td>
-      </tr>
-    </tbody>
-  </table>-->
-  

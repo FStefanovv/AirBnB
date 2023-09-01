@@ -4,6 +4,8 @@ import { CreateRatingDTO, RatedEntity, RatingDTO, RatingInfoDTO, RatingWithUsern
 import { ObserversModule } from '@angular/cdk/observers';
 import { Observable } from 'rxjs';
 import { AccommodationRecommendation } from '../model/accomm-recomm';
+import { AuthService } from './auth.service';
+import { CanRate } from '../model/canRate';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +18,7 @@ export class RatingServiceService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   rate(dto: CreateRatingDTO, hostId: string, entityName: string) : Observable<CreateRatingDTO> {
     return this.http.post<CreateRatingDTO>(this.gatewayUrl+'rate/'+hostId+'/'+entityName, dto, this.httpOptions);
@@ -39,10 +41,25 @@ export class RatingServiceService {
   }
 
   getPageRatingInfo(accommId: string, hostId: string) : Observable<RatingInfoDTO[]> {
+    if(this.authService.isLoggedIn()){
+      const userId = this.authService.getId();
+      const httpOptionsWithToken = {
+        headers: new HttpHeaders({ 
+          'Content-Type': 'application/json',
+          'UserId': userId
+        })
+      };
+      return this.http.get<RatingInfoDTO[]>(this.gatewayUrl+'get-ratings-for-page/'+accommId+'/'+hostId, httpOptionsWithToken);
+    }
+    else
     return this.http.get<RatingInfoDTO[]>(this.gatewayUrl+'get-ratings-for-page/'+accommId+'/'+hostId, this.httpOptions);
   }
 
   getAccommodationRecomemendations() : Observable<AccommodationRecommendation[]> {
     return this.http.get<AccommodationRecommendation[]>(this.gatewayUrl+'get-accommodation-recommendations', this.httpOptions)
+  }
+
+  canRate(id: string, hostId: string) :  Observable<CanRate>{
+    return this.http.get<CanRate>(this.gatewayUrl+'can-rate/'+id+'/'+hostId, this.httpOptions);
   }
 }

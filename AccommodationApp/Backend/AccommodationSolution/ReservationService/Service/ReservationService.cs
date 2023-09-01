@@ -348,6 +348,14 @@ namespace ReservationService.Service
                 RatingAllowed = userHasVisited
             });
         } 
+
+        public CanRateDTO CheckIfUserCanRate(StringValues userId, string hostId, string accommId)
+        {
+            bool canRateHost = _repository.CheckIfUserHasUncancelledReservation(userId, hostId);
+            bool canRateAccomm = _repository.CheckIfUserHasUncancelledReservation(userId, accommId);
+
+            return new CanRateDTO { Host = canRateHost, Accommodation = canRateAccomm };
+        }
         
         public void UpdatePastReservations()
         {

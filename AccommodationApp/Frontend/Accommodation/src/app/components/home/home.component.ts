@@ -43,6 +43,7 @@ export class HomeComponent implements OnInit {
   constructor(private accommodationService: AccommodationService, private userService: UserService, private reservationService : ReservationService, private authService : AuthService, private router: Router) {}
 
   ngOnInit(): void {
+
     this.showAll();
   }
 
@@ -218,7 +219,14 @@ export class HomeComponent implements OnInit {
   }
 
   IsHostLoggedIn(): boolean {
-    if (this.authService.getRole() === "HOST") {
+    if (this.authService.isLoggedIn() && this.authService.getRole() === "HOST") {
+      return true;
+    }
+    return false;
+  }
+
+  IsGuestLoggedIn() : boolean {
+    if (this.authService.isLoggedIn() && this.authService.getRole() === "REGULAR_USER") {
       return true;
     }
     return false;

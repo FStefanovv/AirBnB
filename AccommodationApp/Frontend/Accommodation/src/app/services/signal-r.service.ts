@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as signalR from "@microsoft/signalr";
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { AuthService } from './auth.service';
 import { Notification } from '../model/notification';
 import { UserService } from './user.service';
@@ -16,7 +16,6 @@ export class SignalRService {
   private gatewayUrl = 'https://localhost:5000/gateway/';
 
   private hubConnectionBuilder: signalR.HubConnection | undefined;
-
   
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -27,6 +26,8 @@ export class SignalRService {
   }
 
   public init() {
+    if(!this.authService.isLoggedIn())
+      return;
     this.startConnection();
     this.addNotificationListener();
     this.getUserNotifications();
@@ -37,6 +38,8 @@ export class SignalRService {
   }
 
   private startConnection() {
+
+
     this.hubConnectionBuilder?.stop();
 
     this.hubConnectionBuilder = new signalR.HubConnectionBuilder()

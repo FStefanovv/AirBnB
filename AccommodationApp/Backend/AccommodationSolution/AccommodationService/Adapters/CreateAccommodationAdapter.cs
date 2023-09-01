@@ -54,7 +54,9 @@ namespace Accommodation.Adapters
                 WeekendCost = accommodation.AccomodationPrice.WeekendCost,
                 SummerCost = accommodation.AccomodationPrice.SummerCost,
                 HostId = accommodation.HostId,
-                HostUsername = accommodation.HostUsername
+                HostUsername = accommodation.HostUsername,
+                Offers = accommodation.Offers,
+                AccommodationLocation = accommodation.Address.Street + ',' + accommodation.Address.Number + ',' + accommodation.Address.City + ',' + accommodation.Address.Country
 
             };
 
@@ -100,6 +102,8 @@ namespace Accommodation.Adapters
             accommodationDto.IsDistinguishedHost = accommodation.IsDistinguishedHost;
             accommodationDto.HostId = accommodation.HostId;
             accommodationDto.AccommodationLocation = accommodation.Address.Street + ',' + accommodation.Address.Number + ',' + accommodation.Address.City + ',' + accommodation.Address.Country;
+            accommodationDto.HostUsername = accommodation.HostUsername;
+
 
             return accommodationDto;
 

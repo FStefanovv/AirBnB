@@ -46,7 +46,7 @@
     <p>{{accommRatingInfo}}</p>
     <p>{{hostRatingInfo}}</p>
     <table *ngIf="userRole=='REGULAR_USER'">
-        <tr>
+        <tr *ngIf="canRate.accommodation">
             <td>
                 <span>{{userAccommRatingInfo}}</span>
             </td>
@@ -60,7 +60,7 @@
                 <button *ngIf="hasRatedAccomm" (click)="deleteRating(pageRatingInfo[2].id)" class="button-cancel">Remove Rating</button>
             </td>
         </tr>
-        <tr>
+        <tr *ngIf="canRate.host">
             <td>
                 <span>{{userHostRatingInfo}}</span>
             </td>

@@ -28,5 +28,6 @@ namespace ReservationService.Service
         Task<bool> UpdateReservationStatus(String id, bool IsSatisfied);
         bool HostHasActiveReservationsSaga(string hostId);
         Task Create(Reservation reservation);
+        CanRateDTO CheckIfUserCanRate(StringValues userId, string hostId, string accommId);
     }
 }

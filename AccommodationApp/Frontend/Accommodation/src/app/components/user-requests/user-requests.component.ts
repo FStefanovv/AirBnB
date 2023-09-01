@@ -12,6 +12,8 @@ export class UserRequestsComponent implements OnInit {
 
   constructor(private reservationService: ReservationService) { }
 
+  hasRequests: boolean = false;
+
   ngOnInit(): void {
     this.getRequests();
   }
@@ -22,18 +24,18 @@ export class UserRequestsComponent implements OnInit {
     this.reservationService.getRequests().subscribe({
       next: (res: ShowRequest[]) => {
         this.requests = res;
-        console.log(this.requests)
+        if(this.requests.length!=0)
+          this.hasRequests = true
       },
       error : (err: HttpErrorResponse) => {
-       console.log(err.error);
       }
     });
   }
   cancelRequest(request: ShowRequest){
-    console.log(request.requestId)
     if(request.requestId){
-      console.log('uso')
-      this.reservationService.cancelRequest(request.requestId).subscribe({});    
+      this.reservationService.cancelRequest(request.requestId).subscribe(()=>{
+        window.location.reload()
+      });         
     }  
   }
 }

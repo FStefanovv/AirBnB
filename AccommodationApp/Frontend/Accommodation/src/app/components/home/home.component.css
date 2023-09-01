@@ -1,15 +1,19 @@
 #main-div {
     border: 1px solid #CCD1D1;
     border-radius: 10px;
-    padding: 2.5% 5% 0% 5%;
-    width: 70%;
-    height: 80%;
-    margin: 30px auto;
+    padding: 0;
+    width: 66%;
+    height: 60%;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin: 30px 13px;
     color: #759cc0;
+    float:left;
 }
 
 #filter-div {
-  margin-top: -35px;
+  margin-top: 10px;
 }
 
 #filter-button {
@@ -20,12 +24,12 @@
 
 label {
     font-size: 15px;
-    margin-left: 25px;
+    margin-left: 10px;
 }
 
 input {
     margin-top: 10px;
-    margin-left: 15px;
+    margin-left: 10px;
 }
 
 #button-regular {
@@ -59,6 +63,7 @@ input {
   
   .container {
     padding: 10px;
+    margin-bottom: 20px;
   }
   
   h4 {
@@ -98,5 +103,16 @@ input {
 
   .button-card-container {
     margin-bottom: 10px;
+    margin-top: 10px;
+  }
+
+  h1 {
+    color: var(--theme);
+    margin-top: 30px;
+  }
+
+  #recommendations {
+    display:inline-block;
+    margin-left: 10px;
     margin-top: 10px;
   }

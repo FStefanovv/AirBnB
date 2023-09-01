@@ -539,6 +539,18 @@
           "Host": "rating-service",
           "Port": 80
         }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/delete-rating/{id}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamPathTemplate": "/api/rating/delete-rating/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "rating-service",
+          "Port": 80
+        }
       ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "AuthTokenFromUserService",
@@ -552,13 +564,13 @@
       }
     },
     {
-      "UpstreamPathTemplate": "/gateway/delete-rating/{id}",
-      "UpstreamHttpMethod": [ "Delete" ],
-      "DownstreamPathTemplate": "/api/rating/delete-rating/{id}",
+      "UpstreamPathTemplate": "/gateway/can-rate/{accommId}/{hostId}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/reservation/can-rate/{accommId}/{hostId}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "rating-service",
+          "Host": "reservation-service",
           "Port": 80
         }
       ],
@@ -605,18 +617,9 @@
           "Host": "rating-service",
           "Port": 80
         }
-      ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "AuthTokenFromUserService",
-        "AllowedScopes": []
-      },
-      "RouteClaimsRequirement": {
-        "Role": "REGULAR_USER"
-      },
-      "AddHeadersToRequest": {
-        "UserId": "Claims[UserId] > value"
-      }
+      ]
     },
+
     {
       "UpstreamPathTemplate": "/gateway/get-reservation/{id}",
       "UpstreamHttpMethod": [ "Get" ],

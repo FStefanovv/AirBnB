@@ -36,10 +36,17 @@ export class UserReservationsComponent implements OnInit {
   }
 
   cancelReservation(reservation: ShowReservation){
-    console.log(reservation)
     if(reservation.id){
       if(reservation.hostId){
-        this.reservationService.cancelReservation(reservation.id,reservation.hostId).subscribe({});
+        let idx = -1;
+        if(this.reservations)
+          idx = this.reservations.indexOf(reservation);
+          this.reservationService.cancelReservation(reservation.id,reservation.hostId).subscribe(
+          () => {
+            if(this.reservations)
+              this.reservations[idx].status = ReservationStatus.CANCELLED;
+          }
+        );
       }
     }
   }

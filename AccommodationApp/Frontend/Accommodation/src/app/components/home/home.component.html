@@ -1,5 +1,6 @@
 <app-sidebar></app-sidebar>
 <div class="main-content">
+<h1>Welcome to XWSBnB!</h1>
 <div id="main-div">
     <div>
         <table>
@@ -21,6 +22,7 @@
             <button class="button-regular" (click)="showAll()" id="reset-search">Reset Search</button>
         </div>
     </div>
+    
     <div id="filter-div">
         <div>
             <label for="lowestPrice">Lower price boundary: </label>
@@ -53,14 +55,18 @@
         <button class="button-regular" id="filter-button" (click)="filter()">Filter</button>
         <button class="button-regular" (click)="resetFilter(true)">Reset Filter</button>
     </div>
+
 </div>
+<app-accommodation-recommendations *ngIf="IsGuestLoggedIn()" id="recommendations"></app-accommodation-recommendations>
+
     <div *ngFor="let accomm of accommodationsToShow" class="card">
         <div class="container">
             <h4><b>{{accomm.name}}</b></h4>
-            
-                <div *ngIf="accomm.pricePerGuest && !IsSearched">Price per guest:{{accomm.price}}</div>
-                <div *ngIf="accomm.pricePerAccomodation  && !IsSearched">Price per accomodation:{{accomm.price}}</div>
-                <div *ngIf="IsSearched">Total price for searched period: {{accomm.price}}</div>
+                <div>{{accomm.accommodationLocation}}</div>
+                <div>Hosted by {{accomm.hostUsername}}</div>
+                <div *ngIf="accomm.pricePerGuest && !IsSearched">Price per guest: {{accomm.price}}EUR</div>
+                <div *ngIf="accomm.pricePerAccomodation  && !IsSearched">Price per accomodation: {{accomm.price}}EUR</div>
+                <div *ngIf="IsSearched">Total price for searched period: {{accomm.price}}EUR</div>
             </div>
         <div *ngIf="IsHostLoggedIn() && accomm.hostId==GetUserId()" class="button-card-container">
                 <button class="button-regular" (click)="update(accomm.id,accomm.startSeason,accomm.endSeason,accomm.price)">Update Price</button>

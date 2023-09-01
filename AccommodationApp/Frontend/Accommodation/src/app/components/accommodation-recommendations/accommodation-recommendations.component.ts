@@ -12,9 +12,15 @@ export class AccommodationRecommendationsComponent implements OnInit {
 
   constructor(private ratingService: RatingServiceService, private router: Router) { }
   recommendations: AccommodationRecommendation[] = [];
+  hasRecommendations?: boolean;
+
   ngOnInit(): void {
     this.ratingService.getAccommodationRecomemendations().subscribe((res)=>{
       this.recommendations = res;
+      if(this.recommendations.length!=0)
+        this.hasRecommendations = true;
+      else
+        this.hasRecommendations = false;
     })
   }
 

@@ -1,7 +1,10 @@
-<button (click)="toggleNotificaitons()">Click me</button>
-<div id="notificaitons-container" *ngIf="!notificationsHidden">
+<app-sidebar></app-sidebar>
+<div class="main-content">
+
+    <h2>Notifications</h2>
     <div *ngFor="let not of notificationService.notifications" class="notification">
-        {{not.notificationContent}}<br>
-        {{not.createdAt | date:'medium'}}
+        <span class="notification-content">{{not.notificationContent}}<br></span>
+        <span class="dateTime">{{not.createdAt | date:'medium'}}</span>
     </div>
 </div>
+

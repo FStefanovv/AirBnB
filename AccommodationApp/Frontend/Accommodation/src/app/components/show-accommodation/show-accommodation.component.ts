@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AccommodationDTO } from 'src/app/model/accommodation';
+import { CanRate } from 'src/app/model/canRate';
 import { CreateRatingDTO, RatedEntity, RatingDTO, RatingInfoDTO } from 'src/app/model/ratings';
 import { AccommodationService } from 'src/app/services/accommodation.service';
 import { AuthService } from 'src/app/services/auth.service';
@@ -37,21 +38,23 @@ export class ShowAccommodationComponent implements OnInit {
 
   userRole: string = '';
 
+  canRate: CanRate = new CanRate();
+
 
   ngOnInit(): void {
-    this.userRole = this.authService.getRole();
+    if(this.authService.isLoggedIn())
+      this.userRole = this.authService.getRole();
     const temp = this.activatedRoute.snapshot.paramMap.get("id");
-    console.log('usao')
     if(temp)
       this.accommodationId = temp;
     this.accommodationService.getAccommodation(this.accommodationId).subscribe(
       res =>
       {
         this.accommodation = res;
-        console.log(this.accommodation)
         this.obtainAllRatingInfo();
       }
     );
+
   }
 
   obtainAllRatingInfo() {
@@ -62,6 +65,17 @@ export class ShowAccommodationComponent implements OnInit {
           this.displayRatingInfo();
         }
       );
+    }
+  }
+  
+  checkIfUserCanRate() {
+
+    if(this.accommodation.id && this.accommodation.hostId && this.userRole=='REGULAR_USER'){
+        this.ratingService.canRate(this.accommodation.id, this.accommodation.hostId).subscribe(
+        (res: CanRate)=>{
+            this.canRate = res;
+          }
+        );
     }
   }
 
@@ -95,6 +109,7 @@ export class ShowAccommodationComponent implements OnInit {
       this.createHostRatingDto.grade = this.pageRatingInfo[3].grade;
       this.hasRatedHost = true;
     }
+    this.checkIfUserCanRate();
   }
 
   rateAccomm(){
